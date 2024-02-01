@@ -3,7 +3,7 @@ name: CI/CD for Web Project
 on:
   push:
     branches:
-      - feature/13-pipeline
+      - '*'
   pull_request:
     branches:
       - '*'
@@ -29,9 +29,7 @@ jobs:
         run: yarn run build
 
       - name: Run tests
-        run: |
-          echo "test"
-          yarn test
+        run: yarn test
 
   deploy:
     name: Deploy to GitHub Pages
