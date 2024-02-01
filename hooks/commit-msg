@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This script enforces conventional commits and checks for an issue number in commit messages.
+
+COMMIT_MSG_FILE=$1
+
+# Check for conventional commit format
+if ! grep -E -q '^(feat|fix|chore|refactor|docs|style|test|perf|ci|build|revert)(\([a-zA-Z0-9-]+\))?(!)?: .+' "$COMMIT_MSG_FILE"; then
+    echo "Error: Commit message does not follow conventional commit format."
+    echo "Please use the format: <type>(<scope>): <message>"
+    echo "The scope can only contain: [a-zA-Z], [0-9] and '-'"
+    exit 1
+fi
+
+# Check for the presence of an issue number
+if ! grep -E -q '#[0-9]+' "$COMMIT_MSG_FILE"; then
+    echo "Error: Commit message does not contain an issue number."
+    echo "Please include an issue number using the format: #[issue_number]"
+    exit 1
+fi
+
+# If all checks pass, the commit is allowed
+exit 0
