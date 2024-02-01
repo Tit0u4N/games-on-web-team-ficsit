@@ -29,7 +29,9 @@ jobs:
         run: yarn run build
 
       - name: Run tests
-        run: yarn test
+        run: |
+          echo "test"
+          yarn test
 
   deploy:
     name: Deploy to GitHub Pages
