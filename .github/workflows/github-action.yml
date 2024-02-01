@@ -3,7 +3,7 @@ name: CI/CD for Web Project
 on:
   push:
     branches:
-      - '*'
+      - feature/13-pipeline
   pull_request:
     branches:
       - '*'
