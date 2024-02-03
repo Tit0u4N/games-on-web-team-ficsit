@@ -1,13 +1,13 @@
-import {Model} from "../model/Model.ts";
+import { Model } from '../model/Model.ts';
 
 describe('Building model', () => {
-    let model: Model;
+  let model: Model;
 
-    beforeEach(() => {
-        model = new Model();
-    });
+  beforeEach(() => {
+    model = new Model();
+  });
 
-    it('should be defined', () => {
-        expect(model).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(model).toBeDefined();
+  });
 });
