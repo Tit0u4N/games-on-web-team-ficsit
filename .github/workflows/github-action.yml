@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Format code with Prettier
+        run: yarn prettier --write .
+
       - name: Build project
         run: yarn run build
 
