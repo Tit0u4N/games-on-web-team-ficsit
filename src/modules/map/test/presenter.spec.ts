@@ -1,13 +1,13 @@
-import {Presenter} from "../presenter/Presenter.ts";
+import { Presenter } from '../presenter/Presenter.ts';
 
 describe('Building model', () => {
-    let presenter: Presenter;
+  let presenter: Presenter;
 
-    beforeEach(() => {
-        presenter = new Presenter();
-    });
+  beforeEach(() => {
+    presenter = new Presenter();
+  });
 
-    it('should be defined', () => {
-        expect(presenter).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(presenter).toBeDefined();
+  });
 });
