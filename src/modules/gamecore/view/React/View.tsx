@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
-    value: number;
+  value: number;
 }
 
 export const View: React.FC<Props> = ({ value }) => {
-    return <div>{value}</div>;
-}
+  return <div>{value}</div>;
+};
