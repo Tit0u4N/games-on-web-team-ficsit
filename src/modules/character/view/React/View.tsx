@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-interface Props {
-  value: number;
+interface AthLayoutProps {
+  // Define props for passing information to ATH layout
+  characterName: string;
+  characterStats: number;
+  // TODO: add more props as needed
 }
 
-export const View: React.FC<Props> = ({ value }) => {
-  return <div>{value}</div>;
+const AthLayout: React.FC<AthLayoutProps> = ({ characterName, characterStats }) => {
+
+  const [todo, setTodo] = useState();
+
+  return (
+    <div>
+      {/* Render player information */}
+      <div>Player Name: {characterName}</div>
+      <div>Player Score: {characterStats}</div>
+    </div>
+  );
 };
+
+export default AthLayout;
