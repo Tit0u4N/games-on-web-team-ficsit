@@ -4,7 +4,7 @@
 npx prettier --write 'src/**/*.ts' 'src/**/*.tsx'
 
 # Add the changes to the staging area
-git add .
+git add -u .
 
 # Continue with the commit
 exit 0
