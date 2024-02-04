@@ -18,6 +18,10 @@ Our project is built using a robust and modern technology stack to ensure a high
 
 - **Build Tool:** We use **Vite** for fast and efficient building and development.
 
+- **Testing Framework:** We use **Jest** for testing our codebase.
+
+- **Formatters and Linters:** We use **Prettier** and **ESLint** to ensure consistent code style and quality.
+
 ## Development Approach
 Our development follows the **Model-View-Presenter (MVP)** architecture. This approach allows us to separate the logic, UI, and data handling aspects of the project, making our code more modular, scalable, and easier to manage.
 
@@ -27,6 +31,8 @@ We use **Yarn** as our package manager. The following commands are essential for
 - `yarn install`: To install all the necessary dependencies.
 - `yarn run dev`: To start the development server.
 - `yarn build`: To build the project for production.
+- `yarn test`: To run the test suite.
+- `yarn format`: To run the code formatter.
 
 ## Collaboration Guidelines
 To ensure a smooth and organized development process, we follow these collaboration guidelines:
