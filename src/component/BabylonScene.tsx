@@ -48,5 +48,5 @@ export default ({
     };
   }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
 
-  return <canvas ref={reactCanvas} {...rest} />;
+  return <canvas className={'w-full h-full'} ref={reactCanvas} {...rest} />;
 };

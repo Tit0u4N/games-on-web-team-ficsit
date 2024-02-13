@@ -12,8 +12,10 @@
   "dependencies": {
     "@babylonjs/core": "^6.40.0",
     "babylonjs-hook": "^0.1.1",
+    "data-structure-typed": "^1.52.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tumult": "^3.0.14"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
