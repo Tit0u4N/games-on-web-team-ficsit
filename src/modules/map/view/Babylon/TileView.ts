@@ -1,4 +1,13 @@
-import { Color3, InstancedMesh, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import {
+  ActionManager,
+  Color3, ExecuteCodeAction,
+  InstancedMesh,
+  Mesh,
+  MeshBuilder,
+  Scene,
+  StandardMaterial,
+  Vector3
+} from '@babylonjs/core';
 import { TypesTile } from '../../model/TileModel.ts';
 
 /**
@@ -9,11 +18,16 @@ export class TileView {
   private scene: Scene;
   private _mesh: InstancedMesh;
   private type: TypesTile;
+  private x: number;
+  private y: number;
   private static radius: number = 2;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile) {
     this.scene = scene;
     this._mesh = this.createHexagonMesh(x, y, baseTile);
+    this.x = x;
+    this.y = y;
+    this.addActionManger();
     this.type = baseTile.type;
   }
 
@@ -33,7 +47,19 @@ export class TileView {
       );
     }
 
+    mesh.actionManager = new ActionManager(this.scene)
+
     return mesh;
+  }
+
+  addActionManger(){
+    const x = this.x;
+    const y = this.y;
+    //@ts-ignore
+    this._mesh.actionManager.registerAction(new ExecuteCodeAction(ActionManager.OnPickTrigger, function (evt) {
+      // Ce code sera exécuté lorsque l'objet est cliqué
+      console.log("tile : " + x + " " + y);
+    }));
   }
 
   get mesh(): InstancedMesh {
