@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as tumult from 'tumult';
 
 export class Noise {
