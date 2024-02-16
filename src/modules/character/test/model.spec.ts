@@ -1,4 +1,4 @@
-import { Model } from '../model/Model.ts';
+import { Model } from '../model/Character.ts';
 
 describe('Building model', () => {
   let model: Model;
