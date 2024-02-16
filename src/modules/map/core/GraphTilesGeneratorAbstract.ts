@@ -44,16 +44,14 @@ export abstract class GraphTilesGeneratorAbstract {
     const maxX = this.mapModel.tiles.length;
     const maxY = this.mapModel.tiles[0].length;
 
-    //TODO : Refactor this
-
     if (tile.x % 2 === 0) {
       if (tile.x - 1 >= 0) {
         adjacentTiles.push(this.mapModel.getTile(tile.x - 1, tile.y)); //ok 17_44
         if (tile.y - 1 >= 0) {
           adjacentTiles.push(this.mapModel.getTile(tile.x - 1, tile.y - 1)); //ok 17_43
-          adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y - 1)); //ok 18_43
         }
       }
+      if (tile.y - 1 >= 0) adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y - 1)); //ok 18_43
       if (tile.x + 1 < maxX) {
         adjacentTiles.push(this.mapModel.getTile(tile.x + 1, tile.y)); //ok 19_44
         if (tile.y - 1 >= 0) {
@@ -68,18 +66,16 @@ export abstract class GraphTilesGeneratorAbstract {
         adjacentTiles.push(this.mapModel.getTile(tile.x - 1, tile.y)); //ok 18_44
         if (tile.y + 1 < maxY) {
           adjacentTiles.push(this.mapModel.getTile(tile.x - 1, tile.y + 1)); //ok 18_45
-          adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y + 1)); //ok 19_45
         }
       }
+      if (tile.y + 1 < maxY) adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y + 1)); //ok 19_45
       if (tile.x + 1 < maxX) {
         adjacentTiles.push(this.mapModel.getTile(tile.x + 1, tile.y)); //ok 20_44
         if (tile.y + 1 < maxY) {
           adjacentTiles.push(this.mapModel.getTile(tile.x + 1, tile.y + 1)); //ok 20_45
         }
       }
-      if (tile.y - 1 >= 0) {
-        adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y - 1)); //ok 19_43
-      }
+      if (tile.y - 1 >= 0) adjacentTiles.push(this.mapModel.getTile(tile.x, tile.y - 1)); //ok 19_43
     }
 
     return adjacentTiles.filter((tile) => this.tileConditionFunc(tile));
