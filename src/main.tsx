@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import BabylonScene from './component/BabylonScene.tsx';
 import { FreeCamera, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
+import { Button, NextUIProvider } from '@nextui-org/react';
 
 let box: Mesh;
 const onSceneReady = (scene: Scene): void => {
@@ -44,11 +45,14 @@ const onRender = (scene: Scene): void => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BabylonScene antialias={true} onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
-    <div className={'HUD'}>
-      <h1 className={'text-lg'}>
-        HUD <span>POSITION</span> FIXED
-      </h1>
-    </div>
+    <NextUIProvider>
+      <BabylonScene antialias={true} onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
+      <div className={'HUD'}>
+        <h1 className={'text-lg'}>
+          HUD <span>POSITION</span> FIXED
+        </h1>
+        <Button className="bg-primary">Test button</Button>
+      </div>
+    </NextUIProvider>
   </React.StrictMode>,
 );
