@@ -1,8 +1,9 @@
-import { TypesBiome } from './BiomeAbstractModel.ts';
-import { TileModel, TypesTile } from '../TileModel.ts';
-import { DirectedGraph, DirectedVertex } from 'data-structure-typed';
-import { MapModel } from '../MapModel.ts';
-import { GraphTilesModelGenerator } from '../utils/GraphTilesModelGenerator.ts';
+import {TypesBiome} from './BiomeAbstractModel.ts';
+import {TileModel, TypesTile} from '../TileModel.ts';
+import {DirectedGraph, DirectedVertex, VertexKey} from 'data-structure-typed';
+import {MapModel} from '../MapModel.ts';
+import {GraphTilesModelGenerator} from '../utils/GraphTilesModelGenerator.ts';
+import {CoupleTileIndex, SubBiomeTilesIdentifier} from "./SubBiomeTilesIdentifier.ts";
 
 /**
  * This class represents a sub-biome of the map.
@@ -17,8 +18,7 @@ export class SubBiomeModel {
 
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
     this.type = type;
-    this.validateMapTiles(mapTiles);
-    this.tiles = this.extractBiomeTiles(mapTiles);
+    this.tiles = mapTiles;
     this.setDefaultTileType();
 
     const graphGenerator = new GraphTilesModelGenerator(
@@ -30,71 +30,25 @@ export class SubBiomeModel {
     );
     this.graphTiles = graphGenerator.generateGraphTiles();
 
-    // this.parseBiomeByLevel()
-  }
-
-  private validateMapTiles(mapTiles: TileModel[]): void {
-    if (mapTiles.length === 0) {
-      throw new Error('Tiles array is empty');
+    this.parseBiomeByLevel()
     }
-  }
-
-  private extractBiomeTiles(mapTiles: TileModel[]): TileModel[] {
-    const indexTilesToRemove: number[] = [];
-    const extractedTiles: TileModel[] = [];
-    mapTiles.forEach((tile, index) => {
-      if (this.isBiomeTile(tile, extractedTiles)) {
-        extractedTiles.push(tile);
-        tile.subBiome = this;
-        indexTilesToRemove.push(index);
-      }
-    });
-
-    indexTilesToRemove.reverse().forEach((index) => mapTiles.splice(index, 1));
-    return extractedTiles;
-  }
 
   private parseBiomeByLevel(): void {
-    const tilesIDAndUsed = this.tiles.map((tile, index) => {
-      return {
-        index,
-        id: tile.getID(),
-        isUsed: false,
-      };
-    });
+    const tilesBorder: TileModel[] = this.tiles.filter((tile) => {
+        const neighbors: TileModel[] = []
+        tile.getAdjacentTilesID().forEach((id) => {
+          const vertex = this.graphTiles.getVertex(id)
+          if (vertex && vertex.value) neighbors.push(vertex.value)
+        })
+        return neighbors.length < 6;
+    })
 
-    const tilesBorder = [];
-    for (let i = 0; i < tilesIDAndUsed.length; i++) {
-      if (this.graphTiles.getNeighbors(tilesIDAndUsed[i].id).length < 6) {
-        tilesBorder.push(tilesIDAndUsed[i]);
-      }
-    }
-
-    tilesBorder.forEach((tile) => {
-      const tileModel = this.graphTiles.get(tile.id);
-      if (tileModel) {
-        tileModel.type = TypesTile.SNOW;
-      }
-    });
+    tilesBorder.forEach(tile => {
+      tile.type = TypesTile.SNOW;
+    })
   }
 
-  private isBiomeTile(tile: TileModel, extractedTiles: TileModel[]): boolean {
-    return tile.typeBiome === this.type && this.isTileAdjacentToBiome(tile, extractedTiles);
-  }
-
-  private isTileAdjacentToBiome(tileToCheck: TileModel, extractedTiles: TileModel[]): boolean {
-    if (extractedTiles.length === 0) {
-      return true;
-    }
-    for (const tile of extractedTiles) {
-      if (tileToCheck.isAdjacentToTile(tile)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private setDefaultTileType(): void {
+  private setDefaultTileType(tiles : TileModel[] = this.tiles): void {
     let type = TypesTile.DEFAULT;
     if (SubBiomeModel.cpt % 9 === 0) {
       type = TypesTile.DEFAULT;
@@ -117,7 +71,7 @@ export class SubBiomeModel {
     }
     this.id = 'Biome_' + SubBiomeModel.cpt;
     SubBiomeModel.cpt++;
-    this.tiles.forEach((tile) => (tile.type = type));
+    tiles.forEach((tile) => (tile.type = type));
   }
 
   public nbTiles(): number {

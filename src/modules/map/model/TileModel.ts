@@ -1,7 +1,10 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { SubBiomeModel } from './biome/BiomeMountainModel.ts';
+import {MapModel} from "./MapModel.ts";
+import {VertexKey} from "data-structure-typed";
 
 export class TileModel {
+  private mapModel: MapModel;
   private _type: TypesTile | null = null;
   private _x: number;
   private _y: number;
@@ -9,7 +12,8 @@ export class TileModel {
   private _typeBiome: TypesBiome = null;
   private _subBiome: SubBiomeModel | null = null;
 
-  constructor(x: number, y: number, noiseValue: number) {
+  constructor(mapModel : MapModel, x: number, y: number, noiseValue: number) {
+    this.mapModel = mapModel;
     this._x = x;
     this._y = y;
     this.noiseValue = noiseValue;
@@ -59,39 +63,23 @@ export class TileModel {
     }
   }
 
-  /**
-   * Check if the tile is adjacent to the given tile
-   * @param tile
-   * @returns boolean
-   */
-  public isAdjacentToTile(tile: TileModel): boolean {
-    return this.isAdjacent(tile.x, tile.y);
+  getAdjacentTiles(): TileModel[] {
+    return this.mapModel.getAdjacentTiles(this);
   }
 
-  /**
-   * Check if the tile is adjacent to the given coordinates
-   * @param x
-   * @param y
-   * @returns boolean
-   */
-  public isAdjacent(x: number, y: number): boolean {
-    if (x % 2 !== 0) {
-      return (
-        (x === this._x && (y === this._y - 1 || y === this._y + 1)) ||
-        ((x === this._x - 1 || x === this._x + 1) && (y === this._y - 1 || y === this._y))
-      );
-    }
-    return (
-      (x === this._x && (y === this._y - 1 || y === this._y + 1)) ||
-      ((x === this._x - 1 || x === this._x + 1) && (y === this._y + 1 || y === this._y))
-    );
+  getAdjacentTilesID(): VertexKey[] {
+    return this.mapModel.getAdjacentTilesID(this);
+  }
+
+  isAdjacentToTile(tile: TileModel): boolean {
+      return this.mapModel.tileIsAdjacent(this, tile);
   }
 
   /**
    * Get the ID of the tile for the graph
    * @returns string
    */
-  public getID(): string {
+  public getID(): VertexKey {
     return this._x + '_' + this._y;
   }
 
