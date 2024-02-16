@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Character } from '../../model/Character';
 
-interface AthLayoutProps {
-  // Define props for passing information to ATH layout
-  characterName: string;
-  characterStats: number;
-  // TODO: add more props as needed
-}
-
-const AthLayout: React.FC<AthLayoutProps> = ({ characterName, characterStats }) => {
-
-  const [todo, setTodo] = useState();
-
+// Use the Character model
+const AthLayout: React.FC<Character> = (character: Character) => {
   return (
     <div>
       {/* Render player information */}
-      <div>Player Name: {characterName}</div>
-      <div>Player Score: {characterStats}</div>
+      <div>Player Name: {character.name}</div>
+      <div>Player Age: {character.age}</div>
+      <div>Player Nationality: {character.nationality}</div>
+      <div>{character.inventory.toString()}</div>
+      <div>{character.statistics.toString()}</div>
     </div>
   );
 };
