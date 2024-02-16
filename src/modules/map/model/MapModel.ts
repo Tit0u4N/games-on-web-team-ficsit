@@ -3,7 +3,7 @@ import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { createBiome } from './biome/BiomeFacoryModel.ts';
 
 import { TileModel } from './TileModel.ts';
-import { DirectedGraph } from 'data-structure-typed';
+import {DirectedGraph, VertexKey} from 'data-structure-typed';
 import { GraphTilesModelGenerator } from './utils/GraphTilesModelGenerator.ts';
 
 export class MapModel {
@@ -28,10 +28,9 @@ export class MapModel {
    */
   private generate(): void {
     this.generateBaseMap();
-    this._biomes = this.identifyBiomes();
-
     const graphGenerator = new GraphTilesModelGenerator(this);
     this._graph = graphGenerator.generateGraphTiles();
+    this._biomes = this.identifyBiomes();
   }
 
   /**
@@ -43,7 +42,7 @@ export class MapModel {
     for (let x = 0; x < this._size; x++) {
       this._tiles.push([]);
       for (let y = 0; y < this._size; y++) {
-        this._tiles[x].push(new TileModel(x, y, noise.get(x, y)));
+        this._tiles[x].push(new TileModel(this, x, y, noise.get(x, y)));
       }
     }
   }
@@ -53,6 +52,32 @@ export class MapModel {
     tempBiomes.push(createBiome(TypesBiome.MOUNTAIN, this));
     tempBiomes.push(createBiome(TypesBiome.PLAIN, this));
     return tempBiomes;
+  }
+
+  // Tiles methods
+
+  public tileIsAdjacent(tile1: TileModel, tile2: TileModel): boolean {
+    if (!this._graph) throw new Error('Graph is not defined');
+    const neighborsTile1 = this._graph.getNeighbors(tile1.getID());
+    return neighborsTile1.some(neighbor => neighbor && neighbor.value ? neighbor.value.getID() === tile2.getID() : false);
+  }
+
+  public getAdjacentTiles(tile: TileModel): TileModel[] {
+      if (!this._graph) throw new Error('Graph is not defined');
+      const neighbors = this._graph.getNeighbors(tile.getID());
+      const tiles : TileModel[] = [];
+        neighbors.forEach(neighbor => {
+            if(neighbor.value) {
+              tiles.push(neighbor.value);
+            }
+        });
+      return tiles;
+  }
+
+  public getAdjacentTilesID(tile: TileModel): VertexKey[] {
+    if (!this._graph) throw new Error('Graph is not defined');
+    const neighbors = this._graph.getNeighbors(tile.getID());
+    return neighbors.map(neighbor => neighbor.key);
   }
 
   // Getters
