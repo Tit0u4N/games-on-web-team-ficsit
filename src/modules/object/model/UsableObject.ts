@@ -1,3 +1,1 @@
-export class UsableObject {
-
-}
+export class UsableObject {}

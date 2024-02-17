@@ -1,10 +1,11 @@
-import { Model } from '../model/Character.ts';
+import { Character } from '../model/Character.ts';
+import { Attributes } from '../model/Attributes.ts';
 
 describe('Building model', () => {
-  let model: Model;
+  let model: Character;
 
   beforeEach(() => {
-    model = new Model();
+    model = new Character(0, '0', '0', 0, new Attributes(0, 0, false));
   });
 
   it('should be defined', () => {

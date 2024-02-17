@@ -1,12 +1,10 @@
 export class Attributes {
   private _movement: number;
-  private _reputation: number;
   private _tiredness: number;
   private _injured: boolean;
 
-  public constructor(movement: number, reputation: number, tiredness: number, injured: boolean) {
+  public constructor(movement: number, tiredness: number, injured: boolean) {
     this._movement = movement;
-    this._reputation = reputation;
     this._tiredness = tiredness;
     this._injured = injured;
   }
@@ -17,14 +15,6 @@ export class Attributes {
 
   set movement(value: number) {
     this._movement = value;
-  }
-
-  get reputation(): number {
-    return this._reputation;
-  }
-
-  set reputation(value: number) {
-    this._reputation = value;
   }
 
   get tiredness(): number {
@@ -44,6 +34,6 @@ export class Attributes {
   }
 
   public toString(): string {
-    return `Movement: ${this._movement}, Reputation: ${this._reputation}, Tiredness: ${this._tiredness}, Injured: ${this._injured}`;
+    return `Movement: ${this._movement}, Tiredness: ${this._tiredness}, Injured: ${this._injured}`;
   }
 }

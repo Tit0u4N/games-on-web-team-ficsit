@@ -11,6 +11,7 @@ const AthLayout: React.FC<Character> = (character: Character) => {
       <div>Player Nationality: {character.nationality}</div>
       <div>{character.inventory.toString()}</div>
       <div>{character.statistics.toString()}</div>
+      <div>{character.attributes.toString()}</div>
     </div>
   );
 };
