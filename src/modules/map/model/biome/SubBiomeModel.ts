@@ -1,22 +1,24 @@
-import {TypesBiome} from './BiomeAbstractModel.ts';
-import {TileModel, TypesTile} from '../TileModel.ts';
-import {DirectedGraph, DirectedVertex, VertexKey} from 'data-structure-typed';
-import {MapModel} from '../MapModel.ts';
-import {GraphTilesModelGenerator} from '../utils/GraphTilesModelGenerator.ts';
-import {CoupleTileIndex, SubBiomeTilesIdentifier} from "./SubBiomeTilesIdentifier.ts";
+import { TypesBiome } from './BiomeAbstractModel.ts';
+import { TileModel, TypesTile } from '../TileModel.ts';
+import { DirectedVertex } from 'data-structure-typed';
+import { MapModel } from '../MapModel.ts';
+import { GraphTilesModelGenerator } from '../utils/GraphTilesModelGenerator.ts';
+import { GraphTilesModel } from '../GraphTilesModel.ts';
 
 /**
  * This class represents a sub-biome of the map.
  */
 export class SubBiomeModel {
+  private mapModel: MapModel;
   private type: TypesBiome;
   private tiles: TileModel[] = [];
-  private graphTiles: DirectedGraph<TileModel>;
+  private graphTiles: GraphTilesModel;
 
   private static cpt = 0;
   public id: string;
 
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
+    this.mapModel = map;
     this.type = type;
     this.tiles = mapTiles;
     this.setDefaultTileType();
@@ -30,25 +32,25 @@ export class SubBiomeModel {
     );
     this.graphTiles = graphGenerator.generateGraphTiles();
 
-    this.parseBiomeByLevel()
-    }
+    this.parseBiomeByLevel();
+  }
 
   private parseBiomeByLevel(): void {
     const tilesBorder: TileModel[] = this.tiles.filter((tile) => {
-        const neighbors: TileModel[] = []
-        tile.getAdjacentTilesID().forEach((id) => {
-          const vertex = this.graphTiles.getVertex(id)
-          if (vertex && vertex.value) neighbors.push(vertex.value)
-        })
-        return neighbors.length < 6;
-    })
+      const neighbors: TileModel[] = [];
+      this.mapModel.graph.getAdjacentTilesID(tile).forEach((id) => {
+        const vertex = this.graphTiles.getVertex(id);
+        if (vertex && vertex.value) neighbors.push(vertex.value);
+      });
+      return neighbors.length < 6;
+    });
 
-    tilesBorder.forEach(tile => {
+    tilesBorder.forEach((tile) => {
       tile.type = TypesTile.SNOW;
-    })
+    });
   }
 
-  private setDefaultTileType(tiles : TileModel[] = this.tiles): void {
+  private setDefaultTileType(tiles: TileModel[] = this.tiles): void {
     let type = TypesTile.DEFAULT;
     if (SubBiomeModel.cpt % 9 === 0) {
       type = TypesTile.DEFAULT;
@@ -76,9 +78,5 @@ export class SubBiomeModel {
 
   public nbTiles(): number {
     return this.tiles.length;
-  }
-
-  getNeighbors(tile: TileModel): DirectedVertex<TileModel>[] {
-    return this.graphTiles.getNeighbors(tile.getID());
   }
 }
