@@ -11,16 +11,15 @@ export class Character {
   private _inventory: Inventory;
   private _attributes: Attributes;
 
-  public constructor(id: number, name: string, nationality: string, age: number) {
+  public constructor(id: number, name: string, nationality: string, age: number, attributes: Attributes) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;
     this._age = age;
     this._inventory = new Inventory();
-    // TODO: see when we give the statistics
     this._statistics = new Statistics();
+    this._attributes = attributes;
   }
-
 
   get id(): number {
     return this._id;
@@ -68,5 +67,13 @@ export class Character {
 
   set inventory(value: Inventory) {
     this._inventory = value;
+  }
+
+  get attributes(): Attributes {
+    return this._attributes;
+  }
+
+  set attributes(value: Attributes) {
+    this._attributes = value;
   }
 }
