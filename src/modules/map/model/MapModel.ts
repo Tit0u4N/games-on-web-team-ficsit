@@ -3,15 +3,15 @@ import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { createBiome } from './biome/BiomeFacoryModel.ts';
 
 import { TileModel } from './TileModel.ts';
-import {DirectedGraph, VertexKey} from 'data-structure-typed';
 import { GraphTilesModelGenerator } from './utils/GraphTilesModelGenerator.ts';
+import { GraphTilesModel } from './GraphTilesModel.ts';
 
 export class MapModel {
   private _tiles: TileModel[][] = [];
   private readonly _size: number;
   private readonly _seed: number | string;
   private _biomes: BiomeAbstractModel[] = [];
-  private _graph: DirectedGraph<TileModel>;
+  private _graph: GraphTilesModel;
 
   constructor(size: number, seed?: number | string) {
     this._size = size;
@@ -54,34 +54,11 @@ export class MapModel {
     return tempBiomes;
   }
 
-  // Tiles methods
-
-  public tileIsAdjacent(tile1: TileModel, tile2: TileModel): boolean {
-    if (!this._graph) throw new Error('Graph is not defined');
-    const neighborsTile1 = this._graph.getNeighbors(tile1.getID());
-    return neighborsTile1.some(neighbor => neighbor && neighbor.value ? neighbor.value.getID() === tile2.getID() : false);
-  }
-
-  public getAdjacentTiles(tile: TileModel): TileModel[] {
-      if (!this._graph) throw new Error('Graph is not defined');
-      const neighbors = this._graph.getNeighbors(tile.getID());
-      const tiles : TileModel[] = [];
-        neighbors.forEach(neighbor => {
-            if(neighbor.value) {
-              tiles.push(neighbor.value);
-            }
-        });
-      return tiles;
-  }
-
-  public getAdjacentTilesID(tile: TileModel): VertexKey[] {
-    if (!this._graph) throw new Error('Graph is not defined');
-    const neighbors = this._graph.getNeighbors(tile.getID());
-    return neighbors.map(neighbor => neighbor.key);
-  }
-
   // Getters
 
+  get graph(): GraphTilesModel {
+    return this._graph;
+  }
   get seed(): number | string {
     return this._seed;
   }

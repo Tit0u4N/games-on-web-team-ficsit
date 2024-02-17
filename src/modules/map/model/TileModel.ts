@@ -1,7 +1,7 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { SubBiomeModel } from './biome/BiomeMountainModel.ts';
-import {MapModel} from "./MapModel.ts";
-import {VertexKey} from "data-structure-typed";
+import { MapModel } from './MapModel.ts';
+import { TileKey } from './GraphTilesModel.ts';
 
 export class TileModel {
   private mapModel: MapModel;
@@ -12,7 +12,7 @@ export class TileModel {
   private _typeBiome: TypesBiome = null;
   private _subBiome: SubBiomeModel | null = null;
 
-  constructor(mapModel : MapModel, x: number, y: number, noiseValue: number) {
+  constructor(mapModel: MapModel, x: number, y: number, noiseValue: number) {
     this.mapModel = mapModel;
     this._x = x;
     this._y = y;
@@ -63,23 +63,11 @@ export class TileModel {
     }
   }
 
-  getAdjacentTiles(): TileModel[] {
-    return this.mapModel.getAdjacentTiles(this);
-  }
-
-  getAdjacentTilesID(): VertexKey[] {
-    return this.mapModel.getAdjacentTilesID(this);
-  }
-
-  isAdjacentToTile(tile: TileModel): boolean {
-      return this.mapModel.tileIsAdjacent(this, tile);
-  }
-
   /**
    * Get the ID of the tile for the graph
    * @returns string
    */
-  public getID(): VertexKey {
+  public getID(): TileKey {
     return this._x + '_' + this._y;
   }
 

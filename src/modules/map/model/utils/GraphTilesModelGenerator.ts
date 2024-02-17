@@ -1,7 +1,7 @@
 import { MapModel } from '../MapModel.ts';
-import { DirectedGraph } from 'data-structure-typed';
 import { TileModel } from '../TileModel.ts';
 import { GraphTilesGeneratorAbstract } from '../../core/GraphTilesGeneratorAbstract.ts';
+import { GraphTilesModel } from '../GraphTilesModel.ts';
 
 export class GraphTilesModelGenerator extends GraphTilesGeneratorAbstract {
   constructor(mapModel: MapModel, tileConditionFunc?: (tile: TileModel) => boolean, segmentTiles?: TileModel[]) {
@@ -12,8 +12,8 @@ export class GraphTilesModelGenerator extends GraphTilesGeneratorAbstract {
    * Generate the graph of the valid tiles by the condition function
    * @returns DirectedGraph<TileModel>
    */
-  public generateGraphTiles(): DirectedGraph<TileModel> {
-    const graph = new DirectedGraph<TileModel>();
+  public generateGraphTiles(): GraphTilesModel {
+    const graph = new GraphTilesModel();
     const tileValidateForGraph: TileModel[] = this.getTilesValidateForGraph();
 
     //Create vertices

@@ -1,11 +1,9 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import BabylonScene from './component/BabylonScene.tsx';
-import { FreeCamera, HemisphericLight, Mesh, Scene, UniversalCamera, Vector3 } from '@babylonjs/core';
+import { HemisphericLight, Mesh, Scene, UniversalCamera, Vector3 } from '@babylonjs/core';
 import { MapPresenter } from './modules/map/presenter/MapPresenter.ts';
 
-let box: Mesh;
 const onSceneReady = (scene: Scene): void => {
   const canvas = scene.getEngine().getRenderingCanvas();
 
@@ -20,25 +18,21 @@ const onSceneReady = (scene: Scene): void => {
   const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
   light.intensity = 0.7;
 
-  const map = new MapPresenter(scene, {size:100, seed: 1011});
+  const map = new MapPresenter(scene, { size: 50, seed: 1011 });
 };
 
 /**
  * Will run on every frame render.  We are spinning the box on y-axis.
  */
-const onRender = (scene: Scene): void => {
-  if (box !== undefined) {
-    // DO STUFF HERE
-  }
-};
+const onRender = (scene: Scene): void => {};
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <>
     <BabylonScene antialias={true} onSceneReady={onSceneReady} onRender={onRender} id="my-canvas" />
     <div className={'HUD'}>
       <h1 className={'text-lg'}>
         HUD <span>POSITION</span> FIXED
       </h1>
     </div>
-  </React.StrictMode>,
+  </>,
 );
