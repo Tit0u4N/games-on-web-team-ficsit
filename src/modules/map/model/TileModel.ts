@@ -1,19 +1,14 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
-import { SubBiomeModel } from './biome/BiomeMountainModel.ts';
-import { MapModel } from './MapModel.ts';
 import { TileKey } from './GraphTilesModel.ts';
 
 export class TileModel {
-  private mapModel: MapModel;
-  private _type: TypesTile | null = null;
+  private _type: TypesTile;
   private _x: number;
   private _y: number;
   private noiseValue: number;
-  private _typeBiome: TypesBiome = null;
-  private _subBiome: SubBiomeModel | null = null;
+  private _typeBiome: TypesBiome;
 
-  constructor(mapModel: MapModel, x: number, y: number, noiseValue: number) {
-    this.mapModel = mapModel;
+  constructor(x: number, y: number, noiseValue: number) {
     this._x = x;
     this._y = y;
     this.noiseValue = noiseValue;
@@ -83,7 +78,7 @@ export class TileModel {
     this._type = value;
   }
 
-  get type(): TypesTile | null {
+  get type(): TypesTile {
     return this._type;
   }
   get typeBiome(): TypesBiome {
@@ -92,14 +87,6 @@ export class TileModel {
 
   set typeBiome(value: TypesBiome) {
     this._typeBiome = value;
-  }
-
-  get subBiome(): SubBiomeModel | null {
-    return this._subBiome;
-  }
-
-  set subBiome(value: SubBiomeModel | null) {
-    this._subBiome = value;
   }
 }
 

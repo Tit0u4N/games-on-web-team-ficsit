@@ -18,7 +18,7 @@ const onSceneReady = (scene: Scene): void => {
   const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene);
   light.intensity = 0.7;
 
-  const map = new MapPresenter(scene, { size: 50, seed: 1011 });
+  const map = new MapPresenter(scene, { size: 100, seed: 1011 });
 };
 
 /**
