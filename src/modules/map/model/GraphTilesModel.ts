@@ -8,6 +8,8 @@ export class GraphTilesModel extends DirectedGraph<TileModel> {
     super();
   }
 
+  // PUBLIC METHODS
+  // Accessors
   getAdjacentTilesID(tile: TileModel): TileKey[] {
     const neighbors = this.getNeighbors(tile.getID());
     return neighbors.map((neighbor) => neighbor.key) as TileKey[];
