@@ -1,8 +1,9 @@
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
 import { TypesTile } from '../../model/TileModel.ts';
 import { TileView } from './TileView.ts';
+import { MapView } from './MapView.ts';
 
-type BaseTile = {
+export type BaseTile = {
   type: TypesTile;
   color: string;
   radius: number;
@@ -124,8 +125,8 @@ export class TileViewFactory {
     }
   }
 
-  public createTile(x: number, y: number, type: TypesTile): TileView {
+  public createTile(x: number, y: number, type: TypesTile, mapView: MapView): TileView {
     const baseTile = this.baseTiles[type];
-    return new TileView(this.scene, x, y, baseTile);
+    return new TileView(this.scene, x, y, baseTile, mapView);
   }
 }

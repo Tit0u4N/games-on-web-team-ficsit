@@ -10,7 +10,7 @@ export class GraphTilesModelGenerator extends GraphTilesGeneratorAbstract {
 
   /**
    * Generate the graph of the valid tiles by the condition function
-   * @returns DirectedGraph<TileModel>
+   * @returns GraphTilesModel
    */
   public generateGraphTiles(): GraphTilesModel {
     const graph = new GraphTilesModel();

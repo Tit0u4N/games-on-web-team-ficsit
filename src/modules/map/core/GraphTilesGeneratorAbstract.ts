@@ -6,16 +6,15 @@ export abstract class GraphTilesGeneratorAbstract {
   protected readonly tileConditionFunc: (tile: TileModel) => boolean = (tile: TileModel) => true;
   protected readonly segmentTiles: TileModel[];
 
-  constructor(mapModel: MapModel, tileConditionFunc?: (tile: TileModel) => boolean, segmentTiles?: TileModel[]) {
+  protected constructor(
+    mapModel: MapModel,
+    tileConditionFunc?: (tile: TileModel) => boolean,
+    segmentTiles?: TileModel[],
+  ) {
     this.mapModel = mapModel;
     this.segmentTiles = segmentTiles || mapModel.tiles.flat();
     this.tileConditionFunc = tileConditionFunc || this.tileConditionFunc;
   }
-
-  /**
-   * Generate the graph of the valid tiles by the condition function
-   * @returns DirectedGraph<TileModel>
-   */
 
   /**
    * @private

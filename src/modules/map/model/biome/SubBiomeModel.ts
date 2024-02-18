@@ -31,24 +31,33 @@ export class SubBiomeModel {
     );
     this.graphTiles = graphGenerator.generateGraphTiles();
 
-    this.parseBiomeByLevel();
+    this.parseBiomeByLevel(this.tiles, this.graphTiles);
   }
 
-  private parseBiomeByLevel(): void {
-    const tilesBorder: TileModel[] = this.tiles.filter((tile) => {
+  private parseBiomeByLevel(tiles: TileModel[], graph: GraphTilesModel): void {
+    let tilesBorder: TileModel[] = this.getBorderTiles(tiles, graph);
+    let tilesInside: TileModel[] = this.getInsideTiles(tiles, tilesBorder);
+
+    this.setTilesType(tilesInside, TypesTile.SNOW);
+    this.setTilesType(tilesBorder, TypesTile.MOUNTAIN);
+  }
+
+  getBorderTiles(tiles: TileModel[], graph: GraphTilesModel): TileModel[] {
+    return tiles.filter((tile) => {
       const neighbors: TileModel[] = [];
-      this.mapModel.graph.getAdjacentTilesID(tile).forEach((id) => {
+      graph.getAdjacentTilesID(tile).forEach((id) => {
         const vertex = this.graphTiles.getVertex(id);
         if (vertex && vertex.value) neighbors.push(vertex.value);
       });
       return neighbors.length < 6;
     });
-
-    tilesBorder.forEach((tile) => {
-      tile.type = TypesTile.SNOW;
-    });
   }
 
+  getInsideTiles(tiles: TileModel[], tilesBorder: TileModel[]): TileModel[] {
+    return tiles.filter((tile) => {
+      return !tilesBorder.includes(tile);
+    });
+  }
   private setDefaultTileType(tiles: TileModel[] = this.tiles): void {
     let type = TypesTile.DEFAULT;
     if (SubBiomeModel.cpt % 9 === 0) {
@@ -72,7 +81,16 @@ export class SubBiomeModel {
     }
     this.id = SubBiomeModel.cpt;
     SubBiomeModel.cpt++;
-    tiles.forEach((tile) => (tile.type = type));
+    tiles.forEach((tile) => {
+      tile.type = type;
+      tile.subBiome = this;
+    });
+  }
+
+  setTilesType(tiles: TileModel[], type: TypesTile): void {
+    tiles.forEach((tile) => {
+      tile.type = type;
+    });
   }
 
   public nbTiles(): number {

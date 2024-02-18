@@ -11,11 +11,13 @@ export class MapView {
   private size: number;
   private tiles: TileView[][];
   private parent: Mesh;
-  private scene: Scene;
+  private readonly scene: Scene;
+  private readonly _mapModel: MapModel;
 
   constructor(scene: Scene, mapModel: MapModel) {
     this.size = mapModel.size;
     this.parent = new Mesh('map_group');
+    this._mapModel = mapModel;
     this.tiles = this.mapModelToView(mapModel);
     this.scene = scene;
   }
@@ -35,13 +37,16 @@ export class MapView {
       for (let y = 0; y < this.size; y++) {
         const tempTileModel = mapModel.getTile(x, y);
         if (!tempTileModel) throw new Error(`Tile not found at ${x}, ${y}`);
-        //@ts-ignore
-        const tempTile = tileFactory.createTile(x, y, tempTileModel.type);
+        const tempTile = tileFactory.createTile(x, y, tempTileModel.type, this);
         this.parent.addChild(tempTile.mesh);
         tempTiles[x].push(tempTile);
       }
     }
 
     return tempTiles;
+  }
+
+  get mapModel(): MapModel {
+    return this._mapModel;
   }
 }
