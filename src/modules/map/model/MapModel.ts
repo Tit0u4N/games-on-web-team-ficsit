@@ -36,6 +36,10 @@ export class MapModel {
     }
   }
 
+  /**
+   * Identify the biomes of the map
+   * @private
+   */
   private identifyBiomes(): BiomeAbstractModel[] {
     const tempBiomes: BiomeAbstractModel[] = [];
     tempBiomes.push(createBiome(TypesBiome.MOUNTAIN, this));
@@ -43,6 +47,7 @@ export class MapModel {
     return tempBiomes;
   }
 
+  // PUBLIC METHODS
   // Getters
 
   get graph(): GraphTilesModel {
@@ -60,6 +65,13 @@ export class MapModel {
     return this._size;
   }
 
+  /**
+   * Get the tile at the position x, y
+   * @param x
+   * @param y
+   * @returns TileModel
+   * @throws Error if the tile is not found
+   */
   public getTile(x: number, y: number): TileModel {
     if (x >= 0 && x < this._size && y >= 0 && y < this._size) {
       return this._tiles[x][y];
