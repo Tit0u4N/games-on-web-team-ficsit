@@ -1,10 +1,9 @@
 import { NoiseMap } from './NoiseMap.ts';
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
-import { createBiome } from './biome/BiomeFacoryModel.ts';
-
 import { TileModel } from './TileModel.ts';
 import { GraphTilesModelGenerator } from './utils/GraphTilesModelGenerator.ts';
 import { GraphTilesModel } from './GraphTilesModel.ts';
+import { createBiome } from './biome/BiomeFactoryModel.ts';
 
 export class MapModel {
   private _tiles: TileModel[][] = [];
@@ -17,16 +16,6 @@ export class MapModel {
     this._size = size;
     this._seed = seed || Math.random();
 
-    this.generate();
-  }
-
-  /**
-   * Generate the base map in the tiles array
-   * Generate the biomes
-   * Generate the graph of the tiles
-   * @private
-   */
-  private generate(): void {
     this.generateBaseMap();
     const graphGenerator = new GraphTilesModelGenerator(this);
     this._graph = graphGenerator.generateGraphTiles();
@@ -42,7 +31,7 @@ export class MapModel {
     for (let x = 0; x < this._size; x++) {
       this._tiles.push([]);
       for (let y = 0; y < this._size; y++) {
-        this._tiles[x].push(new TileModel(this, x, y, noise.get(x, y)));
+        this._tiles[x].push(new TileModel(x, y, noise.get(x, y)));
       }
     }
   }

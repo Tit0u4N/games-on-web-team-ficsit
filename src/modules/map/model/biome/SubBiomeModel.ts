@@ -1,6 +1,5 @@
 import { TypesBiome } from './BiomeAbstractModel.ts';
 import { TileModel, TypesTile } from '../TileModel.ts';
-import { DirectedVertex } from 'data-structure-typed';
 import { MapModel } from '../MapModel.ts';
 import { GraphTilesModelGenerator } from '../utils/GraphTilesModelGenerator.ts';
 import { GraphTilesModel } from '../GraphTilesModel.ts';
@@ -15,7 +14,7 @@ export class SubBiomeModel {
   private graphTiles: GraphTilesModel;
 
   private static cpt = 0;
-  public id: string;
+  private _id: string = '';
 
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
     this.mapModel = map;
@@ -71,12 +70,21 @@ export class SubBiomeModel {
     } else {
       type = TypesTile.DEFAULT9;
     }
-    this.id = 'Biome_' + SubBiomeModel.cpt;
+    this.id = SubBiomeModel.cpt;
     SubBiomeModel.cpt++;
     tiles.forEach((tile) => (tile.type = type));
   }
 
   public nbTiles(): number {
+    console.log(this._id);
     return this.tiles.length;
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: number) {
+    this._id = 'Biome_' + value;
   }
 }

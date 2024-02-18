@@ -41,4 +41,5 @@ export enum TypesBiome {
   DESERT,
   OCEAN,
   MOUNTAIN_EDGE,
+  NOT_DEFINED,
 }
