@@ -1,16 +1,13 @@
 import { GraphTilesModel } from '../../model/GraphTilesModel.ts';
-
-const mockTileModel = jest.fn().mockImplementation((id: string) => {
-  return {
-    getID: jest.fn().mockReturnValue(id),
-  };
-});
+import { TileModel } from '../../model/TileModel.ts';
+import { mockTileModel } from '../__mocks__/model.ts';
 
 describe('GraphTileModel', () => {
   let graphTileModel: GraphTilesModel;
+  let tiles: TileModel[][];
 
   beforeAll(() => {
-    const tiles = [
+    tiles = [
       [mockTileModel('0_0'), mockTileModel('0_1')],
       [mockTileModel('1_0'), mockTileModel('1_1')],
     ];

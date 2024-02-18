@@ -1,15 +1,7 @@
-import {
-  ActionManager,
-  Color3,
-  ExecuteCodeAction,
-  InstancedMesh,
-  Mesh,
-  MeshBuilder,
-  Scene,
-  StandardMaterial,
-  Vector3,
-} from '@babylonjs/core';
+import { ActionManager, ExecuteCodeAction, InstancedMesh, Scene, Vector3 } from '@babylonjs/core';
 import { TypesTile } from '../../model/TileModel.ts';
+import { BaseTile } from './TileViewFactory.ts';
+import { MapView } from './MapView.ts';
 
 /**
  * Tile class for the game
@@ -21,13 +13,15 @@ export class TileView {
   private type: TypesTile;
   private x: number;
   private y: number;
+  private mapView: MapView;
   private static radius: number = 2;
 
-  constructor(scene: Scene, x: number, y: number, baseTile: BaseTile) {
+  constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
     this._mesh = this.createHexagonMesh(x, y, baseTile);
     this.x = x;
     this.y = y;
+    this.mapView = mapView;
     this.addActionManger();
     this.type = baseTile.type;
   }
@@ -53,14 +47,15 @@ export class TileView {
     return mesh;
   }
 
-  addActionManger() {
+  private addActionManger() {
     const x = this.x;
     const y = this.y;
+    const mapView = this.mapView;
     //@ts-ignore
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function (evt) {
         // Ce code sera exécuté lorsque l'objet est cliqué
-        console.log('tile : ' + x + ' ' + y);
+        console.log(x + '_' + y, mapView.mapModel.getTile(x, y).subBiome?.id);
       }),
     );
   }

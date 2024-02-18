@@ -1,5 +1,6 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { TileKey } from './GraphTilesModel.ts';
+import { SubBiomeModel } from './biome/SubBiomeModel.ts';
 
 export class TileModel {
   private _type: TypesTile;
@@ -7,6 +8,7 @@ export class TileModel {
   private _y: number;
   private noiseValue: number;
   private _typeBiome: TypesBiome;
+  private _subBiome: SubBiomeModel | undefined;
 
   constructor(x: number, y: number, noiseValue: number) {
     this._x = x;
@@ -87,6 +89,14 @@ export class TileModel {
 
   set typeBiome(value: TypesBiome) {
     this._typeBiome = value;
+  }
+
+  get subBiome(): SubBiomeModel | undefined {
+    return this._subBiome;
+  }
+
+  set subBiome(value: SubBiomeModel) {
+    this._subBiome = value;
   }
 }
 
