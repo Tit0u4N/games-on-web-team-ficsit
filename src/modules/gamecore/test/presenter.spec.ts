@@ -1,10 +1,10 @@
-import { Presenter } from '../presenter/Presenter.ts';
+import { GameCorePresenter } from '../presenter/Presenter.ts';
 
 describe('Building model', () => {
-  let presenter: Presenter;
+  let presenter: GameCorePresenter;
 
   beforeEach(() => {
-    presenter = new Presenter();
+    presenter = new GameCorePresenter();
   });
 
   it('should be defined', () => {
