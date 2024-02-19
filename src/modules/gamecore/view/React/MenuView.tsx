@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '@nextui-org/react';
-import { View } from './View.tsx';
+import { MainView } from './MainView.tsx';
 
 interface Props {
-  view: View;
+  view: MainView;
 }
 
 export const MenuView: React.FC<Props> = ({ view }) => {

@@ -1,15 +1,14 @@
+import { MainView } from '../view/React/MainView.tsx';
+
 export class GameCorePresenter {
-  private viewChangeListeners: (() => void)[] = [];
+  private mainView: MainView;
   constructor() {
     console.log('Presenter created');
+    this.mainView = new MainView(this);
   }
 
-  subscribeToViewChanges(listener: () => void) {
-    this.viewChangeListeners.push(listener);
-  }
-
-  // Méthode pour notifier les abonnés des changements de vue
-  notifyViewChange() {
-    this.viewChangeListeners.forEach((listener) => listener());
+  init() {
+    console.log('Presenter init');
+    this.mainView.init();
   }
 }
