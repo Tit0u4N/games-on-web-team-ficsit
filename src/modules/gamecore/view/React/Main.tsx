@@ -1,7 +1,7 @@
 import { View } from '../Babylon/View.ts';
 import BabylonScene from '../../../../component/BabylonScene.tsx';
 
-export const Main = () => {
+export const GameView = () => {
   const view = new View();
   const babylon = view.init();
 
