@@ -1,10 +1,10 @@
-import { Model } from '../model/Model.ts';
+import { GameCoreModel } from '../model/Model.ts';
 
 describe('Building model', () => {
-  let model: Model;
+  let model: GameCoreModel;
 
   beforeEach(() => {
-    model = new Model();
+    model = new GameCoreModel();
   });
 
   it('should be defined', () => {

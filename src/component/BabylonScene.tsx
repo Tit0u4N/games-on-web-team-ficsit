@@ -10,7 +10,7 @@ export default ({
   onSceneReady,
   ...rest
 }: any) => {
-  const reactCanvas = useRef(null);
+  const reactCanvas = useRef<HTMLCanvasElement>(null);
 
   // set up basic engine and scene
   useEffect(() => {
@@ -31,8 +31,12 @@ export default ({
       scene.render();
     });
 
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     const resize = () => {
       scene.getEngine().resize();
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
     if (window) {

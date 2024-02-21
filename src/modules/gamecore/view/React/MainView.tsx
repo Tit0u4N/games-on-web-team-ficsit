@@ -3,7 +3,7 @@ import React from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 import { GameCorePresenter } from '../../presenter/Presenter.ts';
 import { MenuView } from './MenuView.tsx';
-import { GameView } from './Main.tsx';
+import { GameView } from './GameView.tsx';
 
 interface MainComponentProps {
   mainView: MainView;
@@ -27,9 +27,13 @@ class MainComponent extends React.Component<MainComponentProps> {
 
   render() {
     return (
-      <div className={'HUD'}>
-        {this.props.mainView.getStatus() === 'menu' ? <MenuView view={this.props.mainView} /> : <GameView />}
-      </div>
+      <>
+        {this.props.mainView.getStatus() === 'menu' ? (
+          <MenuView view={this.props.mainView} />
+        ) : (
+          <GameView mainView={this.props.mainView} />
+        )}
+      </>
     );
   }
 }
@@ -42,15 +46,16 @@ export class MainView {
 
   constructor(presenter: GameCorePresenter) {
     this.presenter = presenter;
-    console.log('View created');
     this.status = 'menu';
   }
 
-  public start() {
-    console.log('Game started');
+  public startGame() {
+    this.presenter.startGame();
+  }
+
+  public startNewGame() {
     this.status = 'game';
     this.notifyViewChange();
-    console.log('View change notified');
   }
 
   public init() {
@@ -71,7 +76,15 @@ export class MainView {
     this.viewChangeListeners.push(listener);
   }
 
-  private notifyViewChange() {
+  notifyViewChange() {
     this.viewChangeListeners.forEach((listener) => listener());
+  }
+
+  nextRound() {
+    this.presenter.nextRound();
+  }
+
+  getCurrentRound() {
+    return this.presenter.getCurrentRound();
   }
 }
