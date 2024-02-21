@@ -15,7 +15,7 @@ canvas {
 }
 
 .HUD {
-  position: fixed;
+  //position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -35,7 +35,6 @@ canvas {
     border-radius: 0.5rem 0.5rem 0 0;
 
     .next-round-btn {
-      // place ont right and 50% at top of the bar without absolute position
       position: relative;
       left: 48%;
       transform: translateX(-50%);
