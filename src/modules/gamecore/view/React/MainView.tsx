@@ -4,6 +4,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { GameCorePresenter } from '../../presenter/Presenter.ts';
 import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
+import { BabylonView } from '../Babylon/View.ts';
 
 interface MainComponentProps {
   mainView: MainView;
@@ -31,7 +32,7 @@ class MainComponent extends React.Component<MainComponentProps> {
         {this.props.mainView.getStatus() === 'menu' ? (
           <MenuView view={this.props.mainView} />
         ) : (
-          <GameView mainView={this.props.mainView} />
+          <GameView mainView={this.props.mainView} babylon={this.props.mainView.getBabylonViewSetup()} />
         )}
       </>
     );
@@ -43,10 +44,12 @@ export class MainView {
   private readonly presenter: GameCorePresenter;
   private status: string;
   private viewChangeListeners: (() => void)[] = [];
+  private babylonView: BabylonView;
 
   constructor(presenter: GameCorePresenter) {
     this.presenter = presenter;
     this.status = 'menu';
+    this.babylonView = new BabylonView();
   }
 
   public startGame() {
@@ -56,6 +59,7 @@ export class MainView {
   public startNewGame() {
     this.status = 'game';
     this.notifyViewChange();
+    this.babylonView.init();
   }
 
   public init() {
@@ -86,5 +90,12 @@ export class MainView {
 
   getCurrentRound() {
     return this.presenter.getCurrentRound();
+  }
+
+  getBabylonViewSetup() {
+    return {
+      onSceneReady: this.babylonView.getOnSceneReady(),
+      onRender: this.babylonView.getOnRender(),
+    };
   }
 }

@@ -1,8 +1,13 @@
 import { FreeCamera, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 
-export class View {
+export class BabylonView {
+  private onSceneReady: (scene: Scene) => void;
+  private onRender: (scene: Scene) => void;
+
   constructor() {
-    this.init();
+    const { onSceneReady, onRender } = this.init();
+    this.onSceneReady = onSceneReady;
+    this.onRender = onRender;
   }
 
   init() {
@@ -44,5 +49,13 @@ export class View {
       }
     };
     return { onSceneReady, onRender };
+  }
+
+  public getOnSceneReady() {
+    return this.onSceneReady;
+  }
+
+  public getOnRender() {
+    return this.onRender;
   }
 }
