@@ -25,7 +25,7 @@ export class Noise {
   public get(x: number, y?: number, z?: number): number {
     if (this.dimension === 1) return this.noise.gen(x);
     else if (this.dimension === 2) return this.noise.gen(x, y);
-    else if (x && y && z) return this.noise.gen(x, y, z);
+    else if (this.dimension == 3) return this.noise.gen(x, y, z);
     throw new Error('Wrong number of arguments');
   }
 
