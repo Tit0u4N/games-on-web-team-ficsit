@@ -1,4 +1,4 @@
 export enum ApplicationStatus {
-  MENU = 'menu',
-  GAME = 'game',
+  MENU = 0,
+  GAME = 1,
 }
