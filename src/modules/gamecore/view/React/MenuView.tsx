@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button } from '@nextui-org/react';
-import { MainView } from './MainView.tsx';
+import { GameCorePresenter } from '../../presenter/Presenter.ts';
 
 interface Props {
-  view: MainView;
+  presenter: GameCorePresenter;
 }
 
-export const MenuView: React.FC<Props> = ({ view }) => {
+export const MenuView: React.FC<Props> = ({ presenter }) => {
   return (
     <div className={'HUD'}>
       <div className={'h-full bg-background'}>
         <div className={'flex flex-col justify-center items-center h-1/2'}>
-          <Button color="primary" className={'my-2 text-white'} onClick={() => view.startGame()}>
+          <Button color="primary" className={'my-2 text-white'} onClick={() => presenter.startGame()}>
             Start Game
           </Button>
           <Button color="primary" className={'my-2 text-white'}>
