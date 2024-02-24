@@ -2,7 +2,7 @@ import BabylonScene from '../../../../component/BabylonScene.tsx';
 import { RoundStatusBar } from './RoundStatusBar.tsx';
 import React from 'react';
 import { Scene } from '@babylonjs/core';
-import { GameCorePresenter } from '../../presenter/Presenter.ts';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
