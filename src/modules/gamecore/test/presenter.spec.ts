@@ -1,20 +1,18 @@
 import { GameCorePresenter } from '../presenter/Presenter.ts';
 
 // Mocking the MainView class
-jest.mock('../view/React/MainView.tsx', () => {
+jest.mock('../view/Babylon/View.ts', () => {
   return {
-    MainView: jest.fn().mockImplementation(() => {
+    BabylonView: jest.fn().mockImplementation(() => {
       return {
-        startGame: jest.fn(),
-        startNewGame: jest.fn(),
-        init: jest.fn(),
-        notifyViewChange: jest.fn(),
+        onSceneReady: jest.fn(),
+        onRender: jest.fn(),
       };
     }),
   };
 });
 
-describe('Building model', () => {
+describe('GameCorePresenter unit test', () => {
   let presenter: GameCorePresenter;
 
   beforeEach(() => {
