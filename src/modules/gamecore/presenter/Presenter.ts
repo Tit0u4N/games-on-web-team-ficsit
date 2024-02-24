@@ -1,15 +1,16 @@
 import { GameCoreModel } from '../model/Model.ts';
 import { BabylonView } from '../view/Babylon/View.ts';
+import { ApplicationStatus } from './ApplicationStatus.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
-  private status: string;
+  private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private babylonView: BabylonView;
 
   constructor() {
     this.gameModel = new GameCoreModel();
-    this.status = 'menu';
+    this.status = ApplicationStatus.MENU;
     this.babylonView = new BabylonView();
   }
 
@@ -43,7 +44,7 @@ export class GameCorePresenter {
    */
   startGame() {
     this.gameModel.createNewGame();
-    this.status = 'game';
+    this.status = ApplicationStatus.GAME;
     this.babylonView.init();
     this.notifyViewChange();
   }

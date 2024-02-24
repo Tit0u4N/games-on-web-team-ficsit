@@ -2,6 +2,7 @@ import React from 'react';
 import { GameCorePresenter } from '../../presenter/Presenter.ts';
 import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
+import { ApplicationStatus } from '../../presenter/ApplicationStatus.ts';
 
 interface MainComponentProps {
   gameCorePresenter: GameCorePresenter;
@@ -25,7 +26,7 @@ export class MainComponent extends React.Component<MainComponentProps> {
   render() {
     return (
       <>
-        {this.props.gameCorePresenter.getStatus() === 'menu' ? (
+        {this.props.gameCorePresenter.getStatus() === ApplicationStatus.MENU ? (
           <MenuView presenter={this.props.gameCorePresenter} />
         ) : (
           <GameView
