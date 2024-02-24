@@ -13,6 +13,24 @@ export class GameCorePresenter {
     this.babylonView = new BabylonView();
   }
 
+  /* Application management*/
+
+  public getStatus() {
+    return this.status;
+  }
+
+  /* Events management */
+
+  public subscribeToViewChanges(listener: () => void) {
+    this.viewChangeListeners.push(listener);
+  }
+
+  notifyViewChange() {
+    this.viewChangeListeners.forEach((listener) => listener());
+  }
+
+  /* Game logic */
+
   startGame() {
     this.gameModel.createNewGame();
     this.status = 'game';
@@ -27,18 +45,6 @@ export class GameCorePresenter {
 
   getCurrentRound() {
     return this.gameModel.getRound();
-  }
-
-  public getStatus() {
-    return this.status;
-  }
-
-  public subscribeToViewChanges(listener: () => void) {
-    this.viewChangeListeners.push(listener);
-  }
-
-  notifyViewChange() {
-    this.viewChangeListeners.forEach((listener) => listener());
   }
 
   getBabylonViewSetup() {
