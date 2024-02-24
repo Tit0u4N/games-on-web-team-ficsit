@@ -1,4 +1,4 @@
-import { GameCoreModel } from '../model/Model.ts';
+import { GameCoreModel } from '../model/GameCoreModel.ts';
 
 describe('Building model', () => {
   let model: GameCoreModel;

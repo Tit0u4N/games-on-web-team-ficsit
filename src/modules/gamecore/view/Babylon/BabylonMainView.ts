@@ -1,6 +1,6 @@
 import { FreeCamera, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 
-export class BabylonView {
+export class BabylonMainView {
   private onSceneReady: (scene: Scene) => void;
   private onRender: (scene: Scene) => void;
 

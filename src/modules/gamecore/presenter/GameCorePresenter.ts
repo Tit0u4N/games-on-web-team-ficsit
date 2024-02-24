@@ -1,17 +1,17 @@
-import { GameCoreModel } from '../model/Model.ts';
-import { BabylonView } from '../view/Babylon/View.ts';
+import { GameCoreModel } from '../model/GameCoreModel.ts';
+import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
 import { ApplicationStatus } from './ApplicationStatus.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
-  private babylonView: BabylonView;
+  private babylonView: BabylonMainView;
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
-    this.babylonView = new BabylonView();
+    this.babylonView = new BabylonMainView();
   }
 
   /* Application management*/

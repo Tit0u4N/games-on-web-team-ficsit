@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameCorePresenter } from '../../presenter/Presenter.ts';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
 import { ApplicationStatus } from '../../presenter/ApplicationStatus.ts';

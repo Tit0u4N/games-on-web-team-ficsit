@@ -1,9 +1,9 @@
-import { GameCorePresenter } from '../presenter/Presenter.ts';
+import { GameCorePresenter } from '../presenter/GameCorePresenter.ts';
 
 // Mocking the MainView class
-jest.mock('../view/Babylon/View.ts', () => {
+jest.mock('../view/Babylon/BabylonMainView.ts', () => {
   return {
-    BabylonView: jest.fn().mockImplementation(() => {
+    BabylonMainView: jest.fn().mockImplementation(() => {
       return {
         onSceneReady: jest.fn(),
         onRender: jest.fn(),

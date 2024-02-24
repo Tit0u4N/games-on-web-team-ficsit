@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@nextui-org/react';
-import { GameCorePresenter } from '../../presenter/Presenter.ts';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 
 interface Props {
   presenter: GameCorePresenter;
