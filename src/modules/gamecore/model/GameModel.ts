@@ -8,7 +8,6 @@ export class GameModel {
   public playRound() {
     /* ... */
     this.round++;
-    console.log('Round played' + this.round);
   }
 
   getRound() {
