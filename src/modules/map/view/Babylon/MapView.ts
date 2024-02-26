@@ -11,15 +11,18 @@ export class MapView {
   private size: number;
   private tiles: TileView[][];
   private parent: Mesh;
-  private readonly scene: Scene;
+  private scene: Scene;
   private readonly _mapModel: IMap;
 
-  constructor(scene: Scene, mapModel: IMap) {
+  constructor(mapModel: IMap) {
     this.size = mapModel.size;
-    this.parent = new Mesh('map_group');
     this._mapModel = mapModel;
-    this.tiles = this.mapModelToView(mapModel);
+  }
+
+  init(scene: Scene) {
     this.scene = scene;
+    this.parent = new Mesh('map_group');
+    this.tiles = this.mapModelToView(this._mapModel);
   }
 
   /**
