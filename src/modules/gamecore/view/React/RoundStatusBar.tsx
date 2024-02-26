@@ -33,7 +33,6 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
       <NavbarContent>
         <NavbarItem>
           <Button
-            variant={isEventsMenuOpen ? 'solid' : 'light'}
             color={isEventsMenuOpen ? 'primary' : undefined}
             className={isEventsMenuOpen ? 'text-white' : ''}
             onClick={() => setIsEventsMenuOpen(!isEventsMenuOpen)}>
@@ -42,7 +41,6 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
         </NavbarItem>
         <NavbarItem>
           <Button
-            variant={isInventoryMenuOpen ? 'solid' : 'light'}
             color={isInventoryMenuOpen ? 'primary' : undefined}
             className={isInventoryMenuOpen ? 'text-white' : ''}
             onClick={() => setIsInventoryMenuOpen(!isInventoryMenuOpen)}>
@@ -58,6 +56,14 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
           <span className={`season-bar ${getSeason(round)} current`}>{getSeasonIcon(round)}</span>
           <span className={`season-bar ${getSeason(round + 1)}`}>{getSeasonIcon(round + 1)}</span>
           <span className={`season-bar ${getSeason(round + 2)}`}>{getSeasonIcon(round + 2)}</span>
+          <span className={`season-bar ${getSeason(round + 3)}`}>{getSeasonIcon(round + 3)}</span>
+          <span className={`season-bar ${getSeason(round + 4)}`}>{getSeasonIcon(round + 4)}</span>
+          <span className={`season-bar ${getSeason(round + 5)}`}>{getSeasonIcon(round + 5)}</span>
+          <span className={`season-bar ${getSeason(round + 6)}`}>{getSeasonIcon(round + 6)}</span>
+          <span className={`season-bar ${getSeason(round + 7)}`}>{getSeasonIcon(round + 7)}</span>
+          <span className={`season-bar ${getSeason(round + 8)}`}>{getSeasonIcon(round + 8)}</span>
+          <span className={`season-bar ${getSeason(round + 9)}`}>{getSeasonIcon(round + 9)}</span>
+          <span className={`season-bar ${getSeason(round + 10)}`}>{getSeasonIcon(round + 10)}</span>
         </div>
       </NavbarContent>
       <NavbarContent justify="end">
