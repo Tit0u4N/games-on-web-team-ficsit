@@ -16,10 +16,17 @@ export class MapPresenter {
   private _mapModel: IMap;
   private _view: MapView;
 
-  constructor(scene: Scene, options: MapPresenterOptions = {}) {
-    const finalOptions = { ...DEFAULT_OPTIONS, ...options };
-    this._mapModel = new MapModel(finalOptions.size!, finalOptions.seed);
-    this._view = new MapView(scene, this._mapModel);
+  private options: MapPresenterOptions;
+
+  constructor(options: MapPresenterOptions = {}) {
+    this.options = { ...DEFAULT_OPTIONS, ...options };
+    this._mapModel = new MapModel(this.options.size!, this.options.seed);
+    this._view = new MapView(this._mapModel);
+  }
+
+  init(scene: Scene) {
+    this._mapModel.init();
+    this._view.init(scene);
   }
 
   public getDisplacementGraph(): IGraphTiles {

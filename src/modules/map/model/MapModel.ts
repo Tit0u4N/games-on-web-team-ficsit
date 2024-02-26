@@ -11,6 +11,7 @@ export interface IMap {
   get seed(): number | string;
   getTile(x: number, y: number): ITile;
   get displacementGraph(): IGraphTiles;
+  init(): void;
 }
 
 export class MapModel implements IMap {
@@ -24,7 +25,9 @@ export class MapModel implements IMap {
   constructor(size: number, seed?: number | string) {
     this._size = size;
     this._seed = seed || Math.random();
+  }
 
+  init() {
     this.generateBaseMap();
     const graphGenerator = new GraphTilesModelGenerator(this);
     this._graph = graphGenerator.generateGraphTiles();
