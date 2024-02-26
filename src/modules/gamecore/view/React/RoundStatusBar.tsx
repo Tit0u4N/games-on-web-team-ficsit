@@ -1,5 +1,5 @@
 import { Button, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import './RoundStatusBar.scss';
 
 interface RoundStatusBarProps {
@@ -33,6 +33,17 @@ function getSeasonList(round: number): number[] {
   return list;
 }
 
+function toggle(
+  toggleStatus: boolean,
+  toggleSetState: Dispatch<SetStateAction<boolean>>,
+  otherSetState: Dispatch<SetStateAction<boolean>>[],
+) {
+  toggleSetState(!toggleStatus);
+  for (const setState of otherSetState) {
+    setState(false);
+  }
+}
+
 export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round }) => {
   const [isEventsMenuOpen, setIsEventsMenuOpen] = React.useState(false);
   const [isInventoryMenuOpen, setIsInventoryMenuOpen] = React.useState(false);
@@ -43,7 +54,7 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
           <Button
             color={isEventsMenuOpen ? 'primary' : undefined}
             className={isEventsMenuOpen ? 'text-white' : ''}
-            onClick={() => setIsEventsMenuOpen(!isEventsMenuOpen)}>
+            onClick={() => toggle(isEventsMenuOpen, setIsEventsMenuOpen, [setIsInventoryMenuOpen])}>
             Events
           </Button>
         </NavbarItem>
@@ -51,7 +62,7 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
           <Button
             color={isInventoryMenuOpen ? 'primary' : undefined}
             className={isInventoryMenuOpen ? 'text-white' : ''}
-            onClick={() => setIsInventoryMenuOpen(!isInventoryMenuOpen)}>
+            onClick={() => toggle(isInventoryMenuOpen, setIsInventoryMenuOpen, [setIsEventsMenuOpen])}>
             Inventory
           </Button>
         </NavbarItem>
