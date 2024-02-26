@@ -25,6 +25,14 @@ function getSeasonIcon(round: number) {
   if (round >= 9 && round < 12) return '🌸';
 }
 
+function getSeasonList(round: number): number[] {
+  const list = [];
+  for (let i = 0; i < 12; i++) {
+    list.push(round - 1 + i + (12 % 12));
+  }
+  return list;
+}
+
 export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round }) => {
   const [isEventsMenuOpen, setIsEventsMenuOpen] = React.useState(false);
   const [isInventoryMenuOpen, setIsInventoryMenuOpen] = React.useState(false);
@@ -52,18 +60,11 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
         <div>Year {Math.floor(round / 12) + 1}</div>
         <div>Month {(round % 12) + 1}</div>
         <div className={'season-status'}>
-          <span className={`season-bar ${getSeason(round - 1)}`}>{getSeasonIcon(round - 1)}</span>
-          <span className={`season-bar ${getSeason(round)} current`}>{getSeasonIcon(round)}</span>
-          <span className={`season-bar ${getSeason(round + 1)}`}>{getSeasonIcon(round + 1)}</span>
-          <span className={`season-bar ${getSeason(round + 2)}`}>{getSeasonIcon(round + 2)}</span>
-          <span className={`season-bar ${getSeason(round + 3)}`}>{getSeasonIcon(round + 3)}</span>
-          <span className={`season-bar ${getSeason(round + 4)}`}>{getSeasonIcon(round + 4)}</span>
-          <span className={`season-bar ${getSeason(round + 5)}`}>{getSeasonIcon(round + 5)}</span>
-          <span className={`season-bar ${getSeason(round + 6)}`}>{getSeasonIcon(round + 6)}</span>
-          <span className={`season-bar ${getSeason(round + 7)}`}>{getSeasonIcon(round + 7)}</span>
-          <span className={`season-bar ${getSeason(round + 8)}`}>{getSeasonIcon(round + 8)}</span>
-          <span className={`season-bar ${getSeason(round + 9)}`}>{getSeasonIcon(round + 9)}</span>
-          <span className={`season-bar ${getSeason(round + 10)}`}>{getSeasonIcon(round + 10)}</span>
+          {getSeasonList(round).map((r, i) => (
+            <span key={i} className={(r === round ? 'current' : '') + ` season-bar ${getSeason(r)}`}>
+              {getSeasonIcon(r)}
+            </span>
+          ))}
         </div>
       </NavbarContent>
       <NavbarContent justify="end">
