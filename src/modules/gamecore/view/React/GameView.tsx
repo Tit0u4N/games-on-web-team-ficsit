@@ -12,7 +12,7 @@ interface GameViewProps {
 export const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
   return (
     <div>
-      <div className={'HUD'}>
+      <div className={'HUD-container'}>
         <RoundStatusBar nextRound={() => presenter.nextRound()} round={presenter.getCurrentRound()} />
       </div>
       <BabylonScene antialias={true} onSceneReady={babylon.onSceneReady} onRender={babylon.onRender} />
