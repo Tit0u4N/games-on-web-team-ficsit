@@ -51,7 +51,8 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
         </NavbarItem>
       </NavbarContent>
       <NavbarContent>
-        <div>Round {round}</div>
+        <div>Year {Math.floor(round / 12)}</div>
+        <div>Mounth {round % 12}</div>
         <div className={'season-status'}>
           <span className={`season-bar ${getSeason(round - 1)}`}>{getSeasonIcon(round - 1)}</span>
           <span className={`season-bar ${getSeason(round)} current`}>{getSeasonIcon(round)}</span>
