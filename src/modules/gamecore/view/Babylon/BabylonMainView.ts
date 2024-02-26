@@ -5,9 +5,9 @@ export class BabylonMainView {
   private onRender: (scene: Scene) => void;
 
   constructor() {
-    const { onSceneReady, onRender } = this.init();
-    this.onSceneReady = onSceneReady;
-    this.onRender = onRender;
+    this.onSceneReady = () => {};
+    this.onRender = () => {};
+    this.init();
   }
 
   init() {
@@ -48,7 +48,8 @@ export class BabylonMainView {
         // DO STUFF HERE
       }
     };
-    return { onSceneReady, onRender };
+    this.onSceneReady = onSceneReady;
+    this.onRender = onRender;
   }
 
   public getOnSceneReady() {
