@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import BabylonScene from './component/BabylonScene.tsx';
 import { FreeCamera, HemisphericLight, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
-import { Button, NextUIProvider } from '@nextui-org/react';
+import { NextUIProvider } from '@nextui-org/react';
+import GameCharacterLayout from './modules/character/view/React/GameCharacterLayout';
+import { CharacterFactory } from './modules/character/BuilderFactory/CharacterFactory';
 
 let box: Mesh;
 const onSceneReady = (scene: Scene): void => {
+  console.log('onSceneReady');
   // This creates and positions a free camera (non-mesh)
   const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene);
 
@@ -43,6 +46,8 @@ const onRender = (scene: Scene): void => {
   }
 };
 
+const defaultCharacter = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/vite.svg');
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NextUIProvider>
@@ -51,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <h1 className={'text-lg'}>
           HUD <span>POSITION</span> FIXED
         </h1>
-        <Button className="bg-primary">Test button</Button>
+        <GameCharacterLayout character={defaultCharacter} />
       </div>
     </NextUIProvider>
   </React.StrictMode>,
