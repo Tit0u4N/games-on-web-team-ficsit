@@ -1,7 +1,7 @@
 import { TileView } from './TileView.ts';
 import { Mesh, Scene } from '@babylonjs/core';
 import { TileViewFactory } from './TileViewFactory.ts';
-import { MapModel } from '../../model/MapModel.ts';
+import { IMap } from '../../model/MapModel.ts';
 
 /**
  * Map class for the game
@@ -12,9 +12,9 @@ export class MapView {
   private tiles: TileView[][];
   private parent: Mesh;
   private readonly scene: Scene;
-  private readonly _mapModel: MapModel;
+  private readonly _mapModel: IMap;
 
-  constructor(scene: Scene, mapModel: MapModel) {
+  constructor(scene: Scene, mapModel: IMap) {
     this.size = mapModel.size;
     this.parent = new Mesh('map_group');
     this._mapModel = mapModel;
@@ -28,7 +28,7 @@ export class MapView {
    * @param mapModel
    * @returns TileView[][]
    */
-  private mapModelToView(mapModel: MapModel): TileView[][] {
+  private mapModelToView(mapModel: IMap): TileView[][] {
     const tileFactory = new TileViewFactory(this.scene);
     const tempTiles: TileView[][] = [];
 
@@ -46,7 +46,7 @@ export class MapView {
     return tempTiles;
   }
 
-  get mapModel(): MapModel {
+  get mapModel(): IMap {
     return this._mapModel;
   }
 }

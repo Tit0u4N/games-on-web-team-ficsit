@@ -1,16 +1,25 @@
 import { NoiseMap } from './NoiseMap.ts';
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
-import { TileModel } from './TileModel.ts';
+import { ITile, TileModel, TypesTile } from './TileModel.ts';
 import { GraphTilesModelGenerator } from './utils/GraphTilesModelGenerator.ts';
-import { GraphTilesModel } from './GraphTilesModel.ts';
+import { GraphTilesModel, IGraphTiles } from './GraphTilesModel.ts';
 import { createBiome } from './biome/BiomeFactoryModel.ts';
 
-export class MapModel {
+export interface IMap {
+  get tiles(): ITile[][];
+  get size(): number;
+  get seed(): number | string;
+  getTile(x: number, y: number): ITile;
+  get displacementGraph(): IGraphTiles;
+}
+
+export class MapModel implements IMap {
   private _tiles: TileModel[][] = [];
   private readonly _size: number;
   private readonly _seed: number | string;
   private _biomes: BiomeAbstractModel[] = [];
   private _graph: GraphTilesModel;
+  private _displacementGraph: GraphTilesModel;
 
   constructor(size: number, seed?: number | string) {
     this._size = size;
@@ -20,6 +29,11 @@ export class MapModel {
     const graphGenerator = new GraphTilesModelGenerator(this);
     this._graph = graphGenerator.generateGraphTiles();
     this._biomes = this.identifyBiomes();
+
+    graphGenerator.tileConditionFunc = (tile: TileModel) => {
+      return tile.type !== TypesTile.MOUNTAIN && tile.type !== TypesTile.DEEP_WATER;
+    };
+    this._displacementGraph = graphGenerator.generateGraphTiles();
   }
 
   /**
@@ -63,6 +77,10 @@ export class MapModel {
 
   get size(): number {
     return this._size;
+  }
+
+  get displacementGraph(): GraphTilesModel {
+    return this._displacementGraph;
   }
 
   /**

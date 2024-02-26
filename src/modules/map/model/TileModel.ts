@@ -2,7 +2,14 @@ import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { TileKey } from './GraphTilesModel.ts';
 import { SubBiomeModel } from './biome/SubBiomeModel.ts';
 
-export class TileModel {
+export interface ITile {
+  getID(): TileKey;
+  get x(): number;
+  get y(): number;
+  get type(): TypesTile;
+}
+
+export class TileModel implements ITile {
   private _type: TypesTile;
   private _x: number;
   private _y: number;
