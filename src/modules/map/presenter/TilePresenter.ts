@@ -1,8 +1,8 @@
-import { TileModel } from '../model/TileModel.ts';
+import { ITile, TileModel } from '../model/TileModel.ts';
 import { MapPresenter } from './MapPresenter.ts';
 
 export class TilePresenter {
-  private _tileModel: TileModel;
+  private _tileModel: ITile;
   private _mapPresenter: MapPresenter;
 
   constructor(tileModel: TileModel, mapPresenter: MapPresenter) {
@@ -14,7 +14,7 @@ export class TilePresenter {
     return TilePresenter.getIDFromTileModel(this._tileModel);
   }
 
-  public static getIDFromTileModel(tile: TileModel): string {
+  public static getIDFromTileModel(tile: ITile): string {
     return 'P_' + tile.getID();
   }
 }
