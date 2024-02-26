@@ -7,11 +7,12 @@ export class Character {
   private _name: string;
   private _nationality: string;
   private _age: number;
+  private _image: string;
   private _statistics: Statistics;
   private _inventory: Inventory;
   private _attributes: Attributes;
 
-  public constructor(id: number, name: string, nationality: string, age: number, attributes: Attributes) {
+  public constructor(id: number, name: string, nationality: string, age: number, attributes: Attributes, image: string) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;
@@ -19,6 +20,7 @@ export class Character {
     this._inventory = new Inventory();
     this._statistics = new Statistics();
     this._attributes = attributes;
+    this._image = image;
   }
 
   get id(): number {
@@ -75,5 +77,13 @@ export class Character {
 
   set attributes(value: Attributes) {
     this._attributes = value;
+  }
+
+  get image(): string {
+    return this._image;
+  }
+
+  set image(value: string) {
+    this._image = value;
   }
 }
