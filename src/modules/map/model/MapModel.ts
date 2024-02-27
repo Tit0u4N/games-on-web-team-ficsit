@@ -19,8 +19,8 @@ export class MapModel implements IMap {
   private readonly _size: number;
   private readonly _seed: number | string;
   private _biomes: BiomeAbstractModel[] = [];
-  private _graph: GraphTilesModel;
-  private _displacementGraph: GraphTilesModel;
+  private _graph!: GraphTilesModel;
+  private _displacementGraph!: GraphTilesModel;
 
   constructor(size: number, seed?: number | string) {
     this._size = size;
@@ -32,6 +32,7 @@ export class MapModel implements IMap {
     const graphGenerator = new GraphTilesModelGenerator(this);
     this._graph = graphGenerator.generateGraphTiles();
     this._biomes = this.identifyBiomes();
+    if (this._biomes.length < 1) throw new Error('No biomes found');
 
     graphGenerator.tileConditionFunc = (tile: TileModel) => {
       return tile.type !== TypesTile.MOUNTAIN && tile.type !== TypesTile.DEEP_WATER;

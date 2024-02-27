@@ -8,7 +8,6 @@ import { GraphTilesModel } from '../GraphTilesModel.ts';
  * This class represents a sub-biome of the map.
  */
 export class SubBiomeModel {
-  private mapModel: MapModel;
   private type: TypesBiome;
   private tiles: TileModel[] = [];
   private graphTiles: GraphTilesModel;
@@ -17,7 +16,6 @@ export class SubBiomeModel {
   private _id: string = '';
 
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
-    this.mapModel = map;
     this.type = type;
     this.tiles = mapTiles;
     this.setDefaultTileType();
