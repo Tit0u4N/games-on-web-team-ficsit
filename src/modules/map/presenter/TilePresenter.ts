@@ -1,13 +1,10 @@
 import { ITile, TileModel } from '../model/TileModel.ts';
-import { MapPresenter } from './MapPresenter.ts';
 
 export class TilePresenter {
   private _tileModel: ITile;
-  private _mapPresenter: MapPresenter;
 
-  constructor(tileModel: TileModel, mapPresenter: MapPresenter) {
+  constructor(tileModel: TileModel) {
     this._tileModel = tileModel;
-    this._mapPresenter = mapPresenter;
   }
 
   public getID(): string {
