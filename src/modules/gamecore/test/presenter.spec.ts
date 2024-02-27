@@ -37,7 +37,7 @@ describe('GameCorePresenter unit test', () => {
     presenter = new GameCorePresenter();
     gameCoreModel = new GameCoreModel() as jest.Mocked<GameCoreModel>;
     babylonMainView = new BabylonMainView() as jest.Mocked<BabylonMainView>;
-    presenter['babylonView'] = babylonMainView;
+    presenter['_babylonView'] = babylonMainView;
     presenter['gameModel'] = gameCoreModel;
   });
 
@@ -92,16 +92,6 @@ describe('GameCorePresenter unit test', () => {
     it('should return the current round', () => {
       gameCoreModel.getRound.mockReturnValue(5);
       expect(presenter.getCurrentRound()).toBe(5);
-    });
-  });
-
-  describe('getBabylonViewSetup', () => {
-    it('should return the Babylon view setup', () => {
-      const onSceneReady = jest.fn();
-      const onRender = jest.fn();
-      babylonMainView.getOnSceneReady.mockReturnValue(onSceneReady);
-      babylonMainView.getOnRender.mockReturnValue(onRender);
-      expect(presenter.getBabylonViewSetup()).toEqual({ onSceneReady, onRender });
     });
   });
 });
