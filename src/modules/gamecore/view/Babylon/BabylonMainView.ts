@@ -16,9 +16,9 @@ const DEFAULT_OPTIONS: Readonly<BabylonMainViewOptions> = {
 
 export class BabylonMainView {
   private _options: BabylonMainViewOptions;
-  private _canvas: HTMLCanvasElement;
-  private _engine: Engine;
-  private _scene: Scene;
+  private _canvas!: HTMLCanvasElement;
+  private _engine!: Engine;
+  private _scene!: Scene;
 
   constructor(options?: BabylonMainViewOptions) {
     this._options = { ...DEFAULT_OPTIONS, ...options };
