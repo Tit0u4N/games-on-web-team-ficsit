@@ -12,12 +12,15 @@ interface GameViewProps {
 }
 
 export const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
-  const defaultCharacter = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/vite.svg');
+  const defaultCharacter1 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_1.png');
+  const defaultCharacter2 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_2.png');
+  const defaultCharacter3 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_3.png');
+  const characters = [defaultCharacter1, defaultCharacter2, defaultCharacter3];
   return (
     <div>
       <div className={'HUD-container'}>
         <RoundStatusBar nextRound={() => presenter.nextRound()} round={presenter.getCurrentRound()} />
-        <GameCharacterLayout character={defaultCharacter} />
+        <GameCharacterLayout character={characters} />
       </div>
       <BabylonScene antialias={true} onSceneReady={babylon.onSceneReady} onRender={babylon.onRender} />
     </div>

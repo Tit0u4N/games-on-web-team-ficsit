@@ -3,7 +3,7 @@ import CharacterLayout from './CharacterLayout';
 import { Character } from '../../model/Character';
 
 interface GameCharacterLayoutProps {
-  character: Character;
+  character: Character[];
 }
 
 const GameCharacterLayout: React.FC<GameCharacterLayoutProps> = ({ character }) => {
@@ -12,7 +12,7 @@ const GameCharacterLayout: React.FC<GameCharacterLayoutProps> = ({ character }) 
   return (
     <div className="flex justify-between absolute bottom-0 left-0 right-0 p-4">
       {Array.from({ length: numberOfCharacters }, (_, index) => (
-        <CharacterLayout key={index} character={character} />
+        <CharacterLayout key={index} character={character[index]} />
       ))}
     </div>
   );
