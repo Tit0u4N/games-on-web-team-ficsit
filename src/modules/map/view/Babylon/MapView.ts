@@ -1,7 +1,7 @@
 import { TileView } from './TileView.ts';
-import { Mesh, Scene } from '@babylonjs/core';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
+import { Mesh, Scene } from '@babylonjs/core';
 
 /**
  * Map class for the game
@@ -9,9 +9,9 @@ import { IMap } from '../../model/MapModel.ts';
  */
 export class MapView {
   private size: number;
-  private tiles: TileView[][];
-  private parent: Mesh;
-  private scene: Scene;
+  private tiles!: TileView[][];
+  private parent!: Mesh;
+  private scene!: Scene;
   private readonly _mapModel: IMap;
 
   constructor(mapModel: IMap) {
@@ -23,6 +23,7 @@ export class MapView {
     this.scene = scene;
     this.parent = new Mesh('map_group');
     this.tiles = this.mapModelToView(this._mapModel);
+    if (this.tiles.length === 0) throw new Error('No tiles found');
   }
 
   /**

@@ -1,7 +1,7 @@
-import { ActionManager, ExecuteCodeAction, InstancedMesh, Scene, Vector3 } from '@babylonjs/core';
 import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
+import { ActionManager, InstancedMesh, Vector3, ExecuteCodeAction, Scene } from '@babylonjs/core';
 
 /**
  * Tile class for the game
@@ -48,14 +48,13 @@ export class TileView {
   }
 
   private addActionManger() {
-    const x = this.x;
-    const y = this.y;
-    const mapView = this.mapView;
+    const tile = this;
+
     //@ts-ignore
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function (evt) {
         // Ce code sera exécuté lorsque l'objet est cliqué
-        console.log(x + '_' + y, mapView.mapModel.getTile(x, y).subBiome?.id);
+        console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
       }),
     );
   }

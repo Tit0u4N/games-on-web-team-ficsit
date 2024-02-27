@@ -7,6 +7,7 @@ export interface ITile {
   get x(): number;
   get y(): number;
   get type(): TypesTile;
+  get subBiome(): SubBiomeModel;
 }
 
 export class TileModel implements ITile {
@@ -15,7 +16,7 @@ export class TileModel implements ITile {
   private _y: number;
   private noiseValue: number;
   private _typeBiome: TypesBiome;
-  private _subBiome: SubBiomeModel | undefined;
+  private _subBiome!: SubBiomeModel;
 
   constructor(x: number, y: number, noiseValue: number) {
     this._x = x;
@@ -98,7 +99,7 @@ export class TileModel implements ITile {
     this._typeBiome = value;
   }
 
-  get subBiome(): SubBiomeModel | undefined {
+  get subBiome(): SubBiomeModel {
     return this._subBiome;
   }
 

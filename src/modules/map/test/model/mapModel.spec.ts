@@ -33,8 +33,9 @@ jest.mock('../../model/NoiseMap.ts', () => {
 describe('Map model', () => {
   let mapModel: MapModel;
 
-  beforeAll(() => {
+  beforeEach(() => {
     mapModel = new MapModel(10, 10);
+    mapModel.init();
   });
 
   describe('constructor', () => {
