@@ -2,7 +2,8 @@ export const nextUiConfig = {
   themes: {
     light: {
       colors: {
-        primary: '#52da4a',
+        primary: '#33c828',
+        background: '#fcfcfc',
       },
     },
   },
