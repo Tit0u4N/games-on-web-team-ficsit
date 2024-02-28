@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure, CardBody, Divider,
+  useDisclosure, CardBody, Divider, CardHeader, Image,
 } from '@nextui-org/react';
 import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 
@@ -29,36 +29,30 @@ const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, toggleModa
         {() => (
           <>
             <ModalHeader className='flex flex-col gap-1'>Inventory</ModalHeader>
-            <ModalBody className='flex flex-row'>
+            <ModalBody className='flex flex-row justify-center'>
               {inventory.map((item, index) => (
                 <>
-                  <div className='flex flex-col'>
+                  <div className='flex flex-col justify-center'>
                     <Card
                       radius='lg'
                       className='border-none w-[380px] h-[300px] bg-green-500'
                       key={index}
                     >
-                      {/*
+                      <div className='flex'>
+                        {/*
                       The first CardBody will contain the equipment empty slots (4, head, chest, legs, feet)
                       */}
-                      <CardBody>
-                        <div className='grid grid-cols-2 gap-4 p-[10px] size-full'>
+                        <div className='grid gap-4 p-[10px]'>
                           {Array.from({ length: 4 }, (_, index) => (
                             <div key={index} className='size-[50px] border-2 p-[8px]'></div>
                           ))}
                         </div>
-                      </CardBody>
-                      <Divider orientation={'vertical'} />
-                      {/*
+                        <Divider orientation={'vertical'} />
+                        {/*
                       The second one will be the Character display with the stuff he has equiped
                       */}
-                      <CardBody>
-                        <div className='grid grid-cols-2 gap-4 p-[10px] size-full'>
-                          {Array.from({ length: 4 }, (_, index) => (
-                            <div key={index} className='size-[50px] border-2 p-[8px]'></div>
-                          ))}
-                        </div>
-                      </CardBody>
+                        <div className='block bg-green-400 size-full ml-8 mr-8 mt-[1rem]'></div>
+                      </div>
                     </Card>
                     <Card
                       radius='lg'

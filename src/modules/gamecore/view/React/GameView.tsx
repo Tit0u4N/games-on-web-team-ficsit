@@ -75,7 +75,6 @@ const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
           isModalOpen={isModalOpen}
         />
         <div>
-          {/*<InventoryLayout inventory={inventoryList} />*/}
           {isInventoryOpen &&
             <InventoryLayout
               inventory={inventoryList}
