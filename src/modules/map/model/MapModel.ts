@@ -11,10 +11,13 @@ export interface IMap {
   get seed(): number | string;
   getTile(x: number, y: number): ITile;
   get displacementGraph(): IGraphTiles;
+}
+
+export interface IMapModelPresenter extends IMap{
   init(): void;
 }
 
-export class MapModel implements IMap {
+export class MapModel implements IMapModelPresenter {
   private _tiles: TileModel[][] = [];
   private readonly _size: number;
   private readonly _seed: number | string;
