@@ -1,10 +1,13 @@
 import { Button, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import './RoundStatusBar.scss';
+import { ModalType } from './GameView.tsx';
 
 interface RoundStatusBarProps {
   nextRound: () => void;
   round: number;
+  toggleModal: (type: ModalType, isOpen: boolean) => void;
+  isModalOpen: (type: ModalType) => boolean;
 }
 
 function getSeason(round: number) {
@@ -33,36 +36,23 @@ function getSeasonList(round: number): number[] {
   return list;
 }
 
-function toggle(
-  toggleStatus: boolean,
-  toggleSetState: Dispatch<SetStateAction<boolean>>,
-  otherSetState: Dispatch<SetStateAction<boolean>>[],
-) {
-  toggleSetState(!toggleStatus);
-  for (const setState of otherSetState) {
-    setState(false);
-  }
-}
-
-export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round }) => {
-  const [isEventsMenuOpen, setIsEventsMenuOpen] = React.useState(false);
-  const [isInventoryMenuOpen, setIsInventoryMenuOpen] = React.useState(false);
+export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round , toggleModal, isModalOpen}) => {
   return (
     <Navbar className={'fixed-top navbar'}>
       <NavbarContent>
         <NavbarItem>
           <Button
-            color={isEventsMenuOpen ? 'primary' : undefined}
-            className={isEventsMenuOpen ? 'text-white' : ''}
-            onClick={() => toggle(isEventsMenuOpen, setIsEventsMenuOpen, [setIsInventoryMenuOpen])}>
+            color={isModalOpen(ModalType.EVENTS) ? 'primary' : undefined}
+            className={isModalOpen(ModalType.EVENTS) ? 'text-white' : ''}
+            onClick={() => toggleModal(ModalType.EVENTS, !isModalOpen(ModalType.EVENTS))}>
             Events
           </Button>
         </NavbarItem>
         <NavbarItem>
           <Button
-            color={isInventoryMenuOpen ? 'primary' : undefined}
-            className={isInventoryMenuOpen ? 'text-white' : ''}
-            onClick={() => toggle(isInventoryMenuOpen, setIsInventoryMenuOpen, [setIsEventsMenuOpen])}>
+            color={isModalOpen(ModalType.INVENTORY) ? 'primary' : undefined}
+            className={isModalOpen(ModalType.INVENTORY) ? 'text-white' : ''}
+            onClick={() => toggleModal(ModalType.INVENTORY, !isModalOpen(ModalType.INVENTORY))}>
             Inventory
           </Button>
         </NavbarItem>

@@ -1,6 +1,6 @@
 import { Statistics } from './Statistics';
-import { Inventory } from './Inventory';
 import { Attributes } from './Attributes';
+import { Inventory } from '../../inventory/model/Inventory.ts';
 
 export class Character {
   private _id: number;
