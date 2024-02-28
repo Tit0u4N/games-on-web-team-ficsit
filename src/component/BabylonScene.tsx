@@ -48,5 +48,5 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
     };
   }, [babylonMainView]);
 
-  return <canvas className={'w-full h-full'} ref={reactCanvas} {...rest} />;
+  return <canvas className={'size-full'} ref={reactCanvas} {...rest} />;
 };
