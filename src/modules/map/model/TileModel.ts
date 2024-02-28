@@ -32,12 +32,19 @@ export class TileModel implements ITile {
    * @returns TypesTile
    */
   private getTypeByBiome(): TypesTile {
-    if (this._typeBiome === TypesBiome.MOUNTAIN) return TypesTile.MOUNTAIN;
-    else if (this._typeBiome === TypesBiome.PLAIN) return TypesTile.GRASS;
-    else if (this._typeBiome === TypesBiome.LOW_PLAIN) return TypesTile.GRASS;
-    else if (this._typeBiome === TypesBiome.DESERT) return TypesTile.SAND;
-    else if (this._typeBiome === TypesBiome.OCEAN && this.noiseValue < 0.87) return TypesTile.WATER;
-    else return TypesTile.DEEP_WATER;
+    switch (this._typeBiome) {
+        case TypesBiome.MOUNTAIN:
+            return TypesTile.MOUNTAIN;
+        case TypesBiome.PLAIN:
+        case TypesBiome.LOW_PLAIN:
+            return TypesTile.GRASS;
+        case TypesBiome.DESERT:
+            return TypesTile.SAND;
+        case TypesBiome.OCEAN:
+            return this.noiseValue < 0.87 ? TypesTile.WATER : TypesTile.DEEP_WATER;
+    }
+    // For debug
+    return TypesTile.DEFAULT;
   }
 
   // PUBLIC METHODS

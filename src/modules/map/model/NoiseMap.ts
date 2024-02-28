@@ -22,18 +22,4 @@ export class NoiseMap extends Noise {
 
     return noiseVal;
   }
-  /*
-def __init__(self, size=(50, 50), color_range=10, color_perlin_scale=0.025, scale=350, octaves=6, persistance=0.6,
-                 lacunarity=2.0, x_starting_pos=0, y_starting_pos=0):
-
-  self.heightMap[i][j] = noise.pnoise3(
-  new_i / self.scale,
-  new_j / self.scale,
-  random_nr,
-  octaves=self.octaves,
-    persistence=self.persistance,
-    lacunarity=self.lacunarity,
-    repeatx=10000000,
-    repeaty=10000000, base=0)
-*/
 }
