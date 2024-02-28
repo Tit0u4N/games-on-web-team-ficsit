@@ -7,7 +7,6 @@ interface CharacterLayoutProps {
 }
 
 const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character }) => {
-  console.log('CharacterLayout');
   return (
     <Card className='w-[30%] h-[200px]'>
       <CardBody>
