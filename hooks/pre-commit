@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Run Prettier on TypeScript files
+npx prettier --write 'src/**/*.ts' 'src/**/*.tsx'
+
+# Add the changes to the staging area
+git add -u .
+
+# Continue with the commit
+exit 0
