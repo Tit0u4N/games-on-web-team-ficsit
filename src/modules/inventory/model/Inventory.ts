@@ -1,4 +1,4 @@
-import { UsableObject } from '../../object/model/UsableObject';
+import { UsableObject } from '../../object/model/UsableObject.ts';
 
 export class Inventory {
   private _items: UsableObject[] = [];
