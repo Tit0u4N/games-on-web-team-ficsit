@@ -29,10 +29,7 @@ export class MainComponent extends React.Component<MainComponentProps> {
         {this.props.gameCorePresenter.getStatus() === ApplicationStatus.MENU ? (
           <MenuView presenter={this.props.gameCorePresenter} />
         ) : (
-          <GameView
-            presenter={this.props.gameCorePresenter}
-            babylon={this.props.gameCorePresenter.getBabylonViewSetup()}
-          />
+          <GameView presenter={this.props.gameCorePresenter} />
         )}
       </>
     );
