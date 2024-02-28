@@ -1,4 +1,4 @@
-import { IMap, MapModel } from '../model/MapModel.ts';
+import {IMapModelPresenter, MapModel} from '../model/MapModel.ts';
 import { MapView } from '../view/Babylon/MapView.ts';
 import { Scene } from '@babylonjs/core';
 import { IGraphTiles } from '../model/GraphTilesModel.ts';
@@ -13,7 +13,7 @@ const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
   seed: Math.random(),
 });
 export class MapPresenter {
-  private _mapModel: IMap;
+  private _mapModel: IMapModelPresenter;
   private _view: MapView;
 
   private options: MapPresenterOptions;
