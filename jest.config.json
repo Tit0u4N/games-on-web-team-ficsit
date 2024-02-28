@@ -3,6 +3,10 @@
     "transform": {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
+    "transformIgnorePatterns": [
+        "node_modules/@babylonjs",
+        "node_modules/(?!(@babylonjs)/)"
+    ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
 }
