@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure, CardBody, Divider, CardHeader, Image,
+  useDisclosure, Divider,
 } from '@nextui-org/react';
 import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 
@@ -62,7 +62,7 @@ const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, toggleModa
                       <div className='grid grid-cols-5 gap-4 p-[10px]'>
                         {item.items.reduce((items: JSX.Element[], currentItem, index) => {
                           items.push(
-                            <div key={index} className='size-[50px] border-2 p-[8px]'>
+                            <div key={index} className='border-2 p-[8px]'>
                               <img src={currentItem.image} alt={currentItem.name}
                                    className='size-full object-cover' />
                             </div>,
