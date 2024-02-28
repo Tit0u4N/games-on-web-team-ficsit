@@ -11,14 +11,12 @@ export class SubBiomeModel {
   private type: TypesBiome;
   private tiles: TileModel[] = [];
   private graphTiles: GraphTilesModel;
-
-  private static cpt = 0;
   private _id: string = '';
 
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
     this.type = type;
     this.tiles = mapTiles;
-    this.setDefaultTileType();
+    this.setSubBiomeToTiles()
 
     const graphGenerator = new GraphTilesModelGenerator(
       map,
@@ -56,31 +54,9 @@ export class SubBiomeModel {
       return !tilesBorder.includes(tile);
     });
   }
-  private setDefaultTileType(tiles: TileModel[] = this.tiles): void {
-    let type = TypesTile.DEFAULT;
-    if (SubBiomeModel.cpt % 9 === 0) {
-      type = TypesTile.DEFAULT;
-    } else if (SubBiomeModel.cpt % 8 === 0) {
-      type = TypesTile.DEFAULT2;
-    } else if (SubBiomeModel.cpt % 7 === 0) {
-      type = TypesTile.DEFAULT3;
-    } else if (SubBiomeModel.cpt % 6 === 0) {
-      type = TypesTile.DEFAULT4;
-    } else if (SubBiomeModel.cpt % 5 === 0) {
-      type = TypesTile.DEFAULT5;
-    } else if (SubBiomeModel.cpt % 4 === 0) {
-      type = TypesTile.DEFAULT6;
-    } else if (SubBiomeModel.cpt % 3 === 0) {
-      type = TypesTile.DEFAULT7;
-    } else if (SubBiomeModel.cpt % 2 === 0) {
-      type = TypesTile.DEFAULT8;
-    } else {
-      type = TypesTile.DEFAULT9;
-    }
-    this.id = SubBiomeModel.cpt;
-    SubBiomeModel.cpt++;
+
+  private setSubBiomeToTiles(tiles: TileModel[] = this.tiles): void {
     tiles.forEach((tile) => {
-      tile.type = type;
       tile.subBiome = this;
     });
   }
@@ -91,16 +67,7 @@ export class SubBiomeModel {
     });
   }
 
-  public nbTiles(): number {
-    console.log(this._id);
-    return this.tiles.length;
-  }
-
   get id(): string {
     return this._id;
-  }
-
-  set id(value: number) {
-    this._id = 'Biome_' + value;
   }
 }
