@@ -2,7 +2,7 @@
 import { Attributes } from '../model/Attributes';
 import { Character } from '../model/Character';
 import { Statistics } from '../model/Statistics';
-import { Inventory } from '../model/Inventory';
+import { Inventory } from '../../inventory/model/Inventory.ts';
 
 export class CharacterBuilder {
   private readonly _id: number;
