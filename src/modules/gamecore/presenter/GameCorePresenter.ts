@@ -1,17 +1,20 @@
 import { GameCoreModel } from '../model/GameCoreModel.ts';
 import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
 import { ApplicationStatus } from './ApplicationStatus.ts';
+import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
-  private babylonView: BabylonMainView;
+  private _babylonView: BabylonMainView;
+  private mapPresenter: MapPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
-    this.babylonView = new BabylonMainView();
+    this._babylonView = new BabylonMainView();
+    this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
   }
 
   /* Application management*/
@@ -45,8 +48,13 @@ export class GameCorePresenter {
   startGame() {
     this.gameModel.createNewGame();
     this.status = ApplicationStatus.GAME;
-    this.babylonView.init();
     this.notifyViewChange();
+
+    // Wait for the scene to be ready because react load in async
+    setTimeout(() => {
+      this.mapPresenter.init(this._babylonView.scene);
+      this.notifyViewChange();
+    }, 100);
   }
 
   /**
@@ -61,13 +69,7 @@ export class GameCorePresenter {
     return this.gameModel.getRound();
   }
 
-  /**
-   * Get Babylon view setup
-   */
-  getBabylonViewSetup() {
-    return {
-      onSceneReady: this.babylonView.getOnSceneReady(),
-      onRender: this.babylonView.getOnRender(),
-    };
+  get babylonView(): BabylonMainView {
+    return this._babylonView;
   }
 }

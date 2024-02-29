@@ -1,13 +1,13 @@
-import BabylonScene from '../../../../component/BabylonScene.tsx';
 import { RoundStatusBar } from './RoundStatusBar.tsx';
 import React from 'react';
-import { Scene } from '@babylonjs/core';
+import { BabylonScene } from '../../../../component/BabylonScene.tsx';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import { CharacterFactory } from '../../../character/BuilderFactory/CharacterFactory';
 import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
 import InventoryLayout from '../../../inventory/view/React/InventoryLayout.tsx';
 import { Inventory } from '../../../inventory/model/Inventory.ts';
 import { UsableObject } from '../../../object/model/UsableObject.ts';
+import { Scene } from '@babylonjs/core';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -84,7 +84,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
         </div>
         <GameCharacterLayout character={characters} />
       </div>
-      <BabylonScene antialias={true} onSceneReady={babylon.onSceneReady} onRender={babylon.onRender} />
+      <BabylonScene babylonMainView={presenter.babylonView} />
     </div>
   );
 };
