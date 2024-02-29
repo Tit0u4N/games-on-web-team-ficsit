@@ -7,11 +7,11 @@ import GameCharacterLayout from '../../../character/view/React/GameCharacterLayo
 import InventoryLayout from '../../../inventory/view/React/InventoryLayout.tsx';
 import { Inventory } from '../../../inventory/model/Inventory.ts';
 import { UsableObject } from '../../../object/model/UsableObject.ts';
-import { Scene } from '@babylonjs/core';
+import EventLayout from '../../../event/view/React/EventLayout.tsx';
+import { EventModel } from '../../../event/model/EventModel.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
-  babylon: { onSceneReady: (scene: Scene) => void; onRender: (scene: Scene) => void };
 }
 
 enum ModalType {
@@ -19,7 +19,9 @@ enum ModalType {
   EVENTS,
 }
 
-const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
+const GameView: React.FC<GameViewProps> = ({ presenter }) => {
+
+  /* Test Data */
   const defaultCharacter1 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_1.png');
   const defaultCharacter2 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_2.png');
   const defaultCharacter3 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_3.png');
@@ -39,6 +41,16 @@ const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
     }
   }
   const inventoryList = [inventory1, inventory2, inventory3];
+
+  const event1 = new EventModel(1, 'This is the first event');
+  const event2 = new EventModel(2, 'This is the second event');
+  const event3 = new EventModel(3, 'This is the third event');
+  const event4 = new EventModel(3, 'This is the third event');
+  const event5 = new EventModel(3, 'This is the third event');
+
+  const events = [event1, event2, event3, event4, event5];
+
+  /* End Test Data */
 
   const [isInventoryOpen, setIsInventoryOpen] = React.useState(false);
   const [isEventOpen, setIsEventOpen] = React.useState(false);
@@ -82,6 +94,14 @@ const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
               isModalOpen={isModalOpen}
             />}
         </div>
+        <div>
+          {isEventOpen &&
+            <EventLayout
+              event={events}
+              toggleModal={toggleModal}
+              isModalOpen={isModalOpen}
+            />}
+        </div>
         <GameCharacterLayout character={characters} />
       </div>
       <BabylonScene babylonMainView={presenter.babylonView} />
@@ -89,4 +109,4 @@ const GameView: React.FC<GameViewProps> = ({ presenter, babylon }) => {
   );
 };
 
-export { ModalType, GameView }
+export { ModalType, GameView };
