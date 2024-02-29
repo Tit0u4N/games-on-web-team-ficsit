@@ -20,7 +20,6 @@ enum ModalType {
 }
 
 const GameView: React.FC<GameViewProps> = ({ presenter }) => {
-
   /* Test Data */
   const defaultCharacter1 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_1.png');
   const defaultCharacter2 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_2.png');
@@ -47,8 +46,11 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const event3 = new EventModel(3, 'This is the third event');
   const event4 = new EventModel(3, 'This is the third event');
   const event5 = new EventModel(3, 'This is the third event');
+  const event6 = new EventModel(3, 'This is the 5 event');
+  const event7 = new EventModel(3, 'This is the 7 event');
+  const event8 = new EventModel(3, 'This is the 8 event');
 
-  const events = [event1, event2, event3, event4, event5];
+  const events = [event1, event2, event3, event4, event5, event6, event7, event8];
 
   /* End Test Data */
 
@@ -87,20 +89,12 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
           isModalOpen={isModalOpen}
         />
         <div>
-          {isInventoryOpen &&
-            <InventoryLayout
-              inventory={inventoryList}
-              toggleModal={toggleModal}
-              isModalOpen={isModalOpen}
-            />}
+          {isInventoryOpen && (
+            <InventoryLayout inventory={inventoryList} toggleModal={toggleModal} isModalOpen={isModalOpen} />
+          )}
         </div>
         <div>
-          {isEventOpen &&
-            <EventLayout
-              event={events}
-              toggleModal={toggleModal}
-              isModalOpen={isModalOpen}
-            />}
+          <EventLayout event={events} toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
         <GameCharacterLayout character={characters} />
       </div>
