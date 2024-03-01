@@ -4,7 +4,7 @@ describe('Building model', () => {
   let model: UsableObject;
 
   beforeEach(() => {
-    model = new UsableObject();
+    model = new UsableObject('vite.svg', 'vite.svg');
   });
 
   it('should be defined', () => {
