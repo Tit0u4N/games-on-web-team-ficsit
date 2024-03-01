@@ -41,6 +41,13 @@ export class CharacterBuilder {
   }
 
   public build(): Character {
-    return new Character(this._id, this._name, this._nationality, this._age, this._attributes, this._image);
+    const character = new Character(this._id, this._name, this._nationality, this._age, this._attributes, this._image);
+    if (this._statistics !== null) {
+      character.statistics = this._statistics;
+    }
+    if (this._inventory !== null) {
+      character.inventory = this._inventory;
+    }
+    return character;
   }
 }
