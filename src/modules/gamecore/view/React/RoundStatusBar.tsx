@@ -68,7 +68,7 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
           ))}
         </div>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent justify='end'>
         <NavbarItem>
           <Button onClick={() => nextRound()}>Next round</Button>
         </NavbarItem>

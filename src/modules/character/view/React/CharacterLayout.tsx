@@ -10,15 +10,9 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character }) => {
   return (
     <Card className='w-[30%] h-[200px]'>
       <CardBody>
-        <div
-          className='flex w-full h-full'>
+        <div className='flex w-full h-full'>
           <div className='relative mr-4 flex-shrink-0 mt-auto mb-auto'>
-            <Image
-              alt='Album cover'
-              className='object-cover h-[150px] w-full'
-              shadow='md'
-              src={character.image}
-            />
+            <Image alt='Album cover' className='object-cover h-[150px] w-full' shadow='md' src={character.image} />
           </div>
           <Divider orientation='vertical' />
           <div className='flex-col'>
