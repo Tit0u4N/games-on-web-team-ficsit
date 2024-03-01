@@ -12,7 +12,14 @@ export class Character {
   private _inventory: Inventory;
   private _attributes: Attributes;
 
-  public constructor(id: number, name: string, nationality: string, age: number, attributes: Attributes, image: string) {
+  public constructor(
+    id: number,
+    name: string,
+    nationality: string,
+    age: number,
+    attributes: Attributes,
+    image: string,
+  ) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;

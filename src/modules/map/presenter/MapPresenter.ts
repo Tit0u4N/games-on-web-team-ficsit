@@ -1,4 +1,4 @@
-import {IMapModelPresenter, MapModel} from '../model/MapModel.ts';
+import { IMapModelPresenter, MapModel } from '../model/MapModel.ts';
 import { MapView } from '../view/Babylon/MapView.ts';
 import { Scene } from '@babylonjs/core';
 import { IGraphTiles } from '../model/GraphTilesModel.ts';
