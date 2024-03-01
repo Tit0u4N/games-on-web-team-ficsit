@@ -36,7 +36,7 @@ function getSeasonList(round: number): number[] {
   return list;
 }
 
-export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round , toggleModal, isModalOpen}) => {
+export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round, toggleModal, isModalOpen }) => {
   return (
     <Navbar className={'fixed-top navbar'}>
       <NavbarContent>

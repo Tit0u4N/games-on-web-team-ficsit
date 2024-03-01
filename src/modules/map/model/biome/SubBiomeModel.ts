@@ -16,7 +16,7 @@ export class SubBiomeModel {
   constructor(type: TypesBiome, mapTiles: TileModel[], map: MapModel) {
     this.type = type;
     this.tiles = mapTiles;
-    this.setSubBiomeToTiles()
+    this.setSubBiomeToTiles();
 
     const graphGenerator = new GraphTilesModelGenerator(
       map,
