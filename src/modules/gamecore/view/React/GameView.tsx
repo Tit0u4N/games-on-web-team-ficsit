@@ -5,9 +5,6 @@ import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
 import InventoryLayout from '../../../inventory/view/React/InventoryLayout.tsx';
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
-import { CharacterPresenter } from '../../../character/presenter/CharacterPresenter.ts';
-import { InventoryPresenter } from '../../../inventory/presenter/InventoryPresenter.ts';
-import { EventPresenter } from '../../../event/presenter/EventPresenter.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -21,13 +18,9 @@ enum ModalType {
 const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   /* Test Data */
 
-  const characterPresenter = new CharacterPresenter();
-  const inventoryPresenter = new InventoryPresenter();
-  const eventPresenter = new EventPresenter();
-
-  const characters = characterPresenter.getDefaultCharacters();
-  const inventoryList = inventoryPresenter.getDefaultInventories();
-  const events = eventPresenter.getDefaultEvents();
+  const characters = presenter.getCharacters();
+  const inventoryList = presenter.getInventoryList();
+  const events = presenter.getEvents();
 
   /* End Test Data */
 
