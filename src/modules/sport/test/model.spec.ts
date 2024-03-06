@@ -1,10 +1,10 @@
-import { Model } from '../model/Model.ts';
+import { Sport } from '../model/Sport.ts';
 
 describe('Building model', () => {
-  let model: Model;
+  let model: Sport;
 
   beforeEach(() => {
-    model = new Model();
+    model = new Sport();
   });
 
   it('should be defined', () => {

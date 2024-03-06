@@ -13,7 +13,7 @@ export interface IMap {
   get displacementGraph(): IGraphTiles;
 }
 
-export interface IMapModelPresenter extends IMap{
+export interface IMapModelPresenter extends IMap {
   init(): void;
 }
 
