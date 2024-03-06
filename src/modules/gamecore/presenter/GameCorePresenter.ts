@@ -2,6 +2,12 @@ import { GameCoreModel } from '../model/GameCoreModel.ts';
 import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
 import { ApplicationStatus } from './ApplicationStatus.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
+import { CharacterPresenter } from '../../character/presenter/CharacterPresenter.ts';
+import { InventoryPresenter } from '../../inventory/presenter/InventoryPresenter.ts';
+import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
+import { Inventory } from '../../inventory/model/Inventory.ts';
+import { EventModel } from '../../event/model/EventModel.ts';
+import { Character } from '../../character/model/Character.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -9,12 +15,16 @@ export class GameCorePresenter {
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
   private mapPresenter: MapPresenter;
+  private characters: Character[] = [];
+  private inventoryList: Inventory[] = [];
+  private events: EventModel[] = [];
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
     this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
+    this.initializeTestData();
   }
 
   /* Application management*/
@@ -55,6 +65,29 @@ export class GameCorePresenter {
       this.mapPresenter.init(this._babylonView.scene);
       this.notifyViewChange();
     }, 100);
+  }
+
+  private initializeTestData(): void {
+    const characterPresenter = new CharacterPresenter();
+    this.characters = characterPresenter.getDefaultCharacters();
+
+    const inventoryPresenter = new InventoryPresenter();
+    this.inventoryList = inventoryPresenter.getDefaultInventories();
+
+    const eventPresenter = new EventPresenter();
+    this.events = eventPresenter.getDefaultEvents();
+  }
+
+  public getCharacters(): Character[] {
+    return this.characters;
+  }
+
+  public getInventoryList(): Inventory[] {
+    return this.inventoryList;
+  }
+
+  public getEvents(): EventModel[] {
+    return this.events;
   }
 
   /**
