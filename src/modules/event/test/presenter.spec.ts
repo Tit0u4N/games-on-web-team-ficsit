@@ -1,10 +1,10 @@
-import { Presenter } from '../presenter/Presenter.ts';
+import { EventPresenter } from '../presenter/EventPresenter.ts';
 
 describe('Building model', () => {
-  let presenter: Presenter;
+  let presenter: EventPresenter;
 
   beforeEach(() => {
-    presenter = new Presenter();
+    presenter = new EventPresenter();
   });
 
   it('should be defined', () => {
