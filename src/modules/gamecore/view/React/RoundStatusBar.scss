@@ -1,8 +1,8 @@
-.navbar{
+.navbar {
   user-select: none;
   background-color: hsl(var(--nextui-background) / 0.9);
 
-  .season-status{
+  .season-status {
     display: flex;
     justify-content: center;
     gap: 0.2em;
@@ -10,36 +10,34 @@
     width: 100%;
     height: 100%;
 
-
-
-    .season-bar{
+    .season-bar {
       width: 3em;
       height: 1em;
       user-select: none;
 
-      &:first-child{
+      &:first-child {
         border-radius: 0.4em 0 0 0.4em;
       }
-      &:last-child{
+      &:last-child {
         border-radius: 0 0.4em 0.4em 0;
       }
 
-      &.summer{
-        background-color: #FFD700;
+      &.summer {
+        background-color: #ffd700;
       }
-      &.winter{
-        background-color: #87CEEB;
+      &.winter {
+        background-color: #87ceeb;
       }
-      &.spring{
-        background-color: #00FF7F;
+      &.spring {
+        background-color: #00ff7f;
       }
-      &.autumn{
-        background-color: #FFA500;
+      &.autumn {
+        background-color: #ffa500;
       }
-      &.current{
+      &.current {
         box-shadow: #868686 0 0 4px 1px;
       }
-      &:not(.current){
+      &:not(.current) {
         opacity: 0.6;
       }
     }

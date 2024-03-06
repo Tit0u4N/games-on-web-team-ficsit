@@ -1,10 +1,10 @@
-import { Model } from '../model/Model.ts';
+import { UsableObject } from '../model/UsableObject.ts';
 
 describe('Building model', () => {
-  let model: Model;
+  let model: UsableObject;
 
   beforeEach(() => {
-    model = new Model();
+    model = new UsableObject('vite.svg', 'vite.svg');
   });
 
   it('should be defined', () => {
