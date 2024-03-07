@@ -1,10 +1,10 @@
-import { Model } from '../model/Model.ts';
+import { EventModel } from '../model/EventModel.ts';
 
 describe('Building model', () => {
-  let model: Model;
+  let model: EventModel;
 
   beforeEach(() => {
-    model = new Model();
+    model = new EventModel(1, 'test');
   });
 
   it('should be defined', () => {

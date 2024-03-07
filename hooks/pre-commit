@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Run Prettier on TypeScript files
-npx prettier --write 'src/**/*.ts' 'src/**/*.tsx'
+nvm use node
+
+yarn prettier --write 'src/'
 
 # Add the changes to the staging area
 git add -u .

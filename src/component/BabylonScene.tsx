@@ -1,38 +1,38 @@
-import { useEffect, useRef } from 'react';
-import { Engine, Scene } from '@babylonjs/core';
+import React, { useEffect, useRef } from 'react';
+import { BabylonMainView } from '../modules/gamecore/view/Babylon/BabylonMainView.ts';
 
-export default ({
-  antialias,
-  engineOptions,
-  adaptToDeviceRatio,
-  sceneOptions,
-  onRender,
-  onSceneReady,
-  ...rest
-}: any) => {
-  const reactCanvas = useRef(null);
+type Props = {
+  babylonMainView: BabylonMainView;
+};
+export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Props) => {
+  const reactCanvas = useRef<HTMLCanvasElement>(null);
 
   // set up basic engine and scene
   useEffect(() => {
     const { current: canvas } = reactCanvas;
 
     if (!canvas) return;
+    babylonMainView.init(canvas);
+    const engine = babylonMainView.engine;
+    const scene = babylonMainView.scene;
 
-    const engine = new Engine(canvas, antialias, engineOptions, adaptToDeviceRatio);
-    const scene = new Scene(engine, sceneOptions);
     if (scene.isReady()) {
-      onSceneReady(scene);
+      babylonMainView.onSceneReady();
     } else {
-      scene.onReadyObservable.addOnce((scene) => onSceneReady(scene));
+      scene.onReadyObservable.addOnce(() => babylonMainView.onSceneReady());
     }
 
     engine.runRenderLoop(() => {
-      if (typeof onRender === 'function') onRender(scene);
+      if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
       scene.render();
     });
 
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     const resize = () => {
       scene.getEngine().resize();
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
     if (window) {
@@ -46,7 +46,7 @@ export default ({
         window.removeEventListener('resize', resize);
       }
     };
-  }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
+  }, [babylonMainView]);
 
-  return <canvas ref={reactCanvas} {...rest} />;
+  return <canvas className={'size-full'} ref={reactCanvas} {...rest} />;
 };
