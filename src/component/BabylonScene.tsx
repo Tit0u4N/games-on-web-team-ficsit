@@ -17,15 +17,13 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
     const scene = babylonMainView.scene;
 
     if (scene.isReady()) {
-      babylonMainView.onSceneReady();
-    } else {
-      scene.onReadyObservable.addOnce(() => babylonMainView.onSceneReady());
+      babylonMainView.onSceneReady().then(() => {
+        engine.runRenderLoop(() => {
+          if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
+          scene.render();
+        });
+      });
     }
-
-    engine.runRenderLoop(() => {
-      if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
-      scene.render();
-    });
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
