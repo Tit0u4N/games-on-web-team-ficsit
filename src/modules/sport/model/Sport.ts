@@ -1,16 +1,16 @@
 export class Sport {
-  private sportType: SportType;
+  private _type: SportType;
 
-  constructor(sportType: SportType) {
-    this.sportType = sportType;
+  constructor(type: SportType) {
+    this._type = type;
   }
 
-  get getType(): SportType {
-    return this.sportType;
+  get type(): SportType {
+    return this._type;
   }
 
-  set setType(sportType: SportType) {
-    this.sportType = sportType;
+  set type(sportType: SportType) {
+    this._type = sportType;
   }
 }
 
