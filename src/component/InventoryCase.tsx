@@ -1,4 +1,5 @@
 import React from "react";
+import {Image} from "@nextui-org/react";
 
 type InventoryCaseProps = {
     key: number;
@@ -15,10 +16,12 @@ export const InventoryCase : React.FC<InventoryCaseProps> = ({key, item, classNa
             {
                 isEmpty ?
                     null
-                    : <img
+                    : <Image
                         src={item.image}
                         alt={item.name}
-                        className='size-full object-cover'
+                        height={'100%'}
+                        width={'100%'}
+                        className='size-full object-cover hover:scale-110 transition-transform duration-300 ease-in-out'
                     />
             }
 
