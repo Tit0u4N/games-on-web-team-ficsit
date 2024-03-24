@@ -8,6 +8,8 @@ import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
+import { Dice } from '../../dice/view/Babylon/Dice.ts';
+import { Vector3 } from '@babylonjs/core';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -95,6 +97,10 @@ export class GameCorePresenter {
    */
   nextRound() {
     this.gameModel.playRound();
+
+    const scene = this._babylonView.scene;
+    const dice = new Dice(scene, { position: new Vector3(20, 20, 20) });
+
     this.notifyViewChange();
   }
 
