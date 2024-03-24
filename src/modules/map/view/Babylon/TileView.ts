@@ -1,7 +1,15 @@
 import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
-import { ActionManager, InstancedMesh, Vector3, ExecuteCodeAction, Scene } from '@babylonjs/core';
+import {
+  ActionManager,
+  InstancedMesh,
+  Vector3,
+  ExecuteCodeAction,
+  Scene,
+  PhysicsAggregate,
+  PhysicsShapeType,
+} from '@babylonjs/core';
 
 /**
  * Tile class for the game
@@ -28,7 +36,6 @@ export class TileView {
 
   private createHexagonMesh(x: number, y: number, baseTile: BaseTile): InstancedMesh {
     const mesh = baseTile.baseMesh.createInstance('tileInstance_' + x + '_' + y);
-
     const modifierX = 1;
     const modifierY = 1.41;
 
@@ -43,6 +50,9 @@ export class TileView {
     }
 
     mesh.actionManager = new ActionManager(this.scene);
+
+    // Add physics to the mesh
+    new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: 0 }, this.scene);
 
     return mesh;
   }
