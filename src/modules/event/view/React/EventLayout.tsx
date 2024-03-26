@@ -18,7 +18,7 @@ export const EventLayout: React.FC<InventoryLayoutProps> = ({ event, toggleModal
     <AnimatePresence>
       {isModalOpen(ModalType.EVENTS) && (
         <motion.div
-          key='modal'
+          key="modal"
           initial={{ x: '-100%' }}
           animate={{ x: 0 }}
           exit={{ x: '-100%' }}
@@ -26,22 +26,22 @@ export const EventLayout: React.FC<InventoryLayoutProps> = ({ event, toggleModal
           className={
             'w-[25%] max-w-full fixed left-0 bg-background/90 backdrop-blur-xl z-30 p-4 rounded-r-lg mt-[4rem] h-[calc(100%-4rem)] flex flex-col gap-2 justify-between shadow-lg'
           }>
-          <p className='p-2 text-xl'>Events</p>
-          <div className='flex flex-col overflow-y-auto max-h-[90%] p-4'>
+          <p className="p-2 text-xl">Events</p>
+          <div className="flex flex-col overflow-y-auto max-h-[90%] p-4">
             {event.map((item, index) => (
-              <div className='flex flex-col justify-center my-2' key={index}>
-                <Card className='max-w-[400px]'>
-                  <CardHeader className='flex gap-3'>
+              <div className="flex flex-col justify-center my-2" key={index}>
+                <Card className="max-w-[400px]">
+                  <CardHeader className="flex gap-3">
                     <Image
-                      alt='nextui logo'
+                      alt="nextui logo"
                       height={40}
-                      radius='sm'
-                      src='https://avatars.githubusercontent.com/u/86160567?s=200&v=4'
+                      radius="sm"
+                      src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
                       width={40}
                     />
-                    <div className='flex flex-col'>
-                      <p className='text-md'>NextUI</p>
-                      <p className='text-small text-default-500'>nextui.org</p>
+                    <div className="flex flex-col">
+                      <p className="text-md">NextUI</p>
+                      <p className="text-small text-default-500">nextui.org</p>
                     </div>
                   </CardHeader>
                   <Divider />
@@ -54,10 +54,10 @@ export const EventLayout: React.FC<InventoryLayoutProps> = ({ event, toggleModal
             ))}
           </div>
           <div className={'bottom-0 p-4 flex justify-end'}>
-            <Button color='danger' variant='light' onPress={handleClose}>
+            <Button color="danger" variant="light" onPress={handleClose}>
               Close
             </Button>
-            <Button color='primary' onPress={handleClose}>
+            <Button color="primary" onPress={handleClose}>
               Action
             </Button>
           </div>
