@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Image, CardBody, Divider } from '@nextui-org/react';
 import { Character } from '../../model/Character';
+import {InventoryCase} from "../../../../component/InventoryCase.tsx";
 
 interface CharacterLayoutProps {
   character: Character;
@@ -8,30 +9,34 @@ interface CharacterLayoutProps {
 
 const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character }) => {
   return (
-    <Card className='w-[30%] h-[200px]'>
+    <Card className='w-[28%] h-[150px]'>
       <CardBody>
-        <div className='flex w-full h-full'>
-          <div className='relative mr-4 flex-shrink-0 mt-auto mb-auto'>
-            <Image alt='Album cover' className='object-cover h-[150px] w-full' shadow='md' src={character.image} />
+        <div className='flex size-full'>
+          <div className='relative mr-4 flex-shrink-0 mt-auto mb-auto p-1'>
+            <Image alt='Album cover'
+                   src={character.image}
+                   className='object-cover aspect-square'
+                   height={120}
+                   width={120}
+                   />
           </div>
           <Divider orientation='vertical' />
-          <div className='flex-col'>
-            <div className='h-[50%]'>
-              <p>{character.name}</p>
+          <div className='flex flex-col justify-between w-full p-1'>
+            <div className=''>
+              <h3 className='text-xl'>{character.name}</h3>
             </div>
             <Divider />
-            <div className='grid grid-cols-5 gap-0.5 h-[40px]'>
-              {/* Create a grid with 5 columns and 2 rows */}
-              {Array.from({ length: 10 }, (_, index) => (
-                <div key={index} className='bg-amber-950	p-[5px] w-[40px] h-[40px]'>
-                  <Image
-                    alt={`Image ${index + 1}`}
-                    className='object-cover h-0 w-full bg-green-500'
-                    height={40} // Adjust the size of the images as needed
-                    src={`/image_${index + 1}.jpg`} // Replace with the actual path
-                  />
-                </div>
-              ))}
+            <div className='grid grid-cols-5 gap-1 '>
+              {
+                character.inventory.items.map((item, index) => (
+                    <InventoryCase key={index} item={item}/>
+                ))
+              }
+              {
+                Array.from({length: 5 - character.inventory.items.length}, (_, index) => (
+                    <InventoryCase key={index}/>
+                ))
+              }
             </div>
           </div>
         </div>
