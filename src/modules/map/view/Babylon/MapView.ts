@@ -3,6 +3,7 @@ import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
 import { TypesTile } from '../../model/TileModel.ts';
+import { Arena } from '../../../building/model/ArenaModel.ts';
 
 /**
  * Map class for the game
@@ -14,6 +15,7 @@ export class MapView {
   private parent!: Mesh;
   private scene!: Scene;
   private readonly _mapModel: IMap;
+  private _arena: Arena[] = [];
 
   constructor(mapModel: IMap) {
     this.size = mapModel.size;
@@ -47,7 +49,7 @@ export class MapView {
         tempTiles[x].push(tempTile);
         const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
         if (!notConstructible.includes(tempTileModel.type) && Math.random() > 0.99) {
-          tileFactory.createCubeOnTile(tempTile);
+          this._arena.push(tileFactory.createArena(tempTile));
         }
       }
     }
@@ -57,5 +59,9 @@ export class MapView {
 
   get mapModel(): IMap {
     return this._mapModel;
+  }
+
+  get arena(): Arena[] {
+    return this._arena;
   }
 }
