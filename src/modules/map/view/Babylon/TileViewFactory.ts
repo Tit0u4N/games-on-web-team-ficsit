@@ -2,6 +2,9 @@ import { TypesTile } from '../../model/TileModel.ts';
 import { TileView } from './TileView.ts';
 import { MapView } from './MapView.ts';
 import { Color3, Color4, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Arena } from '../../../building/model/ArenaModel.ts';
+import { SportType } from '../../../sport/model/Sport.ts';
+import { Tournament } from '../../../tournement/model/Tournament.ts';
 
 export type BaseTile = {
   type: TypesTile;
@@ -148,7 +151,7 @@ export class TileViewFactory {
   }
 
   // Create a cube above the tile
-  public createCubeOnTile(tile: TileView): Vector3 {
+  public createArena(tile: TileView): Arena {
     // add red color
     const cube = MeshBuilder.CreateBox('cube_tile', { size: 2,
       faceColors: [
@@ -162,6 +165,7 @@ export class TileViewFactory {
     }, this.scene);
     cube.position = tile.mesh.position.add(new Vector3(0, tile.mesh.getBoundingInfo().boundingBox.extendSize.y + 0.5, 0));
     cube.material =  new StandardMaterial('material_cube', this.scene);
-    return cube.position;
+
+    return new Arena([SportType.ATHLETISM, SportType.ESCALADE], cube.position, 'Arena_' + tile.mesh.getBoundingInfo().boundingBox.extendSize.x + "_" + tile.mesh.getBoundingInfo().boundingBox.extendSize.y, new Tournament());
   }
 }

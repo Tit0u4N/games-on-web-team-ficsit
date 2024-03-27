@@ -1,13 +1,21 @@
-import { Model } from '../model/Model.ts';
+import { Arena } from '../model/ArenaModel.ts';
+import { Tournament } from '../../tournement/model/Tournament.ts';
+import { SportType } from '../../sport/model/Sport.ts';
+import { Vector3 } from '@babylonjs/core';
 
 describe('Building model', () => {
-  let model: Model;
+  let arena: Arena;
 
   beforeEach(() => {
-    model = new Model();
+    arena = new Arena(
+      [SportType.ATHLETISM],
+      new Vector3(0, 0, 0),
+      'Arena name',
+      new Tournament(),
+    );
   });
 
   it('should be defined', () => {
-    expect(model).toBeDefined();
+    expect(arena).toBeDefined();
   });
 });

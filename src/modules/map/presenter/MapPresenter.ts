@@ -32,4 +32,8 @@ export class MapPresenter {
   public getDisplacementGraph(): IGraphTiles {
     return this._mapModel.displacementGraph;
   }
+
+  get view(): MapView {
+    return this._view;
+  }
 }
