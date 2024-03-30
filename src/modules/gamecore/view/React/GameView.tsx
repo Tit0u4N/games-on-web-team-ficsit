@@ -3,7 +3,7 @@ import React from 'react';
 import { BabylonScene } from '../../../../component/BabylonScene.tsx';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
-import InventoryLayout from '../../../inventory/view/React/InventoryLayout.tsx';
+import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
 
 interface GameViewProps {
@@ -60,7 +60,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         />
         <div>
           {isInventoryOpen && (
-            <InventoryLayout inventory={inventoryList} toggleModal={toggleModal} isModalOpen={isModalOpen} />
+            <InventoriesModal inventories={inventoryList} toggleModal={toggleModal} isModalOpen={isModalOpen} />
           )}
         </div>
         <div>
