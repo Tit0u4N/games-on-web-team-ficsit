@@ -8,7 +8,7 @@ import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
-import { Arena } from '../../building/model/ArenaModel.ts';
+import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -16,17 +16,17 @@ export class GameCorePresenter {
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
   private mapPresenter: MapPresenter;
+  private buildingPresenter: BuildingPresenter;
   private characters: Character[] = [];
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
-  private _arena: Arena[] = [];
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
     this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
-    this._arena = this.mapPresenter.view.arena;
+    this.buildingPresenter = new BuildingPresenter(this.mapPresenter);
     this.initializeTestData();
   }
 
@@ -65,7 +65,8 @@ export class GameCorePresenter {
 
     // Wait for the scene to be ready because react load in async
     setTimeout(() => {
-      this.mapPresenter.init(this._babylonView.scene);
+      this.mapPresenter.initView(this._babylonView.scene);
+      this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
     }, 100);
   }
@@ -107,10 +108,5 @@ export class GameCorePresenter {
 
   get babylonView(): BabylonMainView {
     return this._babylonView;
-  }
-
-
-  get arena(): Arena[] {
-    return this._arena;
   }
 }

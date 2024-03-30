@@ -1,10 +1,7 @@
 import { TypesTile } from '../../model/TileModel.ts';
 import { TileView } from './TileView.ts';
 import { MapView } from './MapView.ts';
-import { Color3, Color4, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
-import { Arena } from '../../../building/model/ArenaModel.ts';
-import { SportType } from '../../../sport/model/Sport.ts';
-import { Tournament } from '../../../tournement/model/Tournament.ts';
+import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
 
 export type BaseTile = {
   type: TypesTile;
@@ -29,7 +26,6 @@ export class TileViewFactory {
   private createBaseTiles(): BaseTile[] {
     const tempBaseTiles: BaseTile[] = [];
     this.parentMesh = new Mesh('base_tile_group', this.scene);
-    console.log();
     for (let typeTileKey in TypesTile) {
       if (!isNaN(Number(typeTileKey))) continue;
       const type = TypesTile[typeTileKey as keyof typeof TypesTile];
@@ -148,24 +144,5 @@ export class TileViewFactory {
   public createTile(x: number, y: number, type: TypesTile, mapView: MapView): TileView {
     const baseTile = this.baseTiles[type];
     return new TileView(this.scene, x, y, baseTile, mapView);
-  }
-
-  // Create a cube above the tile
-  public createArena(tile: TileView): Arena {
-    // add red color
-    const cube = MeshBuilder.CreateBox('cube_tile', { size: 2,
-      faceColors: [
-        new Color4(1, 0, 0, 1),
-        new Color4(1, 0, 0, 1),
-        new Color4(1, 0, 0, 1),
-        new Color4(1, 0, 0, 1),
-        new Color4(1, 0, 0, 1),
-        new Color4(1, 0, 0, 1)
-      ]
-    }, this.scene);
-    cube.position = tile.mesh.position.add(new Vector3(0, tile.mesh.getBoundingInfo().boundingBox.extendSize.y + 0.5, 0));
-    cube.material =  new StandardMaterial('material_cube', this.scene);
-
-    return new Arena([SportType.ATHLETISM, SportType.ESCALADE], cube.position, 'Arena_' + tile.mesh.getBoundingInfo().boundingBox.extendSize.x + "_" + tile.mesh.getBoundingInfo().boundingBox.extendSize.y, new Tournament());
   }
 }

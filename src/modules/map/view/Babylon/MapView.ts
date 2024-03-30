@@ -2,27 +2,25 @@ import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
-import { TypesTile } from '../../model/TileModel.ts';
-import { Arena } from '../../../building/model/ArenaModel.ts';
+import { ViewInitable } from '../../../../core/Interfaces.ts';
 
 /**
  * Map class for the game
  * Contains hexagons tiles and have a size (square)
  */
-export class MapView {
+export class MapView implements ViewInitable {
   private size: number;
   private tiles!: TileView[][];
   private parent!: Mesh;
   private scene!: Scene;
   private readonly _mapModel: IMap;
-  private _arena: Arena[] = [];
 
   constructor(mapModel: IMap) {
     this.size = mapModel.size;
     this._mapModel = mapModel;
   }
 
-  init(scene: Scene) {
+  initView(scene: Scene) {
     this.scene = scene;
     this.parent = new Mesh('map_group');
     this.tiles = this.mapModelToView(this._mapModel);
@@ -47,10 +45,6 @@ export class MapView {
         const tempTile = tileFactory.createTile(x, y, tempTileModel.type, this);
         this.parent.addChild(tempTile.mesh);
         tempTiles[x].push(tempTile);
-        const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
-        if (!notConstructible.includes(tempTileModel.type) && Math.random() > 0.99) {
-          this._arena.push(tileFactory.createArena(tempTile));
-        }
       }
     }
 
@@ -59,9 +53,5 @@ export class MapView {
 
   get mapModel(): IMap {
     return this._mapModel;
-  }
-
-  get arena(): Arena[] {
-    return this._arena;
   }
 }

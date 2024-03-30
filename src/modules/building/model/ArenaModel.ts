@@ -3,7 +3,7 @@ import { Vector3 } from '@babylonjs/core';
 import { Tournament } from '../../tournement/model/Tournament.ts';
 import { Character } from 'data-structure-typed';
 
-export class Arena {
+export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
   private _sportType: SportType[];
   private _actualSport: SportType;
@@ -18,7 +18,7 @@ export class Arena {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
-    this.rotation = Arena.DEFAULT_ROTATION;
+    this.rotation = ArenaModel.DEFAULT_ROTATION;
     this._actualSport = this._sportType[0];
     this._name = name;
     this._tournament = tournament;
@@ -28,7 +28,7 @@ export class Arena {
     if (this.rotation > 0) {
       this.rotation--;
     } else {
-      this.rotation = Arena.DEFAULT_ROTATION;
+      this.rotation = ArenaModel.DEFAULT_ROTATION;
       const index = this._sportType.indexOf(this._actualSport);
       this._actualSport = this._sportType[(index + 1) % this._sportType.length];
     }
