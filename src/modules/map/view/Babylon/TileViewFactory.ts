@@ -40,7 +40,7 @@ export class TileViewFactory {
       'base_tile_' + type,
       {
         tessellation: 6,
-        height: this.getHeight(type),
+        height: TileViewFactory.getHeight(type),
         diameter: 2 * this.radius,
       },
       this.scene,
@@ -63,7 +63,7 @@ export class TileViewFactory {
     };
   }
 
-  public getHeight(type: TypesTile): number {
+  public static getHeight(type: TypesTile): number {
     let modifierHeight: number = 0.7;
     switch (type) {
       case TypesTile.SNOW:

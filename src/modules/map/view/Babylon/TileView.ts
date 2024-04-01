@@ -14,7 +14,7 @@ export class TileView {
   private x: number;
   private y: number;
   private mapView: MapView;
-  private static radius: number = 2;
+  private static readonly _radius: number = 2;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
@@ -61,5 +61,9 @@ export class TileView {
 
   get mesh(): InstancedMesh {
     return this._mesh;
+  }
+
+  static get radius(): number {
+    return this._radius;
   }
 }
