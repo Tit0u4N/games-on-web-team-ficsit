@@ -6,6 +6,7 @@ import { Reactable } from '../../gamecore/view/React/GameView.tsx';
 
 export class DicePresenter implements Reactable {
   private model: DiceModel;
+  //@ts-ignore
   private viewBabylon!: Dice3D;
   private viewReact!: any;
   private _is3DMod: boolean = true;
