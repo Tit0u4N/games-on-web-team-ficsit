@@ -53,4 +53,8 @@ export class MapView {
   get mapModel(): IMap {
     return this._mapModel;
   }
+
+  getTile(x: number, y: number): TileView {
+    return this.tiles[x][y];
+  }
 }

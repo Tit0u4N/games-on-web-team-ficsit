@@ -4,12 +4,12 @@ import { MapView } from './MapView.ts';
 import {
   ActionManager,
   InstancedMesh,
-  Vector3,
   ExecuteCodeAction,
   Scene,
   PhysicsAggregate,
   PhysicsShapeType,
 } from '@babylonjs/core';
+import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 
 /**
  * Tile class for the game
@@ -22,7 +22,7 @@ export class TileView {
   private x: number;
   private y: number;
   private mapView: MapView;
-  private static radius: number = 2;
+  private static readonly _radius: number = 2;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
@@ -36,18 +36,8 @@ export class TileView {
 
   private createHexagonMesh(x: number, y: number, baseTile: BaseTile): InstancedMesh {
     const mesh = baseTile.baseMesh.createInstance('tileInstance_' + x + '_' + y);
-    const modifierX = 1;
-    const modifierY = 1.41;
 
-    if (x % 2 === 0) {
-      mesh.position = new Vector3(x * (TileView.radius + modifierX), 0, y * (TileView.radius + modifierY));
-    } else {
-      mesh.position = new Vector3(
-        x * (TileView.radius + modifierX),
-        0,
-        y * (TileView.radius + modifierY) + TileView.radius - 0.27,
-      );
-    }
+    mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
 
     mesh.actionManager = new ActionManager(this.scene);
 
@@ -71,5 +61,9 @@ export class TileView {
 
   get mesh(): InstancedMesh {
     return this._mesh;
+  }
+
+  static get radius(): number {
+    return this._radius;
   }
 }
