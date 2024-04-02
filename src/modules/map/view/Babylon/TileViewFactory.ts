@@ -26,7 +26,7 @@ export class TileViewFactory {
   private createBaseTiles(): BaseTile[] {
     const tempBaseTiles: BaseTile[] = [];
     this.parentMesh = new Mesh('base_tile_group', this.scene);
-    for (let typeTileKey in TypesTile) {
+    for (const typeTileKey in TypesTile) {
       if (!isNaN(Number(typeTileKey))) continue;
       const type = TypesTile[typeTileKey as keyof typeof TypesTile];
       tempBaseTiles.push(this.createBaseTile(type));
@@ -67,10 +67,10 @@ export class TileViewFactory {
     let modifierHeight: number = 0.7;
     switch (type) {
       case TypesTile.SNOW:
-        modifierHeight = 3;
+        modifierHeight = 2.5;
         break;
       case TypesTile.MOUNTAIN:
-        modifierHeight = 2;
+        modifierHeight = 1.8;
         break;
       case TypesTile.FOREST:
         modifierHeight = 1.2;
@@ -93,7 +93,7 @@ export class TileViewFactory {
         break;
     }
 
-    return modifierHeight * 5;
+    return modifierHeight * 2;
   }
 
   public getColor(type: TypesTile): string {
