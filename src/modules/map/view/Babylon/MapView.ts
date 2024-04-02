@@ -3,6 +3,8 @@ import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
+import { types } from 'sass';
+import Error = types.Error;
 
 /**
  * Map class for the game
@@ -53,5 +55,13 @@ export class MapView implements ViewInitable {
 
   get mapModel(): IMap {
     return this._mapModel;
+  }
+
+  getTile(x: number, y: number): TileView {
+    return this.tiles[x][y];
+  }
+
+  unMountView(): void {
+    throw new Error('Method not implemented.');
   }
 }

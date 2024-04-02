@@ -25,7 +25,7 @@ export class ArenaView implements ViewInitable {
     const cube = MeshBuilder.CreateBox(
       'cube_tile',
       {
-        size: 2,
+        size: 1,
         faceColors: [
           new Color4(1, 0, 0, 1),
           new Color4(1, 0, 0, 1),
@@ -37,12 +37,16 @@ export class ArenaView implements ViewInitable {
       },
       this.scene,
     );
-    cube.position = vector.add(new Vector3(0, 5, 0));
+    cube.position = vector.add(new Vector3(0, 0, 0));
     cube.material = new StandardMaterial('material_cube', this.scene);
     this._mesh = cube;
   }
 
   get mesh(): Mesh {
     return this._mesh;
+  }
+
+  unMountView(): void {
+    throw new Error('Method not implemented.');
   }
 }
