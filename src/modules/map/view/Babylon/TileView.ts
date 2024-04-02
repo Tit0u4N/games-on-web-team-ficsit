@@ -2,8 +2,7 @@ import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
 import { ActionManager, InstancedMesh, ExecuteCodeAction, Scene } from '@babylonjs/core';
-import * as console from 'console';
-import { getPosition } from '../../core/GameMapPlacer.ts';
+import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 
 /**
  * Tile class for the game
@@ -30,8 +29,11 @@ export class TileView {
 
   private createHexagonMesh(x: number, y: number, baseTile: BaseTile): InstancedMesh {
     const mesh = baseTile.baseMesh.createInstance('tileInstance_' + x + '_' + y);
-    mesh.position = getPosition(x, y);
+
+    mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
+
     mesh.actionManager = new ActionManager(this.scene);
+
     return mesh;
   }
 

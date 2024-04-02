@@ -3,8 +3,8 @@ import { TypesTile } from '../../map/model/TileModel.ts';
 import { ArenaModel } from './ArenaModel.ts';
 import { SportType } from '../../sport/model/Sport.ts';
 import { Tournament } from '../../tournement/model/Tournament.ts';
-import { getPosition } from '../../map/core/GameMapPlacer.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
+import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 
 type BuildingFactoryOptions = {
   arena: {
@@ -51,7 +51,10 @@ export class BuildingFactory {
         const arenaPresenter = new ArenaPresenter(
           new ArenaModel(
             Math.random() > 0.5 ? summerSports : springSports,
-            getPosition(x, z),
+            getPosition(
+              { x, y: z, type: tempTileModel.type },
+              PositionTypes.BUILDING,
+            ),
             'Arena ' + arenas.length,
             new Tournament(),
           ),

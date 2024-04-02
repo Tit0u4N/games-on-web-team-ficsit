@@ -23,4 +23,8 @@ export class ArenaPresenter implements ViewInitable {
   get arenaView(): ArenaView {
     return this._arenaView;
   }
+
+  unMountView(): void {
+    throw new Error('Method not implemented.');
+  }
 }

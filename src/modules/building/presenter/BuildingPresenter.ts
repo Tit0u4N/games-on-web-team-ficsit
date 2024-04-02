@@ -28,4 +28,8 @@ export class BuildingPresenter implements ViewInitable {
   get scene(): Scene {
     return this._scene;
   }
+
+  unMountView(): void {
+    throw new Error('Method not implemented.');
+  }
 }
