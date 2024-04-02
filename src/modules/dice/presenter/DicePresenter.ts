@@ -2,9 +2,9 @@ import { DiceModel } from '../model/DiceModel.ts';
 import { Dice3D } from '../view/Babylon/Dice3D.ts';
 import { Scene } from '@babylonjs/core';
 import { DiceComponent } from '../view/React/DiceComponent.tsx';
-import { Reactable } from '../../gamecore/view/React/GameView.tsx';
+import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 
-export class DicePresenter implements Reactable {
+export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
   //@ts-ignore
   private viewBabylon!: Dice3D;
@@ -17,7 +17,7 @@ export class DicePresenter implements Reactable {
 
   constructor(scene: Scene) {
     this.model = new DiceModel();
-    this.viewBabylon = new Dice3D(scene, this);
+    this.initView(scene);
   }
 
   getReactView() {
@@ -52,5 +52,13 @@ export class DicePresenter implements Reactable {
     }
     this.state = 'rolled';
     console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
+  }
+
+  initView(scene: Scene): void {
+    this.viewBabylon = new Dice3D(scene, this);
+  }
+
+  unMountView(): void {
+    this.viewBabylon.delete();
   }
 }
