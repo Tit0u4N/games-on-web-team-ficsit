@@ -1,6 +1,6 @@
 import { DicePresenter } from '../presenter/DicePresenter.ts';
 //Mock Dice3D
-jest.mock('../view/babylon/Dice3D.ts', () => {
+jest.mock('../view/Babylon/Dice3D.ts', () => {
   return {
     Dice3D: jest.fn().mockImplementation(() => {
       return {
