@@ -3,8 +3,6 @@ import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
-import { types } from 'sass';
-import Error = types.Error;
 
 /**
  * Map class for the game

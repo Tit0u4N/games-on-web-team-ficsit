@@ -25,6 +25,7 @@ export class MapPresenter implements ViewInitable {
     this.options = { ...DEFAULT_OPTIONS, ...options };
     this._mapModel = new MapModel(this.options.size!, this.options.seed);
     this._view = new MapView(this._mapModel);
+    this._mapModel.init();
   }
 
   unMountView(): void {
@@ -32,7 +33,6 @@ export class MapPresenter implements ViewInitable {
   }
 
   initView(scene: Scene) {
-    this._mapModel.init();
     this._view.initView(scene);
     this.testObjects(scene).then();
   }

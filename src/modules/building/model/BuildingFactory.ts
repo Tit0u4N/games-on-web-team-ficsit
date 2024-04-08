@@ -7,13 +7,13 @@ import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 
 type BuildingFactoryOptions = {
-  arena: {
-    number: number;
-    spacing: number;
+  arena?: {
+    number?: number;
+    spacing?: number;
   };
-  trainingCenter: {
-    number: number;
-    spacing: number;
+  trainingCenter?: {
+    number?: number;
+    spacing?: number;
   };
 };
 
@@ -33,7 +33,6 @@ export class BuildingFactory {
 
   constructor(mapPresenter: MapPresenter, options?: BuildingFactoryOptions) {
     this.mapPresenter = mapPresenter;
-    // TODO: verifier options crash undefined
     this.options = { ...this.options, ...options };
   }
 
@@ -43,6 +42,7 @@ export class BuildingFactory {
     const arenas: ArenaPresenter[] = [];
     const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
     let index: number = 0;
+    if (this.options.arena?.number == undefined) throw new Error('Options is undefined');
     while (index < BuildingFactory.MAX_ATTEMPTS && arenas.length < this.options.arena.number) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -51,10 +51,7 @@ export class BuildingFactory {
         const arenaPresenter = new ArenaPresenter(
           new ArenaModel(
             Math.random() > 0.5 ? summerSports : springSports,
-            getPosition(
-              { x, y: z, type: tempTileModel.type },
-              PositionTypes.BUILDING,
-            ),
+            getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Arena ' + arenas.length,
             new Tournament(),
           ),

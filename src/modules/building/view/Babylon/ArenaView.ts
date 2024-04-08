@@ -47,6 +47,6 @@ export class ArenaView implements ViewInitable {
   }
 
   unMountView(): void {
-    throw new Error('Method not implemented.');
+    this._mesh.dispose();
   }
 }
