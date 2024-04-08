@@ -9,7 +9,7 @@ import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
 import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { Reactable } from '../view/React/GameView.tsx';
+import { Reactable } from '../../../core/Interfaces.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
