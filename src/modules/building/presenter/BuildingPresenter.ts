@@ -11,11 +11,11 @@ export class BuildingPresenter implements ViewInitable {
 
   constructor(mapPresenter: MapPresenter) {
     this.buildingFactory = new BuildingFactory(mapPresenter);
+    this._arenasPresenter = this.buildingFactory.createArenas();
   }
 
   initView(scene: Scene) {
     this._scene = scene;
-    this._arenasPresenter = this.buildingFactory.createArenas();
     this._arenasPresenter.forEach((arenaPresenter) => {
       arenaPresenter.initView(scene);
     });
@@ -30,6 +30,8 @@ export class BuildingPresenter implements ViewInitable {
   }
 
   unMountView(): void {
-    throw new Error('Method not implemented.');
+    this._arenasPresenter.forEach((arenaPresenter) => {
+      arenaPresenter.unMountView();
+    });
   }
 }
