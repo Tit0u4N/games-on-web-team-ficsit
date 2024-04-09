@@ -13,18 +13,19 @@ export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
-  private _babylonView: BabylonMainView;
+  private readonly _babylonView: BabylonMainView;
   private mapPresenter: MapPresenter;
-  private characters: Character[] = [];
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
+  private readonly _characterPresenter: CharacterPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
-    this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
+    this.mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
+    this._characterPresenter = new CharacterPresenter(this);
   }
 
   /* Application management*/
@@ -61,16 +62,15 @@ export class GameCorePresenter {
     this.notifyViewChange();
 
     // Wait for the scene to be ready because react load in async
-    setTimeout(() => {
+    setTimeout(async () => {
       this.mapPresenter.init(this._babylonView.scene);
+      await this._characterPresenter.initView();
+      this.mapPresenter.placeCharacters();
       this.notifyViewChange();
     }, 100);
   }
 
   private initializeTestData(): void {
-    const characterPresenter = new CharacterPresenter();
-    this.characters = characterPresenter.getDefaultCharacters();
-
     const inventoryPresenter = new InventoryPresenter();
     this.inventoryList = inventoryPresenter.getDefaultInventories();
 
@@ -78,8 +78,8 @@ export class GameCorePresenter {
     this.events = eventPresenter.getDefaultEvents();
   }
 
-  public getCharacters(): Character[] {
-    return this.characters;
+  public getCharacters(): Set<Character> {
+    return this._characterPresenter.characters;
   }
 
   public getInventoryList(): Inventory[] {
@@ -104,5 +104,9 @@ export class GameCorePresenter {
 
   get babylonView(): BabylonMainView {
     return this._babylonView;
+  }
+
+  get characterPresenter(): CharacterPresenter {
+    return this._characterPresenter;
   }
 }
