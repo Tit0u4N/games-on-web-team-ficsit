@@ -38,7 +38,7 @@ export class BabylonMainView {
 
   onSceneReady(): void {
     // This creates and positions a free camera (non-mesh)
-    const camera = new FreeCamera('camera1', new Vector3(60, 30, -10), this.scene);
+    const camera = new FreeCamera('camera1', new Vector3(50, 50, -70), this.scene);
 
     // This targets the camera to scene origin
     camera.setTarget(Vector3.Zero());
