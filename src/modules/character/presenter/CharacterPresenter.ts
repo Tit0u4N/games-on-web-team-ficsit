@@ -1,24 +1,24 @@
 import { CharacterFactory } from '../BuilderFactory/CharacterFactory';
 import { Character } from '../model/Character';
 import { CharacterView } from '../view/Babylon/CharacterView.ts';
-import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { Scene } from '@babylonjs/core';
 
 export class CharacterPresenter {
   private readonly _characters: Set<Character>;
   private readonly _characterView: CharacterView;
   //private readonly gameCorePresenter: GameCorePresenter;
 
-  constructor(gameCorePresenter: GameCorePresenter) {
+  constructor() {
     this._characters = CharacterPresenter.getDefaultCharacters();
-    this._characterView = new CharacterView(this, gameCorePresenter.babylonView.scene);
+    this._characterView = new CharacterView(this);
   }
 
   get characters(): Set<Character> {
     return this._characters;
   }
 
-  async initView(): Promise<void> {
-    await this._characterView.initPawns();
+  async initView(scene: Scene): Promise<void> {
+    await this._characterView.initPawns(scene);
   }
 
   getCharacterById(id: number): Character | undefined {

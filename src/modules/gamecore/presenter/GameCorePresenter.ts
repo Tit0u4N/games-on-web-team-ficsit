@@ -25,7 +25,7 @@ export class GameCorePresenter {
     this._babylonView = new BabylonMainView();
     this.mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
-    this._characterPresenter = new CharacterPresenter(this);
+    this._characterPresenter = new CharacterPresenter();
   }
 
   /* Application management*/
@@ -64,7 +64,7 @@ export class GameCorePresenter {
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
       this.mapPresenter.init(this._babylonView.scene);
-      await this._characterPresenter.initView();
+      await this._characterPresenter.initView(this._babylonView.scene);
       this.mapPresenter.placeCharacters();
       this.notifyViewChange();
     }, 100);
