@@ -1,6 +1,7 @@
 import { Statistics } from './Statistics';
 import { Attributes } from './Attributes';
 import { Inventory } from '../../inventory/model/Inventory.ts';
+import { ITile } from '../../map/model/TileModel.ts';
 
 export class Character {
   private _id: number;
@@ -11,6 +12,7 @@ export class Character {
   private _statistics: Statistics;
   private _inventory: Inventory;
   private _attributes: Attributes;
+  private _currentTile: ITile | undefined;
 
   public constructor(
     id: number,
@@ -92,5 +94,13 @@ export class Character {
 
   set image(value: string) {
     this._image = value;
+  }
+
+  get tile(): ITile | undefined {
+    return this._currentTile;
+  }
+
+  set tile(value: ITile | undefined) {
+    this._currentTile = value;
   }
 }
