@@ -36,4 +36,10 @@ export class CharacterPresenter {
     characters.add(CharacterFactory.createDefaultCharacter(3, 'John Doe', 'US', 25, '/character_3.png'));
     return characters;
   }
+
+  public getSelectedCharacter(): Character | undefined {
+    return this._characterView.getSelectedCharacter()?.id
+      ? this.getCharacterById(this._characterView.getSelectedCharacter()!.id)
+      : undefined;
+  }
 }

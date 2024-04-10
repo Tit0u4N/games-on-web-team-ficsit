@@ -2,6 +2,7 @@ import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
+import { MapPresenter } from '../../presenter/MapPresenter.ts';
 
 /**
  * Map class for the game
@@ -13,10 +14,12 @@ export class MapView {
   private parent!: Mesh;
   private scene!: Scene;
   private readonly _mapModel: IMap;
+  private readonly _mapPresenter: MapPresenter;
 
-  constructor(mapModel: IMap) {
+  constructor(mapModel: IMap, mapPresenter: MapPresenter) {
     this.size = mapModel.size;
     this._mapModel = mapModel;
+    this._mapPresenter = mapPresenter;
   }
 
   init(scene: Scene) {
@@ -52,6 +55,10 @@ export class MapView {
 
   get mapModel(): IMap {
     return this._mapModel;
+  }
+
+  get mapPresenter(): MapPresenter {
+    return this._mapPresenter;
   }
 
   getTile(x: number, y: number): TileView {

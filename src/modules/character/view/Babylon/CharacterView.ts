@@ -15,7 +15,7 @@ export class CharacterView {
   async initPawns(scene: Scene): Promise<void> {
     this.scene = scene;
     for (const character of this.characterPresenter.characters) {
-      const pawn = new PawnView(character.id, this.scene, this.getColorById(character.id));
+      const pawn = new PawnView(character.id, this.scene, this.getColorById(character.id), this);
       await pawn.importMesh();
       this.pawnSet.add(pawn);
       pawn.addPointerEvent();
@@ -40,5 +40,13 @@ export class CharacterView {
       default:
         return '#1d0038';
     }
+  }
+
+  getSelectedCharacter() {
+    return [...this.pawnSet].find((pawn) => pawn.isSelected);
+  }
+
+  getOtherPawns(id: number) {
+    return [...this.pawnSet].filter((pawn) => pawn.id !== id);
   }
 }
