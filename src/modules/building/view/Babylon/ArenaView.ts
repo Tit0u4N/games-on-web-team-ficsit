@@ -1,4 +1,13 @@
-import { Color4, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import {
+  ActionManager,
+  Color4,
+  ExecuteCodeAction,
+  Mesh,
+  MeshBuilder,
+  Scene,
+  StandardMaterial,
+  Vector3,
+} from '@babylonjs/core';
 import { ArenaModel } from '../../model/ArenaModel.ts';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
@@ -39,6 +48,19 @@ export class ArenaView implements ViewInitable {
     );
     cube.position = vector.add(new Vector3(0, 0, 0));
     cube.material = new StandardMaterial('material_cube', this.scene);
+    // Add onclick listener
+    cube.actionManager = new ActionManager(this.scene);
+    cube.actionManager.registerAction(
+      new ExecuteCodeAction(
+        {
+          trigger: ActionManager.OnPickTrigger,
+        },
+        () => {
+          console.log('Arena was clicked');
+          // Add your code here to handle the click event
+        },
+      ),
+    );
     this._mesh = cube;
   }
 
