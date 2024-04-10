@@ -5,7 +5,6 @@ import { IGraphTiles } from '../model/GraphTilesModel.ts';
 import { importModel } from '../../../core/ModelImporter.ts';
 import { getPosition, getCharacterPositionOnTile, PositionTypes } from '../core/GamePlacer.ts';
 import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
-import { ITile } from '../model/TileModel.ts';
 
 type MapPresenterOptions = {
   size?: number;
@@ -21,22 +20,22 @@ const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
 export class MapPresenter {
   private _mapModel: IMapModelPresenter;
   private _view: MapView;
-  private gameCorePresenter: GameCorePresenter;
+  private _gameCorePresenter: GameCorePresenter;
 
   private options: MapPresenterOptions;
 
   constructor(gameCorePresenter: GameCorePresenter, options: MapPresenterOptions = {}) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
     this._mapModel = new MapModel(this.options.size!, this.options.seed);
-    this._view = new MapView(this._mapModel);
-    this.gameCorePresenter = gameCorePresenter;
+    this._view = new MapView(this._mapModel, this);
+    this._gameCorePresenter = gameCorePresenter;
   }
 
   init(scene: Scene) {
     this._mapModel.init();
     this._view.init(scene);
     this.testObjects(scene).then();
-    this.gameCorePresenter.getCharacters().forEach((character) => {
+    this._gameCorePresenter.getCharacters().forEach((character) => {
       this._mapModel
         .getTile(
           this.options.defaultCharacterPosition!.x + (character.id === 3 ? 1 : 0),
@@ -47,24 +46,26 @@ export class MapPresenter {
   }
 
   placeCharacters() {
-    let previousTile: ITile;
     let counter = 0;
-    this.gameCorePresenter.getCharacters().forEach((character) => {
+    this._gameCorePresenter.getCharacters().forEach((character) => {
       if (character.tile !== undefined) {
-        previousTile === character.tile ? counter++ : (counter = 0);
-        previousTile = character.tile;
         const position = getCharacterPositionOnTile(
           getPosition(character.tile, PositionTypes.CHARACTER),
           character.tile.getNumberOfCharacters(),
-          counter,
+          character.tile.getNumberOfCharacters() > 1 ? counter : 1,
         );
-        this.gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position);
+        if (character.tile.getNumberOfCharacters() > 1) counter++;
+        this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position);
       }
     });
   }
 
   public getDisplacementGraph(): IGraphTiles {
     return this._mapModel.displacementGraph;
+  }
+
+  get gameCorePresenter(): GameCorePresenter {
+    return this._gameCorePresenter;
   }
 
   private async testObjects(scene: Scene) {

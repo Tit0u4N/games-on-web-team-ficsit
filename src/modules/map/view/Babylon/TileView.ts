@@ -38,12 +38,22 @@ export class TileView {
   }
 
   private addActionManger() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const tile = this;
 
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function (evt) {
-        // Ce code sera exécuté lorsque l'objet est cliqué
+        const selectedCharacter = tile.mapView.mapPresenter.gameCorePresenter.characterPresenter.getSelectedCharacter();
+        console.log(selectedCharacter);
+        if (selectedCharacter) {
+          selectedCharacter.tile?.removeCharacter(selectedCharacter);
+          const tileModel = tile.mapView.mapModel.getTile(tile.x, tile.y);
+          tileModel.addCharacter(selectedCharacter);
+          console.log(selectedCharacter.tile?.x, selectedCharacter.tile?.y, tile.x, tile.y);
+          tile.mapView.mapPresenter.placeCharacters();
+        }
         console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
       }),
     );
