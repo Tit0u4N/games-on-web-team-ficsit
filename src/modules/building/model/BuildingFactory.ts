@@ -91,7 +91,6 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      console.log(arena.arena.name, distance, this.options.arena?.spacing ?? 10);
       if (distance <= (this.options.arena?.spacing ?? 10)) {
         return true; // Neighboring arena found
       }
@@ -158,7 +157,6 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      console.log(trainingCenter.trainingCenter.name, distance, this.options.trainingCenter?.spacing ?? 10);
       if (distance <= (this.options.trainingCenter?.spacing ?? 10)) {
         return true; // Neighboring training center found
       }
