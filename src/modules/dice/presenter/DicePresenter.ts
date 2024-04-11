@@ -6,7 +6,6 @@ import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
-  //@ts-ignore
   private viewBabylon!: Dice3D;
   private viewReact!: any;
   private _is3DMod: boolean = true;
