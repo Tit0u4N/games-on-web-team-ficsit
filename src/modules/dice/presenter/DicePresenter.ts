@@ -7,7 +7,7 @@ import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
   private viewBabylon!: Dice3D;
-  private viewReact!: any;
+  private viewReact!: typeof DiceComponent;
   private _is3DMod: boolean = true;
 
   private _rollDiceFunc2D!: (finalValue: number, nbRolls?: number) => Promise<void>;
@@ -58,6 +58,6 @@ export class DicePresenter implements Reactable, ViewInitable {
   }
 
   unMountView(): void {
-    this.viewBabylon.delete();
+    this.viewBabylon.unMountView();
   }
 }
