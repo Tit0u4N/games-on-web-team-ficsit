@@ -1,8 +1,7 @@
 import {
   Mesh,
-  MeshBuilder,
+  MeshBuilder, Observer,
   PhysicsAggregate,
-  PhysicsHelper,
   PhysicsShapeType,
   Scene,
   StandardMaterial,
@@ -12,18 +11,31 @@ import {
   Vector4,
 } from '@babylonjs/core';
 import { DicePresenter } from '../../presenter/DicePresenter.ts';
+import { ViewInitable } from '../../../../core/Interfaces.ts';
 
-export class Dice3D {
+export class Dice3D implements ViewInitable{
   private readonly scene: Scene;
   private mesh!: Mesh;
   private physics!: PhysicsAggregate;
   private camera!: TargetCamera;
+  private observer!: Observer<Scene>
+  private state : "idle" | "rolling" | "rolled" = "idle";
 
   constructor(scene: Scene, dicePresenter: DicePresenter) {
     this.scene = scene;
     this.camera = this.getCamera();
     dicePresenter.RollDiceFunc3D = () => this.rollDice();
-    new PhysicsHelper(this.scene);
+  }
+
+  initView(scene: Scene): void {
+    this.mesh = this.createMesh();
+    this.setPos(this.camera.getFrontPosition(5));
+    const linearVelocity = this.mesh.position.subtract(this.camera.position).normalize().scale(30);
+    this.addPhysics();
+    this.physics.body.setAngularVelocity(this.getRandomAngularVelocity());
+    this.physics.body.setLinearVelocity(linearVelocity);
+
+    this.createObserver();
   }
 
   private createMesh(): Mesh {
@@ -39,12 +51,22 @@ export class Dice3D {
     return mesh;
   }
 
+  private createObserver() {
+    this.observer = this.scene.onBeforeRenderObservable.add(() => {
+      if (this.physics.body.getLinearVelocity().length() < 0.1) {
+        this.state = 'rolled';
+        this.scene.onBeforeRenderObservable.remove(this.observer);
+      }
+    });
+  }
+
   private getCamera(): TargetCamera {
     return <TargetCamera>this.scene.activeCamera!;
   }
 
   private addPhysics() {
     this.physics = new PhysicsAggregate(this.mesh, PhysicsShapeType.MESH, { mass: 1, friction: 20 }, this.scene);
+
   }
 
   private setPos(vector: Vector3) {
@@ -56,23 +78,33 @@ export class Dice3D {
     return new Vector3(Math.random() * 7, Math.random() * 7, Math.random() * 7);
   }
 
-  delete() {
+  unMountView() {
     this.mesh.dispose();
   }
 
   getDiceValue() {
+    // TODO: Implementer la récupération de la valeur du dé
     return 1000;
   }
 
-  async rollDice(): Promise<number> {
-    this.mesh = this.createMesh();
-    this.setPos(this.camera.getFrontPosition(5));
-    const linearVelocity = this.mesh.position.subtract(this.camera.position).normalize().scale(30);
-    this.addPhysics();
-    this.physics.body.setAngularVelocity(this.getRandomAngularVelocity());
-    this.physics.body.setLinearVelocity(linearVelocity);
+  async waitForDiceToRoll() {
+    return new Promise((resolve) => {
+      const checkDiceState = () => {
+        if (this.state === 'rolled') {
+          resolve(null);
+        } else {
+          setTimeout(checkDiceState, 100); // Vérifie l'état toutes les 100 millisecondes
+        }
+      };
+      checkDiceState();
+    });
+  }
 
-    await setTimeout(() => {}, 1000);
+  async rollDice(): Promise<number> {
+    this.initView(this.scene)
+    this.state = 'rolling';
+
+    await this.waitForDiceToRoll();
     return this.getDiceValue();
   }
 }
