@@ -6,14 +6,14 @@ import { DiceModel } from '../../model/DiceModel.ts';
 interface DiceComponentProps {
   dicePresenter: DicePresenter;
   diceValues?: number[];
+  className?: string;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
-  dicePresenter,
-  diceValues = DiceModel.initDiceValues(),
-}) => {
-  console.log('DiceComponent');
-  console.log(diceValues);
+                                                              dicePresenter,
+                                                              diceValues = DiceModel.initDiceValues(),
+                                                              className = '',
+                                                            }) => {
   const [value, setValue] = useState(diceValues[0]);
   const [rollDice2DIsHidden, setRollDice2DIsHidden] = useState(true);
   const [rollDice2DCanClose, setRollDice2DCanClose] = useState(false);
@@ -38,16 +38,17 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter.RollDiceFunc2D = rollDice;
 
   return (
-    <div className={''}>
-      <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()}>
-        3D Dice
-      </Checkbox>
+    <div>
+      <div className={className}>
+        <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()}>
+          3D Dice
+        </Checkbox>
 
-      <Button color={'primary'} variant={'flat'} disabled={rollFinished} onClick={() => dicePresenter.rollDice()}>
-        {' '}
-        Launch{' '}
-      </Button>
+        <Button color={'primary'} variant={'flat'} disabled={rollFinished} onClick={() => dicePresenter.rollDice()}>
+          Launch
+        </Button>
 
+      </div>
       {rollDice2DIsHidden ? null : (
         <div
           className={'absolute w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
