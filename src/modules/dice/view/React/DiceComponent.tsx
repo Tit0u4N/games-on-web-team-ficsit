@@ -44,7 +44,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
           3D Dice
         </Checkbox>
 
-        <Button color={'primary'} variant={'flat'} disabled={rollFinished} onClick={() => dicePresenter.rollDice()}>
+        <Button color={'primary'} variant={'flat'} disabled={rollFinished || false} onClick={() => dicePresenter.rollDice()}>
           Launch
         </Button>
 
