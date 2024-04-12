@@ -22,7 +22,7 @@ export class GameCorePresenter {
   private events: EventModel[] = [];
 
   private _setViewModalFunc: (modale: Reactable | null) => void = () => {
-    console.log('setViewModalFunc not set');
+    console.error('setViewModalFunc not set');
   };
 
   constructor() {

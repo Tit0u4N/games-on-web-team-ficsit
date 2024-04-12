@@ -53,7 +53,7 @@ export class Dice3D implements ViewInitable{
 
   private createObserver() {
     this.observer = this.scene.onBeforeRenderObservable.add(() => {
-      if (this.physics.body.getLinearVelocity().length() < 0.1) {
+      if (this.physics.body.getLinearVelocity().length() < 0.1 && this.physics.body.getAngularVelocity().length() < 0.1 ){
         this.state = 'rolled';
         this.scene.onBeforeRenderObservable.remove(this.observer);
       }
@@ -65,7 +65,7 @@ export class Dice3D implements ViewInitable{
   }
 
   private addPhysics() {
-    this.physics = new PhysicsAggregate(this.mesh, PhysicsShapeType.MESH, { mass: 1, friction: 20 }, this.scene);
+    this.physics = new PhysicsAggregate(this.mesh, PhysicsShapeType.MESH, { mass: 1, friction: 200, restitution : 0.01,  }, this.scene);
 
   }
 
@@ -83,9 +83,71 @@ export class Dice3D implements ViewInitable{
   }
 
   getDiceValue() {
-    // TODO: Implementer la récupération de la valeur du dé
-    return 1000;
+    const nbFaces = this.mesh.getTotalVertices() / 3;
+    const topFace = {
+      index : -1,
+      position : new Vector3(0, 0, 0),
+      maxHeight : -Infinity
+    }
+    for (let i = 0; i < nbFaces; i++) {
+      const face = this.mesh.getFacetPosition(i)
+      if (face.y > topFace.maxHeight) {
+        topFace.maxHeight = face.y;
+        topFace.position = face;
+        topFace.index = i;
+      }
+    }
+
+    return this.getValueFromFaceIndex(topFace.index);
   }
+
+  getValueFromFaceIndex(faceIndex: number) {
+    switch (faceIndex) {
+      case 0:
+        return 1;
+      case 1:
+        return 2;
+      case 2:
+        return 3;
+      case 3:
+        return 4;
+      case 4:
+        return 17;
+      case 5:
+        return 18;
+      case 6:
+        return 16;
+      case 7:
+        return 20;
+      case 8:
+        return 13;
+      case 9:
+        return 14;
+      case 10:
+        return 15;
+      case 11:
+        return 16;
+      case 12:
+        return 6;
+      case 13:
+        return 10;
+      case 14:
+        return 11;
+      case 15:
+        return 12;
+      case 16:
+        return 5;
+      case 17:
+        return 9;
+      case 18:
+        return 7;
+      case 19:
+        return 8;
+      default:
+        return -1;
+    }
+  }
+
 
   async waitForDiceToRoll() {
     return new Promise((resolve) => {
