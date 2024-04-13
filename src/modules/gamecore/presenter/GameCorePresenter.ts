@@ -13,8 +13,8 @@ export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
-  private readonly _babylonView: BabylonMainView;
-  private readonly _mapPresenter: MapPresenter;
+  private _babylonView: BabylonMainView;
+  private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
