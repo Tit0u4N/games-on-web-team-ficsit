@@ -103,4 +103,12 @@ export class Character {
   set tile(value: ITile | undefined) {
     this._currentTile = value;
   }
+
+  public removeMovementPoints(value: number): void {
+    this._attributes.removeMovement(value);
+  }
+
+  public resetMovementPoints(): void {
+    this._attributes.resetMovement();
+  }
 }

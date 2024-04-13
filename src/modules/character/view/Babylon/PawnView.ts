@@ -3,8 +3,8 @@ import { importModel } from '../../../../core/ModelImporter.ts';
 import { CharacterView } from './CharacterView.ts';
 
 export class PawnView {
-  private static readonly DEFAULT_SCALING = 0.2;
-  private static readonly SELECTED_SCALING = 0.3;
+  protected static readonly DEFAULT_SCALING = 0.2;
+  protected static readonly SELECTED_SCALING = 0.3;
 
   private readonly _characterView: CharacterView;
   private _mesh: Mesh | undefined;
@@ -37,7 +37,6 @@ export class PawnView {
     // @ts-expect-error
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
-        console.log('PawnView: addPointerEvent: ExecuteCodeAction: OnPickTrigger');
         if (!pawn.mesh) return;
         if (!pawn.isSelected) {
           pawn.mesh.scaling = new Vector3(
@@ -46,19 +45,12 @@ export class PawnView {
             PawnView.SELECTED_SCALING,
           );
           pawn.isSelected = true;
-          pawn._characterView.getOtherPawns(pawn._id).forEach((otherPawn) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            otherPawn.mesh.scaling = new Vector3(
-              PawnView.DEFAULT_SCALING,
-              PawnView.DEFAULT_SCALING,
-              PawnView.DEFAULT_SCALING,
-            );
-            otherPawn.isSelected = false;
-          });
+          pawn._characterView.unscaleCharacters(pawn.id);
+          pawn._characterView.updateSelectedCharacter();
         } else {
           pawn.mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
           pawn.isSelected = false;
+          pawn._characterView.updateSelectedCharacter();
         }
       }),
     );
@@ -78,5 +70,11 @@ export class PawnView {
 
   set isSelected(value: boolean) {
     this._isSelected = value;
+  }
+
+  resetScaling() {
+    if (this._mesh) {
+      this._mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
+    }
   }
 }

@@ -18,9 +18,9 @@ const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
   defaultCharacterPosition: { x: 12, y: 25 },
 });
 export class MapPresenter {
-  private _mapModel: IMapModelPresenter;
+  private readonly _mapModel: IMapModelPresenter;
   private _view: MapView;
-  private _gameCorePresenter: GameCorePresenter;
+  private readonly _gameCorePresenter: GameCorePresenter;
 
   private options: MapPresenterOptions;
 
@@ -77,5 +77,52 @@ export class MapPresenter {
     mesh2.position = getPosition(this._mapModel.getTile(12, 25), PositionTypes.BUILDING);
     mesh2.scaling = new Vector3(0.7, 0.7, 0.7);
     mesh2.rotation = new Vector3(0, Math.PI / 4, 0);
+  }
+
+  public addDeplacementTiles() {
+    const character = this.gameCorePresenter.characterPresenter.getSelectedCharacter();
+    if (!character || !character.tile) return;
+    const characterTile = character.tile;
+    const tileList = this._mapModel.displacementGraph.getAdjacentTilesInRange(
+      characterTile,
+      character.attributes.movement,
+    );
+    tileList.forEach((tile) => {
+      if (!tile.isWalkable()) return;
+      const distance = this._mapModel.displacementGraph.getDistance(characterTile, tile);
+      if (distance <= character.attributes.movement) this._view.addDeplacementTile(tile.x, tile.y, tile.type);
+    });
+  }
+
+  public removeDeplacementTiles() {
+    this._view.removeDeplacementTile();
+  }
+
+  updateSelectedCharacter() {
+    this.removeDeplacementTiles();
+    this.addDeplacementTiles();
+  }
+
+  unselectCharacter() {
+    this._gameCorePresenter.characterPresenter.unselectCharacter();
+  }
+
+  moveCharacterToTile(x: number, y: number) {
+    const selectedCharacter = this._gameCorePresenter.characterPresenter.getSelectedCharacter();
+    if (selectedCharacter) {
+      const characterTile = selectedCharacter.tile;
+      const tileModel = this._mapModel.getTile(x, y);
+      if (!characterTile || !tileModel) return;
+      if (!tileModel.isWalkable()) return;
+      const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
+      if (distance > selectedCharacter.attributes.movement) return;
+      selectedCharacter.tile?.removeCharacter(selectedCharacter);
+      console.log(distance);
+      selectedCharacter.removeMovementPoints(distance);
+      tileModel.addCharacter(selectedCharacter);
+      this.removeDeplacementTiles();
+      this.unselectCharacter();
+      this.placeCharacters();
+    }
   }
 }

@@ -49,4 +49,22 @@ export class CharacterView {
   getOtherPawns(id: number) {
     return [...this.pawnSet].filter((pawn) => pawn.id !== id);
   }
+
+  updateSelectedCharacter() {
+    this.characterPresenter.updateSelectedCharacter();
+  }
+
+  unscaleCharacters(id?: number) {
+    if (id) {
+      this.getOtherPawns(id).forEach((otherPawn) => {
+        otherPawn.resetScaling();
+        otherPawn.isSelected = false;
+      });
+    } else {
+      this.pawnSet.forEach((pawn) => {
+        pawn.resetScaling();
+        pawn.isSelected = false;
+      });
+    }
+  }
 }

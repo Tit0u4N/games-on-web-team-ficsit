@@ -14,7 +14,7 @@ export class GameCorePresenter {
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private readonly _babylonView: BabylonMainView;
-  private mapPresenter: MapPresenter;
+  private readonly _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
@@ -23,9 +23,9 @@ export class GameCorePresenter {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
-    this.mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
+    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
-    this._characterPresenter = new CharacterPresenter();
+    this._characterPresenter = new CharacterPresenter(this);
   }
 
   /* Application management*/
@@ -63,9 +63,9 @@ export class GameCorePresenter {
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
-      this.mapPresenter.init(this._babylonView.scene);
+      this._mapPresenter.init(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
-      this.mapPresenter.placeCharacters();
+      this._mapPresenter.placeCharacters();
       this.notifyViewChange();
     }, 100);
   }
@@ -108,5 +108,9 @@ export class GameCorePresenter {
 
   get characterPresenter(): CharacterPresenter {
     return this._characterPresenter;
+  }
+
+  get mapPresenter(): MapPresenter {
+    return this._mapPresenter;
   }
 }
