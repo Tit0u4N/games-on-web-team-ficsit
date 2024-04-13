@@ -2,15 +2,17 @@ import { CharacterFactory } from '../BuilderFactory/CharacterFactory';
 import { Character } from '../model/Character';
 import { CharacterView } from '../view/Babylon/CharacterView.ts';
 import { Scene } from '@babylonjs/core';
+import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
 
 export class CharacterPresenter {
   private readonly _characters: Set<Character>;
   private readonly _characterView: CharacterView;
-  //private readonly gameCorePresenter: GameCorePresenter;
+  private readonly _gameCorePresenter: GameCorePresenter;
 
-  constructor() {
+  constructor(gameCorePresenter: GameCorePresenter) {
     this._characters = CharacterPresenter.getDefaultCharacters();
     this._characterView = new CharacterView(this);
+    this._gameCorePresenter = gameCorePresenter;
   }
 
   get characters(): Set<Character> {
@@ -41,5 +43,15 @@ export class CharacterPresenter {
     return this._characterView.getSelectedCharacter()?.id
       ? this.getCharacterById(this._characterView.getSelectedCharacter()!.id)
       : undefined;
+  }
+
+  updateSelectedCharacter() {
+    this._gameCorePresenter.mapPresenter.updateSelectedCharacter();
+  }
+
+  unselectCharacter() {
+    const selectedCharacter = this._characterView.getSelectedCharacter();
+    if (selectedCharacter) selectedCharacter.isSelected = false;
+    this._characterView.unscaleCharacters();
   }
 }

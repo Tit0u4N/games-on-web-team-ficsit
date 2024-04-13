@@ -41,7 +41,7 @@ export class TileViewFactory {
       {
         tessellation: 6,
         height: TileViewFactory.getHeight(type),
-        diameter: 2 * this.radius,
+        diameter: this.getDiameter(type),
       },
       this.scene,
     );
@@ -52,6 +52,9 @@ export class TileViewFactory {
     const color = this.getColor(type);
     const material = new StandardMaterial('material_tile_ ' + type, this.scene);
     material.diffuseColor = Color3.FromHexString(color);
+    if (type === TypesTile.ACCESSIBLE) {
+      material.alpha = 0.5;
+    }
     mesh.material = material;
 
     return {
@@ -61,6 +64,14 @@ export class TileViewFactory {
       radius: this.radius,
       baseMaterial: material,
     };
+  }
+
+  public getDiameter(type: TypesTile): number {
+    const diameter = 2 * this.radius;
+    if (type === TypesTile.ACCESSIBLE) {
+      return diameter - 0.2;
+    }
+    return diameter;
   }
 
   public static getHeight(type: TypesTile): number {
@@ -91,6 +102,9 @@ export class TileViewFactory {
       case TypesTile.DEEP_WATER:
         modifierHeight = 0.5;
         break;
+      case TypesTile.ACCESSIBLE:
+        modifierHeight = 0.05;
+        break;
     }
 
     return modifierHeight * 2;
@@ -118,6 +132,10 @@ export class TileViewFactory {
         return '#edc9af';
       case TypesTile.HILL_FOREST:
         return '#a7c987';
+
+      // For debug
+      case TypesTile.ACCESSIBLE:
+        return '#00ff00';
 
       // For debug
       case TypesTile.DEFAULT:

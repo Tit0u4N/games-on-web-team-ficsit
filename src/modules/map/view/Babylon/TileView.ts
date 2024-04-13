@@ -9,8 +9,8 @@ import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
  * Contains a mesh and a position
  */
 export class TileView {
-  private scene: Scene;
-  private _mesh: InstancedMesh;
+  private readonly scene: Scene;
+  private readonly _mesh: InstancedMesh;
   private type: TypesTile;
   private x: number;
   private y: number;
@@ -44,16 +44,8 @@ export class TileView {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
     this._mesh.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickTrigger, function (evt) {
-        const selectedCharacter = tile.mapView.mapPresenter.gameCorePresenter.characterPresenter.getSelectedCharacter();
-        console.log(selectedCharacter);
-        if (selectedCharacter) {
-          selectedCharacter.tile?.removeCharacter(selectedCharacter);
-          const tileModel = tile.mapView.mapModel.getTile(tile.x, tile.y);
-          tileModel.addCharacter(selectedCharacter);
-          console.log(selectedCharacter.tile?.x, selectedCharacter.tile?.y, tile.x, tile.y);
-          tile.mapView.mapPresenter.placeCharacters();
-        }
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
+        tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
         console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
       }),
     );

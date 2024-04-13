@@ -12,6 +12,7 @@ export interface ITile {
   addCharacter(character: Character): void;
   removeCharacter(character: Character): void;
   getNumberOfCharacters(): number;
+  isWalkable(): boolean;
 }
 
 export class TileModel implements ITile {
@@ -132,6 +133,10 @@ export class TileModel implements ITile {
   getNumberOfCharacters(): number {
     return this.characters.size;
   }
+
+  isWalkable(): boolean {
+    return this._type !== TypesTile.WATER && this._type !== TypesTile.DEEP_WATER && this._type !== TypesTile.MOUNTAIN;
+  }
 }
 
 export enum TypesTile {
@@ -145,6 +150,8 @@ export enum TypesTile {
   HILL_GRASS,
   HILL_FOREST,
   HILL_SAND,
+  // For deplacement graph
+  ACCESSIBLE,
   // For debug
   DEFAULT,
   DEFAULT2,
