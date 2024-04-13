@@ -65,7 +65,7 @@ export class GameCorePresenter {
     setTimeout(async () => {
       this._mapPresenter.init(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
-      this._mapPresenter.placeCharacters();
+      this._mapPresenter.placeCharacters(true);
       this.notifyViewChange();
     }, 100);
   }
