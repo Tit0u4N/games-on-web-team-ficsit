@@ -58,4 +58,10 @@ export class CharacterPresenter {
   getCharacterView(id: number) {
     return this._characterView.getCharacterView(id);
   }
+
+  resetMovements() {
+    this._characters.forEach((character) => {
+      character.resetMovementPoints();
+    });
+  }
 }
