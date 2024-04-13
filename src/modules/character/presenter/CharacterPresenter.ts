@@ -54,4 +54,8 @@ export class CharacterPresenter {
     if (selectedCharacter) selectedCharacter.isSelected = false;
     this._characterView.unscaleCharacters();
   }
+
+  getCharacterView(id: number) {
+    return this._characterView.getCharacterView(id);
+  }
 }

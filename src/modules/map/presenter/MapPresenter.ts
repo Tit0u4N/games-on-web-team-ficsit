@@ -45,7 +45,7 @@ export class MapPresenter {
     });
   }
 
-  placeCharacters() {
+  placeCharacters(initial = false) {
     let counter = 0;
     this._gameCorePresenter.getCharacters().forEach((character) => {
       if (character.tile !== undefined) {
@@ -55,7 +55,8 @@ export class MapPresenter {
           character.tile.getNumberOfCharacters() > 1 ? counter : 1,
         );
         if (character.tile.getNumberOfCharacters() > 1) counter++;
-        this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position);
+        if (position !== this._gameCorePresenter.characterPresenter.getCharacterView(character.id)?.mesh?.position)
+          this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position, initial);
       }
     });
   }
@@ -120,6 +121,7 @@ export class MapPresenter {
       console.log(distance);
       selectedCharacter.removeMovementPoints(distance);
       tileModel.addCharacter(selectedCharacter);
+
       this.removeDeplacementTiles();
       this.unselectCharacter();
       this.placeCharacters();

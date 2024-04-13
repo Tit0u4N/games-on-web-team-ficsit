@@ -1,6 +1,6 @@
 import { CharacterPresenter } from '../../presenter/CharacterPresenter.ts';
 import { PawnView } from './PawnView.ts';
-import { Scene, Vector3 } from '@babylonjs/core';
+import { Animation, Scene, Vector3 } from '@babylonjs/core';
 
 export class CharacterView {
   private readonly characterPresenter: CharacterPresenter;
@@ -22,10 +22,37 @@ export class CharacterView {
     }
   }
 
-  public givePosition(idCharacter: number, position: Vector3): void {
+  public givePosition(idCharacter: number, position: Vector3, initial: boolean = false): void {
     const pawn = [...this.pawnSet].find((pawn) => pawn.id === idCharacter);
     if (pawn && pawn.mesh) {
-      pawn.mesh.position = position;
+      if (initial) {
+        pawn.mesh.position = position;
+        return;
+      }
+      const animationBox = new Animation(
+        'deplacementAnimation',
+        'position',
+        30,
+        Animation.ANIMATIONTYPE_VECTOR3,
+        Animation.ANIMATIONLOOPMODE_CYCLE,
+      );
+      const distance = Vector3.Distance(pawn.mesh.position, position);
+      const keys = [];
+      keys.push({
+        frame: 0,
+        value: pawn.mesh.position,
+      });
+      keys.push({
+        frame: distance / 1.5,
+        value: position,
+      });
+      animationBox.setKeys(keys);
+      pawn.mesh.animations.push(animationBox);
+      const mesh = pawn.mesh;
+      this.scene?.beginAnimation(pawn.mesh, 0, 100, false, 2, () => {
+        mesh.position = position;
+        mesh.animations = [];
+      });
     }
   }
 
@@ -66,5 +93,9 @@ export class CharacterView {
         pawn.isSelected = false;
       });
     }
+  }
+
+  getCharacterView(id: number) {
+    return [...this.pawnSet].find((pawn) => pawn.id === id);
   }
 }
