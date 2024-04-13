@@ -96,6 +96,7 @@ export class GameCorePresenter {
   nextRound() {
     this.gameModel.playRound();
     this.notifyViewChange();
+    this._characterPresenter.resetMovements();
   }
 
   getCurrentRound() {
