@@ -40,6 +40,17 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
   };
 });
 
+//Mock DicePresenter
+jest.mock('../../dice/presenter/DicePresenter.ts', () => {
+  return {
+    DicePresenter: jest.fn().mockImplementation(() => {
+      return {
+        rollDice: jest.fn(),
+      };
+    }),
+  };
+});
+
 describe('GameCorePresenter unit test', () => {
   let presenter: GameCorePresenter;
   let gameCoreModel: jest.Mocked<GameCoreModel>;
