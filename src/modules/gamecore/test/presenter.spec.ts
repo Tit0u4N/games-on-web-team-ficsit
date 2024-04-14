@@ -35,6 +35,24 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
       return {
         init: jest.fn(),
         getDisplacementGraph: jest.fn(),
+        placeCharacters: jest.fn(),
+      };
+    }),
+  };
+});
+
+jest.mock('../../character/presenter/CharacterPresenter.ts', () => {
+  return {
+    CharacterPresenter: jest.fn().mockImplementation(() => {
+      return {
+        getDefaultCharacters: jest.fn(),
+        initView: jest.fn(),
+        getSelectedCharacter: jest.fn(),
+        updateSelectedCharacter: jest.fn(),
+        unselectCharacter: jest.fn(),
+        getCharacterView: jest.fn(),
+        resetCharacterView: jest.fn(),
+        resetMovements: jest.fn(),
       };
     }),
   };
@@ -61,10 +79,10 @@ describe('GameCorePresenter unit test', () => {
     presenter = new GameCorePresenter();
     gameCoreModel = new GameCoreModel() as jest.Mocked<GameCoreModel>;
     babylonMainView = new BabylonMainView() as jest.Mocked<BabylonMainView>;
-    mapPresenter = new MapPresenter() as jest.Mocked<MapPresenter>;
+    mapPresenter = new MapPresenter(presenter) as jest.Mocked<MapPresenter>;
     presenter['_babylonView'] = babylonMainView;
     presenter['gameModel'] = gameCoreModel;
-    presenter['mapPresenter'] = mapPresenter;
+    presenter['_mapPresenter'] = mapPresenter;
   });
 
   it('should be defined', () => {

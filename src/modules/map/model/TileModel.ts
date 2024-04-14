@@ -1,6 +1,7 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { GraphTilesModel, TileKey } from './GraphTilesModel.ts';
 import { SubBiomeModel } from './biome/SubBiomeModel.ts';
+import { Character } from '../../character/model/Character.ts';
 
 export interface ITile {
   getID(): TileKey;
@@ -8,6 +9,10 @@ export interface ITile {
   get y(): number;
   get type(): TypesTile;
   get subBiome(): SubBiomeModel;
+  addCharacter(character: Character): void;
+  removeCharacter(character: Character): void;
+  getNumberOfCharacters(): number;
+  isWalkable(): boolean;
 }
 
 export class TileModel implements ITile {
@@ -17,6 +22,7 @@ export class TileModel implements ITile {
   private noiseValue: number;
   private _typeBiome: TypesBiome;
   private _subBiome!: SubBiomeModel;
+  private characters: Set<Character>;
 
   constructor(x: number, y: number, noiseValue: number) {
     this._x = x;
@@ -24,6 +30,7 @@ export class TileModel implements ITile {
     this.noiseValue = noiseValue;
     this._typeBiome = BiomeAbstractModel.getBiomeByNoiseValue(noiseValue);
     this._type = this.getTypeByBiome();
+    this.characters = new Set<Character>();
   }
 
   /**
@@ -113,6 +120,23 @@ export class TileModel implements ITile {
   set subBiome(value: SubBiomeModel) {
     this._subBiome = value;
   }
+
+  addCharacter(character: Character): void {
+    this.characters.add(character);
+    character.tile = this;
+  }
+
+  removeCharacter(character: Character): void {
+    this.characters.delete(character);
+  }
+
+  getNumberOfCharacters(): number {
+    return this.characters.size;
+  }
+
+  isWalkable(): boolean {
+    return this._type !== TypesTile.WATER && this._type !== TypesTile.DEEP_WATER && this._type !== TypesTile.MOUNTAIN;
+  }
 }
 
 export enum TypesTile {
@@ -126,6 +150,8 @@ export enum TypesTile {
   HILL_GRASS,
   HILL_FOREST,
   HILL_SAND,
+  // For deplacement graph
+  ACCESSIBLE,
   // For debug
   DEFAULT,
   DEFAULT2,

@@ -1,10 +1,12 @@
 export class Attributes {
+  private readonly _defaultMovement: number;
   private _movement: number;
   private _tiredness: number;
   private _injured: boolean;
 
   public constructor(movement: number, tiredness: number, injured: boolean) {
     this._movement = movement;
+    this._defaultMovement = movement;
     this._tiredness = tiredness;
     this._injured = injured;
   }
@@ -35,5 +37,13 @@ export class Attributes {
 
   public toString(): string {
     return `Movement: ${this._movement}, Tiredness: ${this._tiredness}, Injured: ${this._injured}`;
+  }
+
+  resetMovement(): void {
+    this._movement = this._defaultMovement;
+  }
+
+  removeMovement(value: number): void {
+    this._movement -= value;
   }
 }
