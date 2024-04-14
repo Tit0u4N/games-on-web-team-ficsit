@@ -3,7 +3,7 @@ import { Button, Card, Checkbox } from '@nextui-org/react';
 import { DicePresenter } from '../../presenter/DicePresenter.ts';
 import { DiceModel } from '../../model/DiceModel.ts';
 
-interface DiceComponentProps {
+export interface DiceComponentProps {
   dicePresenter: DicePresenter;
   diceValues?: number[];
   className?: string;

@@ -7,7 +7,6 @@ import { Tournament } from '../../tournement/model/Tournament.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
-import { Reactable } from '../../../core/Interfaces.ts';
 
 type BuildingFactoryOptions = {
   arena?: {
@@ -33,12 +32,10 @@ export class BuildingFactory {
     },
   };
   private mapPresenter: MapPresenter;
-  private openModal: (presenter: Reactable) => void;
 
-  constructor(mapPresenter: MapPresenter, openModal: (presenter: Reactable) => void, options?: BuildingFactoryOptions) {
+  constructor(mapPresenter: MapPresenter, options?: BuildingFactoryOptions) {
     this.mapPresenter = mapPresenter;
     this.options = { ...this.options, ...options };
-    this.openModal = openModal;
   }
 
   /**
@@ -64,7 +61,6 @@ export class BuildingFactory {
             'Arena ' + arenas.length,
             new Tournament(),
           ),
-          this.openModal,
         );
         if (!this.checkHasArenasNeighbors(arenaPresenter, arenas)) arenas.push(arenaPresenter);
       }
@@ -127,7 +123,6 @@ export class BuildingFactory {
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Training Center ' + trainingCenters.length,
           ),
-          this.openModal,
         );
         if (!this.checkHasTrainingCentersNeighbors(trainingCenterPresenter, trainingCenters))
           trainingCenters.push(trainingCenterPresenter);
