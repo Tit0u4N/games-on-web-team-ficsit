@@ -1,4 +1,14 @@
-import { Engine, EngineOptions, FreeCamera, HemisphericLight, Scene, SceneOptions, Vector3 } from '@babylonjs/core';
+import {
+  Engine,
+  EngineOptions,
+  FreeCamera,
+  HavokPlugin,
+  HemisphericLight,
+  Scene,
+  SceneOptions,
+  Vector3,
+} from '@babylonjs/core';
+import HavokPhysics from '@babylonjs/havok';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -24,7 +34,7 @@ export class BabylonMainView {
     this._options = { ...DEFAULT_OPTIONS, ...options };
   }
 
-  init(canvas: HTMLCanvasElement) {
+  async init(canvas: HTMLCanvasElement): Promise<void> {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
     this._engine = new Engine(
@@ -34,9 +44,11 @@ export class BabylonMainView {
       this._options.adaptToDeviceRatio,
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
+    const havokPlugin = new HavokPlugin(true, await HavokPhysics());
+    this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
   }
 
-  onSceneReady(): void {
+  onSceneReady() {
     // This creates and positions a free camera (non-mesh)
     const camera = new FreeCamera('camera1', new Vector3(60, 30, -10), this.scene);
 
