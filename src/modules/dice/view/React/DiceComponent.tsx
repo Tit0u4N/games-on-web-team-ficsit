@@ -10,10 +10,10 @@ interface DiceComponentProps {
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
-                                                              dicePresenter,
-                                                              diceValues = DiceModel.initDiceValues(),
-                                                              className = '',
-                                                            }) => {
+  dicePresenter,
+  diceValues = DiceModel.initDiceValues(),
+  className = '',
+}) => {
   const [value, setValue] = useState(diceValues[0]);
   const [rollDice2DIsHidden, setRollDice2DIsHidden] = useState(true);
   const [rollDice2DCanClose, setRollDice2DCanClose] = useState(false);
@@ -44,10 +44,13 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
           3D Dice
         </Checkbox>
 
-        <Button color={'primary'} variant={'flat'} disabled={rollFinished || false} onClick={() => dicePresenter.rollDice()}>
+        <Button
+          color={'primary'}
+          variant={'flat'}
+          disabled={rollFinished || false}
+          onClick={() => dicePresenter.rollDice()}>
           Launch
         </Button>
-
       </div>
       {rollDice2DIsHidden ? null : (
         <div
