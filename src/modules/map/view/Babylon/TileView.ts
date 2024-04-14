@@ -1,7 +1,14 @@
 import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
-import { ActionManager, InstancedMesh, ExecuteCodeAction, Scene } from '@babylonjs/core';
+import {
+  ActionManager,
+  ExecuteCodeAction,
+  InstancedMesh,
+  PhysicsAggregate,
+  PhysicsShapeType,
+  Scene,
+} from '@babylonjs/core';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 
 /**
@@ -33,6 +40,10 @@ export class TileView {
     mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
 
     mesh.actionManager = new ActionManager(this.scene);
+
+    // Add physics to the mesh
+    if (baseTile.type !== TypesTile.ACCESSIBLE)
+      new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: 0 }, this.scene);
 
     return mesh;
   }
