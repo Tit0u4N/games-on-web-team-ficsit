@@ -8,6 +8,8 @@ import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
+import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
+import { Reactable } from '../../../core/Interfaces.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -19,12 +21,20 @@ export class GameCorePresenter {
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
 
+  private _setViewModalFunc: (modale: Reactable | null) => void = () => {
+    console.error('setViewModalFunc not set');
+  };
+
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
     this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
+  }
+
+  set setViewModalFunc(func: (modale: Reactable | null) => void) {
+    this._setViewModalFunc = func;
   }
 
   /* Application management*/
@@ -95,6 +105,11 @@ export class GameCorePresenter {
    */
   nextRound() {
     this.gameModel.playRound();
+
+    const scene = this._babylonView.scene;
+    const dicePresenter = new DicePresenter(scene);
+    this._setViewModalFunc(dicePresenter);
+
     this.notifyViewChange();
   }
 
