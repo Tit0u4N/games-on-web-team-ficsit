@@ -1,8 +1,9 @@
 import { CharacterPresenter } from '../../presenter/CharacterPresenter.ts';
 import { PawnView } from './PawnView.ts';
 import { Animation, Scene, Vector3 } from '@babylonjs/core';
+import { ViewInitable } from '../../../../core/Interfaces.ts';
 
-export class CharacterView {
+export class CharacterView implements ViewInitable {
   private readonly characterPresenter: CharacterPresenter;
   private readonly pawnSet: Set<PawnView>;
   private scene: Scene | undefined;
@@ -10,6 +11,10 @@ export class CharacterView {
   constructor(characterPresenter: CharacterPresenter) {
     this.characterPresenter = characterPresenter;
     this.pawnSet = new Set<PawnView>();
+  }
+
+  async initView(scene: Scene) {
+    await this.initPawns(scene);
   }
 
   async initPawns(scene: Scene): Promise<void> {
@@ -97,5 +102,12 @@ export class CharacterView {
 
   getCharacterView(id: number) {
     return [...this.pawnSet].find((pawn) => pawn.id === id);
+  }
+
+  unMountView() {
+    this.pawnSet.forEach((pawn) => {
+      pawn.mesh?.dispose();
+    });
+    this.pawnSet.clear();
   }
 }
