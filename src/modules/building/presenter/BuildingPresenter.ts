@@ -1,7 +1,7 @@
 import { BuildingFactory } from '../model/BuildingFactory.ts';
 import { Scene } from '@babylonjs/core';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { ViewInitable } from '../../../core/Interfaces.ts';
+import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import { ArenaPresenter } from './ArenaPresenter.ts';
 import { TrainingCenterPresenter } from './TrainingCenterPresenter.ts';
 
@@ -11,8 +11,8 @@ export class BuildingPresenter implements ViewInitable {
   private buildingFactory: BuildingFactory;
   private _scene!: Scene;
 
-  constructor(mapPresenter: MapPresenter) {
-    this.buildingFactory = new BuildingFactory(mapPresenter);
+  constructor(mapPresenter: MapPresenter, openModal: (presenter: Reactable) => void) {
+    this.buildingFactory = new BuildingFactory(mapPresenter, openModal);
     this._arenasPresenter = this.buildingFactory.createArenas();
     this._trainingCenterPresenter = this.buildingFactory.createTrainingCenters();
   }
