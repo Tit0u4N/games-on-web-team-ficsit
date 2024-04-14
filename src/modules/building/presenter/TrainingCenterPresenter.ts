@@ -4,16 +4,15 @@ import { TrainingCenterModel } from '../model/TrainingCenterModel.ts';
 import { TrainingCenterView } from '../view/Babylon/TrainingCenterView.ts';
 import React from 'react';
 import { TrainingCenterLayout, TrainingCenterLayoutProps } from '../view/React/TrainingCenterLayout.tsx';
+import { ModalManager } from '../../../core/ModalManager.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;
   private _trainingCenterView: TrainingCenterView;
-  private setViewModelFunc: (presenter: Reactable) => void;
 
-  constructor(trainingCenterModel: TrainingCenterModel, setViewModelFunc: (presenter: Reactable) => void) {
+  constructor(trainingCenterModel: TrainingCenterModel) {
     this._trainingCenter = trainingCenterModel;
     this._trainingCenterView = new TrainingCenterView(this);
-    this.setViewModelFunc = setViewModelFunc;
   }
 
   initView(scene: Scene) {
@@ -29,7 +28,7 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
   }
 
   public openModal(): void {
-    this.setViewModelFunc(this);
+    ModalManager.getInstance().openModal(this);
   }
 
   getReactView(): { type: React.ElementType; props: TrainingCenterLayoutProps } {

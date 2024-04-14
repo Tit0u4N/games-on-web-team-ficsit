@@ -4,16 +4,15 @@ import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
 import React from 'react';
 import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
+import { ModalManager } from '../../../core/ModalManager.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arena: ArenaModel;
   private _arenaView: ArenaView;
-  private setViewModelFunc: (presenter: Reactable) => void;
 
-  constructor(arena: ArenaModel, setViewModelFunc: (presenter: Reactable) => void) {
+  constructor(arena: ArenaModel) {
     this._arena = arena;
     this._arenaView = new ArenaView(this);
-    this.setViewModelFunc = setViewModelFunc;
   }
 
   initView(scene: Scene) {
@@ -33,7 +32,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   }
 
   public openModal(): void {
-    this.setViewModelFunc(this);
+    ModalManager.getInstance().openModal(this);
   }
 
   getReactView(): { type: React.ElementType; props: ArenaLayoutProps } {
