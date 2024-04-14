@@ -1,5 +1,5 @@
 import { MapModel } from '../MapModel.ts';
-import { TileModel } from '../TileModel.ts';
+import { TileModel, TypesTile } from '../TileModel.ts';
 import { GraphTilesGeneratorAbstract } from '../../core/GraphTilesGeneratorAbstract.ts';
 import { GraphTilesModel } from '../GraphTilesModel.ts';
 
@@ -27,7 +27,7 @@ export class GraphTilesModelGenerator extends GraphTilesGeneratorAbstract {
       const adjacentTiles = this.getAdjacentTiles(tile);
       const tileIDSource = tile.getID();
       for (const tileAdjacent of adjacentTiles) {
-        graph.addEdge(tileIDSource, tileAdjacent.getID());
+        graph.addEdge(tileIDSource, tileAdjacent.getID(), tileAdjacent.type === TypesTile.FOREST ? 3 : 1);
       }
     }
 

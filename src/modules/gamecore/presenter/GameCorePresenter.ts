@@ -17,11 +17,11 @@ export class GameCorePresenter {
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
-  private mapPresenter: MapPresenter;
   private buildingPresenter!: BuildingPresenter;
-  private characters: Character[] = [];
+  private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
+  private readonly _characterPresenter: CharacterPresenter;
 
   private _setViewModalFunc: (modale: Reactable | null) => void = () => {
     console.error('setViewModalFunc not set');
@@ -31,9 +31,9 @@ export class GameCorePresenter {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
-    this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
-    this.buildingPresenter = new BuildingPresenter(this.mapPresenter, this.openModal);
+    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
+    this._characterPresenter = new CharacterPresenter(this);
   }
 
   set setViewModalFunc(func: (modale: Reactable | null) => void) {
@@ -82,17 +82,17 @@ export class GameCorePresenter {
     this.notifyViewChange();
 
     // Wait for the scene to be ready because react load in async
-    setTimeout(() => {
-      this.mapPresenter.initView(this._babylonView.scene);
+    setTimeout(async () => {
+      this._mapPresenter.initView(this._babylonView.scene);
+      await this._characterPresenter.initView(this._babylonView.scene);
+      this._mapPresenter.placeCharacters(true);
+      this.buildingPresenter = new BuildingPresenter(this._mapPresenter, this.openModal);
       this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
     }, 100);
   }
 
   private initializeTestData(): void {
-    const characterPresenter = new CharacterPresenter();
-    this.characters = characterPresenter.getDefaultCharacters();
-
     const inventoryPresenter = new InventoryPresenter();
     this.inventoryList = inventoryPresenter.getDefaultInventories();
 
@@ -100,8 +100,8 @@ export class GameCorePresenter {
     this.events = eventPresenter.getDefaultEvents();
   }
 
-  public getCharacters(): Character[] {
-    return this.characters;
+  public getCharacters(): Set<Character> {
+    return this._characterPresenter.characters;
   }
 
   public getInventoryList(): Inventory[] {
@@ -123,6 +123,7 @@ export class GameCorePresenter {
     this.openModal(dicePresenter);
 
     this.notifyViewChange();
+    this._characterPresenter.resetMovements();
   }
 
   getCurrentRound() {
@@ -131,5 +132,13 @@ export class GameCorePresenter {
 
   get babylonView(): BabylonMainView {
     return this._babylonView;
+  }
+
+  get characterPresenter(): CharacterPresenter {
+    return this._characterPresenter;
+  }
+
+  get mapPresenter(): MapPresenter {
+    return this._mapPresenter;
   }
 }
