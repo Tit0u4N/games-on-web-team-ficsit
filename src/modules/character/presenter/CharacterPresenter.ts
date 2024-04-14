@@ -20,7 +20,7 @@ export class CharacterPresenter {
   }
 
   async initView(scene: Scene): Promise<void> {
-    await this._characterView.initPawns(scene);
+    await this._characterView.initView(scene);
   }
 
   getCharacterById(id: number): Character | undefined {
