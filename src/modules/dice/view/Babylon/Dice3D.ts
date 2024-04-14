@@ -1,6 +1,7 @@
 import {
   Mesh,
-  MeshBuilder, Observer,
+  MeshBuilder,
+  Observer,
   PhysicsAggregate,
   PhysicsShapeType,
   Scene,
@@ -13,13 +14,13 @@ import {
 import { DicePresenter } from '../../presenter/DicePresenter.ts';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
 
-export class Dice3D implements ViewInitable{
+export class Dice3D implements ViewInitable {
   private readonly scene: Scene;
   private mesh!: Mesh;
   private physics!: PhysicsAggregate;
   private camera!: TargetCamera;
-  private observer!: Observer<Scene>
-  private state : "idle" | "rolling" | "rolled" = "idle";
+  private observer!: Observer<Scene>;
+  private state: 'idle' | 'rolling' | 'rolled' = 'idle';
 
   constructor(scene: Scene, dicePresenter: DicePresenter) {
     this.scene = scene;
@@ -53,7 +54,10 @@ export class Dice3D implements ViewInitable{
 
   private createObserver() {
     this.observer = this.scene.onBeforeRenderObservable.add(() => {
-      if (this.physics.body.getLinearVelocity().length() < 0.1 && this.physics.body.getAngularVelocity().length() < 0.1 ){
+      if (
+        this.physics.body.getLinearVelocity().length() < 0.1 &&
+        this.physics.body.getAngularVelocity().length() < 0.1
+      ) {
         this.state = 'rolled';
         this.scene.onBeforeRenderObservable.remove(this.observer);
       }
@@ -65,8 +69,12 @@ export class Dice3D implements ViewInitable{
   }
 
   private addPhysics() {
-    this.physics = new PhysicsAggregate(this.mesh, PhysicsShapeType.MESH, { mass: 1, friction: 200, restitution : 0.01,  }, this.scene);
-
+    this.physics = new PhysicsAggregate(
+      this.mesh,
+      PhysicsShapeType.MESH,
+      { mass: 1, friction: 200, restitution: 0.01 },
+      this.scene,
+    );
   }
 
   private setPos(vector: Vector3) {
@@ -85,12 +93,12 @@ export class Dice3D implements ViewInitable{
   getDiceValue() {
     const nbFaces = this.mesh.getTotalVertices() / 3;
     const topFace = {
-      index : -1,
-      position : new Vector3(0, 0, 0),
-      maxHeight : -Infinity
-    }
+      index: -1,
+      position: new Vector3(0, 0, 0),
+      maxHeight: -Infinity,
+    };
     for (let i = 0; i < nbFaces; i++) {
-      const face = this.mesh.getFacetPosition(i)
+      const face = this.mesh.getFacetPosition(i);
       if (face.y > topFace.maxHeight) {
         topFace.maxHeight = face.y;
         topFace.position = face;
@@ -148,7 +156,6 @@ export class Dice3D implements ViewInitable{
     }
   }
 
-
   async waitForDiceToRoll() {
     return new Promise((resolve) => {
       const checkDiceState = () => {
@@ -163,7 +170,7 @@ export class Dice3D implements ViewInitable{
   }
 
   async rollDice(): Promise<number> {
-    this.initView(this.scene)
+    this.initView(this.scene);
     this.state = 'rolling';
 
     await this.waitForDiceToRoll();
