@@ -1,25 +1,14 @@
 import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
-import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
-  toggleModal: (type: ModalType, isOpen: boolean) => void;
-  isModalOpen: (type: ModalType) => boolean;
 }
 
-export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
-  trainingCenter,
-  toggleModal,
-  isModalOpen,
-}) => {
-  // const { onOpenChange } = useDisclosure();
-  // const handleClose = () => {
-  //   toggleModal(ModalType.TRAINING_CENTER, !isModalOpen(ModalType.TRAINING_CENTER));
-  // };
+export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = (trainingCenter) => {
   return (
-    <Modal isOpen={true} /*onOpenChange={onOpenChange} onClose={handleClose}*/ className="h-[80%] w-[80%] max-w-full">
+    <Modal isOpen={true} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         {() => (
           <>
@@ -40,10 +29,10 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
               </Card>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" /*onPress={handleClose}*/>
+              <Button color="danger" variant="light">
                 Close
               </Button>
-              <Button color="primary" /*onPress={handleClose}*/>Action</Button>
+              <Button color="primary">Action</Button>
             </ModalFooter>
           </>
         )}

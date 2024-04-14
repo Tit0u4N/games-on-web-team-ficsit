@@ -26,6 +26,7 @@ export class TrainingCenterView implements ViewInitable {
   initView(scene: Scene) {
     this.scene = scene;
     this.createMesh(this.trainingCenterModel.position);
+    this.addActionManager();
   }
 
   // Create a cube above the tile
@@ -48,20 +49,22 @@ export class TrainingCenterView implements ViewInitable {
     );
     cube.position = vector.add(new Vector3(0, 0, 0));
     cube.material = new StandardMaterial('material_cube', this.scene);
+    this._mesh = cube;
+  }
+
+  private addActionManager(): void {
     // Add onclick listener
-    cube.actionManager = new ActionManager(this.scene);
-    cube.actionManager.registerAction(
+    this._mesh.actionManager = new ActionManager(this.scene);
+    this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(
         {
           trigger: ActionManager.OnPickTrigger,
         },
         () => {
-          console.log('Training Center was clicked');
-          // Add your code here to handle the click event
+          this.trainingCenterPresenter.openModal();
         },
       ),
     );
-    this._mesh = cube;
   }
 
   get mesh(): Mesh {

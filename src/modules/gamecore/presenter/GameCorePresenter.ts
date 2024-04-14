@@ -18,7 +18,7 @@ export class GameCorePresenter {
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
   private mapPresenter: MapPresenter;
-  private buildingPresenter: BuildingPresenter;
+  private buildingPresenter!: BuildingPresenter;
   private characters: Character[] = [];
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
@@ -32,12 +32,20 @@ export class GameCorePresenter {
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
     this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
-    this.buildingPresenter = new BuildingPresenter(this.mapPresenter);
+    this.buildingPresenter = new BuildingPresenter(this.mapPresenter, this.openModal);
     this.initializeTestData();
   }
 
   set setViewModalFunc(func: (modale: Reactable | null) => void) {
     this._setViewModalFunc = func;
+    console.log('setViewModalFunc', func);
+    console.log('_setViewModalFunc', this._setViewModalFunc);
+  }
+
+  public openModal(presenter: Reactable): void {
+    console.log('openModal', presenter, this._setViewModalFunc);
+    this._setViewModalFunc(presenter);
+    console.log('openModal2', presenter, this._setViewModalFunc);
   }
 
   /* Application management*/
@@ -112,7 +120,7 @@ export class GameCorePresenter {
 
     const scene = this._babylonView.scene;
     const dicePresenter = new DicePresenter(scene);
-    this._setViewModalFunc(dicePresenter);
+    this.openModal(dicePresenter);
 
     this.notifyViewChange();
   }

@@ -1,21 +1,14 @@
 import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaModel } from '../../model/ArenaModel.ts';
-import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaModel;
-  toggleModal: (type: ModalType, isOpen: boolean) => void;
-  isModalOpen: (type: ModalType) => boolean;
 }
 
-export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, toggleModal, isModalOpen }) => {
-  // const { onOpenChange } = useDisclosure();
-  // const handleClose = () => {
-  //   toggleModal(ModalType.ARENA, !isModalOpen(ModalType.ARENA));
-  // };
+export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena }) => {
   return (
-    <Modal isOpen={true} /*onOpenChange={onOpenChange} onClose={handleClose}*/ className="h-[80%] w-[80%] max-w-full">
+    <Modal isOpen={true} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         {() => (
           <>
@@ -36,10 +29,10 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, toggleModal, is
               </Card>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" /*onPress={handleClose}*/>
+              <Button color="danger" variant="light">
                 Close
               </Button>
-              <Button color="primary" /*onPress={handleClose}*/>Action</Button>
+              <Button color="primary">Action</Button>
             </ModalFooter>
           </>
         )}
