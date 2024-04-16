@@ -53,6 +53,7 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
         init: jest.fn(),
         getDisplacementGraph: jest.fn(),
         placeCharacters: jest.fn(),
+        initView: jest.fn(),
       };
     }),
   };
