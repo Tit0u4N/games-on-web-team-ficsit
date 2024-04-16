@@ -4,16 +4,18 @@ import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = (trainingCenter) => {
+export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trainingCenter, isOpen, onClose }) => {
   return (
-    <Modal isOpen={true} className="h-[80%] w-[80%] max-w-full">
+    <Modal isOpen={isOpen} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
       <ModalContent>
         {() => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Inventory</ModalHeader>
-            <ModalBody className="flex flex-row justify-between py-6">
+            <ModalHeader className="flex flex-col gap-1">Training Center</ModalHeader>
+            <ModalBody className="flex flex-row justify-between py-6 h-[80%]">
               <Card radius={'lg'} className={'flex flex-col gap-1 w-[380px] p-2'}>
                 <div className="w-full h-[300px]">
                   <div className="flex justify-between p-[10px] h-full w-full">
@@ -29,7 +31,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = (traini
               </Card>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light">
+              <Button color="danger" variant="light" onClick={onClose}>
                 Close
               </Button>
               <Button color="primary">Action</Button>

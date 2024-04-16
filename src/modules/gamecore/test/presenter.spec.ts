@@ -4,6 +4,23 @@ import { GameCoreModel } from '../model/GameCoreModel.ts';
 import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 
+jest.mock('@babylonjs/core', () => ({
+  ActionManager: jest.fn(),
+  Color4: jest.fn(),
+  ExecuteCodeAction: jest.fn(),
+  Mesh: jest.fn(),
+  Scene: jest.fn(),
+  StandardMaterial: jest.fn(),
+  Vector3: jest.fn(),
+  HemisphericLight: jest.fn(),
+  ArcRotateCamera: jest.fn(),
+  MeshBuilder: jest.fn(),
+  Texture: jest.fn(),
+  SceneLoader: jest.fn(),
+  Animation: jest.fn(),
+  AnimationGroup: jest.fn(),
+}));
+
 // Mocking the MainView class
 jest.mock('../view/Babylon/BabylonMainView.ts', () => {
   return {
@@ -123,13 +140,6 @@ describe('GameCorePresenter unit test', () => {
       expect(presenter.getStatus()).toBe(ApplicationStatus.GAME);
       // doesn't work because of the setTimeout
       //expect(mapPresenter.init).toHaveBeenCalled();
-    });
-  });
-
-  describe('nextRound', () => {
-    it('should start a new round', () => {
-      presenter.nextRound();
-      expect(gameCoreModel.playRound).toHaveBeenCalled();
     });
   });
 

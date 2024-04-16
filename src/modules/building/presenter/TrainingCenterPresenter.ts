@@ -9,10 +9,12 @@ import { ModalManager } from '../../../core/ModalManager.ts';
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;
   private _trainingCenterView: TrainingCenterView;
+  private _modalIsOpen: boolean;
 
   constructor(trainingCenterModel: TrainingCenterModel) {
     this._trainingCenter = trainingCenterModel;
     this._trainingCenterView = new TrainingCenterView(this);
+    this._modalIsOpen = false;
   }
 
   initView(scene: Scene) {
@@ -28,7 +30,13 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
   }
 
   public openModal(): void {
+    this._modalIsOpen = true;
     ModalManager.getInstance().openModal(this);
+  }
+
+  public closeModal(): void {
+    this._modalIsOpen = false;
+    ModalManager.getInstance().closeModal();
   }
 
   getReactView(): { type: React.ElementType; props: TrainingCenterLayoutProps } {
@@ -36,6 +44,8 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
       type: TrainingCenterLayout,
       props: {
         trainingCenter: this._trainingCenter,
+        isOpen: this._modalIsOpen,
+        onClose: () => this.closeModal(),
       },
     };
   }
