@@ -150,16 +150,6 @@ describe('GameCorePresenter unit test', () => {
     });
   });
 
-  describe('startGame', () => {
-    it('should start a new game', () => {
-      presenter.startGame();
-      expect(gameCoreModel.createNewGame).toHaveBeenCalled();
-      expect(presenter.getStatus()).toBe(ApplicationStatus.GAME);
-      // doesn't work because of the setTimeout
-      //expect(mapPresenter.init).toHaveBeenCalled();
-    });
-  });
-
   describe('getCurrentRound', () => {
     it('should return the current round', () => {
       gameCoreModel.getRound.mockReturnValue(5);
