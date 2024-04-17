@@ -40,7 +40,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   return (
     <div>
       <div className={className}>
-        <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()}>
+        <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()} isSelected={true}>
           3D Dice
         </Checkbox>
 
