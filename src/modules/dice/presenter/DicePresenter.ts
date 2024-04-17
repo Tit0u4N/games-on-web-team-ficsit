@@ -4,6 +4,7 @@ import { Scene } from '@babylonjs/core';
 import { DiceComponent, DiceComponentProps } from '../view/React/DiceComponent.tsx';
 import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import React from 'react';
+import { ModalManager } from '../../../core/ModalManager.ts';
 
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
@@ -42,15 +43,18 @@ export class DicePresenter implements Reactable, ViewInitable {
     this._rollDiceFunc3D = func;
   }
 
-  async rollDice() {
+  async rollDice(): Promise<number> {
     this.state = 'rolling';
+    ModalManager.getInstance().lock();
     if (this._is3DMod) {
       this.model.finalValue = await this._rollDiceFunc3D();
     } else {
       await this._rollDiceFunc2D(this.model.getRandDiceValue());
     }
+    ModalManager.getInstance().unlock();
     this.state = 'rolled';
     console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
+    return this.model.finalValue;
   }
 
   initView(scene: Scene): void {
