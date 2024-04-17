@@ -87,6 +87,22 @@ jest.mock('../../dice/presenter/DicePresenter.ts', () => {
   };
 });
 
+jest.mock('../../map/model/GraphTilesModel.ts', () => {
+  return {
+    GraphTilesModel: jest.fn().mockImplementation(() => {
+      return {
+        getAdjacentTilesID: jest.fn(),
+        getAdjacentTiles: jest.fn(),
+        getAdjacentTilesInRange: jest.fn(),
+        tileIsAdjacent: jest.fn(),
+        getTile: jest.fn(),
+        getDistance: jest.fn(),
+        getSize: jest.fn(),
+      };
+    }),
+  };
+});
+
 describe('GameCorePresenter unit test', () => {
   let presenter: GameCorePresenter;
   let gameCoreModel: jest.Mocked<GameCoreModel>;
