@@ -26,7 +26,7 @@ export class TileViewFactory {
   private createBaseTiles(): BaseTile[] {
     const tempBaseTiles: BaseTile[] = [];
     this.parentMesh = new Mesh('base_tile_group', this.scene);
-    for (let typeTileKey in TypesTile) {
+    for (const typeTileKey in TypesTile) {
       if (!isNaN(Number(typeTileKey))) continue;
       const type = TypesTile[typeTileKey as keyof typeof TypesTile];
       tempBaseTiles.push(this.createBaseTile(type));
@@ -40,8 +40,8 @@ export class TileViewFactory {
       'base_tile_' + type,
       {
         tessellation: 6,
-        height: this.getHeight(type),
-        diameter: 2 * this.radius,
+        height: TileViewFactory.getHeight(type),
+        diameter: this.getDiameter(type),
       },
       this.scene,
     );
@@ -52,6 +52,9 @@ export class TileViewFactory {
     const color = this.getColor(type);
     const material = new StandardMaterial('material_tile_ ' + type, this.scene);
     material.diffuseColor = Color3.FromHexString(color);
+    if (type === TypesTile.ACCESSIBLE) {
+      material.alpha = 0.5;
+    }
     mesh.material = material;
 
     return {
@@ -63,14 +66,22 @@ export class TileViewFactory {
     };
   }
 
-  public getHeight(type: TypesTile): number {
+  public getDiameter(type: TypesTile): number {
+    const diameter = 2 * this.radius;
+    if (type === TypesTile.ACCESSIBLE) {
+      return diameter - 0.2;
+    }
+    return diameter;
+  }
+
+  public static getHeight(type: TypesTile): number {
     let modifierHeight: number = 0.7;
     switch (type) {
       case TypesTile.SNOW:
-        modifierHeight = 3;
+        modifierHeight = 2.5;
         break;
       case TypesTile.MOUNTAIN:
-        modifierHeight = 2;
+        modifierHeight = 1.8;
         break;
       case TypesTile.FOREST:
         modifierHeight = 1.2;
@@ -91,9 +102,12 @@ export class TileViewFactory {
       case TypesTile.DEEP_WATER:
         modifierHeight = 0.5;
         break;
+      case TypesTile.ACCESSIBLE:
+        modifierHeight = 0.05;
+        break;
     }
 
-    return modifierHeight * 5;
+    return modifierHeight * 2;
   }
 
   public getColor(type: TypesTile): string {
@@ -118,6 +132,10 @@ export class TileViewFactory {
         return '#edc9af';
       case TypesTile.HILL_FOREST:
         return '#a7c987';
+
+      // For debug
+      case TypesTile.ACCESSIBLE:
+        return '#00ff00';
 
       // For debug
       case TypesTile.DEFAULT:

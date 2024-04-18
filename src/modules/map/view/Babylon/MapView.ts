@@ -2,6 +2,9 @@ import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
+import { MapPresenter } from '../../presenter/MapPresenter.ts';
+import { TypesTile } from '../../model/TileModel.ts';
+import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 
 /**
  * Map class for the game
@@ -12,11 +15,15 @@ export class MapView {
   private tiles!: TileView[][];
   private parent!: Mesh;
   private scene!: Scene;
+  private tileFactory!: TileViewFactory;
+  private tilesDeplacement: TileView[] = [];
   private readonly _mapModel: IMap;
+  private readonly _mapPresenter: MapPresenter;
 
-  constructor(mapModel: IMap) {
+  constructor(mapModel: IMap, mapPresenter: MapPresenter) {
     this.size = mapModel.size;
     this._mapModel = mapModel;
+    this._mapPresenter = mapPresenter;
   }
 
   init(scene: Scene) {
@@ -24,6 +31,7 @@ export class MapView {
     this.parent = new Mesh('map_group');
     this.tiles = this.mapModelToView(this._mapModel);
     if (this.tiles.length === 0) throw new Error('No tiles found');
+    this.tileFactory = new TileViewFactory(this.scene);
   }
 
   /**
@@ -52,5 +60,26 @@ export class MapView {
 
   get mapModel(): IMap {
     return this._mapModel;
+  }
+
+  get mapPresenter(): MapPresenter {
+    return this._mapPresenter;
+  }
+
+  getTile(x: number, y: number): TileView {
+    return this.tiles[x][y];
+  }
+
+  addDeplacementTile(x: number, y: number, type: TypesTile) {
+    const TileView = this.tileFactory.createTile(x, y, TypesTile.ACCESSIBLE, this);
+    TileView.mesh.position = getPosition({ x, y, type: type }, PositionTypes.DECORATION);
+    this.tilesDeplacement.push(TileView);
+  }
+
+  removeDeplacementTile() {
+    this.tilesDeplacement.forEach((tile) => {
+      tile.mesh.dispose();
+    });
+    this.tilesDeplacement = [];
   }
 }

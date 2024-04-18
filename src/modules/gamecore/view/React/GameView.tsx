@@ -5,6 +5,7 @@ import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
 import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
+import { Reactable } from '../../../../core/Interfaces.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -26,6 +27,10 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   const [isInventoryOpen, setIsInventoryOpen] = React.useState(false);
   const [isEventOpen, setIsEventOpen] = React.useState(false);
+
+  const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
+
+  presenter.setViewModalFunc = setModalToShow;
 
   const toggleModal = (type: ModalType, isOpen: boolean) => {
     switch (type) {
@@ -67,6 +72,9 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
           <EventLayout event={events} toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
         <GameCharacterLayout character={characters} />
+      </div>
+      <div className={'absolute z-[1000]'}>
+        {modalToShow ? React.createElement(modalToShow.getReactView().type, modalToShow.getReactView().props) : null}
       </div>
       <BabylonScene babylonMainView={presenter.babylonView} />
     </div>
