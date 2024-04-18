@@ -8,23 +8,34 @@ import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
+import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
+import { Reactable } from '../../../core/Interfaces.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
-  private mapPresenter: MapPresenter;
-  private characters: Character[] = [];
+  private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
+  private readonly _characterPresenter: CharacterPresenter;
+
+  private _setViewModalFunc: (modale: Reactable | null) => void = () => {
+    console.error('setViewModalFunc not set');
+  };
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView();
-    this.mapPresenter = new MapPresenter({ size: 60, seed: 'TEST_SEED' });
+    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
+    this._characterPresenter = new CharacterPresenter(this);
+  }
+
+  set setViewModalFunc(func: (modale: Reactable | null) => void) {
+    this._setViewModalFunc = func;
   }
 
   /* Application management*/
@@ -61,16 +72,15 @@ export class GameCorePresenter {
     this.notifyViewChange();
 
     // Wait for the scene to be ready because react load in async
-    setTimeout(() => {
-      this.mapPresenter.init(this._babylonView.scene);
+    setTimeout(async () => {
+      this._mapPresenter.init(this._babylonView.scene);
+      await this._characterPresenter.initView(this._babylonView.scene);
+      this._mapPresenter.placeCharacters(true);
       this.notifyViewChange();
     }, 100);
   }
 
   private initializeTestData(): void {
-    const characterPresenter = new CharacterPresenter();
-    this.characters = characterPresenter.getDefaultCharacters();
-
     const inventoryPresenter = new InventoryPresenter();
     this.inventoryList = inventoryPresenter.getDefaultInventories();
 
@@ -78,8 +88,8 @@ export class GameCorePresenter {
     this.events = eventPresenter.getDefaultEvents();
   }
 
-  public getCharacters(): Character[] {
-    return this.characters;
+  public getCharacters(): Set<Character> {
+    return this._characterPresenter.characters;
   }
 
   public getInventoryList(): Inventory[] {
@@ -95,7 +105,13 @@ export class GameCorePresenter {
    */
   nextRound() {
     this.gameModel.playRound();
+
+    const scene = this._babylonView.scene;
+    const dicePresenter = new DicePresenter(scene);
+    this._setViewModalFunc(dicePresenter);
+
     this.notifyViewChange();
+    this._characterPresenter.resetMovements();
   }
 
   getCurrentRound() {
@@ -104,5 +120,13 @@ export class GameCorePresenter {
 
   get babylonView(): BabylonMainView {
     return this._babylonView;
+  }
+
+  get characterPresenter(): CharacterPresenter {
+    return this._characterPresenter;
+  }
+
+  get mapPresenter(): MapPresenter {
+    return this._mapPresenter;
   }
 }

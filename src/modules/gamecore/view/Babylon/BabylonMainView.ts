@@ -1,13 +1,14 @@
 import {
-  ArcRotateCamera,
-  Camera,
+  ArcRotateCamera, Camera,
   Engine,
   EngineOptions,
+  HavokPlugin,
   HemisphericLight,
   Scene,
   SceneOptions,
   Vector3,
 } from '@babylonjs/core';
+import HavokPhysics from '@babylonjs/havok';
 import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.ts';
 
 type BabylonMainViewOptions = {
@@ -29,12 +30,13 @@ export class BabylonMainView {
   private _canvas!: HTMLCanvasElement;
   private _engine!: Engine;
   private _scene!: Scene;
+  private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
 
   constructor(options?: BabylonMainViewOptions) {
     this._options = { ...DEFAULT_OPTIONS, ...options };
   }
 
-  init(canvas: HTMLCanvasElement) {
+  async init(canvas: HTMLCanvasElement): Promise<void> {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
     this._engine = new Engine(
@@ -44,6 +46,8 @@ export class BabylonMainView {
       this._options.adaptToDeviceRatio,
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
+    const havokPlugin = new HavokPlugin(true, await HavokPhysics());
+    this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
   }
 
   onSceneReady(): void {
@@ -63,9 +67,8 @@ export class BabylonMainView {
     // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
     camera.inputs.clear();
-    const arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(camera);
-    camera.inputs.add(arcRotateCameraKeyboardInputs);
-    arcRotateCameraKeyboardInputs.attachControl(true);
+    this._arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(camera);
+    camera.inputs.add(this._arcRotateCameraKeyboardInputs);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), this.scene);
@@ -74,7 +77,9 @@ export class BabylonMainView {
     light.intensity = 0.5;
   }
 
-  onRender(): void {}
+  onRender(): void {
+    this._arcRotateCameraKeyboardInputs.attachControl(true);
+  }
 
   get engine(): Engine {
     return this._engine;

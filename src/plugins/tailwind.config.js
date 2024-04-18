@@ -8,8 +8,8 @@ export default {
     extend: {
       colors: {
         primary: '#4fce3f',
-        case : '#f4f4f4',
-      }
+        case: '#f4f4f4',
+      },
     },
   },
   darkMode: 'class',
