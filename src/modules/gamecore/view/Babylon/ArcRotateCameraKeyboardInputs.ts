@@ -34,10 +34,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       element!.tabIndex = 1;
       this._onKeyDown = function(evt) {
         if (
-          _this._keysUp.indexOf(evt.key) !== -1 ||
-          _this._keysDown.indexOf(evt.key) !== -1 ||
-          _this._keysLeft.indexOf(evt.key) !== -1 ||
-          _this._keysRight.indexOf(evt.key) !== -1
+          ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)
         ) {
           const index = _this._keys.indexOf(evt.key);
           if (index === -1) {
@@ -50,10 +47,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       this._onKeyUp = function(evt) {
         if (
-          _this._keysUp.indexOf(evt.key) !== -1 ||
-          _this._keysDown.indexOf(evt.key) !== -1 ||
-          _this._keysLeft.indexOf(evt.key) !== -1 ||
-          _this._keysRight.indexOf(evt.key) !== -1
+          ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)
         ) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {
@@ -67,6 +61,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
     }
+  }
+
+  static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
+    return _this._keysUp.indexOf(evt.key) !== -1 ||
+      _this._keysDown.indexOf(evt.key) !== -1 ||
+      _this._keysLeft.indexOf(evt.key) !== -1 ||
+      _this._keysRight.indexOf(evt.key) !== -1;
   }
 
   public checkInputs(): void {
