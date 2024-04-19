@@ -75,10 +75,15 @@ export class BabylonMainView {
 
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.5;
+
+    this._arcRotateCameraKeyboardInputs.attachControl(true);
   }
 
   onRender(): void {
-    this._arcRotateCameraKeyboardInputs.attachControl(true);
+    const resizeWatcher = new ResizeObserver(() => {
+      this._engine.resize()
+    })
+    resizeWatcher.observe(this._canvas)
   }
 
   get engine(): Engine {
@@ -95,6 +100,10 @@ export class BabylonMainView {
 
   get scene(): Scene {
     return this._scene;
+  }
+
+  get arcRotateCameraKeyboardInputs(): ArcRotateCameraKeyboardInputs {
+    return this._arcRotateCameraKeyboardInputs;
   }
 
   set canvas(value: HTMLCanvasElement) {
