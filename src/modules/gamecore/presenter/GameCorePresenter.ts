@@ -77,7 +77,7 @@ export class GameCorePresenter {
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
       this.notifyViewChange();
-    }, 100);
+    }, 500);
   }
 
   private initializeTestData(): void {
