@@ -76,7 +76,9 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         </div>
         <GameCharacterLayout character={characters} />
       </div>
-      <div onClick={handleResetCamera} className={'cursor-pointer z-50 relative inline-block'}>
+      <div
+        onClick={handleResetCamera}
+        className={'cursor-pointer z-50 relative inline-block top-[8vh] right-[-96vw] bg-white p-[5px] rounded-[10px]'}>
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 100 100">
           <path
             fill="currentColor"
