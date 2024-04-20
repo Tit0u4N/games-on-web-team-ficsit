@@ -1,8 +1,10 @@
 import { DiceModel } from '../model/DiceModel.ts';
 import { Dice3D } from '../view/Babylon/Dice3D.ts';
 import { Scene } from '@babylonjs/core';
-import { DiceComponent } from '../view/React/DiceComponent.tsx';
+import { DiceComponent, DiceComponentProps } from '../view/React/DiceComponent.tsx';
 import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import React from 'react';
+import { ModalManager } from '../../../core/ModalManager.ts';
 
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
@@ -19,7 +21,7 @@ export class DicePresenter implements Reactable, ViewInitable {
     this.initView(scene);
   }
 
-  getReactView() {
+  getReactView(): { type: React.ElementType; props: DiceComponentProps } {
     this.viewReact = DiceComponent;
     return {
       type: this.viewReact,
@@ -31,7 +33,6 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   toggle3DMod() {
     this._is3DMod = !this._is3DMod;
-    console.log('3D Mod is now : ', this._is3DMod);
   }
 
   set RollDiceFunc2D(func: (finalValue: number, nbRolls?: number) => Promise<void>) {
@@ -42,15 +43,18 @@ export class DicePresenter implements Reactable, ViewInitable {
     this._rollDiceFunc3D = func;
   }
 
-  async rollDice() {
+  async rollDice(): Promise<number> {
     this.state = 'rolling';
+    ModalManager.getInstance().lock();
     if (this._is3DMod) {
       this.model.finalValue = await this._rollDiceFunc3D();
     } else {
       await this._rollDiceFunc2D(this.model.getRandDiceValue());
     }
+    ModalManager.getInstance().unlock();
     this.state = 'rolled';
     console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
+    return this.model.finalValue;
   }
 
   initView(scene: Scene): void {

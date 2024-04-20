@@ -8,22 +8,20 @@ import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
+import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
 import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { Reactable } from '../../../core/Interfaces.ts';
+import { ModalManager } from '../../../core/ModalManager.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
+  private buildingPresenter!: BuildingPresenter;
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
-
-  private _setViewModalFunc: (modale: Reactable | null) => void = () => {
-    console.error('setViewModalFunc not set');
-  };
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -33,11 +31,6 @@ export class GameCorePresenter {
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
   }
-
-  set setViewModalFunc(func: (modale: Reactable | null) => void) {
-    this._setViewModalFunc = func;
-  }
-
   /* Application management*/
 
   public getStatus() {
@@ -73,9 +66,11 @@ export class GameCorePresenter {
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
-      this._mapPresenter.init(this._babylonView.scene);
+      this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
+      this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
+      this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
     }, 100);
   }
@@ -108,7 +103,7 @@ export class GameCorePresenter {
 
     const scene = this._babylonView.scene;
     const dicePresenter = new DicePresenter(scene);
-    this._setViewModalFunc(dicePresenter);
+    ModalManager.getInstance().openModal(dicePresenter);
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
