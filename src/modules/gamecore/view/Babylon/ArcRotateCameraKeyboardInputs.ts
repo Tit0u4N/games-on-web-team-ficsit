@@ -1,10 +1,4 @@
-import {
-  ArcRotateCamera,
-  ICameraInput,
-  Matrix,
-  Nullable,
-  Vector3,
-} from '@babylonjs/core';
+import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babylonjs/core';
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
@@ -32,10 +26,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     const element = engine.getInputElement();
     if (!this._onKeyDown) {
       element!.tabIndex = 1;
-      this._onKeyDown = function(evt) {
-        if (
-          ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)
-        ) {
+      this._onKeyDown = function (evt) {
+        if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index === -1) {
             _this._keys.push(evt.key);
@@ -45,10 +37,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           }
         }
       };
-      this._onKeyUp = function(evt) {
-        if (
-          ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)
-        ) {
+      this._onKeyUp = function (evt) {
+        if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {
             _this._keys.splice(index, 1);
@@ -64,10 +54,12 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
-    return _this._keysUp.indexOf(evt.key) !== -1 ||
+    return (
+      _this._keysUp.indexOf(evt.key) !== -1 ||
       _this._keysDown.indexOf(evt.key) !== -1 ||
       _this._keysLeft.indexOf(evt.key) !== -1 ||
-      _this._keysRight.indexOf(evt.key) !== -1;
+      _this._keysRight.indexOf(evt.key) !== -1
+    );
   }
 
   public checkInputs(): void {
@@ -83,15 +75,12 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           const keyCode = this._keys[index];
           if (this._keysLeft.indexOf(keyCode) !== -1) {
             localDirection.copyFromFloats(-speed, 0, 0);
-          }
-          else if (this._keysRight.indexOf(keyCode) !== -1) {
+          } else if (this._keysRight.indexOf(keyCode) !== -1) {
             localDirection.copyFromFloats(speed, 0, 0);
-          }
-          else if (this._keysUp.indexOf(keyCode) !== -1) {
+          } else if (this._keysUp.indexOf(keyCode) !== -1) {
             // change the zoom to stay at the same height
             localDirection.copyFromFloats(0, speed, speed);
-          }
-          else if (this._keysDown.indexOf(keyCode) !== -1) {
+          } else if (this._keysDown.indexOf(keyCode) !== -1) {
             // change the zoom to stay at the same height
             localDirection.copyFromFloats(0, -speed, -speed);
           }
@@ -110,14 +99,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           const keyCode = this._keys[index];
           if (this._keysLeft.indexOf(keyCode) !== -1) {
             this.camera!.inertialAlphaOffset -= 3 / 1000;
-          }
-          else if (this._keysRight.indexOf(keyCode) !== -1) {
+          } else if (this._keysRight.indexOf(keyCode) !== -1) {
             this.camera!.inertialAlphaOffset -= -3 / 1000;
-          }
-          else if (this._keysUp.indexOf(keyCode) !== -1) {
+          } else if (this._keysUp.indexOf(keyCode) !== -1) {
             this.camera!.inertialBetaOffset -= 3 / 1000;
-          }
-          else if (this._keysDown.indexOf(keyCode) !== -1) {
+          } else if (this._keysDown.indexOf(keyCode) !== -1) {
             this.camera!.inertialBetaOffset -= -3 / 1000;
           }
         }
