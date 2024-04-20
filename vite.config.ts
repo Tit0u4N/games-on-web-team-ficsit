@@ -9,11 +9,8 @@ export default defineConfig({
     wasm(),
     react()
   ],
+  base: './',
   optimizeDeps: {
     exclude: ['@babylonjs/havok'],
-  },
-  build: {
-    outDir: 'build',
-    assetsDir: 'public',
   },
 })
