@@ -149,4 +149,9 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   getClassName(): string {
     return 'ArcRotateCameraKeyboardPanInput';
   }
+
+  public resetPositionCamera(): void {
+    this.camera!.position = new Vector3(90, 150, -50);
+    this.camera!.setTarget(new Vector3(90, 0, 50));
+  }
 }
