@@ -10,6 +10,10 @@ export default defineConfig({
     react()
   ],
   base: './',
+  build: {
+    outDir: 'build',
+    assetsDir: 'public',
+  },
   optimizeDeps: {
     exclude: ['@babylonjs/havok'],
   },
