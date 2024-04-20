@@ -67,7 +67,12 @@ export class BabylonMainView {
     light.intensity = 0.7;
   }
 
-  onRender(): void {}
+  onRender(): void {
+    const resizeWatcher = new ResizeObserver(() => {
+      this._engine.resize();
+    });
+    resizeWatcher.observe(this._canvas);
+  }
 
   get engine(): Engine {
     return this._engine;
