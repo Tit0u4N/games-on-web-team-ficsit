@@ -3,6 +3,7 @@ import {
   Camera,
   Engine,
   EngineOptions,
+  FreeCamera,
   HavokPlugin,
   HemisphericLight,
   Scene,
@@ -32,12 +33,13 @@ export class BabylonMainView {
   private _engine!: Engine;
   private _scene!: Scene;
   private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
+  private _isDev: boolean = false;
 
   constructor(options?: BabylonMainViewOptions) {
     this._options = { ...DEFAULT_OPTIONS, ...options };
   }
 
-  async init(canvas: HTMLCanvasElement): Promise<void> {
+  async init(canvas: HTMLCanvasElement, dev?: boolean): Promise<void> {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
     this._engine = new Engine(
@@ -49,9 +51,20 @@ export class BabylonMainView {
     this._scene = new Scene(this._engine, this._options.sceneOptions);
     const havokPlugin = new HavokPlugin(true, await HavokPhysics());
     this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
+    if (dev) {
+      this._isDev = dev;
+    }
   }
 
   onSceneReady(): void {
+    if (this._isDev) {
+      this.devCamera();
+    } else {
+      this.arcCamera();
+    }
+  }
+
+  private arcCamera(): void {
     // This creates and positions a free camera (non-mesh)
     const camera = new ArcRotateCamera('camera', 0, 0, 10, new Vector3(90, 150, -50), this.scene);
 
@@ -78,6 +91,25 @@ export class BabylonMainView {
     light.intensity = 0.5;
 
     this._arcRotateCameraKeyboardInputs.attachControl(true);
+  }
+
+  private devCamera(): void {
+    // This creates and positions a free camera (non-mesh)
+    const camera = new FreeCamera('camera1', new Vector3(90, 150, -50), this.scene);
+
+    // This targets the camera to scene origin
+    camera.setTarget(new Vector3(90, 0, 50));
+
+    const canvas = this.scene.getEngine().getRenderingCanvas();
+
+    // This attaches the camera to the canvas
+    camera.attachControl(canvas, true);
+
+    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    const light = new HemisphericLight('light', new Vector3(0, 1, 0), this.scene);
+
+    // Default intensity is 1. Let's dim the light a small amount
+    light.intensity = 0.7;
   }
 
   onRender(): void {
