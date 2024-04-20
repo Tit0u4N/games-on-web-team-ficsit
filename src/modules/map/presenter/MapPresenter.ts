@@ -131,4 +131,8 @@ export class MapPresenter implements ViewInitable {
       this.placeCharacters();
     }
   }
+
+  get view(): MapView {
+    return this._view;
+  }
 }
