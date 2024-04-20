@@ -4,6 +4,7 @@ import { Scene, Vector3 } from '@babylonjs/core';
 import { IGraphTiles } from '../model/GraphTilesModel.ts';
 import { importModel } from '../../../core/ModelImporter.ts';
 import { getPosition, getCharacterPositionOnTile, PositionTypes } from '../core/GamePlacer.ts';
+import { ViewInitable } from '../../../core/Interfaces.ts';
 import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
 
 type MapPresenterOptions = {
@@ -17,7 +18,7 @@ const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
   seed: Math.random(),
   defaultCharacterPosition: { x: 12, y: 25 },
 });
-export class MapPresenter {
+export class MapPresenter implements ViewInitable {
   private readonly _mapModel: IMapModelPresenter;
   private _view: MapView;
   private readonly _gameCorePresenter: GameCorePresenter;
@@ -30,10 +31,13 @@ export class MapPresenter {
     this._view = new MapView(this._mapModel, this);
     this._gameCorePresenter = gameCorePresenter;
   }
+  unMountView(): void {
+    throw new Error('Method not implemented.');
+  }
 
-  init(scene: Scene) {
+  initView(scene: Scene) {
     this._mapModel.init();
-    this._view.init(scene);
+    this._view.initView(scene);
     this.testObjects(scene).then();
     this._gameCorePresenter.getCharacters().forEach((character) => {
       this._mapModel

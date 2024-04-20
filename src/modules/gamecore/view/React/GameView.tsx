@@ -6,6 +6,7 @@ import GameCharacterLayout from '../../../character/view/React/GameCharacterLayo
 import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
 import { Reactable } from '../../../../core/Interfaces.ts';
+import { ModalManager } from '../../../../core/ModalManager.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -29,7 +30,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [isEventOpen, setIsEventOpen] = React.useState(false);
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
 
-  presenter.setViewModalFunc = setModalToShow;
+  ModalManager.createInstance(setModalToShow);
 
   const toggleModal = (type: ModalType, isOpen: boolean) => {
     switch (type) {

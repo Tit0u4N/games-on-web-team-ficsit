@@ -1,5 +1,5 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
-import { TileKey } from './GraphTilesModel.ts';
+import { GraphTilesModel, TileKey } from './GraphTilesModel.ts';
 import { SubBiomeModel } from './biome/SubBiomeModel.ts';
 import { Character } from '../../character/model/Character.ts';
 
@@ -87,7 +87,7 @@ export class TileModel implements ITile {
    * @returns string
    */
   public getID(): TileKey {
-    return this._x + '_' + this._y;
+    return GraphTilesModel.getIDTile(this._x, this._y);
   }
 
   // GETTERS AND SETTERS
