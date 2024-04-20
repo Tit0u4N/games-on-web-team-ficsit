@@ -21,12 +21,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.10
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install
-
-      - name: Build project
-        run: yarn run build
 
       - name: Run tests
         run: yarn test
@@ -40,6 +38,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build project
+        run: yarn build --outDir build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.3
