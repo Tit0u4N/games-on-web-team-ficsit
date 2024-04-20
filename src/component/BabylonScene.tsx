@@ -14,7 +14,7 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
 
     let scene: null | Scene = null;
     if (!canvas) return;
-    babylonMainView.init(canvas, false).then(() => {
+    babylonMainView.init(canvas).then(() => {
       const engine = babylonMainView.engine;
       scene = babylonMainView.scene;
       if (scene.isReady()) {

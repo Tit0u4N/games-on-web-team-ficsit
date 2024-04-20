@@ -1,4 +1,5 @@
 import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babylonjs/core';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
@@ -11,9 +12,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   private _onKeyUp: ((evt: KeyboardEvent) => void) | null | undefined;
   private _onKeyDown: ((evt: KeyboardEvent) => void) | null | undefined;
   public camera: Nullable<ArcRotateCamera>;
+  private _gameCorePresenter: GameCorePresenter;
 
-  constructor(camera: ArcRotateCamera) {
+  constructor(camera: ArcRotateCamera, gameCorePresenter: GameCorePresenter) {
     this.camera = camera;
+    this._gameCorePresenter = gameCorePresenter;
   }
 
   public attachControl(noPreventDefault?: boolean): void {
@@ -80,13 +83,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
             // change the zoom to stay at the same height
             localDirection.copyFromFloats(0, -speed, -speed);
           }
-
-          // While we don't need this complex of a solution to pan on the X and Z axis, this is a good
-          // way to handle movement when the camera angle isn't fixed like ours is.
-          this.camera!.getViewMatrix().invertToRef(transformMatrix);
-          Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
-          this.camera!.position.addInPlace(transformedDirection);
-          this.camera!.target.addInPlace(transformedDirection);
+          this.checkMovementIsPossible(transformedDirection, transformMatrix, localDirection);
         }
       }
       // This should only be active when zoomed in, it uses the existing camera rotation code to rotate with keyboard input
@@ -105,6 +102,51 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         }
       }
     }
+  }
+
+  private checkMovementIsPossible(transformedDirection: Vector3, transformMatrix: Matrix, localDirection: Vector3) {
+    // While we don't need this complex of a solution to pan on the X and Z axis, this is a good
+    // way to handle movement when the camera angle isn't fixed like ours is.
+    const mapLimits = this._gameCorePresenter.getMapLimits();
+
+    // Calculate the adjusted top and bottom limits for the camera
+    const cameraHeight = mapLimits.cameraHeight;
+    const cameraTiltAngle = mapLimits.cameraTiltAngle;
+    const cameraTiltFactor = Math.tan(cameraTiltAngle);
+    const adjustedTop = mapLimits.top + cameraHeight * cameraTiltFactor;
+    const adjustedBottom = mapLimits.bottom - cameraHeight * cameraTiltFactor;
+
+    // Update the camera position after checking the limits
+    const newPosition = this.camera!.position.add(transformedDirection);
+
+    console.log('newPosition', newPosition);
+    console.log('mapLimits', mapLimits);
+
+    // Check if the new position is within the map limits
+    if (
+      newPosition.x >= mapLimits.left &&
+      newPosition.x <= mapLimits.right
+      // newPosition.z >= adjustedTop &&
+      // newPosition.z <= adjustedBottom
+    ) {
+      this.camera!.getViewMatrix().invertToRef(transformMatrix);
+      Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
+      this.camera!.position.addInPlace(transformedDirection);
+      this.camera!.target.addInPlace(transformedDirection);
+    } else if (newPosition.x < mapLimits.left) {
+      this.camera!.position.x = mapLimits.left;
+      this.camera!.target.x = mapLimits.left;
+    } else if (newPosition.x > mapLimits.right) {
+      this.camera!.position.x = mapLimits.right;
+      this.camera!.target.x = mapLimits.right;
+    }
+    // } else if (newPosition.z < adjustedTop) {
+    //   this.camera!.position.z = adjustedTop;
+    //   this.camera!.target.z = adjustedTop;
+    // } else if (newPosition.z > adjustedBottom) {
+    //   this.camera!.position.z = adjustedBottom;
+    //   this.camera!.target.z = adjustedBottom;
+    // }
   }
 
   public detachControl(): void {

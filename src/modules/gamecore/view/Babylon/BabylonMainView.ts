@@ -12,6 +12,7 @@ import {
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
 import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.ts';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -28,18 +29,22 @@ const DEFAULT_OPTIONS: Readonly<BabylonMainViewOptions> = {
 };
 
 export class BabylonMainView {
+  private _gameCorePresenter: GameCorePresenter;
   private _options: BabylonMainViewOptions;
   private _canvas!: HTMLCanvasElement;
   private _engine!: Engine;
   private _scene!: Scene;
+  private _camera!: ArcRotateCamera;
   private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
-  private _isDev: boolean = false;
+  private _devCamera!: boolean;
 
-  constructor(options?: BabylonMainViewOptions) {
+  constructor(gameCorePresenter: GameCorePresenter, devCamera?: boolean, options?: BabylonMainViewOptions) {
+    this._gameCorePresenter = gameCorePresenter;
     this._options = { ...DEFAULT_OPTIONS, ...options };
+    this._devCamera = devCamera || false;
   }
 
-  async init(canvas: HTMLCanvasElement, dev?: boolean): Promise<void> {
+  async init(canvas: HTMLCanvasElement): Promise<void> {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
     this._engine = new Engine(
@@ -51,38 +56,35 @@ export class BabylonMainView {
     this._scene = new Scene(this._engine, this._options.sceneOptions);
     const havokPlugin = new HavokPlugin(true, await HavokPhysics());
     this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
-    if (dev) {
-      this._isDev = dev;
-    }
   }
 
   onSceneReady(): void {
-    if (this._isDev) {
+    if (this._devCamera) {
       this.devCamera();
     } else {
-      this.arcCamera();
+      this.gameCamera();
     }
   }
 
-  private arcCamera(): void {
+  private gameCamera(): void {
     // This creates and positions a free camera (non-mesh)
-    const camera = new ArcRotateCamera('camera', 0, 0, 10, new Vector3(90, 150, -50), this.scene);
+    this._camera = new ArcRotateCamera('camera', 0, 0, 10, new Vector3(90, 150, -50), this.scene);
 
     // The target should also be adjusted so that the camera is looking at the correct location
-    camera.setTarget(new Vector3(90, 0, 50));
+    this._camera.setTarget(new Vector3(90, 0, 50));
 
     // This attaches the camera to the canvas
-    camera.mode = Camera.PERSPECTIVE_CAMERA;
-    camera.speed = 5;
-    camera.fov = 0.5;
+    this._camera.mode = Camera.PERSPECTIVE_CAMERA;
+    this._camera.speed = 5;
+    this._camera.fov = 0.5;
 
     const canvas = this.scene.getEngine().getRenderingCanvas();
 
     // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
-    camera.inputs.clear();
-    this._arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(camera);
-    camera.inputs.add(this._arcRotateCameraKeyboardInputs);
+    this._camera.attachControl(canvas, true);
+    this._camera.inputs.clear();
+    this._arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(this._camera, this._gameCorePresenter);
+    this._camera.inputs.add(this._arcRotateCameraKeyboardInputs);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), this.scene);
@@ -133,6 +135,10 @@ export class BabylonMainView {
 
   get scene(): Scene {
     return this._scene;
+  }
+
+  get camera(): ArcRotateCamera {
+    return this._camera;
   }
 
   get arcRotateCameraKeyboardInputs(): ArcRotateCameraKeyboardInputs {
