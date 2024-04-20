@@ -72,7 +72,7 @@ export class GameCorePresenter {
       this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
       this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
-    }, 100);
+    }, 1000);
   }
 
   private initializeTestData(): void {
