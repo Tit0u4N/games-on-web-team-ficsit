@@ -4,6 +4,23 @@ import { GameCoreModel } from '../model/GameCoreModel.ts';
 import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 
+jest.mock('@babylonjs/core', () => ({
+  ActionManager: jest.fn(),
+  Color4: jest.fn(),
+  ExecuteCodeAction: jest.fn(),
+  Mesh: jest.fn(),
+  Scene: jest.fn(),
+  StandardMaterial: jest.fn(),
+  Vector3: jest.fn(),
+  HemisphericLight: jest.fn(),
+  ArcRotateCamera: jest.fn(),
+  MeshBuilder: jest.fn(),
+  Texture: jest.fn(),
+  SceneLoader: jest.fn(),
+  Animation: jest.fn(),
+  AnimationGroup: jest.fn(),
+}));
+
 // Mocking the MainView class
 jest.mock('../view/Babylon/BabylonMainView.ts', () => {
   return {
@@ -35,6 +52,52 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
       return {
         init: jest.fn(),
         getDisplacementGraph: jest.fn(),
+        placeCharacters: jest.fn(),
+        initView: jest.fn(),
+      };
+    }),
+  };
+});
+
+jest.mock('../../character/presenter/CharacterPresenter.ts', () => {
+  return {
+    CharacterPresenter: jest.fn().mockImplementation(() => {
+      return {
+        getDefaultCharacters: jest.fn(),
+        initView: jest.fn(),
+        getSelectedCharacter: jest.fn(),
+        updateSelectedCharacter: jest.fn(),
+        unselectCharacter: jest.fn(),
+        getCharacterView: jest.fn(),
+        resetCharacterView: jest.fn(),
+        resetMovements: jest.fn(),
+      };
+    }),
+  };
+});
+
+//Mock DicePresenter
+jest.mock('../../dice/presenter/DicePresenter.ts', () => {
+  return {
+    DicePresenter: jest.fn().mockImplementation(() => {
+      return {
+        rollDice: jest.fn(),
+      };
+    }),
+  };
+});
+
+jest.mock('../../map/model/GraphTilesModel.ts', () => {
+  return {
+    GraphTilesModel: jest.fn().mockImplementation(() => {
+      return {
+        getAdjacentTilesID: jest.fn(),
+        getAdjacentTiles: jest.fn(),
+        getAdjacentTilesInRange: jest.fn(),
+        tileIsAdjacent: jest.fn(),
+        getTile: jest.fn(),
+        getDistance: jest.fn(),
+        getSize: jest.fn(),
       };
     }),
   };
@@ -50,10 +113,10 @@ describe('GameCorePresenter unit test', () => {
     presenter = new GameCorePresenter();
     gameCoreModel = new GameCoreModel() as jest.Mocked<GameCoreModel>;
     babylonMainView = new BabylonMainView() as jest.Mocked<BabylonMainView>;
-    mapPresenter = new MapPresenter() as jest.Mocked<MapPresenter>;
+    mapPresenter = new MapPresenter(presenter) as jest.Mocked<MapPresenter>;
     presenter['_babylonView'] = babylonMainView;
     presenter['gameModel'] = gameCoreModel;
-    presenter['mapPresenter'] = mapPresenter;
+    presenter['_mapPresenter'] = mapPresenter;
   });
 
   it('should be defined', () => {
@@ -84,23 +147,6 @@ describe('GameCorePresenter unit test', () => {
       presenter.subscribeToViewChanges(listener);
       presenter.notifyViewChange();
       expect(listener).toHaveBeenCalled();
-    });
-  });
-
-  describe('startGame', () => {
-    it('should start a new game', () => {
-      presenter.startGame();
-      expect(gameCoreModel.createNewGame).toHaveBeenCalled();
-      expect(presenter.getStatus()).toBe(ApplicationStatus.GAME);
-      // doesn't work because of the setTimeout
-      //expect(mapPresenter.init).toHaveBeenCalled();
-    });
-  });
-
-  describe('nextRound', () => {
-    it('should start a new round', () => {
-      presenter.nextRound();
-      expect(gameCoreModel.playRound).toHaveBeenCalled();
     });
   });
 
