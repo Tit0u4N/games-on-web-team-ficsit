@@ -1,5 +1,6 @@
 import {
-  ArcRotateCamera, Camera,
+  ArcRotateCamera,
+  Camera,
   Engine,
   EngineOptions,
   HavokPlugin,
@@ -81,9 +82,9 @@ export class BabylonMainView {
 
   onRender(): void {
     const resizeWatcher = new ResizeObserver(() => {
-      this._engine.resize()
-    })
-    resizeWatcher.observe(this._canvas)
+      this._engine.resize();
+    });
+    resizeWatcher.observe(this._canvas);
   }
 
   get engine(): Engine {
