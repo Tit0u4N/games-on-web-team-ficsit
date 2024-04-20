@@ -13,4 +13,8 @@ export default defineConfig({
     exclude: ['@babylonjs/havok'],
   },
   base: './',
+  build: {
+    outDir: 'build',
+    assetsDir: 'public',
+  },
 })
