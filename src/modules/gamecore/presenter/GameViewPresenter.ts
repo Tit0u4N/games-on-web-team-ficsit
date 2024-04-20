@@ -1,10 +1,13 @@
 import { GameCorePresenter } from './GameCorePresenter';
+import { CharacterFactory } from '../../character/BuilderFactory/CharacterFactory.ts';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
+import { Character } from '../../character/model/Character.ts';
 import { UsableObject } from '../../object/model/UsableObject.ts';
 
 export class GameViewPresenter {
   private gameCorePresenter: GameCorePresenter;
+  private characters: Character[] | undefined;
   private inventoryList: Inventory[] | undefined;
   private events: EventModel[] | undefined;
 
@@ -15,6 +18,12 @@ export class GameViewPresenter {
   }
 
   private initializeTestData(): void {
+    // Initialize characters
+    const defaultCharacter1 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_1.png');
+    const defaultCharacter2 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_2.png');
+    const defaultCharacter3 = CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, '/character_3.png');
+    this.characters = [defaultCharacter1, defaultCharacter2, defaultCharacter3];
+
     // Initialize inventory
     const inventory1 = new Inventory();
     const inventory2 = new Inventory();
@@ -41,6 +50,10 @@ export class GameViewPresenter {
     const event7 = new EventModel(3, 'This is the 7 event');
     const event8 = new EventModel(3, 'This is the 8 event');
     this.events = [event1, event2, event3, event4, event5, event6, event7, event8];
+  }
+
+  public getCharacters(): Character[] | undefined {
+    return this.characters;
   }
 
   public getInventoryList(): Inventory[] | undefined {

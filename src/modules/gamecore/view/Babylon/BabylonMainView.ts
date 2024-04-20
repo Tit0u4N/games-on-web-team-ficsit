@@ -1,14 +1,4 @@
-import {
-  Engine,
-  EngineOptions,
-  FreeCamera,
-  HavokPlugin,
-  HemisphericLight,
-  Scene,
-  SceneOptions,
-  Vector3,
-} from '@babylonjs/core';
-import HavokPhysics from '@babylonjs/havok';
+import { Engine, EngineOptions, FreeCamera, HemisphericLight, Scene, SceneOptions, Vector3 } from '@babylonjs/core';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -34,7 +24,7 @@ export class BabylonMainView {
     this._options = { ...DEFAULT_OPTIONS, ...options };
   }
 
-  async init(canvas: HTMLCanvasElement): Promise<void> {
+  init(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
     this._engine = new Engine(
@@ -44,13 +34,11 @@ export class BabylonMainView {
       this._options.adaptToDeviceRatio,
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
-    const havokPlugin = new HavokPlugin(true, await HavokPhysics());
-    this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
   }
 
-  onSceneReady() {
+  onSceneReady(): void {
     // This creates and positions a free camera (non-mesh)
-    const camera = new FreeCamera('camera1', new Vector3(50, 50, -70), this.scene);
+    const camera = new FreeCamera('camera1', new Vector3(60, 30, -10), this.scene);
 
     // This targets the camera to scene origin
     camera.setTarget(Vector3.Zero());
@@ -67,12 +55,7 @@ export class BabylonMainView {
     light.intensity = 0.7;
   }
 
-  onRender(): void {
-    const resizeWatcher = new ResizeObserver(() => {
-      this._engine.resize();
-    });
-    resizeWatcher.observe(this._canvas);
-  }
+  onRender(): void {}
 
   get engine(): Engine {
     return this._engine;

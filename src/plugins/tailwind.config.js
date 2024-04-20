@@ -5,12 +5,7 @@ import { nextUiConfig } from './nextui.config.ts';
 export default {
   content: ['index.html', './src/**/*.{ts,tsx}', './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {
-      colors: {
-        primary: '#4fce3f',
-        case: '#f4f4f4',
-      },
-    },
+    extend: {},
   },
   darkMode: 'class',
   plugins: [nextui(nextUiConfig)],

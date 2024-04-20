@@ -1,13 +1,13 @@
-import { Tournament } from '../model/Tournament.ts';
+import { Model } from '../model/Model.ts';
 
 describe('Building model', () => {
-  let tournament: Tournament;
+  let model: Model;
 
   beforeEach(() => {
-    tournament = new Tournament();
+    model = new Model();
   });
 
   it('should be defined', () => {
-    expect(tournament).toBeDefined();
+    expect(model).toBeDefined();
   });
 });

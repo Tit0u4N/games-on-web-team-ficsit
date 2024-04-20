@@ -11,21 +11,6 @@ jest.mock('../../model/utils/GraphTilesModelGenerator.ts', () => {
   };
 });
 
-jest.mock('../../model/utils/GraphTilesModelGenerator.ts', () => {
-  const mockGraphTilesModel = jest.fn().mockImplementation(() => {
-    return {
-      setGraphSize: jest.fn(), // Add this line
-    };
-  });
-  return {
-    GraphTilesModelGenerator: jest.fn().mockImplementation(() => {
-      return {
-        generateGraphTiles: jest.fn().mockReturnValue(new mockGraphTilesModel()),
-      };
-    }),
-  };
-});
-
 jest.mock('../../model/biome/BiomeFactoryModel.ts', () => {
   const mockBiomeMountainModel = jest.fn().mockImplementation(() => {});
   const originalModule = jest.requireActual('../../model/biome/BiomeFactoryModel.ts');

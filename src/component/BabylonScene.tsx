@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { BabylonMainView } from '../modules/gamecore/view/Babylon/BabylonMainView.ts';
-import { Scene } from '@babylonjs/core';
 
 type Props = {
   babylonMainView: BabylonMainView;
@@ -12,24 +11,25 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
   useEffect(() => {
     const { current: canvas } = reactCanvas;
 
-    let scene: null | Scene = null;
     if (!canvas) return;
-    babylonMainView.init(canvas).then(() => {
-      const engine = babylonMainView.engine;
-      scene = babylonMainView.scene;
-      if (scene.isReady()) {
-        babylonMainView.onSceneReady();
-        engine.runRenderLoop(() => {
-          if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
-          scene?.render();
-        });
-      }
+    babylonMainView.init(canvas);
+    const engine = babylonMainView.engine;
+    const scene = babylonMainView.scene;
+
+    if (scene.isReady()) {
+      babylonMainView.onSceneReady();
+    } else {
+      scene.onReadyObservable.addOnce(() => babylonMainView.onSceneReady());
+    }
+
+    engine.runRenderLoop(() => {
+      if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
+      scene.render();
     });
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const resize = () => {
-      if (!scene) return;
       scene.getEngine().resize();
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -40,7 +40,7 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
     }
 
     return () => {
-      if (scene) scene.getEngine().dispose();
+      scene.getEngine().dispose();
 
       if (window) {
         window.removeEventListener('resize', resize);
