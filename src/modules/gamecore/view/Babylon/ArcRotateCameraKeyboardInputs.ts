@@ -2,14 +2,10 @@ import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babyl
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
-  // arrowUp, z
-  public _keysUp: string[] = ['arrowUp', 'z'];
-  // arrowDown, s
-  public _keysDown: string[] = ['arrowDown', 's'];
-  // arrowLeft, q
-  public _keysLeft: string[] = ['arrowLeft', 'q'];
-  // arrowRight, d
-  public _keysRight: string[] = ['arrowRight', 'd'];
+  public _keysUp: string[] = ['z'];
+  public _keysDown: string[] = ['s'];
+  public _keysLeft: string[] = ['q'];
+  public _keysRight: string[] = ['d'];
   private _activeMove: boolean = true;
   private _activeRotate: boolean = false;
   private _onKeyUp: ((evt: KeyboardEvent) => void) | null | undefined;
