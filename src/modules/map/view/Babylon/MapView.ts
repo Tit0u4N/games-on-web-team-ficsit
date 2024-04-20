@@ -2,6 +2,7 @@ import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
+import { ViewInitable } from '../../../../core/Interfaces.ts';
 import { MapPresenter } from '../../presenter/MapPresenter.ts';
 import { TypesTile } from '../../model/TileModel.ts';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
@@ -10,7 +11,7 @@ import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
  * Map class for the game
  * Contains hexagons tiles and have a size (square)
  */
-export class MapView {
+export class MapView implements ViewInitable {
   private size: number;
   private tiles!: TileView[][];
   private parent!: Mesh;
@@ -26,7 +27,7 @@ export class MapView {
     this._mapPresenter = mapPresenter;
   }
 
-  init(scene: Scene) {
+  initView(scene: Scene) {
     this.scene = scene;
     this.parent = new Mesh('map_group');
     this.tiles = this.mapModelToView(this._mapModel);
@@ -68,6 +69,10 @@ export class MapView {
 
   getTile(x: number, y: number): TileView {
     return this.tiles[x][y];
+  }
+
+  unMountView(): void {
+    throw new Error('Method not implemented.');
   }
 
   addDeplacementTile(x: number, y: number, type: TypesTile) {

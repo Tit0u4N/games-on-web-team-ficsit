@@ -41,6 +41,7 @@ export class MapModel implements IMapModelPresenter {
       return tile.type !== TypesTile.MOUNTAIN && tile.type !== TypesTile.DEEP_WATER;
     };
     this._displacementGraph = graphGenerator.generateGraphTiles();
+    this._displacementGraph.setGraphSize(this._size);
   }
 
   /**
