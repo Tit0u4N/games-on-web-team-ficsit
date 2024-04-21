@@ -1,0 +1,86 @@
+{
+  "light": {
+    "direction": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "intensity": 0.5
+  },
+  "camera": {
+    "activateDevCamera": false,
+    "speed": 5,
+    "fov": 0.5,
+    "arcRotateCamera": {
+      "controls": {
+        "keys": {
+          "keysUp": [
+            "z"
+          ],
+          "keysDown": [
+            "s"
+          ],
+          "keysLeft": [
+            "q"
+          ],
+          "keysRight": [
+            "d"
+          ],
+          "keysZoomIn": [
+            "+"
+          ],
+          "keysZoomOut": [
+            "-"
+          ]
+        }
+      },
+      "config": {
+        "defaultPositionHeight": 150,
+        "defaultTargetHeight": 0,
+        "maxYZoomIn": -136,
+        "maxYZoomOut": 0
+      },
+      "alpha": 0,
+      "beta": 0,
+      "radius": 10,
+      "direction": {
+        "x": 90,
+        "y": 150,
+        "z": -50
+      },
+      "target": {
+        "x": 90,
+        "y": 0,
+        "z": 50
+      }
+    },
+    "devCamera": {
+      "direction": {
+        "x": 90,
+        "y": 150,
+        "z": -50
+      },
+      "target": {
+        "x": 90,
+        "y": 0,
+        "z": 50
+      }
+    }
+  },
+  "physics": {
+    "x": 0,
+    "y": -9.81,
+    "z": 0
+  },
+  "buildings": {
+    "maxAttempts": 100,
+    "arena": {
+      "numberOfBuildings": 5,
+      "spacing": 10
+    },
+    "trainingCenter": {
+      "numberOfBuildings": 5,
+      "spacing": 10
+    }
+  }
+}

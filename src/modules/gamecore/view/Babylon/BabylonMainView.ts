@@ -13,6 +13,7 @@ import {
 import HavokPhysics from '@babylonjs/havok';
 import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.ts';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
+import { config } from '../../../../core/Interfaces.ts';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -29,19 +30,17 @@ const DEFAULT_OPTIONS: Readonly<BabylonMainViewOptions> = {
 };
 
 export class BabylonMainView {
-  private _gameCorePresenter: GameCorePresenter;
+  private readonly _gameCorePresenter: GameCorePresenter;
   private _options: BabylonMainViewOptions;
   private _canvas!: HTMLCanvasElement;
   private _engine!: Engine;
   private _scene!: Scene;
   private _camera!: ArcRotateCamera;
   private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
-  private _devCamera!: boolean;
 
-  constructor(gameCorePresenter: GameCorePresenter, devCamera?: boolean, options?: BabylonMainViewOptions) {
+  constructor(gameCorePresenter: GameCorePresenter, options?: BabylonMainViewOptions) {
     this._gameCorePresenter = gameCorePresenter;
     this._options = { ...DEFAULT_OPTIONS, ...options };
-    this._devCamera = devCamera || false;
   }
 
   async init(canvas: HTMLCanvasElement): Promise<void> {
@@ -55,11 +54,11 @@ export class BabylonMainView {
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
     const havokPlugin = new HavokPlugin(true, await HavokPhysics());
-    this._scene.enablePhysics(new Vector3(0, -9.81, 0), havokPlugin);
+    this._scene.enablePhysics(new Vector3(config.physics.x, config.physics.y, config.physics.z), havokPlugin);
   }
 
   onSceneReady(): void {
-    if (this._devCamera) {
+    if (config.camera.activateDevCamera) {
       this.devCamera();
     } else {
       this.gameCamera();
@@ -68,15 +67,32 @@ export class BabylonMainView {
 
   private gameCamera(): void {
     // This creates and positions a free camera (non-mesh)
-    this._camera = new ArcRotateCamera('camera', 0, 0, 10, new Vector3(90, 150, -50), this.scene);
+    this._camera = new ArcRotateCamera(
+      'camera',
+      config.camera.arcRotateCamera.alpha,
+      config.camera.arcRotateCamera.beta,
+      config.camera.arcRotateCamera.radius,
+      new Vector3(
+        config.camera.arcRotateCamera.direction.x,
+        config.camera.arcRotateCamera.direction.y,
+        config.camera.arcRotateCamera.direction.z,
+      ),
+      this.scene,
+    );
 
     // The target should also be adjusted so that the camera is looking at the correct location
-    this._camera.setTarget(new Vector3(90, 0, 50));
+    this._camera.setTarget(
+      new Vector3(
+        config.camera.arcRotateCamera.target.x,
+        config.camera.arcRotateCamera.target.y,
+        config.camera.arcRotateCamera.target.z,
+      ),
+    );
 
     // This attaches the camera to the canvas
     this._camera.mode = Camera.PERSPECTIVE_CAMERA;
-    this._camera.speed = 5;
-    this._camera.fov = 0.5;
+    this._camera.speed = config.camera.speed;
+    this._camera.fov = config.camera.fov;
 
     const canvas = this.scene.getEngine().getRenderingCanvas();
 
@@ -87,20 +103,34 @@ export class BabylonMainView {
     this._camera.inputs.add(this._arcRotateCameraKeyboardInputs);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight('light', new Vector3(0, 1, 0), this.scene);
+    const light = new HemisphericLight(
+      'light',
+      new Vector3(config.light.direction.x, config.light.direction.y, config.light.direction.z),
+      this.scene,
+    );
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.5;
+    light.intensity = config.light.intensity;
 
     this._arcRotateCameraKeyboardInputs.attachControl(true);
   }
 
   private devCamera(): void {
     // This creates and positions a free camera (non-mesh)
-    const camera = new FreeCamera('camera1', new Vector3(90, 150, -50), this.scene);
+    const camera = new FreeCamera(
+      'camera1',
+      new Vector3(
+        config.camera.devCamera.direction.x,
+        config.camera.devCamera.direction.y,
+        config.camera.devCamera.direction.z,
+      ),
+      this.scene,
+    );
 
     // This targets the camera to scene origin
-    camera.setTarget(new Vector3(90, 0, 50));
+    camera.setTarget(
+      new Vector3(config.camera.devCamera.target.x, config.camera.devCamera.target.y, config.camera.devCamera.target.z),
+    );
 
     const canvas = this.scene.getEngine().getRenderingCanvas();
 
@@ -108,10 +138,14 @@ export class BabylonMainView {
     camera.attachControl(canvas, true);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight('light', new Vector3(0, 1, 0), this.scene);
+    const light = new HemisphericLight(
+      'light',
+      new Vector3(config.light.direction.x, config.light.direction.y, config.light.direction.z),
+      this.scene,
+    );
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7;
+    light.intensity = config.light.intensity;
   }
 
   onRender(): void {
