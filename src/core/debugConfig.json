@@ -1,4 +1,12 @@
 {
+  "babylonMainView": {
+    "constructor": false,
+    "init": false,
+    "onSceneReady": false,
+    "gameCamera": false,
+    "devCamera": false,
+    "onRender": false
+  },
   "arcRotateCameraKeyboardInputs": {
     "constructor": false,
     "attachControl": false,
@@ -6,7 +14,7 @@
     "checkInputs": false,
     "checkKeyInputs": false,
     "checkTargetIsWithinMapLimits": false,
-    "checkMovementIsPossible": false,
+    "checkMovementIsPossible": true,
     "detachControl": false,
     "getSimpleName": false,
     "getClassName": false,

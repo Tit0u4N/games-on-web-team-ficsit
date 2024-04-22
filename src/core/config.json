@@ -82,5 +82,76 @@
       "numberOfBuildings": 5,
       "spacing": 10
     }
+  },
+  "map": {
+    "core": {
+      "gamePlacer": {
+        "getPosition": {
+          "modifierX": 1,
+          "modifierY": 1.41,
+          "defaultDeltaPosition": 0,
+          "deltaXPositionCharacter": -1,
+          "deltaXPositionBuilding": 0.7
+        }
+      }
+    },
+    "view": {
+      "tileView": {
+        "radius": 2,
+        "createHexagonMesh": {
+          "mass": 0
+        }
+      },
+      "tileViewFactory": {
+        "radius": 2,
+        "createBaseTile": {
+          "tessellation": 6,
+          "alphaTypeTileAccessible": 0.5
+        },
+        "getDiameter": {
+          "diameterTypeTileAccessible": 0.2
+        },
+        "getHeight": {
+          "defaultModifierHeight": 0.7,
+          "snow": 2.5,
+          "mountain": 1.8,
+          "forest": 1.2,
+          "grass": 1,
+          "hillGrass": 1.3,
+          "hillForest": 1.5,
+          "sand": 0.8,
+          "water": 0.5,
+          "deepWater": 0.5,
+          "accessible": 0.05
+        },
+        "getColor": {
+          "gameColors": {
+            "snow": "#ffffff",
+            "mountain": "#aaaaaa",
+            "forest": "#a7c987",
+            "grass": "#cff187",
+            "sand": "#edc9af",
+            "water": "#9696ff",
+            "deepWater": "#7878e1",
+            "hillGrass": "#cff187",
+            "hillSand": "#edc9af",
+            "hillForest": "#a7c987",
+            "accessible": "#00ff00"
+          },
+          "debugColors": {
+            "accessible": "#00ff00",
+            "default": "#ff0000",
+            "default2": "#00ff00",
+            "default3": "#0000ff",
+            "default4": "#ffFF00",
+            "default5": "#00FFFF",
+            "default6": "#FF00FF",
+            "default7": "#FFFFFF",
+            "default8": "#000000",
+            "default9": "#F00FF0"
+          }
+        }
+      }
+    }
   }
 }

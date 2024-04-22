@@ -10,6 +10,7 @@ import {
   Scene,
 } from '@babylonjs/core';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
+import { config } from '../../../../core/Interfaces.ts';
 
 /**
  * Tile class for the game
@@ -22,7 +23,7 @@ export class TileView {
   private x: number;
   private y: number;
   private mapView: MapView;
-  private static readonly _radius: number = 2;
+  private static readonly _radius: number = config.map.view.tileViewFactory.radius;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
@@ -43,7 +44,7 @@ export class TileView {
 
     // Add physics to the mesh
     if (baseTile.type !== TypesTile.ACCESSIBLE)
-      new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: 0 }, this.scene);
+      new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: config.map.view.tileView.createHexagonMesh.mass }, this.scene);
 
     return mesh;
   }
@@ -55,7 +56,7 @@ export class TileView {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
     this._mesh.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, function() {
         tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
         console.log(tile.mesh.position);
         console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
