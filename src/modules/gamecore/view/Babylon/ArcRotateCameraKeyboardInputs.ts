@@ -1,6 +1,6 @@
 import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babylonjs/core';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { config, debugConfig } from '../../../../core/Interfaces.ts';
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
@@ -137,6 +137,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
 
   private checkTargetIsWithinMapLimits(newTargetPosition: Vector3) {
     const mapLimits = this._gameCorePresenter.getMapLimits();
+    if (debugConfig.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('newTargetPosition', newTargetPosition, mapLimits);
     if (
       newTargetPosition.x >= mapLimits.left &&
       newTargetPosition.x <= mapLimits.right &&
@@ -155,11 +156,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     // way to handle movement when the camera angle isn't fixed like ours is.
     const mapLimits = this._gameCorePresenter.getMapLimits();
 
-    if (config.camera.debug) console.log('this.camera!.position', this.camera!.position, this.camera!.target);
+    if (debugConfig.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('this.camera!.position', this.camera!.position, this.camera!.target);
 
     // Update the camera position after checking the limits
     const newPosition = this.camera!.position.add(transformedDirection);
-    if (config.camera.debug) console.log('newPosition', newPosition, localDirection, transformedDirection);
+    if (debugConfig.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('newPosition', newPosition, localDirection, transformedDirection);
     // Check if the new position is within the map limits
     if (
       newPosition.x >= mapLimits.left &&
@@ -194,7 +195,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   public detachControl(): void {
-    if (config.camera.debug) console.log('detachControl');
+    if (debugConfig.arcRotateCameraKeyboardInputs.detachControl) console.log('detachControl');
     const engine = this.camera!.getEngine();
     const element = engine.getInputElement();
     if (!element) return;
