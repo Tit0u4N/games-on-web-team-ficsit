@@ -155,11 +155,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     // way to handle movement when the camera angle isn't fixed like ours is.
     const mapLimits = this._gameCorePresenter.getMapLimits();
 
-    // console.log('this.camera!.position', this.camera!.position, this.camera!.target);
+    console.log('this.camera!.position', this.camera!.position, this.camera!.target);
 
     // Update the camera position after checking the limits
     const newPosition = this.camera!.position.add(transformedDirection);
-    // console.log('newPosition', newPosition, localDirection, transformedDirection);
+    console.log('newPosition', newPosition, localDirection, transformedDirection);
     // Check if the new position is within the map limits
     if (
       newPosition.x >= mapLimits.left &&
@@ -187,6 +187,9 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     } else if (newPosition.z > 100) {
       this.camera!.position.z = 100;
       this.camera!.target.z = 200;
+    } else if (newPosition.z < -90) {
+      this.camera!.position.z = -90;
+      this.camera!.target.z = 10;
     }
   }
 
