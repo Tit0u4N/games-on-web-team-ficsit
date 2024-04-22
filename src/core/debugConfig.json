@@ -1,5 +1,5 @@
 {
-  "ArcRotateCameraKeyboardInputs": {
+  "arcRotateCameraKeyboardInputs": {
     "constructor": false,
     "attachControl": false,
     "isCameraMoveKey": false,
