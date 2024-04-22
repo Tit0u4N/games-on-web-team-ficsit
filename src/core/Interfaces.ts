@@ -1,7 +1,6 @@
 import { Scene } from '@babylonjs/core';
 import * as configJson from './config.json';
 import * as debugConfigJson from './debugConfig.json';
-import { ArcRotateCameraKeyboardInputs } from '../modules/gamecore/view/Babylon/ArcRotateCameraKeyboardInputs.ts';
 
 export interface ViewInitable {
   initView(scene: Scene): void;
