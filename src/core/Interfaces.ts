@@ -15,58 +15,66 @@ export interface Reactable {
   };
 }
 
-interface CustomVector3 {
+interface IArcRotateCameraKeyboardInputsKeysConfig {
+  keysUp: string[];
+  keysDown: string[];
+  keysLeft: string[];
+  keysRight: string[];
+  keysZoomIn: string[];
+  keysZoomOut: string[];
+}
+
+interface IArcRotateCameraKeyboardInputsConfig {
+  controls: {
+    keys: IArcRotateCameraKeyboardInputsKeysConfig;
+  };
+  config: {
+    defaultPositionHeight: number;
+    defaultTargetHeight: number;
+    maxYZoomIn: number;
+    maxYZoomOut: number;
+  };
+  resetPositionCamera: {
+    direction: IVector3Config;
+    target: IVector3Config;
+  };
+}
+
+interface IVector3Config {
   x: number;
   y: number;
   z: number;
 }
 
-interface ILight {
-  direction: CustomVector3;
+interface IBabylonMainViewLightConfig {
+  direction: IVector3Config;
   intensity: number;
 }
 
-interface IKeys {
-  keysLeft: string[];
-  keysRight: string[];
-  keysUp: string[];
-  keysDown: string[];
-  keysZoomIn: string[];
-  keysZoomOut: string[];
-}
-
-interface IControlsConfig {
-  maxYZoomIn: number;
-  maxYZoomOut: number;
-  defaultPositionHeight: number;
-  defaultTargetHeight: number;
-}
-
-interface IControls {
-  keys: IKeys;
-}
-
-interface IArcRotateCamera {
-  controls: IControls;
-  config: IControlsConfig;
-  alpha: number;
-  beta: number;
-  radius: number;
-  direction: CustomVector3;
-  target: CustomVector3;
-}
-
-interface IDevCamera {
-  direction: CustomVector3;
-  target: CustomVector3;
-}
-
-interface ICameraConfig {
-  activateDevCamera: boolean;
-  speed: number;
-  fov: number;
-  arcRotateCamera: IArcRotateCamera;
-  devCamera: IDevCamera;
+interface IBabylonMainViewConfig {
+  init: {
+    physics: IVector3Config;
+  };
+  onSceneReady: {
+    activateDevCamera: boolean;
+  };
+  gameCamera: {
+    speed: number;
+    fov: number;
+    alpha: number;
+    beta: number;
+    radius: number;
+    direction: IVector3Config;
+    target: IVector3Config;
+    light: IBabylonMainViewLightConfig;
+  };
+  devCamera: {
+    speed: number;
+    fov: number;
+    direction: IVector3Config;
+    target: IVector3Config;
+    light: IBabylonMainViewLightConfig;
+  };
 }
 
 interface IArenaConfig {
@@ -101,13 +109,11 @@ interface IMapCoreConfig {
   gamePlacer: IMapGamePlacerConfig;
 }
 
-interface ITileViewCreateHexagonMeshConfig {
-  mass: number;
-}
-
 interface ITileViewConfig {
   radius: number;
-  createHexagonMesh: ITileViewCreateHexagonMeshConfig;
+  createHexagonMesh: {
+    mass: number;
+  };
 }
 
 interface ITileViewFactoryGetHeightConfig {
@@ -152,19 +158,15 @@ interface ITileViewFactoryGetColorConfig {
   };
 }
 
-interface ITileViewFactoryCreateBaseTileConfig {
-  'tessellation': number;
-  'alphaTypeTileAccessible': number;
-}
-
-interface ITileViewFactoryGetDiameterConfig {
-  diameterTypeTileAccessible: number;
-}
-
 interface ITileViewFactoryConfig {
   radius: number;
-  createBaseTile: ITileViewFactoryCreateBaseTileConfig;
-  getDiameter: ITileViewFactoryGetDiameterConfig;
+  createBaseTile: {
+    tessellation: number;
+    alphaTypeTileAccessible: number;
+  };
+  getDiameter: {
+    diameterTypeTileAccessible: number;
+  };
   getHeight: ITileViewFactoryGetHeightConfig;
   getColor: ITileViewFactoryGetColorConfig;
 }
@@ -174,22 +176,68 @@ interface IMapViewConfig {
   tileViewFactory: ITileViewFactoryConfig;
 }
 
+interface INoiseMapConfig {
+  get: {
+    noiseModifier: number;
+    noiseScale: number;
+  };
+}
+
+interface ITileModelConfig {
+  getTypeByBiome: {
+    maxNoiseValue: number;
+  };
+}
+
+interface ITileModelUtilsConfig {
+  subBiomeTilesIdentifier: {
+    maxRecursiveIterations: number;
+  };
+}
+
+interface ITileModelBiomeAbstractModelConfig {
+  getBiomeByNoiseValue: {
+    moutainNoseValue: number;
+    plainNoseValue: number;
+    lowPlainNoseValue: number;
+    desertNoseValue: number;
+  };
+}
+
+interface ITileModelBiomeMountainModelConfig {
+  initializeSubBiomes: {
+    maxRecursiveIterations: number;
+  };
+}
+
+interface ITileModelBiomeConfig {
+  biomeAbstractModel: ITileModelBiomeAbstractModelConfig;
+  biomeMountainModel: ITileModelBiomeMountainModelConfig;
+}
+
+interface IMapModelConfig {
+  noiseMap: INoiseMapConfig;
+  tileModel: ITileModelConfig;
+  utils: ITileModelUtilsConfig;
+  biome: ITileModelBiomeConfig;
+}
+
 interface IMapConfig {
   core: IMapCoreConfig;
+  model: IMapModelConfig;
   view: IMapViewConfig;
 }
 
 interface IConfig {
-  light: ILight;
-  camera: ICameraConfig;
-  physics: CustomVector3;
+  babylonMainView: IBabylonMainViewConfig;
+  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
   buildings: IBuildingsConfig;
   map: IMapConfig;
 }
 
 export const config: IConfig = configJson;
 
-interface IArcRotateCameraKeyboardInputs {
+interface IArcRotateCameraKeyboardInputsDebugConfig {
   constructor: boolean;
   attachControl: boolean;
   isCameraMoveKey: boolean;
@@ -203,7 +251,7 @@ interface IArcRotateCameraKeyboardInputs {
   resetPositionCamera: boolean;
 }
 
-interface IBabylonMainView {
+interface IBabylonMainViewDebugConfig {
   constructor: boolean;
   init: boolean;
   onSceneReady: boolean;
@@ -213,8 +261,8 @@ interface IBabylonMainView {
 }
 
 interface IDebugConfig {
-  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputs;
-  babylonMainView: IBabylonMainView;
+  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsDebugConfig;
+  babylonMainView: IBabylonMainViewDebugConfig;
 }
 
 export const debugConfig: IDebugConfig = debugConfigJson;

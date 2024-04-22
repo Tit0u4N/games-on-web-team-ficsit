@@ -4,12 +4,12 @@ import { config, debugConfig } from '../../../../core/Interfaces.ts';
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
-  public _keysUp: string[] = config.camera.arcRotateCamera.controls.keys.keysUp;
-  public _keysDown: string[] = config.camera.arcRotateCamera.controls.keys.keysDown;
-  public _keysLeft: string[] = config.camera.arcRotateCamera.controls.keys.keysLeft;
-  public _keysRight: string[] = config.camera.arcRotateCamera.controls.keys.keysRight;
-  public _keysZoomIn: string[] = config.camera.arcRotateCamera.controls.keys.keysZoomIn;
-  public _keysZoomOut: string[] = config.camera.arcRotateCamera.controls.keys.keysZoomOut;
+  public _keysUp: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysUp;
+  public _keysDown: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysDown;
+  public _keysLeft: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysLeft;
+  public _keysRight: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysRight;
+  public _keysZoomIn: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn;
+  public _keysZoomOut: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut;
   private _activeMove: boolean = true;
   private _onKeyUp: ((evt: KeyboardEvent) => void) | null | undefined;
   private _onKeyDown: ((evt: KeyboardEvent) => void) | null | undefined;
@@ -17,8 +17,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   private _onKeyZoomOut: ((evt: KeyboardEvent) => void) | null | undefined;
   public camera: Nullable<ArcRotateCamera>;
   private _gameCorePresenter: GameCorePresenter;
-  private _currentHeightPosition: number = config.camera.arcRotateCamera.config.defaultPositionHeight;
-  private _currentHeightTarget: number = config.camera.arcRotateCamera.config.defaultTargetHeight;
+  private _currentHeightPosition: number = config.arcRotateCameraKeyboardInputs.config.defaultPositionHeight;
+  private _currentHeightTarget: number = config.arcRotateCameraKeyboardInputs.config.defaultTargetHeight;
 
   constructor(camera: ArcRotateCamera, gameCorePresenter: GameCorePresenter) {
     this.camera = camera;
@@ -122,13 +122,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       localDirection.copyFromFloats(0, -speed, -speed);
     } else if (this._keysZoomIn.indexOf(keyCode) !== -1) {
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, speed));
-      if (newTargetPosition.y >= config.camera.arcRotateCamera.config.maxYZoomIn) {
+      if (newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn) {
         localDirection.copyFromFloats(0, 0, speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
       }
     } else if (this._keysZoomOut.indexOf(keyCode) !== -1) {
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, -speed));
-      if (newTargetPosition.y <= config.camera.arcRotateCamera.config.maxYZoomOut) {
+      if (newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut) {
         localDirection.copyFromFloats(0, 0, -speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
       }
@@ -143,8 +143,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       newTargetPosition.x <= mapLimits.right &&
       newTargetPosition.z >= 100 &&
       newTargetPosition.z <= -90 &&
-      newTargetPosition.y >= config.camera.arcRotateCamera.config.maxYZoomIn &&
-      newTargetPosition.y <= config.camera.arcRotateCamera.config.maxYZoomOut
+      newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn &&
+      newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut
     ) {
       this.camera!.target = newTargetPosition;
       this._currentHeightTarget = newTargetPosition.y;
@@ -221,15 +221,15 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
 
   public resetPositionCamera(): void {
     this.camera!.position = new Vector3(
-      config.camera.arcRotateCamera.direction.x,
-      config.camera.arcRotateCamera.direction.y,
-      config.camera.arcRotateCamera.direction.z,
+      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.x,
+      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.y,
+      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.z,
     );
     this.camera!.setTarget(
       new Vector3(
-        config.camera.arcRotateCamera.target.x,
-        config.camera.arcRotateCamera.target.y,
-        config.camera.arcRotateCamera.target.z,
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.x,
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.y,
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.z,
       ),
     );
   }

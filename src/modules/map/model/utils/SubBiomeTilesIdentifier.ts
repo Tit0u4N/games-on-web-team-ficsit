@@ -1,5 +1,6 @@
 import { TileModel } from '../TileModel.ts';
 import { GraphTilesModel, TileKey } from '../GraphTilesModel.ts';
+import { config } from '../../../../core/Interfaces.ts';
 
 export type CoupleTileIndex = { tile: TileModel; index: number };
 
@@ -12,7 +13,7 @@ export class SubBiomeTilesIdentifier {
 
   private _graph: GraphTilesModel;
   private _validTileFunction: (tile: TileModel) => boolean;
-  private static readonly MAX_RECURSIVE_ITERATION = 1000;
+  private static readonly MAX_RECURSIVE_ITERATION = config.map.model.utils.subBiomeTilesIdentifier.maxRecursiveIterations;
 
   constructor(graph: GraphTilesModel, validTileFunction?: (tile: TileModel) => boolean) {
     this._graph = graph;
