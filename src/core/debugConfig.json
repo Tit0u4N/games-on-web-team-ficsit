@@ -1,0 +1,15 @@
+{
+  "ArcRotateCameraKeyboardInputs": {
+    "constructor": false,
+    "attachControl": false,
+    "isCameraMoveKey": false,
+    "checkInputs": false,
+    "checkKeyInputs": false,
+    "checkTargetIsWithinMapLimits": false,
+    "checkMovementIsPossible": false,
+    "detachControl": false,
+    "getSimpleName": false,
+    "getClassName": false,
+    "resetPositionCamera": false
+  }
+}

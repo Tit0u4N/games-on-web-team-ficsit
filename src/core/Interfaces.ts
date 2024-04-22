@@ -1,5 +1,7 @@
 import { Scene } from '@babylonjs/core';
 import * as configJson from './config.json';
+import * as debugConfigJson from './debugConfig.json';
+import { ArcRotateCameraKeyboardInputs } from '../modules/gamecore/view/Babylon/ArcRotateCameraKeyboardInputs.ts';
 
 export interface ViewInitable {
   initView(scene: Scene): void;
@@ -92,3 +94,23 @@ interface IConfig {
 }
 
 export const config: IConfig = configJson;
+
+interface IArcRotateCameraKeyboardInputs {
+  constructor: boolean;
+  attachControl: boolean;
+  isCameraMoveKey: boolean;
+  checkInputs: boolean;
+  checkKeyInputs: boolean;
+  checkTargetIsWithinMapLimits: boolean;
+  checkMovementIsPossible: boolean;
+  detachControl: boolean;
+  getSimpleName: boolean;
+  getClassName: boolean;
+  resetPositionCamera: boolean;
+}
+
+interface IDebugConfig {
+  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputs
+}
+
+export const debugConfig: IDebugConfig = debugConfigJson;
