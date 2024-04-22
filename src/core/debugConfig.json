@@ -14,7 +14,7 @@
     "checkInputs": false,
     "checkKeyInputs": false,
     "checkTargetIsWithinMapLimits": false,
-    "checkMovementIsPossible": true,
+    "checkMovementIsPossible": false,
     "detachControl": false,
     "getSimpleName": false,
     "getClassName": false,

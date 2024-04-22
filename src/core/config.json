@@ -62,22 +62,34 @@
     "controls": {
       "keys": {
         "keysUp": [
-          "z"
+          "z",
+          "Z",
+          "ArrowUp"
         ],
         "keysDown": [
-          "s"
+          "s",
+          "S",
+          "ArrowDown"
         ],
         "keysLeft": [
-          "q"
+          "q",
+          "Q",
+          "ArrowLeft"
         ],
         "keysRight": [
-          "d"
+          "d",
+          "D",
+          "ArrowRight"
         ],
         "keysZoomIn": [
-          "+"
+          "+",
+          "=",
+          "}"
         ],
         "keysZoomOut": [
-          "-"
+          "-",
+          "|",
+          "6"
         ]
       }
     },
