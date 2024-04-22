@@ -1,4 +1,5 @@
 import { Noise } from '../core/Noise.ts';
+import { config } from '../../../core/Interfaces.ts';
 
 export class NoiseMap extends Noise {
   private widthMap: number;
@@ -11,8 +12,8 @@ export class NoiseMap extends Noise {
   }
 
   public get(x: number, y: number): number {
-    const noiseModifier: number = 0.4;
-    const noiseScale: number = 0.05;
+    const noiseModifier: number = config.map.model.noiseMap.get.noiseModifier;
+    const noiseScale: number = config.map.model.noiseMap.get.noiseScale;
 
     let noiseVal = super.get((x / noiseModifier) * noiseScale, (y / noiseModifier) * noiseScale, 0);
     let dist = Math.sqrt(Math.pow(x - 1 - this.widthMap / 2, 2) + Math.pow(y - 1 - this.heightMap / 2, 2));

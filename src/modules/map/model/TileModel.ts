@@ -2,6 +2,7 @@ import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { GraphTilesModel, TileKey } from './GraphTilesModel.ts';
 import { SubBiomeModel } from './biome/SubBiomeModel.ts';
 import { Character } from '../../character/model/Character.ts';
+import { config } from '../../../core/Interfaces.ts';
 
 export interface ITile {
   getID(): TileKey;
@@ -48,7 +49,7 @@ export class TileModel implements ITile {
       case TypesBiome.DESERT:
         return TypesTile.SAND;
       case TypesBiome.OCEAN:
-        return this.noiseValue < 0.87 ? TypesTile.WATER : TypesTile.DEEP_WATER;
+        return this.noiseValue < config.map.model.tileModel.getTypeByBiome.maxNoiseValue ? TypesTile.WATER : TypesTile.DEEP_WATER;
     }
     // For debug
     return TypesTile.DEFAULT;
