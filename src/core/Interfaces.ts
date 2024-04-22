@@ -69,27 +69,122 @@ interface ICameraConfig {
   devCamera: IDevCamera;
 }
 
-interface IArena {
+interface IArenaConfig {
   numberOfBuildings: number;
   spacing: number;
 }
 
-interface ITrainingCenter {
+interface ITrainingCenterConfig {
   numberOfBuildings: number;
   spacing: number;
 }
 
-interface IBuildings {
+interface IBuildingsConfig {
   maxAttempts: number;
-  arena: IArena;
-  trainingCenter: ITrainingCenter;
+  arena: IArenaConfig;
+  trainingCenter: ITrainingCenterConfig;
+}
+
+interface IMapGetPositionConfig {
+  modifierX: number;
+  modifierY: number;
+  defaultDeltaPosition: number;
+  deltaXPositionCharacter: number;
+  deltaXPositionBuilding: number;
+}
+
+interface IMapGamePlacerConfig {
+  getPosition: IMapGetPositionConfig;
+}
+
+interface IMapCoreConfig {
+  gamePlacer: IMapGamePlacerConfig;
+}
+
+interface ITileViewCreateHexagonMeshConfig {
+  mass: number;
+}
+
+interface ITileViewConfig {
+  radius: number;
+  createHexagonMesh: ITileViewCreateHexagonMeshConfig;
+}
+
+interface ITileViewFactoryGetHeightConfig {
+  defaultModifierHeight: number;
+  snow: number;
+  mountain: number;
+  forest: number;
+  grass: number;
+  hillGrass: number;
+  hillForest: number;
+  sand: number;
+  water: number;
+  deepWater: number;
+  accessible: number;
+}
+
+interface ITileViewFactoryGetColorConfig {
+  gameColors: {
+    snow: string;
+    mountain: string;
+    forest: string;
+    grass: string;
+    sand: string;
+    water: string;
+    deepWater: string;
+    hillGrass: string;
+    hillSand: string;
+    hillForest: string;
+    accessible: string;
+  };
+  debugColors: {
+    accessible: string;
+    default: string;
+    default2: string;
+    default3: string;
+    default4: string;
+    default5: string;
+    default6: string;
+    default7: string;
+    default8: string;
+    default9: string;
+  };
+}
+
+interface ITileViewFactoryCreateBaseTileConfig {
+  'tessellation': number;
+  'alphaTypeTileAccessible': number;
+}
+
+interface ITileViewFactoryGetDiameterConfig {
+  diameterTypeTileAccessible: number;
+}
+
+interface ITileViewFactoryConfig {
+  radius: number;
+  createBaseTile: ITileViewFactoryCreateBaseTileConfig;
+  getDiameter: ITileViewFactoryGetDiameterConfig;
+  getHeight: ITileViewFactoryGetHeightConfig;
+  getColor: ITileViewFactoryGetColorConfig;
+}
+
+interface IMapViewConfig {
+  tileView: ITileViewConfig;
+  tileViewFactory: ITileViewFactoryConfig;
+}
+
+interface IMapConfig {
+  core: IMapCoreConfig;
+  view: IMapViewConfig;
 }
 
 interface IConfig {
   light: ILight;
   camera: ICameraConfig;
   physics: CustomVector3;
-  buildings: IBuildings;
+  buildings: IBuildingsConfig;
+  map: IMapConfig;
 }
 
 export const config: IConfig = configJson;
@@ -108,8 +203,18 @@ interface IArcRotateCameraKeyboardInputs {
   resetPositionCamera: boolean;
 }
 
+interface IBabylonMainView {
+  constructor: boolean;
+  init: boolean;
+  onSceneReady: boolean;
+  gameCamera: boolean;
+  devCamera: boolean;
+  onRender: boolean;
+}
+
 interface IDebugConfig {
-  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputs
+  arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputs;
+  babylonMainView: IBabylonMainView;
 }
 
 export const debugConfig: IDebugConfig = debugConfigJson;
