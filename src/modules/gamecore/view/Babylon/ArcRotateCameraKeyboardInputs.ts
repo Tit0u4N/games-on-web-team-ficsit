@@ -13,8 +13,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   private _activeMove: boolean = true;
   private _onKeyUp: ((evt: KeyboardEvent) => void) | null | undefined;
   private _onKeyDown: ((evt: KeyboardEvent) => void) | null | undefined;
-  private _onKeyZoomIn: ((evt: KeyboardEvent) => void) | null | undefined;
-  private _onKeyZoomOut: ((evt: KeyboardEvent) => void) | null | undefined;
   public camera: Nullable<ArcRotateCamera>;
   private _gameCorePresenter: GameCorePresenter;
   private _currentHeightPosition: number = config.arcRotateCameraKeyboardInputs.config.defaultPositionHeight;
@@ -53,32 +51,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           }
         }
       };
-      this._onKeyZoomIn = function(evt) {
-        if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
-          const index = _this._keys.indexOf(evt.key);
-          if (index === -1) {
-            _this._keys.push(evt.key);
-          }
-          if (!noPreventDefault) {
-            evt.preventDefault();
-          }
-        }
-      };
-      this._onKeyZoomOut = function(evt) {
-        if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
-          const index = _this._keys.indexOf(evt.key);
-          if (index === -1) {
-            _this._keys.push(evt.key);
-          }
-          if (!noPreventDefault) {
-            evt.preventDefault();
-          }
-        }
-      };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
-      element!.addEventListener('keydown', this._onKeyZoomIn, false);
-      element!.addEventListener('keydown', this._onKeyZoomOut, false);
     }
   }
 
@@ -234,5 +208,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.z,
       ),
     );
+    this._keys = [];
   }
 }
