@@ -13,7 +13,7 @@ import {
 import HavokPhysics from '@babylonjs/havok';
 import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.ts';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { config, debugConfig } from '../../../../core/Interfaces.ts';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -58,7 +58,7 @@ export class BabylonMainView {
   }
 
   onSceneReady(): void {
-    if (config.babylonMainView.onSceneReady.activateDevCamera) {
+    if (debugConfig.activateDevCamera) {
       this.devCamera();
     } else {
       this.gameCamera();
@@ -99,6 +99,8 @@ export class BabylonMainView {
     // This attaches the camera to the canvas
     this._camera.attachControl(canvas, true);
     this._camera.inputs.clear();
+    this._camera.allowUpsideDown = false;
+    if (debugConfig.logs.babylonMainView.gameCamera) console.log('this._camera.inputs', this._camera.inputs);
     this._arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(this._camera, this._gameCorePresenter);
     this._camera.inputs.add(this._arcRotateCameraKeyboardInputs);
 

@@ -22,6 +22,7 @@ interface IArcRotateCameraKeyboardInputsKeysConfig {
   keysRight: string[];
   keysZoomIn: string[];
   keysZoomOut: string[];
+  resetPosition: string[];
 }
 
 interface IArcRotateCameraKeyboardInputsConfig {
@@ -54,9 +55,6 @@ interface IBabylonMainViewLightConfig {
 interface IBabylonMainViewConfig {
   init: {
     physics: IVector3Config;
-  };
-  onSceneReady: {
-    activateDevCamera: boolean;
   };
   gameCamera: {
     speed: number;
@@ -260,9 +258,14 @@ interface IBabylonMainViewDebugConfig {
   onRender: boolean;
 }
 
-interface IDebugConfig {
+interface ILogDebugConfig {
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsDebugConfig;
   babylonMainView: IBabylonMainViewDebugConfig;
+}
+
+interface IDebugConfig {
+  logs: ILogDebugConfig;
+  activateDevCamera: boolean;
 }
 
 export const debugConfig: IDebugConfig = debugConfigJson;
