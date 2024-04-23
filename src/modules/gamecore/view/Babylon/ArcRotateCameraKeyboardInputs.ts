@@ -53,10 +53,16 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
+      element!.addEventListener('keypress', function(evt) {
+        if (config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition.indexOf(evt.key) !== -1) {
+          _this.resetPositionCamera();
+        }
+      });
     }
   }
 
   static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.isCameraMoveKey) console.log('isCameraMoveKey', evt.key, _this._keysUp, _this._keysDown, _this._keysLeft, _this._keysRight, _this._keysZoomIn, _this._keysZoomOut);
     return (
       _this._keysUp.indexOf(evt.key) !== -1 ||
       _this._keysDown.indexOf(evt.key) !== -1 ||
@@ -69,6 +75,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
 
   public checkInputs(): void {
     if (this._onKeyDown && this._activeMove) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkInputs) console.log('checkInputs', this._keys, this._keysUp, this._keysDown, this._keysLeft, this._keysRight, this._keysZoomIn, this._keysZoomOut);
       const speed = 2 * this.camera!._computeLocalCameraSpeed();
       let transformMatrix = Matrix.Zero();
       let localDirection = Vector3.Zero();
@@ -78,7 +85,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       const pressedKeys = this._keys.filter(key => keys.includes(key));
 
       for (const key of pressedKeys) {
-        if (debugConfig.arcRotateCameraKeyboardInputs.checkInputs) console.log('key', key, this._keys, pressedKeys);
+        if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkInputs) console.log('key', key, this._keys, pressedKeys);
         this.checkKeyInput(key, localDirection, speed);
         this.checkMovementIsPossible(transformedDirection, transformMatrix, localDirection, key);
       }
@@ -86,22 +93,28 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   private checkKeyInput(keyCode: string, localDirection: Vector3, speed: number) {
+    console.log('keyCode', this._keysZoomIn.indexOf(keyCode), this._keysUp.indexOf(keyCode));
     if (this._keysLeft.indexOf(keyCode) !== -1) {
       localDirection.copyFromFloats(-speed, 0, 0);
     } else if (this._keysRight.indexOf(keyCode) !== -1) {
       localDirection.copyFromFloats(speed, 0, 0);
     } else if (this._keysUp.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs) console.log('keyUp', keyCode, this.camera!.target, this.camera!.position);
       localDirection.copyFromFloats(0, speed, speed);
     } else if (this._keysDown.indexOf(keyCode) !== -1) {
       localDirection.copyFromFloats(0, -speed, -speed);
     } else if (this._keysZoomIn.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs) console.log('keyZoomIn', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, speed));
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs) console.log('test if condition keyZoomIn', newTargetPosition.y, '>=', config.arcRotateCameraKeyboardInputs.config.maxYZoomIn);
       if (newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn) {
         localDirection.copyFromFloats(0, 0, speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
       }
     } else if (this._keysZoomOut.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs) console.log('_keysZoomOut', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, -speed));
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs) console.log('test if condition _keysZoomOut', newTargetPosition.y, '<=', config.arcRotateCameraKeyboardInputs.config.maxYZoomOut);
       if (newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut) {
         localDirection.copyFromFloats(0, 0, -speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
@@ -111,15 +124,24 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
 
   private checkTargetIsWithinMapLimits(newTargetPosition: Vector3) {
     const mapLimits = this._gameCorePresenter.getMapLimits();
-    if (debugConfig.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('newTargetPosition', newTargetPosition, mapLimits);
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('newTargetPosition', newTargetPosition, mapLimits);
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('condition',
+      newTargetPosition.x >= mapLimits.left,
+      newTargetPosition.x <= mapLimits.right,
+      newTargetPosition.z <= 130,
+      newTargetPosition.z >= -90,
+      newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn,
+      newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut,
+    );
     if (
       newTargetPosition.x >= mapLimits.left &&
       newTargetPosition.x <= mapLimits.right &&
-      newTargetPosition.z >= 130 &&
-      newTargetPosition.z <= -90 &&
+      newTargetPosition.z <= 130 &&
+      newTargetPosition.z >= -90 &&
       newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn &&
       newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut
     ) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('inside if', newTargetPosition, this.camera!.target, this.camera!.position);
       this.camera!.target = newTargetPosition;
       this._currentHeightTarget = newTargetPosition.y;
     }
@@ -130,11 +152,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     // way to handle movement when the camera angle isn't fixed like ours is.
     const mapLimits = this._gameCorePresenter.getMapLimits();
 
-    // if (debugConfig.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('this.camera!.position', this.camera!.position, this.camera!.target);
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('this.camera!.position', this.camera!.position, this.camera!.target);
 
     // Update the camera position after checking the limits
     const newPosition = this.camera!.position.add(transformedDirection);
-    // if (debugConfig.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('newPosition', newPosition, localDirection, transformedDirection, mapLimits);
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('newPosition', newPosition, localDirection, transformedDirection, mapLimits);
     // Check if the new position is within the map limits
     if (
       newPosition.x >= mapLimits.left &&
@@ -142,6 +164,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       newPosition.z <= 130 &&
       newPosition.z >= -90
     ) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('Move the camera', newPosition, this.camera!.position, this.camera!.target);
       this.camera!.getViewMatrix().invertToRef(transformMatrix);
       Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
       this.camera!.position.addInPlace(transformedDirection);
@@ -153,7 +176,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         this.camera!.position.y = this._currentHeightPosition;
         this.camera!.target.y = this._currentHeightTarget;
       }
-      if (debugConfig.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('newPosition', newPosition, this.camera!.position, this.camera!.target);
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('newPosition', newPosition, this.camera!.position, this.camera!.target);
 
     } else if (newPosition.x < mapLimits.left) {
       this.camera!.position.x = mapLimits.left;
@@ -171,7 +194,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   public detachControl(): void {
-    if (debugConfig.arcRotateCameraKeyboardInputs.detachControl) console.log('detachControl');
+    if (debugConfig.logs.arcRotateCameraKeyboardInputs.detachControl) console.log('detachControl');
     const engine = this.camera!.getEngine();
     const element = engine.getInputElement();
     if (!element) return;

@@ -7,9 +7,6 @@
         "z": 0
       }
     },
-    "onSceneReady": {
-      "activateDevCamera": false
-    },
     "gameCamera": {
       "speed": 5,
       "fov": 0.5,
@@ -63,33 +60,29 @@
       "keys": {
         "keysUp": [
           "z",
-          "Z",
           "ArrowUp"
         ],
         "keysDown": [
           "s",
-          "S",
           "ArrowDown"
         ],
         "keysLeft": [
           "q",
-          "Q",
           "ArrowLeft"
         ],
         "keysRight": [
           "d",
-          "D",
           "ArrowRight"
         ],
         "keysZoomIn": [
-          "+",
-          "=",
-          "}"
+          "+"
         ],
         "keysZoomOut": [
-          "-",
-          "|",
-          "6"
+          "-"
+        ],
+        "resetPosition": [
+          "r",
+          "à"
         ]
       }
     },
