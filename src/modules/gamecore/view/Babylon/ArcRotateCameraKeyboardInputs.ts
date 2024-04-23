@@ -196,6 +196,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   public resetPositionCamera(): void {
+    this.detachControl();
     this.camera!.position = new Vector3(
       config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.x,
       config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.y,
@@ -208,6 +209,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.z,
       ),
     );
-    this._keys = [];
+    this.attachControl();
   }
 }
