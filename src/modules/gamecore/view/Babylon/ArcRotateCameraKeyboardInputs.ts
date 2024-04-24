@@ -58,6 +58,10 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           _this.resetPositionCamera();
         }
       });
+      element!.addEventListener('blur', function() {
+        console.log('blur', _this._keys);
+        _this._keys = [];
+      });
     }
   }
 
