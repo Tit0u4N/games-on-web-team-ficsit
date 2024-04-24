@@ -44,7 +44,12 @@ export class TileView {
 
     // Add physics to the mesh
     if (baseTile.type !== TypesTile.ACCESSIBLE)
-      new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: config.map.view.tileView.createHexagonMesh.mass }, this.scene);
+      new PhysicsAggregate(
+        mesh,
+        PhysicsShapeType.BOX,
+        { mass: config.map.view.tileView.createHexagonMesh.mass },
+        this.scene,
+      );
 
     return mesh;
   }
@@ -56,7 +61,7 @@ export class TileView {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
     this._mesh.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickTrigger, function() {
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
         tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
         console.log(tile.mesh.position);
         console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
