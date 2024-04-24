@@ -28,7 +28,7 @@ export class GameCorePresenter {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView(this);
-    this._mapPresenter = new MapPresenter(this, { size: 100, seed: 'TEST_SEED' });
+    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
   }

@@ -13,7 +13,8 @@ export class SubBiomeTilesIdentifier {
 
   private _graph: GraphTilesModel;
   private _validTileFunction: (tile: TileModel) => boolean;
-  private static readonly MAX_RECURSIVE_ITERATION = config.map.model.utils.subBiomeTilesIdentifier.maxRecursiveIterations;
+  private static readonly MAX_RECURSIVE_ITERATION =
+    config.map.model.utils.subBiomeTilesIdentifier.maxRecursiveIterations;
 
   constructor(graph: GraphTilesModel, validTileFunction?: (tile: TileModel) => boolean) {
     this._graph = graph;

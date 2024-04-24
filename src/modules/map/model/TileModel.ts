@@ -49,7 +49,9 @@ export class TileModel implements ITile {
       case TypesBiome.DESERT:
         return TypesTile.SAND;
       case TypesBiome.OCEAN:
-        return this.noiseValue < config.map.model.tileModel.getTypeByBiome.maxNoiseValue ? TypesTile.WATER : TypesTile.DEEP_WATER;
+        return this.noiseValue < config.map.model.tileModel.getTypeByBiome.maxNoiseValue
+          ? TypesTile.WATER
+          : TypesTile.DEEP_WATER;
     }
     // For debug
     return TypesTile.DEFAULT;

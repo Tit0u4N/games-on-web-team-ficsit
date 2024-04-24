@@ -27,10 +27,14 @@ export abstract class BiomeAbstractModel {
 
   public static getBiomeByNoiseValue(noiseValue: number): TypesBiome {
     // if (noiseValue <= -0.4)        return TypesBiome.MOUNTAIN_EDGE;
-    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.moutainNoseValue) return TypesBiome.MOUNTAIN;
-    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.plainNoseValue) return TypesBiome.PLAIN;
-    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.lowPlainNoseValue) return TypesBiome.LOW_PLAIN;
-    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.desertNoseValue) return TypesBiome.DESERT;
+    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.moutainNoseValue)
+      return TypesBiome.MOUNTAIN;
+    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.plainNoseValue)
+      return TypesBiome.PLAIN;
+    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.lowPlainNoseValue)
+      return TypesBiome.LOW_PLAIN;
+    if (noiseValue < config.map.model.biome.biomeAbstractModel.getBiomeByNoiseValue.desertNoseValue)
+      return TypesBiome.DESERT;
     else return TypesBiome.OCEAN;
   }
 }

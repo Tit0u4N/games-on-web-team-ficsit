@@ -54,7 +54,14 @@ export class BabylonMainView {
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
     const havokPlugin = new HavokPlugin(true, await HavokPhysics());
-    this._scene.enablePhysics(new Vector3(config.babylonMainView.init.physics.x, config.babylonMainView.init.physics.y, config.babylonMainView.init.physics.z), havokPlugin);
+    this._scene.enablePhysics(
+      new Vector3(
+        config.babylonMainView.init.physics.x,
+        config.babylonMainView.init.physics.y,
+        config.babylonMainView.init.physics.z,
+      ),
+      havokPlugin,
+    );
   }
 
   onSceneReady(): void {
@@ -107,7 +114,11 @@ export class BabylonMainView {
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight(
       'light',
-      new Vector3(config.babylonMainView.gameCamera.light.direction.x, config.babylonMainView.gameCamera.light.direction.y, config.babylonMainView.gameCamera.light.direction.z),
+      new Vector3(
+        config.babylonMainView.gameCamera.light.direction.x,
+        config.babylonMainView.gameCamera.light.direction.y,
+        config.babylonMainView.gameCamera.light.direction.z,
+      ),
       this.scene,
     );
 
@@ -131,7 +142,11 @@ export class BabylonMainView {
 
     // This targets the camera to scene origin
     camera.setTarget(
-      new Vector3(config.babylonMainView.devCamera.target.x, config.babylonMainView.devCamera.target.y, config.babylonMainView.devCamera.target.z),
+      new Vector3(
+        config.babylonMainView.devCamera.target.x,
+        config.babylonMainView.devCamera.target.y,
+        config.babylonMainView.devCamera.target.z,
+      ),
     );
 
     const canvas = this.scene.getEngine().getRenderingCanvas();
@@ -142,7 +157,11 @@ export class BabylonMainView {
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight(
       'light',
-      new Vector3(config.babylonMainView.devCamera.light.direction.x, config.babylonMainView.devCamera.light.direction.y, config.babylonMainView.devCamera.light.direction.z),
+      new Vector3(
+        config.babylonMainView.devCamera.light.direction.x,
+        config.babylonMainView.devCamera.light.direction.y,
+        config.babylonMainView.devCamera.light.direction.z,
+      ),
       this.scene,
     );
 
