@@ -223,6 +223,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       console.log('newPosition', newPosition, localDirection, transformedDirection, mapLimits);
     // Check if the new position is within the map limits
 
+    console.log(this.camera!.position, this.camera!.target);
+
     if (
       newPosition.x >= mapLimits.left &&
       newPosition.x <= mapLimits.right &&
@@ -286,10 +288,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
 
   public resetPositionCamera(): void {
     this.detachControl();
-    this.camera!.position = new Vector3(
-      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.x,
-      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.y,
-      config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.z,
+    this._keys = [];
+    this.camera!.setPosition(
+      new Vector3(
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.x,
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.y,
+        config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.z,
+      ),
     );
     this.camera!.setTarget(
       new Vector3(
@@ -298,6 +303,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.z,
       ),
     );
+    this._currentHeightPosition = this.camera!.position.y;
+    this._currentHeightTarget = this.camera!.target.y;
     this.attachControl();
   }
 }
