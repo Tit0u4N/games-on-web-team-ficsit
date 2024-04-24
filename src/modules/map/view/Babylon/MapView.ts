@@ -104,8 +104,8 @@ export class MapView implements ViewInitable {
   getLimitXYZ(): MapLimits {
     const left = this.tiles[0][0].mesh.position.x - TileView.radius;
     const right = this.tiles[this.size - 1][this.size - 1].mesh.position.x + TileView.radius;
-    const top = this.tiles[0][0].mesh.position.z - TileView.radius;
-    const bottom = this.tiles[this.size - 1][this.size - 1].mesh.position.z + TileView.radius;
+    const bottom = this.tiles[0][0].mesh.position.z - TileView.radius;
+    const top = this.tiles[this.size - 1][this.size - 1].mesh.position.z + TileView.radius;
 
     // Add the camera's height and tilt angle to the map limits
     const cameraHeight = this.mapPresenter.gameCorePresenter.babylonView.camera!.position.y;

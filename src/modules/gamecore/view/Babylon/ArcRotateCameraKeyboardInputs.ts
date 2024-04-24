@@ -59,7 +59,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         }
       });
       element!.addEventListener('blur', function() {
-        console.log('blur', _this._keys);
         _this._keys = [];
       });
     }
@@ -97,7 +96,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   private checkKeyInput(keyCode: string, localDirection: Vector3, speed: number) {
-    console.log('keyCode', this._keysZoomIn.indexOf(keyCode), this._keysUp.indexOf(keyCode));
     if (this._keysLeft.indexOf(keyCode) !== -1) {
       localDirection.copyFromFloats(-speed, 0, 0);
     } else if (this._keysRight.indexOf(keyCode) !== -1) {
@@ -132,7 +130,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkTargetIsWithinMapLimits) console.log('condition',
       newTargetPosition.x >= mapLimits.left,
       newTargetPosition.x <= mapLimits.right,
-      newTargetPosition.z <= 130,
+      (newTargetPosition.z <= mapLimits.top - 100),
       newTargetPosition.z >= -90,
       newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn,
       newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut,
@@ -140,7 +138,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     if (
       newTargetPosition.x >= mapLimits.left &&
       newTargetPosition.x <= mapLimits.right &&
-      newTargetPosition.z <= 130 &&
+      (newTargetPosition.z <= mapLimits.top - 100) &&
       newTargetPosition.z >= -90 &&
       newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn &&
       newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut
@@ -165,7 +163,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     if (
       newPosition.x >= mapLimits.left &&
       newPosition.x <= mapLimits.right &&
-      newPosition.z <= 130 &&
+      (newPosition.z <= mapLimits.top - 100) &&
       newPosition.z >= -90
     ) {
       if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkMovementIsPossible) console.log('Move the camera', newPosition, this.camera!.position, this.camera!.target);
@@ -186,11 +184,11 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       this.camera!.position.x = mapLimits.left;
       this.camera!.target.x = mapLimits.left;
     } else if (newPosition.x > mapLimits.right) {
-      this.camera!.position.x = mapLimits.right;
-      this.camera!.target.x = mapLimits.right;
-    } else if (newPosition.z > 130) {
-      this.camera!.position.z = 130;
-      this.camera!.target.z = 230;
+      this.camera!.position.x = mapLimits.right - 0.5;
+      this.camera!.target.x = mapLimits.right - 0.5;
+    } else if (newPosition.z > mapLimits.top - 100) {
+      this.camera!.position.z = mapLimits.top - 100;
+      this.camera!.target.z = mapLimits.top;
     } else if (newPosition.z < -90) {
       this.camera!.position.z = -90;
       this.camera!.target.z = 10;
