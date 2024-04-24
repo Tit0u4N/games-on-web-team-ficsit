@@ -135,31 +135,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     } else if (this._keysDown.indexOf(keyCode) !== -1) {
       localDirection.copyFromFloats(0, -speed, -speed);
     } else if (this._keysZoomIn.indexOf(keyCode) !== -1) {
-      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
-        console.log('keyZoomIn', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, speed));
-      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
-        console.log(
-          'test if condition keyZoomIn',
-          newTargetPosition.y,
-          '>=',
-          config.arcRotateCameraKeyboardInputs.config.maxYZoomIn,
-        );
       if (newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn) {
         localDirection.copyFromFloats(0, 0, speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
       }
     } else if (this._keysZoomOut.indexOf(keyCode) !== -1) {
-      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
-        console.log('_keysZoomOut', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, -speed));
-      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
-        console.log(
-          'test if condition _keysZoomOut',
-          newTargetPosition.y,
-          '<=',
-          config.arcRotateCameraKeyboardInputs.config.maxYZoomOut,
-        );
       if (newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut) {
         localDirection.copyFromFloats(0, 0, -speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
@@ -279,7 +261,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   public zoomIn(): void {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
+      // i increase the zoom speed
       setTimeout(() => {
         this._keys.push('+');
         this.checkInputs();
@@ -289,7 +272,8 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   }
 
   public zoomOut(): void {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
+      // i increase the zoom speed
       setTimeout(() => {
         this._keys.push('-');
         this.checkInputs();

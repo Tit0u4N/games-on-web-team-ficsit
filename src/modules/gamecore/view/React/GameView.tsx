@@ -1,5 +1,5 @@
 import { RoundStatusBar } from './RoundStatusBar.tsx';
-import React from 'react';
+import React, { useRef } from 'react';
 import { BabylonScene } from '../../../../component/BabylonScene.tsx';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
@@ -58,12 +58,24 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
     presenter.babylonView.arcRotateCameraKeyboardInputs.resetPositionCamera();
   };
 
-  const handleZoomInCamera = () => {
-    presenter.babylonView.arcRotateCameraKeyboardInputs.zoomIn();
+  const zoomInTimeout = useRef<NodeJS.Timeout | null>(null);
+  const zoomOutTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleZoomInMouseDown = () => {
+    zoomInTimeout.current = setInterval(() => {
+      presenter.babylonView.arcRotateCameraKeyboardInputs.zoomIn();
+    }, 50);
   };
 
-  const handleZoomOutCamera = () => {
-    presenter.babylonView.arcRotateCameraKeyboardInputs.zoomOut();
+  const handleZoomOutMouseDown = () => {
+    zoomOutTimeout.current = setInterval(() => {
+      presenter.babylonView.arcRotateCameraKeyboardInputs.zoomOut();
+    }, 50);
+  };
+
+  const handleZoomMouseUp = () => {
+    if (zoomInTimeout.current) clearInterval(zoomInTimeout.current);
+    if (zoomOutTimeout.current) clearInterval(zoomOutTimeout.current);
   };
 
   return (
@@ -101,7 +113,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         </svg>
       </div>
       <div
-        onClick={handleZoomInCamera}
+        onMouseDown={handleZoomInMouseDown}
+        onMouseUp={handleZoomMouseUp}
         className={'cursor-pointer z-50 fixed top-[15vh] right-[20px] bg-white p-[5px] rounded-[10px]'}>
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
           <path
@@ -111,7 +124,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         </svg>
       </div>
       <div
-        onClick={handleZoomOutCamera}
+        onMouseDown={handleZoomOutMouseDown}
+        onMouseUp={handleZoomMouseUp}
         className={'cursor-pointer z-50 fixed top-[20vh] right-[20px] bg-white p-[5px] rounded-[10px]'}>
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
           <path
