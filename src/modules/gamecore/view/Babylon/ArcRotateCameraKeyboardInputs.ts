@@ -278,6 +278,26 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     }
   }
 
+  public zoomIn(): void {
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        this._keys.push('+');
+        this.checkInputs();
+        this._keys = [];
+      }, i * 50); // 50ms delay between each iteration
+    }
+  }
+
+  public zoomOut(): void {
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        this._keys.push('-');
+        this.checkInputs();
+        this._keys = [];
+      }, i * 50); // 50ms delay between each iteration
+    }
+  }
+
   getSimpleName(): string {
     return 'KeyboardPan';
   }
