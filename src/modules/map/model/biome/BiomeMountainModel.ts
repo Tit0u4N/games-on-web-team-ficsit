@@ -2,6 +2,7 @@ import { MapModel } from '../MapModel.ts';
 import { BiomeAbstractModel, TypesBiome } from './BiomeAbstractModel.ts';
 import { SubBiomeModel } from './SubBiomeModel.ts';
 import { CoupleTileIndex, SubBiomeTilesIdentifier } from '../utils/SubBiomeTilesIdentifier.ts';
+import { config } from '../../../../core/Interfaces.ts';
 
 export class BiomeMountainModel extends BiomeAbstractModel {
   private subBiomes: SubBiomeModel[] = [];
@@ -14,7 +15,7 @@ export class BiomeMountainModel extends BiomeAbstractModel {
   }
 
   private initializeSubBiomes(): void {
-    const MAX_ITERATIONS = 100;
+    const MAX_ITERATIONS = config.map.model.biome.biomeMountainModel.initializeSubBiomes.maxRecursiveIterations;
     let remainingTiles = this.tiles.length;
     let cpt = 0;
 
