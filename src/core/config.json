@@ -219,5 +219,8 @@
         }
       }
     }
+  },
+  "statistics": {
+    "setDefaultStats": true
   }
 }
