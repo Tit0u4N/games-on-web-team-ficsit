@@ -1,0 +1,223 @@
+{
+  "babylonMainView": {
+    "init": {
+      "physics": {
+        "x": 0,
+        "y": -9.81,
+        "z": 0
+      }
+    },
+    "gameCamera": {
+      "speed": 5,
+      "fov": 0.5,
+      "alpha": 0,
+      "beta": 0,
+      "radius": 10,
+      "direction": {
+        "x": 90,
+        "y": 140,
+        "z": -50
+      },
+      "target": {
+        "x": 90,
+        "y": 0,
+        "z": 50
+      },
+      "light": {
+        "direction": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "intensity": 0.5
+      }
+    },
+    "devCamera": {
+      "speed": 5,
+      "fov": 0.5,
+      "direction": {
+        "x": 90,
+        "y": 150,
+        "z": -50
+      },
+      "target": {
+        "x": 90,
+        "y": 0,
+        "z": 50
+      },
+      "light": {
+        "direction": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "intensity": 0.5
+      }
+    }
+  },
+  "arcRotateCameraKeyboardInputs": {
+    "controls": {
+      "keys": {
+        "keysUp": [
+          "z",
+          "ArrowUp"
+        ],
+        "keysDown": [
+          "s",
+          "ArrowDown"
+        ],
+        "keysLeft": [
+          "q",
+          "ArrowLeft"
+        ],
+        "keysRight": [
+          "d",
+          "ArrowRight"
+        ],
+        "keysZoomIn": [
+          "+"
+        ],
+        "keysZoomOut": [
+          "-"
+        ],
+        "resetPosition": [
+          "r",
+          "à"
+        ]
+      }
+    },
+    "config": {
+      "defaultPositionHeight": 150,
+      "defaultTargetHeight": 0,
+      "maxYZoomIn": -136,
+      "maxYZoomOut": 0
+    },
+    "resetPositionCamera": {
+      "direction": {
+        "x": 90,
+        "y": 150,
+        "z": -50
+      },
+      "target": {
+        "x": 90,
+        "y": 0,
+        "z": 50
+      }
+    }
+  },
+  "buildings": {
+    "maxAttempts": 100,
+    "arena": {
+      "numberOfBuildings": 5,
+      "spacing": 10
+    },
+    "trainingCenter": {
+      "numberOfBuildings": 5,
+      "spacing": 10
+    }
+  },
+  "map": {
+    "core": {
+      "gamePlacer": {
+        "getPosition": {
+          "modifierX": 1,
+          "modifierY": 1.41,
+          "defaultDeltaPosition": 0,
+          "deltaXPositionCharacter": -1,
+          "deltaXPositionBuilding": 0.7
+        }
+      }
+    },
+    "model": {
+      "noiseMap": {
+        "get": {
+          "noiseModifier": 0.4,
+          "noiseScale": 0.05
+        }
+      },
+      "tileModel": {
+        "getTypeByBiome": {
+          "maxNoiseValue": 0.87
+        }
+      },
+      "utils": {
+        "subBiomeTilesIdentifier": {
+          "maxRecursiveIterations": 1000
+        }
+      },
+      "biome": {
+        "biomeAbstractModel": {
+          "getBiomeByNoiseValue": {
+            "moutainNoseValue": 0.05,
+            "plainNoseValue": 0.55,
+            "lowPlainNoseValue": 0.63,
+            "desertNoseValue": 0.72
+          }
+        },
+        "biomeMountainModel": {
+          "initializeSubBiomes": {
+            "maxRecursiveIterations": 100
+          }
+        }
+      }
+    },
+    "view": {
+      "tileView": {
+        "radius": 2,
+        "createHexagonMesh": {
+          "mass": 0
+        }
+      },
+      "tileViewFactory": {
+        "radius": 2,
+        "createBaseTile": {
+          "tessellation": 6,
+          "alphaTypeTileAccessible": 0.5
+        },
+        "getDiameter": {
+          "diameterTypeTileAccessible": 0.2
+        },
+        "getHeight": {
+          "defaultModifierHeight": 0.7,
+          "snow": 2.5,
+          "mountain": 1.8,
+          "forest": 1.2,
+          "grass": 1,
+          "hillGrass": 1.3,
+          "hillForest": 1.5,
+          "sand": 0.8,
+          "water": 0.5,
+          "deepWater": 0.5,
+          "accessible": 0.05
+        },
+        "getColor": {
+          "gameColors": {
+            "snow": "#ffffff",
+            "mountain": "#aaaaaa",
+            "forest": "#a7c987",
+            "grass": "#cff187",
+            "sand": "#edc9af",
+            "water": "#9696ff",
+            "deepWater": "#7878e1",
+            "hillGrass": "#cff187",
+            "hillSand": "#edc9af",
+            "hillForest": "#a7c987",
+            "accessible": "#00ff00"
+          },
+          "debugColors": {
+            "accessible": "#00ff00",
+            "default": "#ff0000",
+            "default2": "#00ff00",
+            "default3": "#0000ff",
+            "default4": "#ffFF00",
+            "default5": "#00FFFF",
+            "default6": "#FF00FF",
+            "default7": "#FFFFFF",
+            "default8": "#000000",
+            "default9": "#F00FF0"
+          }
+        }
+      }
+    }
+  }
+}
