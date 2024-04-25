@@ -10,20 +10,17 @@ export interface ArenaLayoutProps {
 }
 
 export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose }) => {
-
-
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
-        {
-          arena.arenaModel.hasTournament() ?
-          <TournamentView tournament={arena.arenaModel.tournament} /> :
+        {arena.arenaModel.hasTournament() ? (
+          <TournamentView tournament={arena.arenaModel.tournament} />
+        ) : (
           <div className="flex justify-center items-center h-[50%] w-full">
             <h1>No tournament</h1>
           </div>
-        }
+        )}
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
             Close
@@ -34,5 +31,3 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
     </Modal>
   );
 };
-
-

@@ -11,6 +11,7 @@ import { Character } from '../../character/model/Character.ts';
 import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
 import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { ModalManager } from '../../../core/ModalManager.ts';
+import { MapLimits } from '../../map/view/Babylon/MapView.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -26,7 +27,7 @@ export class GameCorePresenter {
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
-    this._babylonView = new BabylonMainView();
+    this._babylonView = new BabylonMainView(this);
     this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
@@ -123,5 +124,9 @@ export class GameCorePresenter {
 
   get mapPresenter(): MapPresenter {
     return this._mapPresenter;
+  }
+
+  public getMapLimits(): MapLimits {
+    return this._mapPresenter.view.getLimitXYZ();
   }
 }

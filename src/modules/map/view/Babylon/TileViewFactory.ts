@@ -2,6 +2,7 @@ import { TypesTile } from '../../model/TileModel.ts';
 import { TileView } from './TileView.ts';
 import { MapView } from './MapView.ts';
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
+import { config } from '../../../../core/Interfaces.ts';
 
 export type BaseTile = {
   type: TypesTile;
@@ -13,13 +14,13 @@ export type BaseTile = {
 
 export class TileViewFactory {
   private scene: Scene;
-  private radius: number = 2;
+  private radius: number;
   private parentMesh!: Mesh;
   private baseTiles: BaseTile[] = [];
 
   constructor(scene: Scene, radius?: number) {
     this.scene = scene;
-    this.radius = radius || this.radius;
+    this.radius = radius || config.map.view.tileViewFactory.radius;
     this.baseTiles = this.createBaseTiles();
   }
 
@@ -39,7 +40,7 @@ export class TileViewFactory {
     const mesh = MeshBuilder.CreateCylinder(
       'base_tile_' + type,
       {
-        tessellation: 6,
+        tessellation: config.map.view.tileViewFactory.createBaseTile.tessellation,
         height: TileViewFactory.getHeight(type),
         diameter: this.getDiameter(type),
       },
@@ -53,7 +54,7 @@ export class TileViewFactory {
     const material = new StandardMaterial('material_tile_ ' + type, this.scene);
     material.diffuseColor = Color3.FromHexString(color);
     if (type === TypesTile.ACCESSIBLE) {
-      material.alpha = 0.5;
+      material.alpha = config.map.view.tileViewFactory.createBaseTile.alphaTypeTileAccessible;
     }
     mesh.material = material;
 
@@ -69,41 +70,43 @@ export class TileViewFactory {
   public getDiameter(type: TypesTile): number {
     const diameter = 2 * this.radius;
     if (type === TypesTile.ACCESSIBLE) {
-      return diameter - 0.2;
+      return diameter - config.map.view.tileViewFactory.getDiameter.diameterTypeTileAccessible;
     }
     return diameter;
   }
 
   public static getHeight(type: TypesTile): number {
-    let modifierHeight: number = 0.7;
+    let modifierHeight: number = config.map.view.tileViewFactory.getHeight.defaultModifierHeight;
     switch (type) {
       case TypesTile.SNOW:
-        modifierHeight = 2.5;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.snow;
         break;
       case TypesTile.MOUNTAIN:
-        modifierHeight = 1.8;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.mountain;
         break;
       case TypesTile.FOREST:
-        modifierHeight = 1.2;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.forest;
         break;
       case TypesTile.GRASS:
-        modifierHeight = 1;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.grass;
         break;
       case TypesTile.HILL_GRASS:
-        modifierHeight = 1.3;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.hillGrass;
         break;
       case TypesTile.HILL_FOREST:
-        modifierHeight = 1.5;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.hillForest;
         break;
       case TypesTile.SAND:
-        modifierHeight = 0.8;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.sand;
         break;
       case TypesTile.WATER:
+        modifierHeight = config.map.view.tileViewFactory.getHeight.water;
+        break;
       case TypesTile.DEEP_WATER:
-        modifierHeight = 0.5;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.deepWater;
         break;
       case TypesTile.ACCESSIBLE:
-        modifierHeight = 0.05;
+        modifierHeight = config.map.view.tileViewFactory.getHeight.accessible;
         break;
     }
 
@@ -113,49 +116,49 @@ export class TileViewFactory {
   public getColor(type: TypesTile): string {
     switch (type) {
       case TypesTile.SNOW:
-        return '#ffffff';
+        return config.map.view.tileViewFactory.getColor.gameColors.snow;
       case TypesTile.MOUNTAIN:
-        return '#aaaaaa';
+        return config.map.view.tileViewFactory.getColor.gameColors.mountain;
       case TypesTile.FOREST:
-        return '#a7c987';
+        return config.map.view.tileViewFactory.getColor.gameColors.forest;
       case TypesTile.GRASS:
-        return '#cff187';
+        return config.map.view.tileViewFactory.getColor.gameColors.grass;
       case TypesTile.SAND:
-        return '#edc9af';
+        return config.map.view.tileViewFactory.getColor.gameColors.sand;
       case TypesTile.WATER:
-        return '#9696ff';
+        return config.map.view.tileViewFactory.getColor.gameColors.water;
       case TypesTile.DEEP_WATER:
-        return '#7878e1';
+        return config.map.view.tileViewFactory.getColor.gameColors.deepWater;
       case TypesTile.HILL_GRASS:
-        return '#cff187';
+        return config.map.view.tileViewFactory.getColor.gameColors.hillGrass;
       case TypesTile.HILL_SAND:
-        return '#edc9af';
+        return config.map.view.tileViewFactory.getColor.gameColors.hillSand;
       case TypesTile.HILL_FOREST:
-        return '#a7c987';
+        return config.map.view.tileViewFactory.getColor.gameColors.hillForest;
 
       // For debug
       case TypesTile.ACCESSIBLE:
-        return '#00ff00';
+        return config.map.view.tileViewFactory.getColor.gameColors.accessible;
 
       // For debug
       case TypesTile.DEFAULT:
-        return '#ff0000';
+        return config.map.view.tileViewFactory.getColor.debugColors.default;
       case TypesTile.DEFAULT2:
-        return '#00ff00';
+        return config.map.view.tileViewFactory.getColor.debugColors.default2;
       case TypesTile.DEFAULT3:
-        return '#0000ff';
+        return config.map.view.tileViewFactory.getColor.debugColors.default3;
       case TypesTile.DEFAULT4:
-        return '#ffFF00';
+        return config.map.view.tileViewFactory.getColor.debugColors.default4;
       case TypesTile.DEFAULT5:
-        return '#00FFFF';
+        return config.map.view.tileViewFactory.getColor.debugColors.default5;
       case TypesTile.DEFAULT6:
-        return '#FF00FF';
+        return config.map.view.tileViewFactory.getColor.debugColors.default6;
       case TypesTile.DEFAULT7:
-        return '#FFFFFF';
+        return config.map.view.tileViewFactory.getColor.debugColors.default7;
       case TypesTile.DEFAULT8:
-        return '#000000';
+        return config.map.view.tileViewFactory.getColor.debugColors.default8;
       case TypesTile.DEFAULT9:
-        return '#F00FF0';
+        return config.map.view.tileViewFactory.getColor.debugColors.default9;
     }
   }
 

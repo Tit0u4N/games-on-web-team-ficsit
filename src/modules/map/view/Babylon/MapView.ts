@@ -7,6 +7,15 @@ import { MapPresenter } from '../../presenter/MapPresenter.ts';
 import { TypesTile } from '../../model/TileModel.ts';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 
+export interface MapLimits {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+  cameraHeight: number;
+  cameraTiltAngle: number;
+}
+
 /**
  * Map class for the game
  * Contains hexagons tiles and have a size (square)
@@ -86,5 +95,29 @@ export class MapView implements ViewInitable {
       tile.mesh.dispose();
     });
     this.tilesDeplacement = [];
+  }
+
+  /**
+   * Return the limit of the map in x, y and z
+   * @returns MapLimits
+   */
+  getLimitXYZ(): MapLimits {
+    const left = this.tiles[0][0].mesh.position.x - TileView.radius;
+    const right = this.tiles[this.size - 1][this.size - 1].mesh.position.x + TileView.radius;
+    const bottom = this.tiles[0][0].mesh.position.z - TileView.radius;
+    const top = this.tiles[this.size - 1][this.size - 1].mesh.position.z + TileView.radius;
+
+    // Add the camera's height and tilt angle to the map limits
+    const cameraHeight = this.mapPresenter.gameCorePresenter.babylonView.camera!.position.y;
+    const cameraTiltAngle = this.mapPresenter.gameCorePresenter.babylonView.camera!.beta;
+
+    return {
+      left,
+      right,
+      top,
+      bottom,
+      cameraHeight,
+      cameraTiltAngle,
+    };
   }
 }
