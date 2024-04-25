@@ -8,6 +8,7 @@ type InventoryCaseProps = {
 };
 
 export const InventoryCase: React.FC<InventoryCaseProps> = ({ key, item, className = '' }) => {
+  console.log('InventoryCase', key);
   const isEmpty: boolean = !item;
   className = 'p-[8px] aspect-square w-full rounded-xl bg-case ' + className;
   return (
