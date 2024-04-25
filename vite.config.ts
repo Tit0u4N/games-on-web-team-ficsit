@@ -12,6 +12,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['@babylonjs/havok'],
   },
+  // add the public folder to the build
   base: './',
   build: {
     outDir: 'build',

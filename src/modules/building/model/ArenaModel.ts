@@ -36,7 +36,7 @@ export class ArenaModel {
 
   public startTournament(): void {
     // todo
-    const win: boolean = true
+    const win: boolean = true;
     if (win) {
       console.log('The winner is ' + this._name);
     }

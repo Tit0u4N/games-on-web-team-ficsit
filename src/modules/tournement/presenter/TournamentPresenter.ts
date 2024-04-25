@@ -6,6 +6,4 @@ export class TournamentPresenter {
   constructor() {
     this._tournamentModel = new TournamentModel(this);
   }
-
-
 }

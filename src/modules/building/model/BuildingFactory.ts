@@ -6,6 +6,7 @@ import { SportType } from '../../sport/model/Sport.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
+import { config } from '../../../core/Interfaces.ts';
 import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
 
 type BuildingFactoryOptions = {
@@ -20,15 +21,15 @@ type BuildingFactoryOptions = {
 };
 
 export class BuildingFactory {
-  private static readonly MAX_ATTEMPTS = 100;
+  private static readonly MAX_ATTEMPTS = config.buildings.maxAttempts;
   private readonly options: BuildingFactoryOptions = {
     arena: {
-      number: 5,
-      spacing: 10,
+      number: config.buildings.arena.numberOfBuildings,
+      spacing: config.buildings.arena.spacing,
     },
     trainingCenter: {
-      number: 5,
-      spacing: 10,
+      number: config.buildings.trainingCenter.numberOfBuildings,
+      spacing: config.buildings.trainingCenter.spacing,
     },
   };
   private mapPresenter: MapPresenter;
@@ -49,7 +50,10 @@ export class BuildingFactory {
     const arenas: ArenaPresenter[] = [];
     const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
     let index: number = 0;
-    while (index < BuildingFactory.MAX_ATTEMPTS && arenas.length < (this.options.arena?.number ?? 5)) {
+    while (
+      index < BuildingFactory.MAX_ATTEMPTS &&
+      arenas.length < (this.options.arena?.number ?? config.buildings.arena.numberOfBuildings)
+    ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const tempTileModel = this.mapPresenter.getDisplacementGraph().getTile(x, z);
@@ -91,7 +95,7 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.arena?.spacing ?? 10)) {
+      if (distance <= (this.options.arena?.spacing ?? config.buildings.arena.spacing)) {
         return true; // Neighboring arena found
       }
     }
@@ -110,7 +114,8 @@ export class BuildingFactory {
     let index: number = 0;
     while (
       index < BuildingFactory.MAX_ATTEMPTS &&
-      trainingCenters.length < (this.options.trainingCenter?.number ?? 5)
+      trainingCenters.length <
+        (this.options.trainingCenter?.number ?? config.buildings.trainingCenter.numberOfBuildings)
     ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -157,7 +162,7 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.trainingCenter?.spacing ?? 10)) {
+      if (distance <= (this.options.trainingCenter?.spacing ?? config.buildings.trainingCenter.spacing)) {
         return true; // Neighboring training center found
       }
     }
