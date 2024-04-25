@@ -3,10 +3,10 @@ import { TypesTile } from '../../map/model/TileModel.ts';
 import { ArenaModel } from './ArenaModel.ts';
 import { TrainingCenterModel } from './TrainingCenterModel.ts';
 import { SportType } from '../../sport/model/Sport.ts';
-import { Tournament } from '../../tournement/model/Tournament.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
+import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
 
 type BuildingFactoryOptions = {
   arena?: {
@@ -59,7 +59,7 @@ export class BuildingFactory {
             Math.random() > 0.5 ? summerSports : springSports,
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Arena ' + arenas.length,
-            new Tournament(),
+            new TournamentPresenter(),
           ),
         );
         if (!this.checkHasArenasNeighbors(arenaPresenter, arenas)) arenas.push(arenaPresenter);
@@ -78,11 +78,11 @@ export class BuildingFactory {
    * @private
    */
   private checkHasArenasNeighbors(arena: ArenaPresenter, arenas: ArenaPresenter[]): boolean {
-    const newArenaPosition = arena.arena.position;
+    const newArenaPosition = arena.arenaModel.position;
 
     // Iterate over existing arenas and check if any are within the specified spacing
     for (const existingArena of arenas) {
-      const existingArenaPosition = existingArena.arena.position;
+      const existingArenaPosition = existingArena.arenaModel.position;
 
       // Calculate the distance between the new arena and the existing one
       const distance = Math.sqrt(

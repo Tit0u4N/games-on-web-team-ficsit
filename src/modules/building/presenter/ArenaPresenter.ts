@@ -5,14 +5,15 @@ import { Scene } from '@babylonjs/core';
 import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
 import { ModalManager } from '../../../core/ModalManager.ts';
 import React from 'react';
+import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
-  private readonly _arena: ArenaModel;
+  private _arenaModel: ArenaModel;
   private _arenaView: ArenaView;
   private _modalIsOpen: boolean;
 
   constructor(arena: ArenaModel) {
-    this._arena = arena;
+    this._arenaModel = arena;
     this._arenaView = new ArenaView(this);
     this._modalIsOpen = false;
   }
@@ -21,12 +22,16 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     this._arenaView.initView(scene);
   }
 
-  get arena(): ArenaModel {
-    return this._arena;
+  get arenaModel(): ArenaModel {
+    return this._arenaModel;
   }
 
   get arenaView(): ArenaView {
     return this._arenaView;
+  }
+
+  setTournament(tournament: TournamentPresenter): void {
+    this._arenaModel.tournament = tournament;
   }
 
   unMountView(): void {
@@ -47,7 +52,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     return {
       type: ArenaLayout,
       props: {
-        arena: this._arena,
+        arena: this,
         isOpen: this._modalIsOpen,
         onClose: () => this.closeModal(),
       },

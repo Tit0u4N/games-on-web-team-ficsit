@@ -1,7 +1,7 @@
 import { SportType } from '../../sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Tournament } from '../../tournement/model/Tournament.ts';
 import { Character } from 'data-structure-typed';
+import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
@@ -10,18 +10,18 @@ export class ArenaModel {
   private rotation: number;
   private _position: Vector3;
   private _roundWaiting: number;
-  private _tournament: Tournament;
+  private _tournamentPresenter: TournamentPresenter;
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: SportType[], position: Vector3, name: string, tournament: Tournament) {
+  constructor(sportType: SportType[], position: Vector3, name: string, tournamentPresenter: TournamentPresenter) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
     this.rotation = ArenaModel.DEFAULT_ROTATION;
     this._actualSport = this._sportType[0];
     this._name = name;
-    this._tournament = tournament;
+    this._tournamentPresenter = tournamentPresenter;
   }
 
   public updateSport(): void {
@@ -35,7 +35,8 @@ export class ArenaModel {
   }
 
   public startTournament(): void {
-    const win: boolean = this._tournament.startTournament();
+    // todo
+    const win: boolean = true
     if (win) {
       console.log('The winner is ' + this._name);
     }
@@ -65,12 +66,12 @@ export class ArenaModel {
     this._roundWaiting = roundWaiting;
   }
 
-  get tournament(): Tournament {
-    return this._tournament;
+  get tournament(): TournamentPresenter {
+    return this._tournamentPresenter;
   }
 
-  set tournament(tournament: Tournament) {
-    this._tournament = tournament;
+  set tournament(tournament: TournamentPresenter) {
+    this._tournamentPresenter = tournament;
   }
 
   get name(): string {
@@ -87,5 +88,11 @@ export class ArenaModel {
 
   set character(character: Character) {
     this._character = character;
+  }
+
+  // Method
+  hasTournament(): boolean {
+    // todo add tournament condition
+    return !!this._tournamentPresenter;
   }
 }
