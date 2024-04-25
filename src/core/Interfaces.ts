@@ -226,11 +226,16 @@ interface IMapConfig {
   view: IMapViewConfig;
 }
 
+interface IStatisticsConfig {
+  setDefaultStats: boolean;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
   buildings: IBuildingsConfig;
   map: IMapConfig;
+  statistics: IStatisticsConfig;
 }
 
 export const config: IConfig = configJson;
