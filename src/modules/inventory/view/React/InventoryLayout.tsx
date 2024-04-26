@@ -14,7 +14,7 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory }) =
         <div className="flex justify-between p-[10px] h-full w-full">
           <div className="flex flex-col w-1/5 gap-1">
             {Array.from({ length: 4 }, (_, index) => (
-              <InventoryCase key={index} />
+              <InventoryCase key={index}  />
             ))}
           </div>
 
@@ -27,10 +27,10 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory }) =
       <div className="w-full h-[300px] justify-center">
         <div className="grid grid-cols-5 gap-1 p-[10px]">
           {inventory.items.map((item, index) => (
-            <InventoryCase key={index} item={item} />
+            <InventoryCase key={index}  item={item} />
           ))}
           {Array.from({ length: 20 - inventory.items.length }, (_, index) => (
-            <InventoryCase key={index} />
+            <InventoryCase key={index}  />
           ))}
         </div>
       </div>

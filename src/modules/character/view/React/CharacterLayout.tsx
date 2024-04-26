@@ -3,6 +3,7 @@ import { Card, Image, CardBody, Divider } from '@nextui-org/react';
 import { Character } from '../../model/Character';
 import { InventoryCase } from '../../../../component/InventoryCase.tsx';
 
+
 interface CharacterLayoutProps {
   character: Character;
 }
@@ -29,10 +30,10 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character }) => {
             <Divider />
             <div className="grid grid-cols-5 gap-1 ">
               {character.inventory.items.map((item, index) => (
-                <InventoryCase key={index} item={item} />
+                <InventoryCase key={index}  item={item} />
               ))}
               {Array.from({ length: 5 - character.inventory.items.length }, (_, index) => (
-                <InventoryCase key={index} />
+                <InventoryCase key={index}  />
               ))}
             </div>
           </div>
