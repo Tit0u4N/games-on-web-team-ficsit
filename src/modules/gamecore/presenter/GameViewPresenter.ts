@@ -20,13 +20,13 @@ export class GameViewPresenter {
     const inventory2 = new Inventory();
     const inventory3 = new Inventory();
     for (let i = 0; i < 10; i++) {
-      inventory1.addItem(new UsableObject('vite.svg', 'vite.svg'));
+      inventory1.addItem(new UsableObject('tennisRacket.svg', 'tennisRacket.svg'));
       if (i % 2 === 0) {
-        inventory1.addItem(new UsableObject('vite.svg', 'vite.svg'));
+        inventory1.addItem(new UsableObject('tennisRacket.svg', 'tennisRacket.svg'));
       }
-      inventory2.addItem(new UsableObject('vite.svg', 'vite.svg'));
+      inventory2.addItem(new UsableObject('tennisRacket.svg', 'tennisRacket.svg'));
       if (i % 3 == 0) {
-        inventory3.addItem(new UsableObject('vite.svg', 'vite.svg'));
+        inventory3.addItem(new UsableObject('tennisRacket.svg', 'tennisRacket.svg'));
       }
     }
     this.inventoryList = [inventory1, inventory2, inventory3];
