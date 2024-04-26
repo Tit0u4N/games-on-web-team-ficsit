@@ -7,7 +7,7 @@ import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
 import { config } from '../../../core/Interfaces.ts';
-import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
+import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 
 type BuildingFactoryOptions = {
   arena?: {

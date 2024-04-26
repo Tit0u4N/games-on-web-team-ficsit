@@ -1,7 +1,7 @@
 import { Button, Modal, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
-import { TournamentView } from '../../../tournement/view/React/TournamentView.tsx';
+import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
