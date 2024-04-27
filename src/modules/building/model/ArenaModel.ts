@@ -1,7 +1,7 @@
 import { SportType } from '../../sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
 import { Character } from 'data-structure-typed';
-import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
+import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
@@ -10,18 +10,18 @@ export class ArenaModel {
   private rotation: number;
   private _position: Vector3;
   private _roundWaiting: number;
-  private _tournamentPresenter: TournamentPresenter;
+  private _tournamentPresenter: TournamentPresenter | null;
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: SportType[], position: Vector3, name: string, tournamentPresenter: TournamentPresenter) {
+  constructor(sportType: SportType[], position: Vector3, name: string, tournamentPresenter?: TournamentPresenter) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
     this.rotation = ArenaModel.DEFAULT_ROTATION;
     this._actualSport = this._sportType[0];
     this._name = name;
-    this._tournamentPresenter = tournamentPresenter;
+    this._tournamentPresenter = tournamentPresenter || null;
   }
 
   public updateSport(): void {
@@ -66,11 +66,11 @@ export class ArenaModel {
     this._roundWaiting = roundWaiting;
   }
 
-  get tournament(): TournamentPresenter {
+  get tournament(): TournamentPresenter | null {
     return this._tournamentPresenter;
   }
 
-  set tournament(tournament: TournamentPresenter) {
+  set tournament(tournament: TournamentPresenter | null) {
     this._tournamentPresenter = tournament;
   }
 
