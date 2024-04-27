@@ -5,12 +5,13 @@ import { Scene } from '@babylonjs/core';
 import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
 import { ModalManager } from '../../../core/ModalManager.ts';
 import React from 'react';
-import { TournamentPresenter } from '../../tournement/presenter/TournamentPresenter.ts';
+import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private _arenaModel: ArenaModel;
   private _arenaView: ArenaView;
   private _modalIsOpen: boolean;
+  private scene!: Scene;
 
   constructor(arena: ArenaModel) {
     this._arenaModel = arena;
@@ -19,6 +20,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   }
 
   initView(scene: Scene) {
+    this.scene = scene;
     this._arenaView.initView(scene);
   }
 

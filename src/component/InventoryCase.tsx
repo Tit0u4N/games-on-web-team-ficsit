@@ -2,17 +2,15 @@ import React from 'react';
 import { Image } from '@nextui-org/react';
 
 type InventoryCaseProps = {
-  key: number;
   item?: any;
   className?: string;
 };
 
-export const InventoryCase: React.FC<InventoryCaseProps> = ({ key, item, className = '' }) => {
-  console.log('InventoryCase', key);
+export const InventoryCase: React.FC<InventoryCaseProps> = ({ item, className = '' }) => {
   const isEmpty: boolean = !item;
   className = 'p-[8px] aspect-square w-full rounded-xl bg-case ' + className;
   return (
-    <div key={key} className={className}>
+    <div className={className}>
       {isEmpty ? null : (
         <Image
           src={item.image}

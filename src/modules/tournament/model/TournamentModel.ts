@@ -12,4 +12,8 @@ export class TournamentModel {
   get tournamentPresenter(): TournamentPresenter {
     return this._tournamentPresenter;
   }
+
+  get characters(): CharacterPresenter[] {
+    return this._characters;
+  }
 }

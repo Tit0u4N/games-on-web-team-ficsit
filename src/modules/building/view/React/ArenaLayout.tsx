@@ -1,7 +1,7 @@
 import { Button, Modal, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
-import { TournamentView } from '../../../tournement/view/React/TournamentView.tsx';
+import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -10,12 +10,14 @@ export interface ArenaLayoutProps {
 }
 
 export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose }) => {
+  const [hideModal, setHideModal] = React.useState<boolean>(false);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
+    <Modal isOpen={isOpen && !hideModal} onClose={onClose} className={'h-[80%] w-[80%] max-w-full'}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.arenaModel.hasTournament() ? (
-          <TournamentView tournament={arena.arenaModel.tournament} />
+          <TournamentView tournament={arena.arenaModel.tournament} setHideModal={setHideModal} />
         ) : (
           <div className="flex justify-center items-center h-[50%] w-full">
             <h1>No tournament</h1>
@@ -25,7 +27,9 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
           <Button color="danger" variant="light" onClick={onClose}>
             Close
           </Button>
-          <Button color="primary">Action</Button>
+          <Button color="primary" onClick={onClose}>
+            Action
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
