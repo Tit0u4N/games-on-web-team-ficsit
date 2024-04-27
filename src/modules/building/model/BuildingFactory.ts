@@ -7,7 +7,6 @@ import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
 import { config } from '../../../core/Interfaces.ts';
-import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 
 type BuildingFactoryOptions = {
   arena?: {
@@ -63,7 +62,6 @@ export class BuildingFactory {
             Math.random() > 0.5 ? summerSports : springSports,
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Arena ' + arenas.length,
-            new TournamentPresenter(),
           ),
         );
         if (!this.checkHasArenasNeighbors(arenaPresenter, arenas)) arenas.push(arenaPresenter);
