@@ -11,6 +11,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   private _arenaModel: ArenaModel;
   private _arenaView: ArenaView;
   private _modalIsOpen: boolean;
+  private scene!: Scene;
 
   constructor(arena: ArenaModel) {
     this._arenaModel = arena;
@@ -19,6 +20,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   }
 
   initView(scene: Scene) {
+    this.scene = scene;
     this._arenaView.initView(scene);
   }
 
