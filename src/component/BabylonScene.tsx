@@ -23,6 +23,13 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
           if (typeof babylonMainView.onRender === 'function') babylonMainView.onRender();
           scene?.render();
         });
+        window.addEventListener('keydown', (event) => {
+          if (event.target !== canvas) canvas.dispatchEvent(new KeyboardEvent('keydown', event));
+        });
+
+        window.addEventListener('keyup', (event) => {
+          if (event.target !== canvas) canvas.dispatchEvent(new KeyboardEvent('keyup', event));
+        });
       }
     });
 
@@ -34,7 +41,6 @@ export const BabylonScene: React.FC<Props> = ({ babylonMainView, ...rest }: Prop
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-
     if (window) {
       window.addEventListener('resize', resize);
     }
