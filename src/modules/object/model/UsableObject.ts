@@ -1,5 +1,5 @@
 import { Statistics } from '../../character/model/Statistics.ts';
-import * as gameObjectsData from './gameObjects.json';
+import gameObjectsData from './gameObjects.json';
 
 export class UsableObject {
   private readonly _name: string;
@@ -29,7 +29,7 @@ interface GameObjectData {
   name: string;
   sport: string;
   image: string;
-  stats: StatIncrease[];
+  statsIncrease: StatIncrease[];
 }
 
 interface StatIncrease {
@@ -39,10 +39,10 @@ interface StatIncrease {
 
 function parseGameObjects(data: GameObjectData[]): UsableObject[] {
   return data.map((obj) => {
-    const statsIncrease = Statistics.createFromJsObject(obj.stats);
+    const statsIncrease = Statistics.createFromJsObject(obj.statsIncrease);
     return new UsableObject(obj.name, obj.image, statsIncrease);
   });
 }
 
 // todo read fix lint error
-export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData.default);
+export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData);
