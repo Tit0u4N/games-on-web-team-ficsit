@@ -58,32 +58,13 @@
   "arcRotateCameraKeyboardInputs": {
     "controls": {
       "keys": {
-        "keysUp": [
-          "z",
-          "ArrowUp"
-        ],
-        "keysDown": [
-          "s",
-          "ArrowDown"
-        ],
-        "keysLeft": [
-          "q",
-          "ArrowLeft"
-        ],
-        "keysRight": [
-          "d",
-          "ArrowRight"
-        ],
-        "keysZoomIn": [
-          "+"
-        ],
-        "keysZoomOut": [
-          "-"
-        ],
-        "resetPosition": [
-          "r",
-          "à"
-        ]
+        "keysUp": ["z", "ArrowUp"],
+        "keysDown": ["s", "ArrowDown"],
+        "keysLeft": ["q", "ArrowLeft"],
+        "keysRight": ["d", "ArrowRight"],
+        "keysZoomIn": ["+"],
+        "keysZoomOut": ["-"],
+        "resetPosition": ["r", "à"]
       }
     },
     "config": {

@@ -1,7 +1,7 @@
 import { Mesh, Scene, SceneLoader } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 
-type ImportModelOptions = {
+export type ImportModelOptions = {
   meshNameList?: string;
   path?: string;
   scene?: Scene | null;

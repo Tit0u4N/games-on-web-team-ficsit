@@ -1,4 +1,4 @@
-import { Scene } from '@babylonjs/core';
+import { IInspectorOptions, Scene } from '@babylonjs/core';
 import * as configJson from './config.json';
 import * as debugConfigJson from './debugConfig.json';
 
@@ -266,6 +266,10 @@ interface ILogDebugConfig {
 interface IDebugConfig {
   logs: ILogDebugConfig;
   activateDevCamera: boolean;
+  babylonInspector: {
+    enabled: boolean;
+    options: IInspectorOptions;
+  };
 }
 
 export const debugConfig: IDebugConfig = debugConfigJson;

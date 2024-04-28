@@ -1,11 +1,12 @@
 import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
 import { IMap } from '../../model/MapModel.ts';
-import { Mesh, Scene } from '@babylonjs/core';
+import { Mesh, Scene, Vector3 } from '@babylonjs/core';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
 import { MapPresenter } from '../../presenter/MapPresenter.ts';
 import { TypesTile } from '../../model/TileModel.ts';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
+import { Decor } from './Decor.ts';
 
 export interface MapLimits {
   left: number;
@@ -26,7 +27,6 @@ export class MapView implements ViewInitable {
   private readonly _mapPresenter: MapPresenter;
 
   private tiles!: TileView[][];
-  private mergedTiles!: Mesh;
   private parent!: Mesh;
   private scene!: Scene;
   private tileFactory!: TileViewFactory;
@@ -38,7 +38,6 @@ export class MapView implements ViewInitable {
     this._mapModel = mapModel;
     this._mapPresenter = mapPresenter;
   }
-
 
   addDeplacementTile(x: number, y: number, type: TypesTile) {
     const TileView = this.tileFactory.createTile(x, y, TypesTile.ACCESSIBLE, this);
@@ -55,7 +54,6 @@ export class MapView implements ViewInitable {
 
   private mapModelToView(mapModel: IMap): TileView[][] {
     const tempTiles: TileView[][] = [];
-
     for (let x = 0; x < this.size; x++) {
       tempTiles.push([]);
       for (let y = 0; y < this.size; y++) {
@@ -68,20 +66,6 @@ export class MapView implements ViewInitable {
     }
 
     return tempTiles;
-  }
-
-  private mergeTiles(tiles: TileView[][]): void {
-    const meshes = tiles.map((row) => row.map((tile) => {
-      const mesh = tile.mesh;
-      const newMesh = mesh.sourceMesh.clone(mesh.name, mesh.parent)
-      newMesh.position = mesh.position.clone();
-      newMesh.rotation = mesh.rotation.clone(); // Make sure this is not rotationQuaternion instead
-      newMesh.scaling = mesh.scaling.clone();
-      newMesh.parent = mesh.parent;
-      mesh.dispose()
-      return newMesh;
-    }));
-    this.mergedTiles = Mesh.MergeMeshes(meshes.flat(), true, true, undefined, false, true);
   }
 
   /**
@@ -108,6 +92,27 @@ export class MapView implements ViewInitable {
     };
   }
 
+  addDecors(scene: Scene): Decor[] {
+    const tiles = this.tiles.flat();
+    // Trees
+    const treesDecor = new Decor(
+      ['trees1.gltf', 'trees2.gltf', 'trees3.gltf', 'trees4.gltf', 'trees5.gltf', 'trees6.gltf'],
+      { path: 'trees/' },
+    );
+    treesDecor.addMeshesOptions((mesh) => {
+      mesh.position.subtractInPlace(mesh.scaling.scale(0.5));
+      mesh.scaling = mesh.scaling.scale(1.2);
+    });
+
+    tiles.forEach((tile) => {
+      tile.addForest(treesDecor);
+    });
+
+    treesDecor.initView(scene);
+
+    return [treesDecor];
+  }
+
   // Implementations
 
   initView(scene: Scene) {
@@ -115,8 +120,8 @@ export class MapView implements ViewInitable {
     this.parent = new Mesh('map_group');
     this.tileFactory = new TileViewFactory(this.scene);
     this.tiles = this.mapModelToView(this._mapModel);
-    this.mergeTiles(this.tiles);
     if (this.tiles.length === 0) throw new Error('No tiles found');
+    this.addDecors(scene);
   }
 
   /**
@@ -129,7 +134,6 @@ export class MapView implements ViewInitable {
   unMountView(): void {
     throw new Error('Method not implemented.');
   }
-
 
   // Accessors
 
@@ -144,5 +148,4 @@ export class MapView implements ViewInitable {
   getTile(x: number, y: number): TileView {
     return this.tiles[x][y];
   }
-
 }
