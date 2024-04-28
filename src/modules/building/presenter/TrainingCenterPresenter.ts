@@ -4,7 +4,7 @@ import { TrainingCenterModel } from '../model/TrainingCenterModel.ts';
 import { TrainingCenterView } from '../view/Babylon/TrainingCenterView.ts';
 import React from 'react';
 import { TrainingCenterLayout, TrainingCenterLayoutProps } from '../view/React/TrainingCenterLayout.tsx';
-import { ModalManager } from '../../../core/ModalManager.ts';
+import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;

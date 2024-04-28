@@ -2,11 +2,13 @@ import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 import { TypesTile } from '../../map/model/TileModel.ts';
 import { ArenaModel } from './ArenaModel.ts';
 import { TrainingCenterModel } from './TrainingCenterModel.ts';
-import { SportType } from '../../sport/model/Sport.ts';
+import { Tournament } from '../../tournement/model/Tournament.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
 import { config } from '../../../core/Interfaces.ts';
+import { Sport } from '../../../core/singleton/Sport.ts';
+import { Season } from '../../../core/singleton/Season.ts';
 
 type BuildingFactoryOptions = {
   arena?: {
@@ -44,8 +46,8 @@ export class BuildingFactory {
    * @public
    */
   public createArenas(): ArenaPresenter[] {
-    const springSports = [SportType.SKI, SportType.SKATING];
-    const summerSports = [SportType.ATHLETISM, SportType.ESCALADE, SportType.NATATION];
+    const springSports = Sport.getBySeason('SPRING');
+    const summerSports = Sport.getBySeason('SUMMER');
     const arenas: ArenaPresenter[] = [];
     const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
     let index: number = 0;
@@ -122,7 +124,7 @@ export class BuildingFactory {
         const trainingCenterPresenter = new TrainingCenterPresenter(
           new TrainingCenterModel(
             // TODO: see if we set the sport or if the training center improve global stats
-            [SportType.ESCALADE, SportType.NATATION],
+            Sport.getRandoms(2),
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Training Center ' + trainingCenters.length,
           ),
