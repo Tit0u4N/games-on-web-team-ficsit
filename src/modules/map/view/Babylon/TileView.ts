@@ -31,7 +31,7 @@ export class TileView {
     this.x = x;
     this.y = y;
     this.mapView = mapView;
-    this.addActionManger();
+    // this.addActionManger();
     this.type = baseTile.type;
   }
 
