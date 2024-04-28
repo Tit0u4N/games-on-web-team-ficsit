@@ -6,7 +6,7 @@ import GameCharacterLayout from '../../../character/view/React/GameCharacterLayo
 import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
 import { Reactable } from '../../../../core/Interfaces.ts';
-import { ModalManager } from '../../../../core/ModalManager.ts';
+import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
