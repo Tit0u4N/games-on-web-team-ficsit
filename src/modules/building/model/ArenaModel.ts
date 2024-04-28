@@ -1,12 +1,12 @@
-import { SportType } from '../../sport/model/Sport.ts';
+import { Sport } from '../../../core/singleton/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
 import { Tournament } from '../../tournement/model/Tournament.ts';
 import { Character } from 'data-structure-typed';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
-  private _sportType: SportType[];
-  private _actualSport: SportType;
+  private _sportType: Sport[];
+  private _actualSport: Sport;
   private rotation: number;
   private _position: Vector3;
   private _roundWaiting: number;
@@ -14,7 +14,7 @@ export class ArenaModel {
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: SportType[], position: Vector3, name: string, tournament: Tournament) {
+  constructor(sportType: Sport[], position: Vector3, name: string, tournament: Tournament) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
@@ -39,14 +39,6 @@ export class ArenaModel {
     if (win) {
       console.log('The winner is ' + this._name);
     }
-  }
-
-  get sportType(): SportType[] {
-    return this._sportType;
-  }
-
-  set sportType(sportType: SportType[]) {
-    this._sportType = sportType;
   }
 
   get position(): Vector3 {
