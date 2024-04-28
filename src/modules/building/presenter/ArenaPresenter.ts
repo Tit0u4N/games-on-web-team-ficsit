@@ -3,7 +3,7 @@ import { ArenaView } from '../view/Babylon/ArenaView.ts';
 import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
 import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
-import { ModalManager } from '../../../core/ModalManager.ts';
+import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import React from 'react';
 import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 

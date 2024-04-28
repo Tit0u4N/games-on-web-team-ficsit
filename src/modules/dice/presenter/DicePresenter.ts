@@ -4,7 +4,7 @@ import { Scene } from '@babylonjs/core';
 import { DiceComponent, DiceComponentProps } from '../view/React/DiceComponent.tsx';
 import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import React from 'react';
-import { ModalManager } from '../../../core/ModalManager.ts';
+import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;

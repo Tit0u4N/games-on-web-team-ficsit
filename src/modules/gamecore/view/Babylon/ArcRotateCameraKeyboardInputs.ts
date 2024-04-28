@@ -41,6 +41,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         }
       };
       this._onKeyUp = function (evt) {
+        console.log(evt.key);
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {
@@ -53,6 +54,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
+      element!.addEventListener('wheel', function (evt) {
+        if (evt.deltaY < 0) {
+          _this.zoomIn();
+        } else {
+          _this.zoomOut();
+        }
+      });
       element!.addEventListener('keypress', function (evt) {
         if (config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition.indexOf(evt.key) !== -1) {
           _this.resetPositionCamera();
