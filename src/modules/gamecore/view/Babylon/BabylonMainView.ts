@@ -54,7 +54,9 @@ export class BabylonMainView {
       this._options.adaptToDeviceRatio,
     );
     this._scene = new Scene(this._engine, this._options.sceneOptions);
-    Inspector.Show(this._scene, { overlay: true });
+
+    if (debugConfig.babylonInspector.enabled) Inspector.Show(this._scene, debugConfig.babylonInspector.options);
+
     const havokPlugin = new HavokPlugin(true, await HavokPhysics());
     this._scene.enablePhysics(
       new Vector3(

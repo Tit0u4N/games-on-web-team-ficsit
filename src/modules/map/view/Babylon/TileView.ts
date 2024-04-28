@@ -1,16 +1,10 @@
 import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
-import {
-  ActionManager,
-  ExecuteCodeAction,
-  InstancedMesh,
-  PhysicsAggregate,
-  PhysicsShapeType,
-  Scene,
-} from '@babylonjs/core';
+import { InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 import { config } from '../../../../core/Interfaces.ts';
+import { Decor } from './Decor.ts';
 
 /**
  * Tile class for the game
@@ -31,16 +25,14 @@ export class TileView {
     this.x = x;
     this.y = y;
     this.mapView = mapView;
-    // this.addActionManger();
     this.type = baseTile.type;
   }
 
   private createHexagonMesh(x: number, y: number, baseTile: BaseTile): InstancedMesh {
     const mesh = baseTile.baseMesh.createInstance('tileInstance_' + x + '_' + y);
+    mesh.metadata = { x, y, type: baseTile.type };
 
     mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
-
-    mesh.actionManager = new ActionManager(this.scene);
 
     // Add physics to the mesh
     if (baseTile.type !== TypesTile.ACCESSIBLE)
@@ -54,19 +46,33 @@ export class TileView {
     return mesh;
   }
 
-  private addActionManger() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const tile = this;
+  addForest(treeDecor: Decor) {
+    let nbTrees = 0;
+    let distanceMin = 0;
+    if (this.type === TypesTile.FOREST || this.type === TypesTile.HILL_FOREST) {
+      nbTrees = Math.floor(Math.random() * 36);
+      distanceMin = 0.4;
+    } else if (this.type === TypesTile.GRASS || this.type === TypesTile.HILL_GRASS) {
+      nbTrees = Math.floor(Math.random() * 3);
+      distanceMin = 0.5;
+    } else {
+      return;
+    }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-expect-error
-    this._mesh.actionManager.registerAction(
-      new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
-        tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
-        console.log(tile.mesh.position);
-        console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
-      }),
-    );
+    const max_attempts = 1000;
+    let attempts = 0;
+    while (attempts < max_attempts && nbTrees > 0) {
+      const x = Math.random() * TileView.radius - TileView.radius / 2 + this._mesh.position.x;
+      const z = Math.random() * TileView.radius - TileView.radius / 2 + this._mesh.position.z;
+      const vector = new Vector3(x, this._mesh.position.y * 2, z);
+      if (treeDecor.distanceToNearestDecor(vector) > distanceMin) {
+        treeDecor.addDecor(vector);
+        attempts = 0;
+        nbTrees--;
+      } else {
+        attempts++;
+      }
+    }
   }
 
   get mesh(): InstancedMesh {
