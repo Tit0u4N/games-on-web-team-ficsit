@@ -213,8 +213,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       console.log('newPosition', newPosition, localDirection, transformedDirection, mapLimits);
     // Check if the new position is within the map limits
 
-    console.log(this.camera!.position, this.camera!.target);
-
     if (
       newPosition.x >= mapLimits.left &&
       newPosition.x <= mapLimits.right &&
