@@ -306,9 +306,6 @@
   "statistics": {
     "setDefaultStats": true
   },
-  "inventory": {
-    "maxItemsEquipped": 5
-  },
   "usableObject": {
     "basePath": ""
   }

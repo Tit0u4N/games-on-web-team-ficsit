@@ -1,28 +1,23 @@
-import { config } from '../../../core/Interfaces.ts';
 import { UsableObject } from '../../object/model/UsableObject.ts';
+import { EquippedObject } from './EquippedObject.ts';
 
 export class Inventory {
   private _items: UsableObject[] = [];
-  private _equippedItems: UsableObject[] = [];
-  private _maxItemsEquipped: number = config.inventory.maxItemsEquipped;
+  private _equippedObjects: EquippedObject = new EquippedObject();
 
   public addItem(item: UsableObject): void {
     this._items.push(item);
   }
 
   public equipItem(item: UsableObject): void {
-    if (this._equippedItems.length < this._maxItemsEquipped) {
-      this._equippedItems.push(item);
-    } else {
-      // TODO: Send a message to the user
+    if (!this._equippedObjects.canBePlacedInSlot(item.slot, item)) {
+      throw new Error(`Cannot equip the item in the slot: ${item.slot}`);
     }
+    this._equippedObjects.equip(item, item.slot);
   }
 
   public unequipItem(item: UsableObject): void {
-    const index = this._equippedItems.indexOf(item);
-    if (index !== -1) {
-      this._equippedItems.splice(index, 1);
-    }
+    this._equippedObjects.unequip(item.slot);
   }
 
   public removeItem(item: UsableObject): void {
@@ -41,10 +36,10 @@ export class Inventory {
   }
 
   get equippedItems(): UsableObject[] {
-    return this._equippedItems;
+    return this._equippedObjects.all;
   }
 
   get equippedItemsIds(): number[] {
-    return this._equippedItems.map((item) => item.id);
+    return this._equippedObjects.all.map((item) => item.id);
   }
 }
