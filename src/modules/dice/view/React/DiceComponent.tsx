@@ -7,17 +7,13 @@ export interface DiceComponentProps {
   dicePresenter: DicePresenter;
   diceValues?: number[];
   className?: string;
-  onRoll3DStart?: () => void;
-  onRoll3DEnd?: () => void;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter,
+  diceValues = DiceModel.initDiceValues(),
   className = '',
-  onRoll3DStart = () => {},
-  onRoll3DEnd = () => {},
 }) => {
-  const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
   const [rollDice2DIsHidden, setRollDice2DIsHidden] = useState(true);
   const [rollDice2DCanClose, setRollDice2DCanClose] = useState(false);
@@ -25,24 +21,26 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
 
   async function rollDice(finalValue: number, nbRolls: number = 30) {
     setRollDice2DIsHidden(false);
-    await simulateRoll(finalValue, setValue, nbRolls);
+    let i = 0;
+    for (i = nbRolls + 1; i >= 0; i--) {
+      let interval = 75;
+      if (i < 5) {
+        interval = 75 + (5 - i) * 50;
+      }
+      await new Promise((resolve) => setTimeout(resolve, interval));
+      setValue(diceValues[Math.floor(Math.random() * diceValues.length)]);
+    }
     setValue(finalValue);
     setRollDice2DCanClose(true);
     setRollFinished(true);
   }
 
   dicePresenter.RollDiceFunc2D = rollDice;
-  dicePresenter.onRoll3DStart = onRoll3DStart;
-  dicePresenter.onRoll3DEnd = onRoll3DEnd;
 
   return (
-    <div className="w-full">
+    <div>
       <div className={className}>
-        <Checkbox
-          className={'block'}
-          disabled={rollFinished}
-          onChange={() => dicePresenter.toggle3DMod()}
-          defaultSelected={true}>
+        <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()} isSelected={true}>
           3D Dice
         </Checkbox>
 
@@ -67,18 +65,4 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
       )}
     </div>
   );
-};
-
-export const simulateRoll = async (finalValue: number, setValue: (value: number) => void, nbRolls: number = 30) => {
-  const diceValues = DiceModel.initDiceValues();
-  let i = 0;
-  for (i = nbRolls + 1; i >= 0; i--) {
-    let interval = 75;
-    if (i < 5) {
-      interval = 75 + (5 - i) * 50;
-    }
-    await new Promise((resolve) => setTimeout(resolve, interval));
-    setValue(diceValues[Math.floor(Math.random() * diceValues.length)]);
-  }
-  setValue(finalValue);
 };
