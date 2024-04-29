@@ -5,6 +5,7 @@ import gameObjectsData from './gameObjects.json';
 import gearsCombinaisons from './completeGearKeys.json';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { config } from '../../../core/Interfaces.ts';
+import { EquippedObjectSlot } from '../../inventory/model/EquippedObject.ts';
 
 export class UsableObject {
   private readonly _id: number;
@@ -12,13 +13,22 @@ export class UsableObject {
   private readonly _image: string;
   private readonly _statsIncrease: Statistics;
   private readonly _conditions: Condition[];
+  private readonly _slot: EquippedObjectSlot;
 
-  constructor(id: number, name: string, image: string, statsIncrease: Statistics, conditions: Condition[] = []) {
+  constructor(
+    id: number,
+    name: string,
+    image: string,
+    statsIncrease: Statistics,
+    conditions: Condition[] = [],
+    slot: EquippedObjectSlot,
+  ) {
     this._id = id;
     this._name = name;
     this._image = config.usableObject.basePath + image;
     this._statsIncrease = statsIncrease;
     this._conditions = conditions;
+    this._slot = slot;
   }
 
   get statsIncrease(): Statistics {
@@ -74,6 +84,10 @@ export class UsableObject {
   get id(): number {
     return this._id;
   }
+
+  get slot(): EquippedObjectSlot {
+    return this._slot;
+  }
 }
 
 function parseGameObjects(data: GameObjectData[]): UsableObject[] {
@@ -94,7 +108,6 @@ function parseCondition(conditionData: Condition): Condition {
   }
 }
 
-// todo read fix lint error
 export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData);
 export const gears: IGears[] = gearsCombinaisons;
 
@@ -108,6 +121,7 @@ interface GameObjectData {
   name: string;
   sport: string;
   image: string;
+  slot: EquippedObjectSlot;
   statsIncrease: IStatIncrease[];
   conditions?: Condition[];
 }

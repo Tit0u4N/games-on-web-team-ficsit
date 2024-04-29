@@ -4,6 +4,7 @@
     "name": "Baseball",
     "sport": "BASEBALL",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "BASEBALL",
@@ -37,6 +38,7 @@
     "name": "Soccer Ball",
     "sport": "SOCCER",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "SOCCER",
@@ -57,6 +59,7 @@
     "name": "Basketball",
     "sport": "BASKETBALL",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "BASKETBALL",
@@ -77,6 +80,7 @@
     "name": "Running Shoes",
     "sport": "ATHLETISM",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "ATHLETISM",
@@ -97,6 +101,7 @@
     "name": "Swimming Goggles",
     "sport": "NATATION",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "NATATION",
@@ -117,6 +122,7 @@
     "name": "Climbing Harness",
     "sport": "ESCALADE",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "ESCALADE",
@@ -157,6 +163,7 @@
     "name": "Ice Skates",
     "sport": "SKATING",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "SKATING",
@@ -177,6 +184,7 @@
     "name": "Tennis Racket",
     "sport": "TENNIS",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "TENNIS",
@@ -197,6 +205,7 @@
     "name": "Volleyball",
     "sport": "VOLLEYBALL",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "VOLLEYBALL",
@@ -217,6 +226,7 @@
     "name": "Hockey Stick",
     "sport": "HOCKEY",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "HOCKEY",
@@ -237,6 +247,7 @@
     "name": "Rugby Ball",
     "sport": "RUGBY",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "RUGBY",
@@ -257,6 +268,7 @@
     "name": "Tennis Racket",
     "sport": "TENNIS",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "TENNIS",
@@ -277,6 +289,7 @@
     "name": "Table Tennis Paddle",
     "sport": "TABLE_TENNIS",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "TABLE_TENNIS",
@@ -297,6 +310,7 @@
     "name": "Boxing Gloves",
     "sport": "BOXING",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "BOXING",
@@ -317,6 +331,7 @@
     "name": "Fencing Foil",
     "sport": "FENCING",
     "image": "vite.svg",
+    "slot": "head",
     "statsIncrease": [
       {
         "sport": "FENCING",
