@@ -14,7 +14,7 @@ export class ArenaModel {
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: SportType[], position: Vector3, name: string, tournamentPresenter?: TournamentPresenter) {
+  constructor(sportType: Sport[], position: Vector3, name: string, tournamentPresenter?: TournamentPresenter) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
