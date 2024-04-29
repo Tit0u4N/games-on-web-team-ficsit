@@ -1,0 +1,66 @@
+[
+  {
+    "gearId": "1",
+    "allEquipments": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "statsIncrease": [
+      {
+        "sport": "SKI",
+        "bonus": 2
+      },
+      {
+        "sport": "BASEBALL",
+        "bonus": 2
+      }
+    ]
+  },
+  {
+    "gearId": "2",
+    "allEquipments": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "statsIncrease": [
+      {
+        "sport": "BASEBALL",
+        "bonus": 2
+      }
+    ]
+  },
+  {
+    "gearId": "3",
+    "allEquipments": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "statsIncrease": [
+      {
+        "sport": "SOCCER",
+        "bonus": 2
+      }
+    ]
+  },
+  {
+    "gearId": "4",
+    "allEquipments": [
+      16
+    ],
+    "statsIncrease": [
+      {
+        "sport": "SKI",
+        "bonus": 2
+      }
+    ]
+  }
+]
