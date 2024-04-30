@@ -6,7 +6,8 @@ import { ViewInitable } from '../../../../core/Interfaces.ts';
 import { MapPresenter } from '../../presenter/MapPresenter.ts';
 import { TypesTile } from '../../model/TileModel.ts';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
-import { Decor } from './Decor.ts';
+import { DecorsSet } from './decor/DecorsSet.ts';
+import { Decor } from './decor/Decor.ts';
 
 export interface MapLimits {
   left: number;
@@ -92,20 +93,25 @@ export class MapView implements ViewInitable {
     };
   }
 
-  addDecors(scene: Scene): Decor[] {
+  addDecors(scene: Scene): DecorsSet[] {
     const tiles = this.tiles.flat();
     // Trees
-    const treesDecor = new Decor(['trees2.gltf'], { path: 'trees/' });
-
-    treesDecor.scalingDecor(2);
-
-    tiles.forEach((tile) => {
-      tile.addForest(treesDecor);
+    const treesDecors = new DecorsSet({
+      importOptions: {
+        multiMaterial: true,
+        path: 'trees/',
+      },
     });
 
-    treesDecor.initView(scene);
+    treesDecors.addDecor(new Decor('trees1.gltf'));
 
-    return [treesDecor];
+    tiles.forEach((tile) => {
+      tile.addForest(treesDecors);
+    });
+
+    treesDecors.initView(scene);
+
+    return [treesDecors];
   }
 
   // Implementations
