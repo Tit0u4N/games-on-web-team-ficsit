@@ -4,7 +4,7 @@ import { MapView } from './MapView.ts';
 import { CreateBox, InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 import { config } from '../../../../core/Interfaces.ts';
-import { Decor } from './Decor.ts';
+import { DecorsSet } from './decor/DecorsSet.ts';
 
 /**
  * Tile class for the game
@@ -46,7 +46,7 @@ export class TileView {
     return mesh;
   }
 
-  addForest(treeDecor: Decor) {
+  addForest(treeDecor: DecorsSet) {
     let nbTrees = 0;
     let distanceMin = 0;
     if (this.type === TypesTile.FOREST || this.type === TypesTile.HILL_FOREST) {
@@ -69,7 +69,7 @@ export class TileView {
       const z = this._mesh.position.z;
       const vector = new Vector3(x, this._mesh.position.y * 2, z);
       if (treeDecor.distanceToNearestDecor(vector) > distanceMin) {
-        treeDecor.addDecor(vector);
+        treeDecor.addDecorToMount(vector);
         attempts = 0;
         nbTrees--;
       } else {
