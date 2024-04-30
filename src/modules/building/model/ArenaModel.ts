@@ -1,7 +1,7 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Character } from 'data-structure-typed';
-import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
+import { Tournament } from '../../tournament/model/Tournament.ts';
+import { Character } from '../../character/model/Character.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
@@ -10,18 +10,18 @@ export class ArenaModel {
   private rotation: number;
   private _position: Vector3;
   private _roundWaiting: number;
-  private _tournamentPresenter: TournamentPresenter | null;
+  private _tournament: Tournament;
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: Sport[], position: Vector3, name: string, tournamentPresenter?: TournamentPresenter) {
+  constructor(sportType: Sport[], position: Vector3, name: string, tournament: Tournament) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
     this.rotation = ArenaModel.DEFAULT_ROTATION;
     this._actualSport = this._sportType[0];
     this._name = name;
-    this._tournamentPresenter = tournamentPresenter || null;
+    this._tournament = tournament;
   }
 
   public updateSport(): void {
@@ -35,8 +35,7 @@ export class ArenaModel {
   }
 
   public startTournament(): void {
-    // todo
-    const win: boolean = true;
+    const win: boolean = this._tournament.startTournament();
     if (win) {
       console.log('The winner is ' + this._name);
     }
@@ -58,12 +57,12 @@ export class ArenaModel {
     this._roundWaiting = roundWaiting;
   }
 
-  get tournament(): TournamentPresenter | null {
-    return this._tournamentPresenter;
+  get tournament(): Tournament {
+    return this._tournament;
   }
 
-  set tournament(tournament: TournamentPresenter | null) {
-    this._tournamentPresenter = tournament;
+  set tournament(tournament: Tournament) {
+    this._tournament = tournament;
   }
 
   get name(): string {
@@ -80,11 +79,5 @@ export class ArenaModel {
 
   set character(character: Character) {
     this._character = character;
-  }
-
-  // Method
-  hasTournament(): boolean {
-    // todo add tournament condition
-    return !!this._tournamentPresenter;
   }
 }

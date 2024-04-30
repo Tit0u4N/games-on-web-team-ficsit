@@ -20,7 +20,7 @@ export class ArenaView implements ViewInitable {
 
   constructor(arenaPresenter: ArenaPresenter) {
     this.arenaPresenter = arenaPresenter;
-    this.arenaModel = this.arenaPresenter.arenaModel;
+    this.arenaModel = this.arenaPresenter.arena;
   }
 
   initView(scene: Scene) {

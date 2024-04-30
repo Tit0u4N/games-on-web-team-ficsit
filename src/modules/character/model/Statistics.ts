@@ -27,7 +27,6 @@ export class Statistics extends Map<Sport, number> {
       // the stats can be between 2 and 13
       this.set(sport, Math.floor(Math.random() * 12) + 2);
     }
-    console.log(this);
   }
 
   get(sport: Sport): number {
