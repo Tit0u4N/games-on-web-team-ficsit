@@ -95,14 +95,9 @@ export class MapView implements ViewInitable {
   addDecors(scene: Scene): Decor[] {
     const tiles = this.tiles.flat();
     // Trees
-    const treesDecor = new Decor(
-      ['trees1.gltf', 'trees2.gltf', 'trees3.gltf', 'trees4.gltf', 'trees5.gltf', 'trees6.gltf'],
-      { path: 'trees/' },
-    );
-    treesDecor.addMeshesOptions((mesh) => {
-      mesh.position.subtractInPlace(mesh.scaling.scale(0.5));
-      mesh.scaling = mesh.scaling.scale(1.2);
-    });
+    const treesDecor = new Decor(['trees2.gltf'], { path: 'trees/' });
+
+    treesDecor.scalingDecor(2);
 
     tiles.forEach((tile) => {
       tile.addForest(treesDecor);

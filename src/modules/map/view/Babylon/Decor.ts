@@ -50,6 +50,20 @@ export class Decor implements ViewInitable {
     Decor.allDecor.push(position);
   }
 
+  scalingDecor(scaleOrX: number, y?: number, z?: number) {
+    const x = scaleOrX;
+    y = y || scaleOrX;
+    z = z || scaleOrX;
+    this.addMeshesOptions((mesh) => {
+      mesh.scaling = mesh.scaling.multiply(new Vector3(1 + x, 1 + y, 1 + z));
+      this.decorToMount.forEach((position) => {
+        position.divideInPlace(new Vector3(1 + x, 1 + y, 1 + z));
+      });
+    });
+
+    return this;
+  }
+
   distanceToNearestDecor(position: Vector3): number {
     return this.decorToMount.reduce((minDistance, decorPosition) => {
       const distance = Vector3.Distance(position, decorPosition);
