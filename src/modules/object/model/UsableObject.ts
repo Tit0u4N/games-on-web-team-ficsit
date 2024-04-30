@@ -88,28 +88,15 @@ export class UsableObject {
   get slot(): EquippedObjectSlot {
     return this._slot;
   }
-}
 
-function parseGameObjects(data: GameObjectData[]): UsableObject[] {
-  return data.map((obj) => {
-    const conditions = obj.conditions ? obj.conditions.map(parseCondition) : [];
-    const statsIncrease = Statistics.createFromJsObject(obj.statsIncrease);
-    return new UsableObject(obj.id, obj.name, obj.image, statsIncrease, conditions);
-  });
-}
+  get name(): string {
+    return this._name;
+  }
 
-function parseCondition(conditionData: Condition): Condition {
-  switch (conditionData.type) {
-    case ConditionType.Terrain:
-      return conditionData;
-    // Here, we can add more condition types
-    default:
-      throw new Error(`Unknown condition type: ${conditionData.type}`);
+  get image(): string {
+    return this._image;
   }
 }
-
-export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData);
-export const gears: IGears[] = gearsCombinaisons;
 
 enum ConditionType {
   Terrain = 'terrain',
@@ -121,7 +108,7 @@ interface GameObjectData {
   name: string;
   sport: string;
   image: string;
-  slot: EquippedObjectSlot;
+  slot: string;
   statsIncrease: IStatIncrease[];
   conditions?: Condition[];
 }
@@ -144,3 +131,25 @@ interface IGears {
   allEquipments: number[];
   statsIncrease: IStatIncrease[];
 }
+
+function parseGameObjects(data: GameObjectData[]): UsableObject[] {
+  return data.map((obj) => {
+    const conditions = obj.conditions ? obj.conditions.map(parseCondition) : [];
+    const statsIncrease = Statistics.createFromJsObject(obj.statsIncrease);
+    const slot = EquippedObjectSlot[obj.slot.toUpperCase() as keyof typeof EquippedObjectSlot];
+    return new UsableObject(obj.id, obj.name, obj.image, statsIncrease, conditions, slot);
+  });
+}
+
+function parseCondition(conditionData: Condition): Condition {
+  switch (conditionData.type) {
+    case ConditionType.Terrain:
+      return conditionData;
+    // Here, we can add more condition types
+    default:
+      throw new Error(`Unknown condition type: ${conditionData.type}`);
+  }
+}
+
+export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData);
+export const gears: IGears[] = gearsCombinaisons;

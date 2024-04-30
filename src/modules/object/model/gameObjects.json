@@ -4,7 +4,7 @@
     "name": "Baseball",
     "sport": "BASEBALL",
     "image": "vite.svg",
-    "slot": "head",
+    "slot": "HEAD",
     "statsIncrease": [
       {
         "sport": "BASEBALL",
@@ -80,7 +80,7 @@
     "name": "Running Shoes",
     "sport": "ATHLETISM",
     "image": "vite.svg",
-    "slot": "head",
+    "slot": "chest",
     "statsIncrease": [
       {
         "sport": "ATHLETISM",
@@ -101,7 +101,7 @@
     "name": "Swimming Goggles",
     "sport": "NATATION",
     "image": "vite.svg",
-    "slot": "head",
+    "slot": "legs",
     "statsIncrease": [
       {
         "sport": "NATATION",
@@ -143,6 +143,7 @@
     "name": "Ski Poles",
     "sport": "SKI",
     "image": "vite.svg",
+    "slot": "chest",
     "statsIncrease": [
       {
         "sport": "SKI",

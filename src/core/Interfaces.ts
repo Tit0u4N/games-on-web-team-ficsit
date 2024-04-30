@@ -238,10 +238,6 @@ interface IStatisticsConfig {
   setDefaultStats: boolean;
 }
 
-interface IInventoryConfig {
-  maxItemsEquipped: number;
-}
-
 interface IUsableObjectConfig {
   basePath: string;
 }
@@ -254,7 +250,6 @@ interface IConfig {
   sports: ISportConfig;
   seasons: ISeasonConfig;
   statistics: IStatisticsConfig;
-  inventory: IInventoryConfig;
   usableObject: IUsableObjectConfig;
 }
 
