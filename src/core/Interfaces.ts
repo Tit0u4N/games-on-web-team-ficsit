@@ -226,11 +226,31 @@ interface IMapConfig {
   view: IMapViewConfig;
 }
 
+interface ISportConfig {
+  all: { name: string; icon: string; description: string; seasons: string[] }[];
+}
+
+interface ISeasonConfig {
+  all: { name: string; icon: string }[];
+}
+
+interface IStatisticsConfig {
+  setDefaultStats: boolean;
+}
+
+interface IUsableObjectConfig {
+  basePath: string;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
   buildings: IBuildingsConfig;
   map: IMapConfig;
+  sports: ISportConfig;
+  seasons: ISeasonConfig;
+  statistics: IStatisticsConfig;
+  usableObject: IUsableObjectConfig;
 }
 
 export const config: IConfig = configJson;
