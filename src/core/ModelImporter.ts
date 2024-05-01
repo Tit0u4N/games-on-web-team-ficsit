@@ -25,5 +25,6 @@ export async function importModel(fileName: string, options?: ImportModelOptions
   const meshes = result.meshes.filter((mesh) => mesh !== undefined && mesh.name !== '__root__');
   const mesh = Mesh.MergeMeshes(meshes as Mesh[], true, true, undefined, false, options.multiMaterial);
   if (!mesh) throw new Error('No mesh found');
+  mesh.name = fileName.split('.')[0];
   return mesh;
 }

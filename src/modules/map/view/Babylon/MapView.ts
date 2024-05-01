@@ -53,6 +53,12 @@ export class MapView implements ViewInitable {
     this.tilesDeplacement = [];
   }
 
+  /**
+   * @private
+   * Create map tiles from the model
+   * @param mapModel
+   * @returns TileView[][]
+   */
   private mapModelToView(mapModel: IMap): TileView[][] {
     const tempTiles: TileView[][] = [];
     for (let x = 0; x < this.size; x++) {
@@ -103,7 +109,31 @@ export class MapView implements ViewInitable {
       },
     });
 
-    treesDecors.addDecor(new Decor('trees1.gltf'));
+    treesDecors.addDecor(
+      new Decor('trees1.gltf', {
+        meshOptions: {
+          scale: 1.5,
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees1.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.5, 2, 1.5),
+          rotation: new Vector3(0, Math.PI / 3, 0),
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees1.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.3, 1.5, 1.3),
+          rotation: new Vector3(0, Math.PI / 2, 0),
+        },
+      }),
+    );
 
     tiles.forEach((tile) => {
       tile.addForest(treesDecors);
@@ -124,13 +154,6 @@ export class MapView implements ViewInitable {
     if (this.tiles.length === 0) throw new Error('No tiles found');
     this.addDecors(scene);
   }
-
-  /**
-   * @private
-   * Create map tiles from the model
-   * @param mapModel
-   * @returns TileView[][]
-   */
 
   unMountView(): void {
     throw new Error('Method not implemented.');
