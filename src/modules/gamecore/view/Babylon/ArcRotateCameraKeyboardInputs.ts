@@ -41,7 +41,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
         }
       };
       this._onKeyUp = function (evt) {
-        console.log(evt.key);
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {

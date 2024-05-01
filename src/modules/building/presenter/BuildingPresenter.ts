@@ -4,7 +4,6 @@ import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 import { ViewInitable } from '../../../core/Interfaces.ts';
 import { ArenaPresenter } from './ArenaPresenter.ts';
 import { TrainingCenterPresenter } from './TrainingCenterPresenter.ts';
-import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 
 export class BuildingPresenter implements ViewInitable {
   private _arenasPresenter: ArenaPresenter[] = [];
@@ -22,7 +21,6 @@ export class BuildingPresenter implements ViewInitable {
     this._scene = scene;
     this._arenasPresenter.forEach((arenaPresenter) => {
       arenaPresenter.initView(scene);
-      arenaPresenter.setTournament(new TournamentPresenter(scene));
     });
     this._trainingCenterPresenter.forEach((trainingCenterPresenter) => {
       trainingCenterPresenter.initView(scene);
