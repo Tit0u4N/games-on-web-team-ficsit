@@ -50,23 +50,24 @@ export class TileView {
     let nbTrees = 0;
     let distanceMin = 0;
     if (this.type === TypesTile.FOREST || this.type === TypesTile.HILL_FOREST) {
-      // nbTrees = Math.floor(Math.random() * 36);
-      nbTrees = 1;
-      distanceMin = 0.4;
+      nbTrees = Math.floor((Math.random() + 0.5) * 20);
+      // nbTrees = 1;
+      distanceMin = 0.6;
     } else if (this.type === TypesTile.GRASS || this.type === TypesTile.HILL_GRASS) {
       nbTrees = Math.floor(Math.random() * 3);
-      distanceMin = 0.5;
+      distanceMin = 1.5;
     } else {
       return;
     }
 
-    const max_attempts = 25;
+    const max_attempts = 50;
     let attempts = 0;
     while (attempts < max_attempts && nbTrees > 0) {
-      // const x = Math.random() * TileView.radius - TileView.radius / 2 + this._mesh.position.x;
-      // const z = Math.random() * TileView.radius - TileView.radius / 2 + this._mesh.position.z;
-      const x = this._mesh.position.x;
-      const z = this._mesh.position.z;
+      const radius = TileView.radius * 1.5;
+      const x = Math.random() * radius - radius / 2 + this._mesh.position.x;
+      const z = Math.random() * radius - radius / 2 + this._mesh.position.z;
+      // const x = this._mesh.position.x;
+      // const z = this._mesh.position.z;
       const vector = new Vector3(x, this._mesh.position.y * 2, z);
       if (treeDecor.distanceToNearestDecor(vector) > distanceMin) {
         treeDecor.addDecorToMount(vector);

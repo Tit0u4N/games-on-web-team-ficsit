@@ -42,6 +42,7 @@ export class Decor implements IDecor {
   async initView(scene: Scene) {
     await this.loadMesh(scene);
     this.applyOptions();
+    this.createParentOfMesh(scene);
 
     for (const position of this.decorToMount) {
       this.mesh.thinInstanceAdd(Matrix.Translation(position.x, position.y, position.z));
@@ -79,7 +80,6 @@ export class Decor implements IDecor {
       this.mesh = this.meshLoader(scene);
     } else {
       const options = { ...this._importOptions, scene: scene };
-      console.log('options', options);
       this.mesh = await importModel(this.fileName, options);
     }
   }
@@ -100,9 +100,6 @@ export class Decor implements IDecor {
       scale = this._meshOptions.scale;
     }
     this.mesh.scaling = scale;
-    this.decorToMount.forEach((position) => {
-      position.divideInPlace(scale);
-    });
   }
 
   private applyPosition() {
@@ -115,5 +112,9 @@ export class Decor implements IDecor {
   private applyRotation() {
     if (!this._meshOptions.rotation) return;
     this.mesh.rotation = this._meshOptions.rotation;
+  }
+
+  private createParentOfMesh(scene: Scene) {
+    this.mesh = Mesh.MergeMeshes([this.mesh], true, false, undefined, false, true) as Mesh;
   }
 }
