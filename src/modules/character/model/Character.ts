@@ -2,6 +2,7 @@ import { Statistics } from './Statistics';
 import { Attributes } from './Attributes';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { ITile } from '../../map/model/TileModel.ts';
+import { Season } from '../../../core/singleton/Season.ts';
 
 export class Character {
   private _id: number;
@@ -110,5 +111,17 @@ export class Character {
 
   public resetMovementPoints(): void {
     this._attributes.resetMovement();
+  }
+
+  getStatsWithEffect(season: Season | undefined): Statistics {
+    if (!season) season = Season.getAll()[0]; //fallback to the first season
+    const stats = this.statistics.copy();
+    for (const item of this.inventory.equippedItems) {
+      const effect = item.getEffect(this, season);
+      if (effect) {
+        stats.addStat(effect);
+      }
+    }
+    return stats;
   }
 }

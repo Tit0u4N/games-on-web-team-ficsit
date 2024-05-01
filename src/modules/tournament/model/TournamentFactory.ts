@@ -2,6 +2,7 @@ import { TournamentModel } from './TournamentModel.ts';
 import { TournamentDifficulty } from './TournamentDifficulty.ts';
 import { TournamentManagerPresenter } from '../presenter/TournamentManagerPresenter.ts';
 import { RewardModel } from './RewardModel.ts';
+import { Sport } from '../../../core/singleton/Sport.ts';
 
 export class TournamentFactory {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
@@ -31,7 +32,8 @@ export class TournamentFactory {
         else nbRound = 5;
         break;
     }
-    return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, reward);
+    const sport = Sport.getRandom();
+    return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, sport, reward);
   }
 
   generateReward(): RewardModel {

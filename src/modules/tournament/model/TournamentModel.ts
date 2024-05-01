@@ -2,12 +2,16 @@ import { Character } from '../../character/model/Character.ts';
 import { TournamentManagerPresenter } from '../presenter/TournamentManagerPresenter.ts';
 import { TournamentDifficulty } from './TournamentDifficulty.ts';
 import { RewardModel } from './RewardModel.ts';
+import { Sport } from '../../../core/singleton/Sport.ts';
+import { Season } from '../../../core/singleton/Season.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private readonly _reward: RewardModel;
   private readonly _numberRound: number;
   private readonly _difficulty: TournamentDifficulty;
+  private readonly _sport: Sport;
+  private _season: Season | undefined;
   private _characters: Character[] = [];
   private _pools: Character[][] = [];
   private _finalRankings: Character[] = [];
@@ -16,12 +20,14 @@ export class TournamentModel {
     tournamentManagerPresenter: TournamentManagerPresenter,
     difficulty: TournamentDifficulty,
     numberRound: number,
+    sport: Sport,
     reward: RewardModel,
   ) {
     this._tournamentManagerPresenter = tournamentManagerPresenter;
     this._reward = reward;
     this._numberRound = numberRound;
     this._difficulty = difficulty;
+    this._sport = sport;
   }
 
   get tournamentManagerPresenter(): TournamentManagerPresenter {
@@ -52,7 +58,9 @@ export class TournamentModel {
     return stat * 2 + diceRoll;
   }
 
-  createPools() {
+  initTournament() {
+    const season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
+    season ? (this._season = season) : (this._season = Season.getAll()[0]); //fallback to the first season
     const pools: Character[][] = [];
     const characters = this.characters;
     const nbPools = Math.ceil(characters.length / 8);
@@ -70,7 +78,10 @@ export class TournamentModel {
     const rankingOfThePool: { rank: number; character: Character }[] = [];
     for (let j = 0; j < pool.length; j++) {
       const character = pool[j];
-      const ranking = Math.random() * 20; //TODO: die roll + calculate the ranking
+      const ranking = this.calculateScore(
+        character.getStatsWithEffect(this._season).get(this._sport),
+        Math.random() * 20,
+      );
       rankingOfThePool.push({ rank: ranking, character });
     }
     rankingOfThePool.sort((a, b) => a.rank - b.rank);
