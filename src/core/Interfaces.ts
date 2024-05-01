@@ -238,6 +238,10 @@ interface IStatisticsConfig {
   setDefaultStats: boolean;
 }
 
+interface IUsableObjectConfig {
+  basePath: string;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -246,6 +250,7 @@ interface IConfig {
   sports: ISportConfig;
   seasons: ISeasonConfig;
   statistics: IStatisticsConfig;
+  usableObject: IUsableObjectConfig;
 }
 
 export const config: IConfig = configJson;

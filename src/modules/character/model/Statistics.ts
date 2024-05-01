@@ -1,5 +1,6 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { config } from '../../../core/Interfaces.ts';
+import { IStatIncrease } from '../../object/model/UsableObject.ts';
 
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
@@ -10,7 +11,7 @@ export class Statistics extends Map<Sport, number> {
     }
   }
 
-  public static createFromJsObject(jsObject: { sport: string; bonus: number }[]): Statistics {
+  public static createFromJsObject(jsObject: IStatIncrease[]): Statistics {
     const stats = new Statistics();
     for (const stat of jsObject) {
       // todo check if the sport is in the object
@@ -26,15 +27,13 @@ export class Statistics extends Map<Sport, number> {
       // the stats can be between 2 and 13
       this.set(sport, Math.floor(Math.random() * 12) + 2);
     }
-    console.log(this);
   }
 
   get(sport: Sport): number {
     return super.get(sport) || 0;
   }
 
-  //@ts-ignore
-  set(sport: Sport, value: number): Statistics {
+  set(sport: Sport, value: number): this {
     if (value < 0) {
       value = 0;
     } else if (value > 20) {

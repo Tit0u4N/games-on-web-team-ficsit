@@ -226,9 +226,63 @@
         "icon": "swimming",
         "description": "Swimming is an individual or team racing sport that requires the use of one's entire body to move through water.",
         "seasons": ["summer"]
+      },
+      {
+        "name": "Baseball",
+        "icon": "baseball",
+        "description": "Baseball is a bat-and-ball game played between two opposing teams who take turns batting and fielding.",
+        "seasons": ["spring", "summer"]
+      },
+      {
+        "name": "Soccer",
+        "icon": "soccer",
+        "description": "Soccer, also known as football, is a team sport played with a spherical ball between two teams of 11 players.",
+        "seasons": ["autumn", "spring"]
+      },
+      {
+        "name": "Tennis",
+        "icon": "tennis",
+        "description": "Tennis is a racket sport that can be played individually against a single opponent or between two teams of two players each.",
+        "seasons": ["spring", "summer"]
+      },
+      {
+        "name": "Volleyball",
+        "icon": "volleyball",
+        "description": "Volleyball is a team sport in which two teams of six players are separated by a net. Each team tries to score points by grounding a ball on the other team's court under organized rules.",
+        "seasons": ["summer"]
+      },
+      {
+        "name": "Hockey",
+        "icon": "hockey",
+        "description": "Hockey is a sport in which two teams play against each other by trying to maneuver a ball or a puck into the opponent's goal using a hockey stick.",
+        "seasons": ["winter"]
+      },
+      {
+        "name": "Rugby",
+        "icon": "rugby",
+        "description": "Rugby is a sport that involves two teams trying to score points by carrying or kicking a ball into the opposing team's end zone.",
+        "seasons": ["autumn", "winter"]
+      },
+      {
+        "name": "Table Tennis",
+        "icon": "table_tennis",
+        "description": "Table tennis, also known as ping pong, is a sport in which two or four players hit a lightweight ball back and forth across a table using small rackets.",
+        "seasons": []
+      },
+      {
+        "name": "Boxing",
+        "icon": "boxing",
+        "description": "Boxing is a martial art and combat sport in which two people wearing protective gloves throw punches at each other for a predetermined set of time in a boxing ring.",
+        "seasons": []
+      },
+      {
+        "name": "Fencing",
+        "icon": "fencing",
+        "description": "Fencing is a sport of fighting with swords. It is one of the four sports which have been featured at every one of the modern Olympic Games.",
+        "seasons": []
       }
     ]
-  },
+  },  
   "seasons": {
     "all": [
       {
@@ -251,5 +305,8 @@
   },
   "statistics": {
     "setDefaultStats": true
+  },
+  "usableObject": {
+    "basePath": ""
   }
 }
