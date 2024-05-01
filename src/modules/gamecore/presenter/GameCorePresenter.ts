@@ -12,6 +12,7 @@ import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts
 import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
+import { Season } from '../../../core/singleton/Season.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -128,5 +129,28 @@ export class GameCorePresenter {
 
   public getMapLimits(): MapLimits {
     return this._mapPresenter.view.getLimitXYZ();
+  }
+
+  public getCurrentSeason(): Season | undefined {
+    switch (this.gameModel.getRound()) {
+      case 0:
+      case 1:
+      case 2:
+        return Season.getByName('Spring');
+      case 3:
+      case 4:
+      case 5:
+        return Season.getByName('Summer');
+      case 6:
+      case 7:
+      case 8:
+        return Season.getByName('Autumn');
+      case 9:
+      case 10:
+      case 11:
+        return Season.getByName('Winter');
+      default:
+        return Season.getByName('Spring');
+    }
   }
 }

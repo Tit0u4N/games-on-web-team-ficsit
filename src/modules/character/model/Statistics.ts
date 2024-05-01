@@ -49,4 +49,8 @@ export class Statistics extends Map<Sport, number> {
     }
     return newStats;
   }
+
+  public copy(): Statistics {
+    return new Statistics(this);
+  }
 }

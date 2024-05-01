@@ -44,6 +44,6 @@ export class TournamentPresenter {
       [participantsShuffle[i], participantsShuffle[j]] = [participantsShuffle[j], participantsShuffle[i]]; // Échange des éléments
     }
     this.tournamentModel.characters = participantsShuffle;
-    this.tournamentModel.createPools();
+    this.tournamentModel.initTournament();
   }
 }
