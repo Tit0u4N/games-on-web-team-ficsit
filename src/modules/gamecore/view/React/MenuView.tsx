@@ -27,9 +27,11 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                   <div className={'w-full'}>
                     <h3 className={'text-xl pb-2'}> Graphics </h3>
                     <div className={'flex flex-col w-full'}>
-                      <SwitchOption value={true} title={'Shadows'} description={'Active shadows'} />
+                      <SwitchOption title={'Shadows'} description={'Active shadows'} option={'shadow'} />
                       <DividerOptions />
-                      <SelectOption title={'Decorations'} description={'Number of decoration'} option={'trees'} />
+                      <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
+                      <DividerOptions />
+                      <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
                     </div>
                   </div>
                   <p className={'text-center text-gray-500'}>
