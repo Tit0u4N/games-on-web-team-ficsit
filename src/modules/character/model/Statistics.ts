@@ -5,7 +5,7 @@ import { IStatIncrease } from '../../object/model/UsableObject.ts';
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
     super();
-    if (config.statistics.setDefaultStats) this.initRandomStats();
+    if (config.statistics.setDefaultStats && !stats) this.initRandomStats();
     for (const [sport, value] of stats) {
       this.set(sport, value);
     }
@@ -22,10 +22,9 @@ export class Statistics extends Map<Sport, number> {
   }
 
   public initRandomStats(): void {
-    // Share not equitably the statsToShare between all sports and downgrades the statsToShare
-    for (const sport of Sport.getAll()) {
-      // the stats can be between 2 and 13
-      this.set(sport, Math.floor(Math.random() * 12) + 2);
+    const randomStats = Statistics.initRandomStats(100, 5);
+    for (const [sport, value] of randomStats) {
+      this.set(sport, value);
     }
   }
 
@@ -52,5 +51,24 @@ export class Statistics extends Map<Sport, number> {
 
   public copy(): Statistics {
     return new Statistics(this);
+  }
+
+  static initRandomStats(totalStats: number = 80, minStats: number = 5): Map<Sport, number> {
+    const stats = new Map<Sport, number>();
+    for (const sport of Sport.getAll()) {
+      stats.set(sport, minStats);
+      totalStats -= minStats;
+    }
+    while (totalStats > 0) {
+      const sport = Sport.getRandom();
+      let value = Math.floor(Math.random() * 4);
+      const currentValue = stats.get(sport);
+      if (!currentValue) continue;
+      if (value > totalStats) value = totalStats;
+      if (currentValue + value > 20) value = 20 - currentValue;
+      stats.set(sport, currentValue + value);
+      totalStats -= value;
+    }
+    return stats;
   }
 }
