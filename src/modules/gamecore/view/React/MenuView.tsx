@@ -15,13 +15,13 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
     <div className={'h-[100vh] w-[100vw] bg-menu bg-cover'}>
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
         <div className={'mt-[-50px] h-1/2 font-semibold'}>
-          <Tabs size={'lg'} fullWidth={true}>
-            <Tab key={'game'} title={'Game'} className={'h-[50px] '}>
+          <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
+            <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
                 <CardBody>Game</CardBody>
               </Card>
             </Tab>
-            <Tab key={'options'} title={'Options'} className={'h-[50px]'}>
+            <Tab key={'options'} title={'Options'} aria-label={'Menu Options'} className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className={'flex flex-col'}>
                   <div className={'w-full'}>
@@ -41,7 +41,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key={'credit'} title={'Credit'} className={'h-[50px]'}>
+            <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody>Credit</CardBody>
               </Card>
