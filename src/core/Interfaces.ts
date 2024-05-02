@@ -226,11 +226,26 @@ interface IMapConfig {
   view: IMapViewConfig;
 }
 
+type OptionLevel = {
+  low: number;
+  medium: number;
+  high: number;
+  ultra: number;
+};
+
+interface IModifiableOptions {
+  decorations: {
+    trees: OptionLevel;
+    rocks: OptionLevel;
+  };
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
   buildings: IBuildingsConfig;
   map: IMapConfig;
+  modifiableOptions: IModifiableOptions;
 }
 
 export const config: IConfig = configJson;
