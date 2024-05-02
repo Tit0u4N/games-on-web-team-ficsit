@@ -200,5 +200,21 @@
         }
       }
     }
+  },
+  "modifiableOptions": {
+    "decorations": {
+      "trees": {
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "ultra": 0
+      },
+      "rocks": {
+        "low": 0,
+        "medium": 0,
+        "high": 0,
+        "ultra": 0
+      }
+    }
   }
 }
