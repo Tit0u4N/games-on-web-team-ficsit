@@ -31,7 +31,6 @@ export class GameOptions {
   }
 
   get(option: string) {
-    console.log(option);
     switch (option) {
       case 'shadow':
         return this.shadow;

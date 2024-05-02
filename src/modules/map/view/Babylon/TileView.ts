@@ -1,10 +1,11 @@
 import { TypesTile } from '../../model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
-import { CreateBox, InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
+import { InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
 import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
 import { config } from '../../../../core/Interfaces.ts';
 import { DecorsSet } from './decor/DecorsSet.ts';
+import { GameOptions } from '../../../../core/GameOptions.ts';
 
 /**
  * Tile class for the game
@@ -48,17 +49,16 @@ export class TileView {
 
   addForest(treeDecor: DecorsSet) {
     let nbTrees = 0;
-    let distanceMin = 0;
+    let distanceMinBetweenTrees = 0;
     if (this.type === TypesTile.FOREST || this.type === TypesTile.HILL_FOREST) {
-      nbTrees = Math.floor((Math.random() + 0.5) * 20);
-      // nbTrees = 1;
-      distanceMin = 0.6;
+      nbTrees = Math.floor((Math.random() + 0.5) * GameOptions.instance.trees.value);
+      distanceMinBetweenTrees = 0.6;
     } else if (this.type === TypesTile.GRASS || this.type === TypesTile.HILL_GRASS) {
-      nbTrees = Math.floor(Math.random() * 3);
-      distanceMin = 1.5;
-    } else {
-      return;
+      nbTrees = Math.floor((Math.random() * GameOptions.instance.trees.value) / 7);
+      distanceMinBetweenTrees = 1.5;
     }
+
+    if (nbTrees === 0) return;
 
     const max_attempts = 50;
     let attempts = 0;
@@ -69,7 +69,7 @@ export class TileView {
       // const x = this._mesh.position.x;
       // const z = this._mesh.position.z;
       const vector = new Vector3(x, this._mesh.position.y * 2, z);
-      if (treeDecor.distanceToNearestDecor(vector) > distanceMin) {
+      if (treeDecor.distanceToNearestDecor(vector) > distanceMinBetweenTrees) {
         treeDecor.addDecorToMount(vector);
         attempts = 0;
         nbTrees--;

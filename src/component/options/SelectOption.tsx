@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Select, SelectItem, Selection } from '@nextui-org/react';
 import { GameOptions } from '../../core/GameOptions.ts';
+import { OptionLayout } from './OptionLayout.tsx';
 
 type Props = {
   title: string;
@@ -9,7 +10,7 @@ type Props = {
 };
 
 export const SelectOption: React.FC<Props> = ({ title, description = '', option }) => {
-  const selectOptions = [
+  const options = [
     { key: 'low', label: 'Low' },
     { key: 'medium', label: 'Medium' },
     { key: 'high', label: 'High' },
@@ -26,18 +27,14 @@ export const SelectOption: React.FC<Props> = ({ title, description = '', option 
   };
 
   return (
-    <div className={'w-full flex justify-between aline-center'}>
-      <div>
-        <h3 className={'text-l'}>{title}</h3>
-        <p className={'m-0 text-sm text-gray-400'}>{description}</p>
-      </div>
-      <Select onSelectionChange={handleSelectionChange} selectedKeys={value}>
-        {selectOptions.map((key) => (
+    <OptionLayout title={title} description={description}>
+      <Select className={'w-1/4'} onSelectionChange={handleSelectionChange} selectedKeys={value}>
+        {options.map((key) => (
           <SelectItem key={key.key} value={key.key}>
             {key.label}
           </SelectItem>
         ))}
       </Select>
-    </div>
+    </OptionLayout>
   );
 };
