@@ -4,11 +4,11 @@ import { Code, Image, Link } from '@nextui-org/react';
 type Props = {
   image: string;
   name: string;
-  githubName: string;
-  github: string;
+  githubUser: string;
+  github?: string;
 };
 
-export const AvatarCredit: React.FC<Props> = ({ name, image, githubName, github }) => {
+export const AvatarCredit: React.FC<Props> = ({ name, image, githubUser, github }) => {
   return (
     <div className={'flex flex-col justify-center items-center w-full'}>
       <Image
@@ -19,7 +19,7 @@ export const AvatarCredit: React.FC<Props> = ({ name, image, githubName, github 
         className={'size-[100px] m-auto rounded-full fit-cover'}
       />
       <Link
-        href={github}
+        href={github || 'https://github.com/' + githubUser}
         color={'foreground'}
         underline={'hover'}
         target="_blank"
@@ -27,7 +27,7 @@ export const AvatarCredit: React.FC<Props> = ({ name, image, githubName, github 
         isExternal={true}
         showAnchorIcon={true}
         className={'text-xl pb-1'}>
-        {githubName}
+        {githubUser}
       </Link>
       <Code className={'select-none text-xs'}>{name}</Code>
     </div>

@@ -15,7 +15,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
   return (
     <div className={'h-[100vh] w-[100vw] bg-menu bg-cover'}>
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
-        <div className={'mt-[-50px] h-1/2 font-semibold'}>
+        <div className={'mt-[-50px] h-[640px] font-semibold'}>
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
@@ -48,20 +48,13 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                   <AvatarCredit
                     image={'/img/avatar_titou.jpg'}
                     name={'Titouan Lacombe--Fabre'}
-                    githubName={'Titu04N'}
-                    github={'https://github.com/Tit0u4N'}
+                    githubUser={'Tit0u4N'}
                   />
+                  <AvatarCredit image={'/img/avatar_tamas.png'} name={'Tamas Palotas'} githubUser={'Shiyamii'} />
                   <AvatarCredit
-                    image={'/img/avatar_titou.jpg'}
-                    name={'Titouan Lacombe--Fabre'}
-                    githubName={'Titu04N'}
-                    github={'https://github.com/Tit0u4N'}
-                  />
-                  <AvatarCredit
-                    image={'/img/avatar_titou.jpg'}
-                    name={'Titouan Lacombe--Fabre'}
-                    githubName={'Titu04N'}
-                    github={'https://github.com/Tit0u4N'}
+                    image={'/img/avatar_bapt.png'}
+                    name={'Baptiste LACROIX'}
+                    githubUser={'BaptisteLacroix'}
                   />
                 </CardBody>
               </Card>
