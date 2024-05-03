@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import { SwitchOption } from '../../../../component/options/SwitchOption.tsx';
 import { SelectOption } from '../../../../component/options/SelectOption.tsx';
+import { AvatarCredit } from '../../../../component/AvatarCredit.tsx';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -43,7 +44,26 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             </Tab>
             <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
               <Card className={cardSize}>
-                <CardBody>Credit</CardBody>
+                <CardBody className="flex flex-col gap-8">
+                  <AvatarCredit
+                    image={'/img/avatar_titou.jpg'}
+                    name={'Titouan Lacombe--Fabre'}
+                    githubName={'Titu04N'}
+                    github={'https://github.com/Tit0u4N'}
+                  />
+                  <AvatarCredit
+                    image={'/img/avatar_titou.jpg'}
+                    name={'Titouan Lacombe--Fabre'}
+                    githubName={'Titu04N'}
+                    github={'https://github.com/Tit0u4N'}
+                  />
+                  <AvatarCredit
+                    image={'/img/avatar_titou.jpg'}
+                    name={'Titouan Lacombe--Fabre'}
+                    githubName={'Titu04N'}
+                    github={'https://github.com/Tit0u4N'}
+                  />
+                </CardBody>
               </Card>
             </Tab>
           </Tabs>
