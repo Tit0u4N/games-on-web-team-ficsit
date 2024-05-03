@@ -3,6 +3,7 @@ import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
 import { ApplicationStatus } from '../../presenter/ApplicationStatus.ts';
+import { LoadingScreen } from '../../../../component/LoadingScreen.tsx';
 
 interface MainComponentProps {
   gameCorePresenter: GameCorePresenter;
@@ -13,6 +14,21 @@ export class MainComponent extends React.Component<MainComponentProps> {
   constructor(props: MainComponentProps) {
     super(props);
     this.handleViewChange = this.handleViewChange.bind(this);
+
+    this.state = {
+      isLoading: true,
+    };
+
+    this.props.gameCorePresenter.setIsLoading = this.setIsLoading.bind(this);
+  }
+
+  setIsLoading(isLoading: boolean) {
+    this.setState({ isLoading: isLoading });
+  }
+
+  getIsLoading() {
+    //@ts-ignore
+    return this.state.isLoading;
   }
 
   componentDidMount() {
@@ -29,7 +45,10 @@ export class MainComponent extends React.Component<MainComponentProps> {
         {this.props.gameCorePresenter.getStatus() === ApplicationStatus.MENU ? (
           <MenuView presenter={this.props.gameCorePresenter} />
         ) : (
-          <GameView presenter={this.props.gameCorePresenter} />
+          <>
+            <LoadingScreen isLoading={this.getIsLoading()} />
+            <GameView presenter={this.props.gameCorePresenter} />
+          </>
         )}
       </>
     );

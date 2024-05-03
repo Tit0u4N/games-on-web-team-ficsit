@@ -24,6 +24,8 @@ export class GameCorePresenter {
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
 
+  private _setIsLoading: (isLoading: boolean) => void;
+
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
@@ -67,7 +69,7 @@ export class GameCorePresenter {
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
-      this._mapPresenter.initView(this._babylonView.scene);
+      await this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
       this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
@@ -128,5 +130,9 @@ export class GameCorePresenter {
 
   public getMapLimits(): MapLimits {
     return this._mapPresenter.view.getLimitXYZ();
+  }
+
+  set setIsLoading(value: (isLoading: boolean) => void) {
+    this._setIsLoading = value;
   }
 }
