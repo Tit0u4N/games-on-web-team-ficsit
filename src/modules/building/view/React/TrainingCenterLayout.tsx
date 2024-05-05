@@ -1,6 +1,7 @@
 import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
+import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -9,6 +10,9 @@ export interface TrainingCenterLayoutProps {
 }
 
 export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trainingCenter, isOpen, onClose }) => {
+  const [isStatsRolling, setIsStatsRolling] = useState(false);
+  const [isRoundRolling, setIsRoundRolling] = useState(false);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
       <ModalContent>
@@ -27,6 +31,34 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               <div className="grid grid-cols-5 gap-1 p-[10px]"></div>
             </div>
           </Card>
+          {!isStatsRolling && (
+            <DiceComponent
+              className={'w-full p-2 flex items-center justify-around'}
+              dicePresenter={trainingCenter.diceStatsPresenter}
+              onRoll3DStart={() => {
+                setIsStatsRolling(true);
+              }}
+              onRoll3DEnd={() => {
+                setTimeout(() => {
+                  setIsStatsRolling(false);
+                }, 2000);
+              }}
+            />
+          )}
+          {!isRoundRolling && (
+            <DiceComponent
+              className={'w-full p-2 flex items-center justify-around'}
+              dicePresenter={trainingCenter.diceRoundPresenter}
+              onRoll3DStart={() => {
+                setIsRoundRolling(true);
+              }}
+              onRoll3DEnd={() => {
+                setTimeout(() => {
+                  setIsRoundRolling(false);
+                }, 2000);
+              }}
+            />
+          )}
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>

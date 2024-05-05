@@ -24,7 +24,7 @@ export class MapView implements ViewInitable {
   private size: number;
   private tiles!: TileView[][];
   private parent!: Mesh;
-  private scene!: Scene;
+  private _scene!: Scene;
   private tileFactory!: TileViewFactory;
   private tilesDeplacement: TileView[] = [];
   private readonly _mapModel: IMap;
@@ -37,11 +37,11 @@ export class MapView implements ViewInitable {
   }
 
   initView(scene: Scene) {
-    this.scene = scene;
+    this._scene = scene;
     this.parent = new Mesh('map_group');
     this.tiles = this.mapModelToView(this._mapModel);
     if (this.tiles.length === 0) throw new Error('No tiles found');
-    this.tileFactory = new TileViewFactory(this.scene);
+    this.tileFactory = new TileViewFactory(this._scene);
   }
 
   /**
@@ -51,7 +51,7 @@ export class MapView implements ViewInitable {
    * @returns TileView[][]
    */
   private mapModelToView(mapModel: IMap): TileView[][] {
-    const tileFactory = new TileViewFactory(this.scene);
+    const tileFactory = new TileViewFactory(this._scene);
     const tempTiles: TileView[][] = [];
 
     for (let x = 0; x < this.size; x++) {
@@ -74,6 +74,10 @@ export class MapView implements ViewInitable {
 
   get mapPresenter(): MapPresenter {
     return this._mapPresenter;
+  }
+
+  get scene(): Scene {
+    return this._scene;
   }
 
   getTile(x: number, y: number): TileView {
