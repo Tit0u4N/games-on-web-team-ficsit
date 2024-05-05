@@ -1,7 +1,7 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Tournament } from '../../tournament/model/Tournament.ts';
 import { Character } from '../../character/model/Character.ts';
+import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
@@ -10,18 +10,17 @@ export class ArenaModel {
   private rotation: number;
   private _position: Vector3;
   private _roundWaiting: number;
-  private _tournament: Tournament;
   private _name: string;
   private _character!: Character;
+  private _arenaPresenter!: ArenaPresenter;
 
-  constructor(sportType: Sport[], position: Vector3, name: string, tournament: Tournament) {
+  constructor(sportType: Sport[], position: Vector3, name: string) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
     this.rotation = ArenaModel.DEFAULT_ROTATION;
     this._actualSport = this._sportType[0];
     this._name = name;
-    this._tournament = tournament;
   }
 
   public updateSport(): void {
@@ -31,14 +30,12 @@ export class ArenaModel {
       this.rotation = ArenaModel.DEFAULT_ROTATION;
       const index = this._sportType.indexOf(this._actualSport);
       this._actualSport = this._sportType[(index + 1) % this._sportType.length];
+      this._arenaPresenter.updateTournament(this._actualSport);
     }
   }
 
   public startTournament(): void {
-    const win: boolean = this._tournament.startTournament();
-    if (win) {
-      console.log('The winner is ' + this._name);
-    }
+    this._arenaPresenter.tournamentPresenter.startTournament([this._character]);
   }
 
   get position(): Vector3 {
@@ -57,14 +54,6 @@ export class ArenaModel {
     this._roundWaiting = roundWaiting;
   }
 
-  get tournament(): Tournament {
-    return this._tournament;
-  }
-
-  set tournament(tournament: Tournament) {
-    this._tournament = tournament;
-  }
-
   get name(): string {
     return this._name;
   }
@@ -79,5 +68,13 @@ export class ArenaModel {
 
   set character(character: Character) {
     this._character = character;
+  }
+
+  get arenaPresenter(): ArenaPresenter {
+    return this._arenaPresenter;
+  }
+
+  set arenaPresenter(arenaPresenter: ArenaPresenter) {
+    this._arenaPresenter = arenaPresenter;
   }
 }

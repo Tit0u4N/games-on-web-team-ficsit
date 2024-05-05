@@ -13,6 +13,7 @@ import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
 import { Season } from '../../../core/singleton/Season.ts';
+import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -24,6 +25,7 @@ export class GameCorePresenter {
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
+  private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -32,6 +34,7 @@ export class GameCorePresenter {
     this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
+    this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
   }
   /* Application management*/
 
@@ -97,6 +100,10 @@ export class GameCorePresenter {
     return this.events;
   }
 
+  public getTournamentManagerPresenter(): TournamentManagerPresenter {
+    return this._tournamentManagerPresenter;
+  }
+
   /**
    * Start a new round
    */
@@ -131,26 +138,26 @@ export class GameCorePresenter {
     return this._mapPresenter.view.getLimitXYZ();
   }
 
-  public getCurrentSeason(): Season | undefined {
-    switch (this.gameModel.getRound()) {
+  public getCurrentSeason(): Season {
+    switch (this.gameModel.getRound() % 12) {
       case 0:
       case 1:
       case 2:
-        return Season.getByName('Spring');
+        return Season.getByName('Spring')!;
       case 3:
       case 4:
       case 5:
-        return Season.getByName('Summer');
+        return Season.getByName('Summer')!;
       case 6:
       case 7:
       case 8:
-        return Season.getByName('Autumn');
+        return Season.getByName('Autumn')!;
       case 9:
       case 10:
       case 11:
-        return Season.getByName('Winter');
+        return Season.getByName('Winter')!;
       default:
-        return Season.getByName('Spring');
+        return Season.getByName('Spring')!;
     }
   }
 }

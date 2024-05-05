@@ -31,6 +31,10 @@ export class CharacterPresenter {
     return this._characterView;
   }
 
+  public generateNPC(totalStats: number, minStats: number): Character {
+    return CharacterFactory.createNPC(totalStats, minStats);
+  }
+
   static getDefaultCharacters(): Set<Character> {
     const characters = new Set<Character>();
     characters.add(CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, './character_1.png'));
