@@ -1,4 +1,4 @@
-import { Reactable } from './Interfaces.ts';
+import { Reactable } from '../Interfaces.ts';
 
 export class ModalManager {
   private static _instance: ModalManager;

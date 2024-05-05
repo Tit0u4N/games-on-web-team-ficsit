@@ -1,0 +1,351 @@
+[
+  {
+    "id": 1,
+    "name": "Baseball",
+    "sport": "BASEBALL",
+    "image": "vite.svg",
+    "slot": "HEAD",
+    "statsIncrease": [
+      {
+        "sport": "BASEBALL",
+        "bonus": 3
+      },
+      {
+        "sport": "BASKETBALL",
+        "bonus": -5
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -1
+      }
+    ],
+    "conditions": [
+      {
+        "type": "terrain",
+        "terrain": "Snow",
+        "season": "Winter",
+        "statsIncrease": [
+          {
+            "sport": "SKI",
+            "bonus": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Soccer Ball",
+    "sport": "SOCCER",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "SOCCER",
+        "bonus": 4
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -2
+      },
+      {
+        "sport": "BASEBALL",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Basketball",
+    "sport": "BASKETBALL",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "BASKETBALL",
+        "bonus": 5
+      },
+      {
+        "sport": "BASEBALL",
+        "bonus": -3
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Running Shoes",
+    "sport": "ATHLETISM",
+    "image": "vite.svg",
+    "slot": "chest",
+    "statsIncrease": [
+      {
+        "sport": "ATHLETISM",
+        "bonus": 3
+      },
+      {
+        "sport": "NATATION",
+        "bonus": -2
+      },
+      {
+        "sport": "ESCALADE",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Swimming Goggles",
+    "sport": "NATATION",
+    "image": "vite.svg",
+    "slot": "legs",
+    "statsIncrease": [
+      {
+        "sport": "NATATION",
+        "bonus": 4
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -2
+      },
+      {
+        "sport": "SKI",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Climbing Harness",
+    "sport": "ESCALADE",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "ESCALADE",
+        "bonus": 3
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -1
+      },
+      {
+        "sport": "SKATING",
+        "bonus": -2
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Ski Poles",
+    "sport": "SKI",
+    "image": "vite.svg",
+    "slot": "chest",
+    "statsIncrease": [
+      {
+        "sport": "SKI",
+        "bonus": 4
+      },
+      {
+        "sport": "NATATION",
+        "bonus": -1
+      },
+      {
+        "sport": "ESCALADE",
+        "bonus": -2
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Ice Skates",
+    "sport": "SKATING",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "SKATING",
+        "bonus": 5
+      },
+      {
+        "sport": "ESCALADE",
+        "bonus": -3
+      },
+      {
+        "sport": "SKI",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Tennis Racket",
+    "sport": "TENNIS",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "TENNIS",
+        "bonus": 4
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -1
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -2
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Volleyball",
+    "sport": "VOLLEYBALL",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "VOLLEYBALL",
+        "bonus": 3
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -1
+      },
+      {
+        "sport": "BASEBALL",
+        "bonus": -2
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Hockey Stick",
+    "sport": "HOCKEY",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "HOCKEY",
+        "bonus": 4
+      },
+      {
+        "sport": "SKATING",
+        "bonus": -2
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Rugby Ball",
+    "sport": "RUGBY",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "RUGBY",
+        "bonus": 5
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -3
+      },
+      {
+        "sport": "BASKETBALL",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Tennis Racket",
+    "sport": "TENNIS",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "TENNIS",
+        "bonus": 4
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -1
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -2
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Table Tennis Paddle",
+    "sport": "TABLE_TENNIS",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "TABLE_TENNIS",
+        "bonus": 5
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -2
+      },
+      {
+        "sport": "BASKETBALL",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Boxing Gloves",
+    "sport": "BOXING",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "BOXING",
+        "bonus": 4
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -2
+      },
+      {
+        "sport": "SOCCER",
+        "bonus": -1
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Fencing Foil",
+    "sport": "FENCING",
+    "image": "vite.svg",
+    "slot": "head",
+    "statsIncrease": [
+      {
+        "sport": "FENCING",
+        "bonus": 5
+      },
+      {
+        "sport": "ATHLETISM",
+        "bonus": -3
+      },
+      {
+        "sport": "BASKETBALL",
+        "bonus": -1
+      }
+    ]
+  }
+]
