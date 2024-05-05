@@ -36,7 +36,8 @@ export class TournamentPresenter {
   startTournament(presentCharacters: Character[]) {
     const participants = this._tournamentManagerPresenter.generateNPCs(
       presentCharacters,
-      this._tournamentModel.numberRound,
+      this._tournamentModel.numberRound * 8,
+      this._tournamentModel.difficulty,
     );
     const participantsShuffle = [...participants];
     for (let i = participantsShuffle.length - 1; i > 0; i--) {

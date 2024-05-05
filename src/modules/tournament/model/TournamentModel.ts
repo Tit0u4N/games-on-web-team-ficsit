@@ -59,8 +59,7 @@ export class TournamentModel {
   }
 
   initTournament() {
-    const season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
-    season ? (this._season = season) : (this._season = Season.getAll()[0]); //fallback to the first season
+    this._season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
     const pools: Character[][] = [];
     const characters = this.characters;
     const nbPools = Math.ceil(characters.length / 8);
@@ -80,12 +79,19 @@ export class TournamentModel {
       const character = pool[j];
       const ranking = this.calculateScore(
         character.getStatsWithEffect(this._season).get(this._sport),
-        Math.random() * 20,
+        Math.floor(Math.random() * 20),
       );
       rankingOfThePool.push({ rank: ranking, character });
+      console.log(ranking, character.name);
     }
-    rankingOfThePool.sort((a, b) => a.rank - b.rank);
-    if (this._pools.length > 1) {
+    rankingOfThePool.sort((a, b) => b.rank - a.rank);
+    if (this._pools.length == 1) {
+      //add all the characters to _finalRankings in the inverse order of rankingOfThePool
+      for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
+        const character = rankingOfThePool[i].character;
+        this._finalRankings.push(character);
+      }
+    } else {
       //add the last 4 to _finalRankings and remove them from the pool
       for (let i = 0; i < 4; i++) {
         const character = rankingOfThePool.pop();
@@ -95,6 +101,8 @@ export class TournamentModel {
         }
       }
     }
+    console.log(rankingOfThePool);
+    console.log(this._finalRankings);
   }
 
   get pools(): Character[][] {

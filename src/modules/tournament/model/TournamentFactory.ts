@@ -11,7 +11,7 @@ export class TournamentFactory {
     this._tournamentManagerPresenter = tournamentManagerPresenter;
   }
 
-  createTournament(tournamentDifficulty: TournamentDifficulty): TournamentModel {
+  createTournament(tournamentDifficulty: TournamentDifficulty, sport: Sport): TournamentModel {
     const reward = this.generateReward();
     let nbRound = 1;
     let random: number;
@@ -32,7 +32,6 @@ export class TournamentFactory {
         else nbRound = 5;
         break;
     }
-    const sport = Sport.getRandom();
     return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, sport, reward);
   }
 

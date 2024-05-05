@@ -4,6 +4,7 @@ import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 import { ViewInitable } from '../../../core/Interfaces.ts';
 import { ArenaPresenter } from './ArenaPresenter.ts';
 import { TrainingCenterPresenter } from './TrainingCenterPresenter.ts';
+import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
 
 export class BuildingPresenter implements ViewInitable {
   private _arenasPresenter: ArenaPresenter[] = [];
@@ -11,9 +12,9 @@ export class BuildingPresenter implements ViewInitable {
   private buildingFactory: BuildingFactory;
   private _scene!: Scene;
 
-  constructor(mapPresenter: MapPresenter) {
+  constructor(mapPresenter: MapPresenter, _tournamentManagerPresenter: TournamentManagerPresenter) {
     this.buildingFactory = new BuildingFactory(mapPresenter);
-    this._arenasPresenter = this.buildingFactory.createArenas();
+    this._arenasPresenter = this.buildingFactory.createArenas(_tournamentManagerPresenter);
     this._trainingCenterPresenter = this.buildingFactory.createTrainingCenters();
   }
 
