@@ -59,7 +59,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     return {
       type: ArenaLayout,
       props: {
-        arena: this._arena,
+        arena: this,
         isOpen: this._modalIsOpen,
         onClose: () => this.closeModal(),
       },
@@ -72,5 +72,9 @@ export class ArenaPresenter implements ViewInitable, Reactable {
 
   updateTournament(actualSport: Sport) {
     this._tournamentPresenter = this._tournamentManagerPresenter.createTournament(this._difficulty, actualSport);
+  }
+
+  hasTournament() {
+    return this.tournamentPresenter !== undefined;
   }
 }
