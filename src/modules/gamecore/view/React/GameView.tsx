@@ -7,7 +7,6 @@ import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
 import { Reactable } from '../../../../core/Interfaces.ts';
 import { ModalManager } from '../../../../core/ModalManager.ts';
-import { LoadingScreen } from '../../../../component/LoadingScreen.tsx';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -81,7 +80,6 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   return (
     <>
-      <LoadingScreen isLoading={isLoading} />
       <div>
         <div className={'HUD-container'}>
           <RoundStatusBar
