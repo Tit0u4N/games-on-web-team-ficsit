@@ -53,13 +53,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
-      element!.addEventListener('wheel', function (evt) {
-        if (evt.deltaY < 0) {
-          _this.zoomIn();
-        } else {
-          _this.zoomOut();
-        }
-      });
       element!.addEventListener('keypress', function (evt) {
         if (config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition.indexOf(evt.key) !== -1) {
           _this.resetPositionCamera();
@@ -68,8 +61,26 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       element!.addEventListener('blur', function () {
         _this._keys = [];
       });
+      // Add event listener for mouse wheel
+      element!.addEventListener('wheel', function (evt) {
+        _this.onMouseWheel(evt);
+      });
     }
   }
+
+  private onMouseWheel(evt: WheelEvent) {
+    // Prevent the default behavior of the wheel event
+    evt.preventDefault();
+    // Zoom in when the wheel is scrolled upwards
+    if (evt.deltaY < 0) {
+      this.zoomIn();
+    }
+    // Zoom out when the wheel is scrolled downwards
+    else if (evt.deltaY > 0) {
+      this.zoomOut();
+    }
+  }
+
 
   static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
     if (debugConfig.logs.arcRotateCameraKeyboardInputs.isCameraMoveKey)
@@ -262,6 +273,10 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       element.removeEventListener('keyup', this._onKeyUp);
       this._keys = [];
       this._onKeyUp = null;
+    }
+    // Remove event listener for mouse wheel
+    if (this.onMouseWheel) {
+      element.removeEventListener('wheel', this.onMouseWheel);
     }
   }
 
