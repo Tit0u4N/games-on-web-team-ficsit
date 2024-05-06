@@ -12,9 +12,9 @@ export interface TrainingCenterLayoutProps {
 export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trainingCenter, isOpen, onClose }) => {
   const [isStatsRolling, setIsStatsRolling] = useState(false);
   const [isRoundRolling, setIsRoundRolling] = useState(false);
-
+  const [hideModal, setHideModal] = React.useState<boolean>(false);
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
+    <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Training Center</ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[80%]">
@@ -36,12 +36,12 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               className={'w-full p-2 flex items-center justify-around'}
               dicePresenter={trainingCenter.diceStatsPresenter}
               onRoll3DStart={() => {
+                setHideModal(true);
                 setIsStatsRolling(true);
               }}
               onRoll3DEnd={() => {
-                setTimeout(() => {
-                  setIsStatsRolling(false);
-                }, 2000);
+                setHideModal(false);
+                trainingCenter.diceStatsPresenter.unMountView();
               }}
             />
           )}
@@ -50,12 +50,12 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               className={'w-full p-2 flex items-center justify-around'}
               dicePresenter={trainingCenter.diceRoundPresenter}
               onRoll3DStart={() => {
+                setHideModal(true);
                 setIsRoundRolling(true);
               }}
               onRoll3DEnd={() => {
-                setTimeout(() => {
-                  setIsRoundRolling(false);
-                }, 2000);
+                setHideModal(false);
+                trainingCenter.diceRoundPresenter.unMountView();
               }}
             />
           )}
