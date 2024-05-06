@@ -102,6 +102,10 @@ export class GameCorePresenter {
   nextRound() {
     this.gameModel.playRound();
 
+    this.buildingPresenter.trainingCenters.forEach((trainingCenter) => {
+      trainingCenter.trainingCenter.nextRound();
+    });
+
     const scene = this._babylonView.scene;
     const dicePresenter = new DicePresenter(scene);
     ModalManager.getInstance().openModal(dicePresenter);

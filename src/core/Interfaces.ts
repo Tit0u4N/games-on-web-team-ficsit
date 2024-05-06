@@ -75,20 +75,53 @@ interface IBabylonMainViewConfig {
   };
 }
 
-interface IArenaConfig {
-  numberOfBuildings: number;
-  spacing: number;
+interface ITrainingCenterModelConfig {
+  defaultRotation: number;
+  diceStats: {
+    lowDiceScore: {
+      score: number;
+      bonus: number;
+    };
+    mediumDiceScore: {
+      score: number;
+      bonus: number;
+    };
+    highDiceScore: {
+      score: number;
+      bonus: number;
+    };
+  };
+  diceRound: {
+    lowDiceScore: {
+      score: number;
+      rounds: number;
+    };
+    mediumDiceScore: {
+      score: number;
+      rounds: number;
+    };
+    highDiceScore: {
+      score: number;
+      rounds: number;
+    };
+  };
 }
 
-interface ITrainingCenterConfig {
-  numberOfBuildings: number;
-  spacing: number;
-}
-
-interface IBuildingsConfig {
+interface IBuildingFactoryConfig {
   maxAttempts: number;
-  arena: IArenaConfig;
-  trainingCenter: ITrainingCenterConfig;
+  arena: {
+    numberOfBuildings: number;
+    spacing: number;
+  };
+  trainingCenter: {
+    numberOfBuildings: number;
+    spacing: number;
+  }
+}
+
+interface IBuildingConfig {
+  buildingFactory: IBuildingFactoryConfig;
+  trainingCenterModel: ITrainingCenterModelConfig;
 }
 
 interface IMapGetPositionConfig {
@@ -245,7 +278,7 @@ interface IUsableObjectConfig {
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
-  buildings: IBuildingsConfig;
+  building: IBuildingConfig;
   map: IMapConfig;
   sports: ISportConfig;
   seasons: ISeasonConfig;

@@ -86,15 +86,48 @@
       }
     }
   },
-  "buildings": {
-    "maxAttempts": 100,
-    "arena": {
-      "numberOfBuildings": 5,
-      "spacing": 10
+  "building": {
+    "buildingFactory": {
+      "maxAttempts": 100,
+      "arena": {
+        "numberOfBuildings": 5,
+        "spacing": 10
+      },
+      "trainingCenter": {
+        "numberOfBuildings": 5,
+        "spacing": 10
+      }
     },
-    "trainingCenter": {
-      "numberOfBuildings": 5,
-      "spacing": 10
+    "trainingCenterModel": {
+      "defaultRotation": 8,
+      "diceStats": {
+        "lowDiceScore": {
+          "score": 5,
+          "bonus": 1
+        },
+        "mediumDiceScore": {
+          "score": 10,
+          "bonus": 2
+        },
+        "highDiceScore": {
+          "score": 15,
+          "bonus": 3
+        }
+      },
+      "diceRound": {
+        "lowDiceScore": {
+          "score": 7,
+          "rounds": 3
+        },
+        "mediumDiceScore": {
+          "score": 14,
+          "rounds": 2
+        },
+        "highDiceScore": {
+          "score": 15,
+          "rounds": 1
+        }
+      }
     }
   },
   "map": {
