@@ -74,6 +74,7 @@ export class GameCorePresenter {
       this._mapPresenter.placeCharacters(true);
       this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
       this.buildingPresenter.initView(this._babylonView.scene);
+      this._setIsLoading(false);
       this.notifyViewChange();
     }, 1000);
   }

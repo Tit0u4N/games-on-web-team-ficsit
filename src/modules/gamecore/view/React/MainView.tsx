@@ -19,7 +19,9 @@ export class MainComponent extends React.Component<MainComponentProps> {
       isLoading: true,
     };
 
-    this.props.gameCorePresenter.setIsLoading = this.setIsLoading.bind(this);
+    this.props.gameCorePresenter.setIsLoading = (isLoading: boolean) => {
+      this.setIsLoading(isLoading);
+    };
   }
 
   setIsLoading(isLoading: boolean) {
