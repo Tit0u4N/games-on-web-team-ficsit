@@ -74,9 +74,10 @@ export class GameCorePresenter {
       this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
+      this.buildingPresenter = new BuildingPresenter(this._mapPresenter, this._tournamentManagerPresenter);
       this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
+      this.buildingPresenter.updateArenasTournament();
     }, 1000);
   }
 
@@ -108,6 +109,7 @@ export class GameCorePresenter {
    * Start a new round
    */
   nextRound() {
+    this.buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
 
     const scene = this._babylonView.scene;

@@ -66,6 +66,7 @@ export class BuildingFactory {
           ),
           tournamentManagerPresenter,
         );
+        arenaPresenter.arena.arenaPresenter = arenaPresenter;
         if (!this.checkHasArenasNeighbors(arenaPresenter, arenas)) arenas.push(arenaPresenter);
       }
       index++;
