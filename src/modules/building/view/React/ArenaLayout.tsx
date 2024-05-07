@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
-import { ArenaModel } from '../../model/ArenaModel.ts';
+import { ArenaModel } from '@building/model/ArenaModel.ts';
 
 export interface ArenaLayoutProps {
   arena: ArenaModel;

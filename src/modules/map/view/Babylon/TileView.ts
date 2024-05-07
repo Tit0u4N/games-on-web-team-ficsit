@@ -1,11 +1,11 @@
-import { TypesTile } from '../../model/TileModel.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
 import { InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
-import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
+import { config } from '@/core/Interfaces.ts';
 import { DecorsSet } from './decor/DecorsSet.ts';
-import { GameOptions } from '../../../../core/GameOptions.ts';
+import { GameOptions } from '@/core/GameOptions.ts';
 
 /**
  * Tile class for the game

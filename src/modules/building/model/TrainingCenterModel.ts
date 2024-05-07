@@ -1,4 +1,4 @@
-import { SportType } from '../../sport/model/Sport.ts';
+import { SportType } from '@sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
 import { Character } from 'data-structure-typed';
 

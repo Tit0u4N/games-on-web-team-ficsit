@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { SwitchOption } from '../../../../component/options/SwitchOption.tsx';
-import { SelectOption } from '../../../../component/options/SelectOption.tsx';
-import { AvatarCredit } from '../../../../component/AvatarCredit.tsx';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { SwitchOption } from '@/component/options/SwitchOption.tsx';
+import { SelectOption } from '@/component/options/SelectOption.tsx';
+import { AvatarCredit } from '@/component/AvatarCredit.tsx';
+import { ControlOption } from '@/component/options/InputOption.tsx';
+import { config } from '@/core/Interfaces.ts';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -35,7 +37,34 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
                     </div>
                   </div>
-                  <p className={'text-center text-gray-500'}>
+                  <DividerOptions />
+                  <div className={'w-full'}>
+                    <h3 className={'text-xl pb-2'}> Controls </h3>
+                    <div className={'flex flex-col w-full'}>
+                      {/* Add ControlOption components for each control setting */}
+                      <ControlOption title={'Move Forward'}
+                                     description={'Key to move forward'}
+                                     option={'moveForward'}
+                                     defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysUp[0]}
+                      />
+                      <DividerOptions />
+                      <ControlOption title={'Move Backward'} description={'Key to move backward'}
+                                     option={'moveBackward'} defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysDown[0]} />
+                      <DividerOptions />
+                      <ControlOption title={'Move Left'} description={'Key to move left'} option={'moveLeft'}
+                                     defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysLeft[0]} />
+                      <DividerOptions />
+                      <ControlOption title={'Move Right'} description={'Key to move right'} option={'moveRight'}
+                                     defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysRight[0]} />
+                      <DividerOptions />
+                      <ControlOption title={'Zoom In'} description={'Key to zoom in'} option={'zoomIn'}
+                                     defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn[0]} />
+                      <DividerOptions />
+                      <ControlOption title={'Zoom Out'} description={'Key to zoom out'} option={'zoomOut'}
+                                     defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut[0]} />
+                    </div>
+                  </div>
+                  <p className={'text-center text-gray-500 pb-5'}>
                     {' '}
                     These options can only be changed before the start of the game.{' '}
                   </p>

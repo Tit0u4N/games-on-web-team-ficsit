@@ -1,6 +1,6 @@
 import React from 'react';
 import CharacterLayout from './CharacterLayout';
-import { Character } from '../../model/Character';
+import { Character } from '@character/model/Character';
 
 interface GameCharacterLayoutProps {
   character: Set<Character>;

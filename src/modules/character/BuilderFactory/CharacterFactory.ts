@@ -1,9 +1,9 @@
 // CharacterFactory.ts
-import { Attributes } from '../model/Attributes';
-import { Character } from '../model/Character';
-import { Statistics } from '../model/Statistics';
+import { Attributes } from '@character/model/Attributes';
+import { Character } from '@character/model/Character';
+import { Statistics } from '@character/model/Statistics';
 import { CharacterBuilder } from './CharacterBuilder';
-import { Inventory } from '../../inventory/model/Inventory.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
 
 export class CharacterFactory {
   public static createDefaultCharacter(

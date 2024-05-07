@@ -1,8 +1,8 @@
-import { TypesTile } from '../../model/TileModel.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
 import { TileView } from './TileView.ts';
 import { MapView } from './MapView.ts';
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
-import { config } from '../../../../core/Interfaces.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export type BaseTile = {
   type: TypesTile;

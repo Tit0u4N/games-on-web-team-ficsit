@@ -1,6 +1,6 @@
 import { Matrix, Mesh, Scene, Vector3 } from '@babylonjs/core';
-import { ViewInitable } from '../../../../../core/Interfaces.ts';
-import { importModel, ImportModelOptions } from '../../../../../core/ModelImporter.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
+import { importModel, ImportModelOptions } from '@/core/ModelImporter.ts';
 
 export type DecorMeshOptions = {
   scale?: Vector3 | number;

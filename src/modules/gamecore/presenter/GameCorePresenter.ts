@@ -1,17 +1,17 @@
-import { GameCoreModel } from '../model/GameCoreModel.ts';
-import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
+import { GameCoreModel } from '@gamecore/model/GameCoreModel.ts';
+import { BabylonMainView } from '@gamecore/view/Babylon/BabylonMainView.ts';
 import { ApplicationStatus } from './ApplicationStatus.ts';
-import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { CharacterPresenter } from '../../character/presenter/CharacterPresenter.ts';
-import { InventoryPresenter } from '../../inventory/presenter/InventoryPresenter.ts';
-import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
-import { Inventory } from '../../inventory/model/Inventory.ts';
-import { EventModel } from '../../event/model/EventModel.ts';
-import { Character } from '../../character/model/Character.ts';
-import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
-import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { ModalManager } from '../../../core/ModalManager.ts';
-import { MapLimits } from '../../map/view/Babylon/MapView.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { CharacterPresenter } from '@character/presenter/CharacterPresenter.ts';
+import { InventoryPresenter } from '@inventory/presenter/InventoryPresenter.ts';
+import { EventPresenter } from '@event/presenter/EventPresenter.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { EventModel } from '@event/model/EventModel.ts';
+import { Character } from '@character/model/Character.ts';
+import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
+import { DicePresenter } from '@dice/presenter/DicePresenter.ts';
+import { ModalManager } from '@/core/ModalManager.ts';
+import { MapLimits } from '@map/view/Babylon/MapView.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;

@@ -1,4 +1,4 @@
-import { Sport } from '../../sport/model/Sport';
+import { Sport } from '@sport/model/Sport.ts';
 
 export class Statistics {
   private _items: Sport[] = [];

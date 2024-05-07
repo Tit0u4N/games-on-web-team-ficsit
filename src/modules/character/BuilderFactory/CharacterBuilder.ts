@@ -1,8 +1,8 @@
 // CharacterBuilder.ts
-import { Attributes } from '../model/Attributes';
-import { Character } from '../model/Character';
-import { Statistics } from '../model/Statistics';
-import { Inventory } from '../../inventory/model/Inventory.ts';
+import { Attributes } from '@character/model/Attributes';
+import { Character } from '@character/model/Character';
+import { Statistics } from '@character/model/Statistics';
+import { Inventory } from '@inventory/model/Inventory.ts';
 
 export class CharacterBuilder {
   private readonly _id: number;

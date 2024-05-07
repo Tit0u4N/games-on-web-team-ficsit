@@ -1,5 +1,5 @@
-import { Inventory } from '../model/Inventory';
-import { UsableObject } from '../../object/model/UsableObject';
+import { Inventory } from '@inventory/model/Inventory';
+import { UsableObject } from '@object/model/UsableObject.ts';
 
 export class InventoryPresenter {
   getDefaultInventories(): Inventory[] {

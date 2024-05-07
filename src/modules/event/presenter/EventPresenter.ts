@@ -1,4 +1,4 @@
-import { EventModel } from '../model/EventModel';
+import { EventModel } from '@event/model/EventModel';
 
 export class EventPresenter {
   getDefaultEvents(): EventModel[] {

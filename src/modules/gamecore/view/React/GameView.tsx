@@ -1,12 +1,12 @@
 import { RoundStatusBar } from './RoundStatusBar.tsx';
 import React, { useRef } from 'react';
-import { BabylonScene } from '../../../../component/BabylonScene.tsx';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import GameCharacterLayout from '../../../character/view/React/GameCharacterLayout';
-import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
-import EventLayout from '../../../event/view/React/EventLayout.tsx';
-import { Reactable } from '../../../../core/Interfaces.ts';
-import { ModalManager } from '../../../../core/ModalManager.ts';
+import { BabylonScene } from '@/component/BabylonScene.tsx';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import GameCharacterLayout from '@character/view/React/GameCharacterLayout';
+import InventoriesModal from '@inventory/view/React/InventoriesModal.tsx';
+import EventLayout from '@event/view/React/EventLayout.tsx';
+import { Reactable } from '@/core/Interfaces.ts';
+import { ModalManager } from '@/core/ModalManager.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;

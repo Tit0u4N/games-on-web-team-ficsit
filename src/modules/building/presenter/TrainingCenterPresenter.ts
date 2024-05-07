@@ -1,10 +1,10 @@
-import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import { Reactable, ViewInitable } from '@/core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
-import { TrainingCenterModel } from '../model/TrainingCenterModel.ts';
-import { TrainingCenterView } from '../view/Babylon/TrainingCenterView.ts';
+import { TrainingCenterModel } from '@building/model/TrainingCenterModel.ts';
+import { TrainingCenterView } from '@building/view/Babylon/TrainingCenterView.ts';
 import React from 'react';
-import { TrainingCenterLayout, TrainingCenterLayoutProps } from '../view/React/TrainingCenterLayout.tsx';
-import { ModalManager } from '../../../core/ModalManager.ts';
+import { TrainingCenterLayout, TrainingCenterLayoutProps } from '@building/view/React/TrainingCenterLayout.tsx';
+import { ModalManager } from '@/core/ModalManager.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;

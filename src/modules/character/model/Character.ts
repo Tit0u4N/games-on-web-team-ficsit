@@ -1,7 +1,7 @@
 import { Statistics } from './Statistics';
 import { Attributes } from './Attributes';
-import { Inventory } from '../../inventory/model/Inventory.ts';
-import { ITile } from '../../map/model/TileModel.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { ITile } from '@map/model/TileModel.ts';
 
 export class Character {
   private _id: number;

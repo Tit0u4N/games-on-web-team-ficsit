@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Image, CardBody, Divider } from '@nextui-org/react';
-import { Character } from '../../model/Character';
-import { InventoryCase } from '../../../../component/InventoryCase.tsx';
+import { Character } from '@character/model/Character';
+import { InventoryCase } from '@/component/InventoryCase.tsx';
 
 interface CharacterLayoutProps {
   character: Character;

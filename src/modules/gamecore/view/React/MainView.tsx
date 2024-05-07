@@ -1,9 +1,9 @@
 import React from 'react';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
-import { ApplicationStatus } from '../../presenter/ApplicationStatus.ts';
-import { LoadingScreen } from '../../../../component/LoadingScreen.tsx';
+import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
+import { LoadingScreen } from '@/component/LoadingScreen.tsx';
 
 interface MainComponentProps {
   gameCorePresenter: GameCorePresenter;

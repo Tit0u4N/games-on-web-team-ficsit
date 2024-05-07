@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Select, SelectItem, Selection } from '@nextui-org/react';
-import { GameOptions } from '../../core/GameOptions.ts';
+import { GameOptions } from '@/core/GameOptions.ts';
 import { OptionLayout } from './OptionLayout.tsx';
 
 type Props = {
@@ -28,7 +28,12 @@ export const SelectOption: React.FC<Props> = ({ title, description = '', option 
 
   return (
     <OptionLayout title={title} description={description}>
-      <Select className={'w-1/4'} onSelectionChange={handleSelectionChange} selectedKeys={value}>
+      <Select
+        className={'w-1/4'}
+        onSelectionChange={handleSelectionChange}
+        selectedKeys={value}
+        aria-label={`Select ${title}`}
+      >
         {options.map((key) => (
           <SelectItem key={key.key} value={key.key}>
             {key.label}
