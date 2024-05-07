@@ -224,7 +224,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
       this.camera!.position.addInPlace(transformedDirection);
       this.camera!.target.addInPlace(transformedDirection);
-      if (keyCode === '+' || keyCode === '-') {
+      if (config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn.includes(keyCode) || config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut.includes(keyCode)) {
         this._currentHeightPosition = this.camera!.position.y;
         this._currentHeightTarget = this.camera!.target.y;
       } else {
