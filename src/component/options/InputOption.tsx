@@ -19,10 +19,10 @@ function getOptionConfig(option: string) {
       return config.arcRotateCameraKeyboardInputs.controls.keys.keysLeft;
     case 'moveRight':
       return config.arcRotateCameraKeyboardInputs.controls.keys.keysRight;
-    case 'moveUp':
-      return config.arcRotateCameraKeyboardInputs.controls.keys.keysUp;
-    case 'moveDown':
-      return config.arcRotateCameraKeyboardInputs.controls.keys.keysDown;
+    case 'zoomIn':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn;
+    case 'zoomOut':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut;
     default:
       return [];
   }
