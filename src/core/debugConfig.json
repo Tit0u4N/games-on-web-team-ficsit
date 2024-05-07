@@ -22,7 +22,7 @@
       "resetPositionCamera": false
     }
   },
-  "activateDevCamera": true,
+  "activateDevCamera": false,
   "babylonInspector": {
     "enabled": true,
     "options": {
