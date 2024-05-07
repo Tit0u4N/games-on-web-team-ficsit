@@ -1,4 +1,4 @@
-import { TileView } from '../view/Babylon/TileView.ts';
+import { TileView } from '@map/view/Babylon/TileView.ts';
 import { Vector3 } from '@babylonjs/core';
 import { TypesTile } from '@map/model/TileModel.ts';
 import { TileViewFactory } from '@map/view/Babylon/TileViewFactory.ts';
