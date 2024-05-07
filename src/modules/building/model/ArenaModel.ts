@@ -18,7 +18,7 @@ export class ArenaModel {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
-    this.rotation = ArenaModel.DEFAULT_ROTATION;
+    this.rotation = 0;
     this._actualSport = this._sportType[0];
     this._name = name;
   }
