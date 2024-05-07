@@ -48,4 +48,10 @@ export class BuildingPresenter implements ViewInitable {
       trainingCenterPresenter.unMountView();
     });
   }
+
+  updateArenasTournament() {
+    this._arenasPresenter.forEach((arenaPresenter) => {
+      arenaPresenter.arena.updateSport();
+    });
+  }
 }
