@@ -2,7 +2,7 @@ import { Button, Modal, ModalContent, ModalFooter, ModalHeader } from '@nextui-o
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
-import { Bracket, testBracket } from '../../../tournament/view/React/bracket/Bracket.tsx';
+import { Bracket, BracketObject } from '../../../tournament/view/React/bracket/Bracket.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
