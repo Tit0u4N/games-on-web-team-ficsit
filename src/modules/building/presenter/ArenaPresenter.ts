@@ -11,9 +11,6 @@ import { TournamentPresenter } from '../../tournament/presenter/TournamentPresen
 import { TournamentDifficulty } from '../../tournament/model/TournamentDifficulty.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
-  get tournamentPresenter(): TournamentPresenter {
-    return this._tournamentPresenter;
-  }
   private readonly _arena: ArenaModel;
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private readonly _difficulty: TournamentDifficulty;
@@ -76,5 +73,9 @@ export class ArenaPresenter implements ViewInitable, Reactable {
 
   hasTournament() {
     return this.tournamentPresenter !== undefined;
+  }
+
+  get tournamentPresenter(): TournamentPresenter {
+    return this._tournamentPresenter;
   }
 }
