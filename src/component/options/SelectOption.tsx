@@ -32,8 +32,7 @@ export const SelectOption: React.FC<Props> = ({ title, description = '', option 
         className={'w-1/4'}
         onSelectionChange={handleSelectionChange}
         selectedKeys={value}
-        aria-label={`Select ${title}`}
-      >
+        aria-label={`Select ${title}`}>
         {options.map((key) => (
           <SelectItem key={key.key} value={key.key}>
             {key.label}
