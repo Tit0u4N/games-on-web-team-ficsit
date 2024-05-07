@@ -5,17 +5,22 @@ body {
   background-color: DarkSalmon;
 }
 
-.wrapper {
+.bracket-wrapper {
   display: flex;
   height: 600px;
   justify-content: center;
 }
 
-.item {
+.bracket-item {
   display: flex;
   flex-direction: row-reverse;
-  p {
-    padding: 20px;
+  div.bracket-block {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
     margin: 0;
     background-color: Beige;
   }
