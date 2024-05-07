@@ -1,5 +1,6 @@
 import React from 'react';
 import { OptionLayout } from './OptionLayout';
+import { config } from '@/core/Interfaces';
 
 type ControlProps = {
   title: string;
@@ -8,15 +9,38 @@ type ControlProps = {
   defaultValue: string;
 };
 
+function getOptionConfig(option: string) {
+  switch (option) {
+    case 'moveForward':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysUp;
+    case 'moveBackward':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysDown;
+    case 'moveLeft':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysLeft;
+    case 'moveRight':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysRight;
+    case 'moveUp':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysUp;
+    case 'moveDown':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.keysDown;
+    default:
+      return [];
+  }
+}
+
 export const ControlOption: React.FC<ControlProps> = ({ title, description, option, defaultValue }) => {
+  const control = getOptionConfig(option);
   const [value, setValue] = React.useState(defaultValue);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
 
     // Validate input length
-    if (inputValue.length == 1) {
+    if (inputValue.length <= 1) {
       setValue(inputValue);
+      if (inputValue.length == 1) {
+        control[0] = inputValue;
+      }
     }
   };
 
