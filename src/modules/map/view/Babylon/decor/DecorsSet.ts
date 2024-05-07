@@ -1,7 +1,6 @@
 import { Scene, Vector3 } from '@babylonjs/core';
-
 import { DecorMeshOptions, IDecor } from './Decor.ts';
-import { ImportModelOptions } from '../../../../../core/ModelImporter.ts';
+import { ImportModelOptions } from '@/core/ModelImporter.ts';
 
 export type GlobalOptions = {
   importOptions?: ImportModelOptions;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, Checkbox } from '@nextui-org/react';
-import { DicePresenter } from '../../presenter/DicePresenter.ts';
-import { DiceModel } from '../../model/DiceModel.ts';
+import { DicePresenter } from '@dice/presenter/DicePresenter.ts';
+import { DiceModel } from '@dice/model/DiceModel.ts';
 
 export interface DiceComponentProps {
   dicePresenter: DicePresenter;

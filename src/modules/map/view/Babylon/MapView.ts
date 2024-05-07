@@ -1,11 +1,11 @@
 import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
-import { IMap } from '../../model/MapModel.ts';
+import { IMap } from '@map/model/MapModel.ts';
 import { Mesh, Scene, Vector3 } from '@babylonjs/core';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
-import { MapPresenter } from '../../presenter/MapPresenter.ts';
-import { TypesTile } from '../../model/TileModel.ts';
-import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { DecorsSet } from './decor/DecorsSet.ts';
 import { Decor } from './decor/Decor.ts';
 

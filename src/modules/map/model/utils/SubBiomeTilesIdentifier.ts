@@ -1,6 +1,6 @@
-import { TileModel } from '../TileModel.ts';
-import { GraphTilesModel, TileKey } from '../GraphTilesModel.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { TileModel } from '@map/model/TileModel.ts';
+import { GraphTilesModel, TileKey } from '@map/model/GraphTilesModel.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export type CoupleTileIndex = { tile: TileModel; index: number };
 

@@ -1,6 +1,6 @@
 import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babylonjs/core';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { config, debugConfig } from '../../../../core/Interfaces.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { config, debugConfig } from '@/core/Interfaces.ts';
 
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];

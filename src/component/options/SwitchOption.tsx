@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch } from '@nextui-org/react';
-import { GameOptions } from '../../core/GameOptions.ts';
+import { GameOptions } from '@/core/GameOptions.ts';
 
 type Props = {
   option: string;

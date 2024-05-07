@@ -1,5 +1,5 @@
 import { TypesBiome } from './BiomeAbstractModel.ts';
-import { MapModel } from '../MapModel.ts';
+import { MapModel } from '@map/model/MapModel.ts';
 import { BiomeMountainModel } from './BiomeMountainModel.ts';
 import { BiomePlainModel } from './BiomePlainModel.ts';
 

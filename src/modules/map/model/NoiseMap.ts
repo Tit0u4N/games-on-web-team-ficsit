@@ -1,5 +1,5 @@
-import { Noise } from '../core/Noise.ts';
-import { config } from '../../../core/Interfaces.ts';
+import { Noise } from '@map/core/Noise.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export class NoiseMap extends Noise {
   private widthMap: number;

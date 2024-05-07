@@ -8,9 +8,9 @@ import {
   StandardMaterial,
   Vector3,
 } from '@babylonjs/core';
-import { ArenaModel } from '../../model/ArenaModel.ts';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
-import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
+import { ArenaModel } from '@building/model/ArenaModel.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
+import { ArenaPresenter } from '@building/presenter/ArenaPresenter.ts';
 
 export class ArenaView implements ViewInitable {
   private arenaModel: ArenaModel;

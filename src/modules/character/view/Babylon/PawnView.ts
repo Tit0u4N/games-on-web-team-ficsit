@@ -1,5 +1,5 @@
 import { ActionManager, Color3, ExecuteCodeAction, Mesh, PBRMaterial, Scene, Vector3 } from '@babylonjs/core';
-import { importModel } from '../../../../core/ModelImporter.ts';
+import { importModel } from '@/core/ModelImporter.ts';
 import { CharacterView } from './CharacterView.ts';
 
 export class PawnView {

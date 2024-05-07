@@ -1,7 +1,7 @@
 import { GameCorePresenter } from './GameCorePresenter';
-import { Inventory } from '../../inventory/model/Inventory.ts';
-import { EventModel } from '../../event/model/EventModel.ts';
-import { UsableObject } from '../../object/model/UsableObject.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { EventModel } from '@event/model/EventModel.ts';
+import { UsableObject } from '@object/model/UsableObject.ts';
 
 export class GameViewPresenter {
   private gameCorePresenter: GameCorePresenter;

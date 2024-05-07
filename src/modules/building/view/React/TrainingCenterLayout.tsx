@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React from 'react';
-import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
+import { TrainingCenterModel } from '@building/model/TrainingCenterModel.ts';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;

@@ -1,8 +1,8 @@
-import { CharacterFactory } from '../BuilderFactory/CharacterFactory';
-import { Character } from '../model/Character';
-import { CharacterView } from '../view/Babylon/CharacterView.ts';
+import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory';
+import { Character } from '@character/model/Character';
+import { CharacterView } from '@character/view/Babylon/CharacterView.ts';
 import { Scene } from '@babylonjs/core';
-import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 export class CharacterPresenter {
   private readonly _characters: Set<Character>;

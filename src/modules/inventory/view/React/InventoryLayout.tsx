@@ -1,7 +1,7 @@
 import { Card, Divider } from '@nextui-org/react';
 import React from 'react';
-import { InventoryCase } from '../../../../component/InventoryCase.tsx';
-import { Inventory } from '../../model/Inventory.ts';
+import { InventoryCase } from '@/component/InventoryCase.tsx';
+import { Inventory } from '@inventory/model/Inventory.ts';
 
 type InventoryLayoutProps = {
   inventory: Inventory;

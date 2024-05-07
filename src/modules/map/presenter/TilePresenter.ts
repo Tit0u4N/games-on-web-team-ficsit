@@ -1,4 +1,4 @@
-import { ITile, TileModel } from '../model/TileModel.ts';
+import { ITile, TileModel } from '@map/model/TileModel.ts';
 
 export class TilePresenter {
   private _tileModel: ITile;

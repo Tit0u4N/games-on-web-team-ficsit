@@ -1,9 +1,9 @@
-import { ArenaModel } from '../model/ArenaModel.ts';
-import { ArenaView } from '../view/Babylon/ArenaView.ts';
-import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import { ArenaModel } from '@building/model/ArenaModel.ts';
+import { ArenaView } from '@building/view/Babylon/ArenaView.ts';
+import { Reactable, ViewInitable } from '@/core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
-import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
-import { ModalManager } from '../../../core/ModalManager.ts';
+import { ArenaLayout, ArenaLayoutProps } from '@building/view/React/ArenaLayout.tsx';
+import { ModalManager } from '@/core/ModalManager.ts';
 import React from 'react';
 
 export class ArenaPresenter implements ViewInitable, Reactable {

@@ -12,8 +12,8 @@ import {
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
 import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.ts';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { config, debugConfig } from '../../../../core/Interfaces.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { config, debugConfig } from '@/core/Interfaces.ts';
 import { Inspector } from '@babylonjs/inspector';
 
 type BabylonMainViewOptions = {

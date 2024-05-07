@@ -1,11 +1,11 @@
-import { IMapModelPresenter, MapModel } from '../model/MapModel.ts';
-import { MapView } from '../view/Babylon/MapView.ts';
+import { IMapModelPresenter, MapModel } from '@map/model/MapModel.ts';
+import { MapView } from '@map/view/Babylon/MapView.ts';
 import { Scene, Vector3 } from '@babylonjs/core';
-import { IGraphTiles } from '../model/GraphTilesModel.ts';
-import { importModel } from '../../../core/ModelImporter.ts';
-import { getPosition, getCharacterPositionOnTile, PositionTypes } from '../core/GamePlacer.ts';
-import { ViewInitable } from '../../../core/Interfaces.ts';
-import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { IGraphTiles } from '@map/model/GraphTilesModel.ts';
+import { importModel } from '@/core/ModelImporter.ts';
+import { getPosition, getCharacterPositionOnTile, PositionTypes } from '@map/core/GamePlacer.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 type MapPresenterOptions = {
   size?: number;

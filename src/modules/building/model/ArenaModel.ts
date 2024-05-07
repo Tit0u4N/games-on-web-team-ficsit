@@ -1,6 +1,6 @@
-import { SportType } from '../../sport/model/Sport.ts';
+import { SportType } from '@sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Tournament } from '../../tournement/model/Tournament.ts';
+import { Tournament } from '@tournament/model/Tournament.ts';
 import { Character } from 'data-structure-typed';
 
 export class ArenaModel {

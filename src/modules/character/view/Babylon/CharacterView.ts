@@ -1,7 +1,7 @@
-import { CharacterPresenter } from '../../presenter/CharacterPresenter.ts';
+import { CharacterPresenter } from '@character/presenter/CharacterPresenter.ts';
 import { PawnView } from './PawnView.ts';
 import { Animation, Scene, Vector3 } from '@babylonjs/core';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
 
 export class CharacterView implements ViewInitable {
   private readonly characterPresenter: CharacterPresenter;
