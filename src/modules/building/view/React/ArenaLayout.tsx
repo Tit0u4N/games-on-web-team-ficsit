@@ -2,6 +2,7 @@ import { Button, Modal, ModalContent, ModalFooter, ModalHeader } from '@nextui-o
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
+import { Bracket, BracketObject } from '../../../tournament/view/React/bracket/Bracket.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -19,9 +20,10 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
         {arena.hasTournament() ? (
           <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />
         ) : (
-          <div className="flex justify-center items-center h-[50%] w-full">
-            <h1>No tournament</h1>
-          </div>
+          // <div className="flex justify-center items-center h-[50%] w-full">
+          //   <h1>No tournament</h1>
+          // </div>
+          <Bracket bracket={BracketObject.testBracket()} />
         )}
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
