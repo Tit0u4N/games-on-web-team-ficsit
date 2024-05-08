@@ -62,8 +62,8 @@
         "keysDown": ["s", "ArrowDown"],
         "keysLeft": ["q", "ArrowLeft"],
         "keysRight": ["d", "ArrowRight"],
-        "keysZoomIn": ["+"],
-        "keysZoomOut": ["-"],
+        "keysZoomIn": ["+", "a"],
+        "keysZoomOut": ["-", "e"],
         "resetPosition": ["r", "à"]
       }
     },
