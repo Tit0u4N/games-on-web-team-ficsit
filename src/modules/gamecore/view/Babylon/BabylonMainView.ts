@@ -1,13 +1,18 @@
 import {
   ArcRotateCamera,
   Camera,
+  CascadedShadowGenerator,
+  DirectionalLight,
   Engine,
   EngineOptions,
   FreeCamera,
   HavokPlugin,
   HemisphericLight,
+  Light,
   Scene,
   SceneOptions,
+  ShadowGenerator,
+  ShadowLight,
   Vector3,
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
@@ -15,6 +20,7 @@ import { ArcRotateCameraKeyboardInputs } from './ArcRotateCameraKeyboardInputs.t
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { config, debugConfig } from '@/core/Interfaces.ts';
 import { Inspector } from '@babylonjs/inspector';
+import { GameOptions } from '@/core/GameOptions.ts';
 
 type BabylonMainViewOptions = {
   antialias: boolean;
@@ -115,21 +121,40 @@ export class BabylonMainView {
     this._arcRotateCameraKeyboardInputs = new ArcRotateCameraKeyboardInputs(this._camera, this._gameCorePresenter);
     this._camera.inputs.add(this._arcRotateCameraKeyboardInputs);
 
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight(
-      'light',
-      new Vector3(
-        config.babylonMainView.gameCamera.light.direction.x,
-        config.babylonMainView.gameCamera.light.direction.y,
-        config.babylonMainView.gameCamera.light.direction.z,
-      ),
-      this.scene,
-    );
-
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = config.babylonMainView.gameCamera.light.intensity;
+    this.createLight();
 
     this._arcRotateCameraKeyboardInputs.attachControl(true);
+  }
+
+  createLight(): DirectionalLight | HemisphericLight {
+    let light: DirectionalLight | HemisphericLight;
+    if (GameOptions.instance.shadows) {
+      console.log('shadow enabled');
+      light = new DirectionalLight('sunLight', new Vector3(-1, -1, -1), this.scene);
+      light.position = new Vector3(0, 80, 0);
+      light.shadowEnabled = true;
+
+      light.intensity = 1;
+      light.shadowMinZ = -180;
+      light.shadowMaxZ = 260;
+    } else {
+      console.log('shadow disabled');
+      // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+      light = new HemisphericLight(
+        'light',
+        new Vector3(
+          config.babylonMainView.devCamera.light.direction.x,
+          config.babylonMainView.devCamera.light.direction.y,
+          config.babylonMainView.devCamera.light.direction.z,
+        ),
+        this.scene,
+      );
+
+      // Default intensity is 1. Let's dim the light a small amount
+      light.intensity = config.babylonMainView.devCamera.light.intensity;
+    }
+
+    return light;
   }
 
   private devCamera(): void {
@@ -157,20 +182,6 @@ export class BabylonMainView {
 
     // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
-
-    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight(
-      'light',
-      new Vector3(
-        config.babylonMainView.devCamera.light.direction.x,
-        config.babylonMainView.devCamera.light.direction.y,
-        config.babylonMainView.devCamera.light.direction.z,
-      ),
-      this.scene,
-    );
-
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = config.babylonMainView.devCamera.light.intensity;
   }
 
   onRender(): void {
