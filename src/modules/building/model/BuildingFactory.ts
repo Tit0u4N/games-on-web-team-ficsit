@@ -8,6 +8,7 @@ import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts
 import { config } from '../../../core/Interfaces.ts';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
+import { BuildingPresenter } from '../presenter/BuildingPresenter.ts';
 
 type BuildingFactoryOptions = {
   arena?: {
@@ -44,7 +45,10 @@ export class BuildingFactory {
    * @returns ArenaPresenter[]
    * @public
    */
-  public createArenas(tournamentManagerPresenter: TournamentManagerPresenter): ArenaPresenter[] {
+  public createArenas(
+    buildingPresenter: BuildingPresenter,
+    tournamentManagerPresenter: TournamentManagerPresenter,
+  ): ArenaPresenter[] {
     const springSports = Sport.getBySeason('SPRING');
     const summerSports = Sport.getBySeason('SUMMER');
     const arenas: ArenaPresenter[] = [];
@@ -59,9 +63,10 @@ export class BuildingFactory {
       const tempTileModel = this.mapPresenter.getDisplacementGraph().getTile(x, z);
       if (tempTileModel && !notConstructible.includes(tempTileModel.type)) {
         const arenaPresenter = new ArenaPresenter(
+          buildingPresenter,
           new ArenaModel(
             Math.random() > 0.5 ? summerSports : springSports,
-            getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
+            getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING), //TODO replace position
             'Arena ' + arenas.length,
           ),
           tournamentManagerPresenter,

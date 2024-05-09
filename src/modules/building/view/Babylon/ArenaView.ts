@@ -11,21 +11,24 @@ import {
 import { ArenaModel } from '../../model/ArenaModel.ts';
 import { ViewInitable } from '../../../../core/Interfaces.ts';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
+import { getPosition, PositionTypes } from '../../../map/core/GamePlacer.ts';
 
 export class ArenaView implements ViewInitable {
   private arenaModel: ArenaModel;
   private scene!: Scene;
   private _mesh!: Mesh;
   private arenaPresenter: ArenaPresenter;
+  private position: Vector3;
 
   constructor(arenaPresenter: ArenaPresenter) {
     this.arenaPresenter = arenaPresenter;
     this.arenaModel = this.arenaPresenter.arena;
+    this.position = getPosition(this.arenaModel.position, PositionTypes.BUILDING);
   }
 
   initView(scene: Scene) {
     this.scene = scene;
-    this.createMesh(this.arenaModel.position);
+    this.createMesh(this.position);
     this.addActionManager();
   }
 

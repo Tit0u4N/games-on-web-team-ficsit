@@ -135,4 +135,8 @@ export class MapPresenter implements ViewInitable {
   get view(): MapView {
     return this._view;
   }
+
+  getCharactersOnTile(tile: { x: number; y: number }) {
+    return this._mapModel.getTile(tile.x, tile.y).characters;
+  }
 }

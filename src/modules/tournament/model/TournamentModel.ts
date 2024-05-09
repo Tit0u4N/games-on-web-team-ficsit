@@ -11,10 +11,12 @@ export class TournamentModel {
   private readonly _numberRound: number;
   private readonly _difficulty: TournamentDifficulty;
   private readonly _sport: Sport;
+  private _isTournamentStarted: boolean = false;
   private _season: Season | undefined;
   private _characters: Character[] = [];
   private _pools: Character[][] = [];
   private _finalRankings: Character[] = [];
+  private _isInPool: boolean = false;
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -56,6 +58,10 @@ export class TournamentModel {
 
   calculateScore(stat: number, diceRoll: number): number {
     return stat * 2 + diceRoll;
+  }
+
+  get isTournamentStarted(): boolean {
+    return this._isTournamentStarted;
   }
 
   initTournament() {
@@ -111,5 +117,9 @@ export class TournamentModel {
 
   get finalRankings(): Character[] {
     return this._finalRankings;
+  }
+
+  get isInPool(): boolean {
+    return this._isInPool;
   }
 }

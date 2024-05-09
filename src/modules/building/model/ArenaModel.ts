@@ -1,20 +1,19 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Character } from '../../character/model/Character.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
+import { TypesTile } from '../../map/model/TileModel.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
   private _sportType: Sport[];
   private _actualSport: Sport;
   private rotation: number;
-  private _position: Vector3;
+  private _position: { x: number; y: number; type: TypesTile };
   private _roundWaiting: number;
   private _name: string;
-  private _character!: Character;
   private _arenaPresenter!: ArenaPresenter;
 
-  constructor(sportType: Sport[], position: Vector3, name: string) {
+  constructor(sportType: Sport[], position: { x: number; y: number; type: TypesTile }, name: string) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
@@ -34,15 +33,11 @@ export class ArenaModel {
     }
   }
 
-  public startTournament(): void {
-    this._arenaPresenter.tournamentPresenter.startTournament([this._character]);
-  }
-
-  get position(): Vector3 {
+  get position(): { x: number; y: number; type: TypesTile } {
     return this._position;
   }
 
-  set position(position: Vector3) {
+  set position(position: { x: number; y: number; type: TypesTile }) {
     this._position = position;
   }
 
@@ -60,14 +55,6 @@ export class ArenaModel {
 
   set name(name: string) {
     this._name = name;
-  }
-
-  get character(): Character {
-    return this._character;
-  }
-
-  set character(character: Character) {
-    this._character = character;
   }
 
   get arenaPresenter(): ArenaPresenter {
