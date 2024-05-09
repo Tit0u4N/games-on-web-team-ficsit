@@ -3,7 +3,7 @@ import { config } from './Interfaces.ts';
 export type OptionLevel = 'low' | 'medium' | 'high' | 'ultra';
 
 export class GameOptions {
-  private _shadow: boolean = true;
+  private _shadows: boolean = false;
   private _trees: OptionLevel = 'medium';
   private _rocks: OptionLevel = 'medium';
 
@@ -18,8 +18,8 @@ export class GameOptions {
 
   set(option: string, value: any) {
     switch (option) {
-      case 'shadow':
-        this._shadow = value;
+      case 'shadows':
+        this._shadows = value;
         break;
       case 'trees':
         this._trees = value;
@@ -32,8 +32,8 @@ export class GameOptions {
 
   get(option: string) {
     switch (option) {
-      case 'shadow':
-        return this.shadow;
+      case 'shadows':
+        return this.shadows;
       case 'trees':
         return this.trees;
       case 'rocks':
@@ -41,8 +41,8 @@ export class GameOptions {
     }
   }
 
-  get shadow(): boolean {
-    return this._shadow;
+  get shadows(): boolean {
+    return this._shadows;
   }
 
   get trees(): { level: OptionLevel; value: number } {

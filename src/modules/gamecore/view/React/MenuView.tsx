@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const MenuView: React.FC<Props> = ({ presenter }) => {
-  const cardSize = ' w-[500px] h-[600px] p-2';
+  const cardSize = ' w-[500px] h-[600px] p-2 pb-4';
 
   return (
     <div className={'h-[100vh] w-[100vw] bg-menu bg-cover'}>
@@ -27,10 +27,14 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             <Tab key={'options'} title={'Options'} aria-label={'Menu Options'} className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className={'flex flex-col'}>
+                  <p className={'text-center text-gray-500 py-5'}>
+                    These options can only be changed before the start of the game.
+                  </p>
+
                   <div className={'w-full'}>
                     <h3 className={'text-xl pb-2'}> Graphics </h3>
                     <div className={'flex flex-col w-full'}>
-                      <SwitchOption title={'Shadows'} description={'Active shadows'} option={'shadow'} />
+                      <SwitchOption title={'Shadows'} description={'Active shadows'} option={'shadows'} />
                       <DividerOptions />
                       <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
                       <DividerOptions />
@@ -38,7 +42,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                     </div>
                   </div>
                   <DividerOptions />
-                  <div className={'w-full'}>
+                  <div className={'w-full pt-4'}>
                     <h3 className={'text-xl pb-2'}> Controls </h3>
                     <div className={'flex flex-col w-full'}>
                       {/* Add ControlOption components for each control setting */}
@@ -85,10 +89,6 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       />
                     </div>
                   </div>
-                  <p className={'text-center text-gray-500 pb-5'}>
-                    {' '}
-                    These options can only be changed before the start of the game.{' '}
-                  </p>
                 </CardBody>
               </Card>
             </Tab>

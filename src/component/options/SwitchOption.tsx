@@ -15,6 +15,7 @@ export const SwitchOption: React.FC<Props> = ({ option, title, description = '' 
     if (force == undefined) force = !isSwitchOn;
     setIsSwitchOn(force);
     GameOptions.instance.set(option, force);
+    console.log(GameOptions.instance.get(option));
   };
 
   return (
