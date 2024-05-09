@@ -49,7 +49,12 @@ export class DicePresenter implements Reactable, ViewInitable {
     ModalManager.getInstance().lock();
     if (this._is3DMod) {
       this._onRoll3DStart();
-      this.model.finalValue = await this._rollDiceFunc3D();
+      let value = await this._rollDiceFunc3D();
+      if (value === -1) {
+        this.model.getRandDiceValue();
+      } else {
+        this.model.finalValue = value;
+      }
       this._onRoll3DEnd();
     } else {
       await this._rollDiceFunc2D(this.model.getRandDiceValue());
