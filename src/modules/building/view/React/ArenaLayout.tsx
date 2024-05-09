@@ -2,7 +2,7 @@ import { Button, Modal, ModalContent, ModalFooter, ModalHeader } from '@nextui-o
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
-import { Bracketv1, BracketObject } from '../../../tournament/view/React/bracket/Bracketv1.tsx';
+import { Bracketv2 } from '../../../tournament/view/React/bracket/Bracketv2.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -17,13 +17,14 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className={'h-[80%] w-[80%] max-w-full'}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
-        {arena.hasTournament() ? (
+        {!arena.hasTournament() ? (
+          // todo change the condition
           <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />
         ) : (
           // <div className="flex justify-center items-center h-[50%] w-full">
           //   <h1>No tournament</h1>
           // </div>
-          <Bracketv1 bracket={BracketObject.testBracket()} />
+          <Bracketv2 />
         )}
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
