@@ -1,10 +1,10 @@
 import { Scene } from '@babylonjs/core';
-import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
+import { DiceHandler, DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { TournamentModel } from '../model/TournamentModel.ts';
 import { TournamentManagerPresenter } from './TournamentManagerPresenter.ts';
 import { Character } from '../../character/model/Character.ts';
 
-export class TournamentPresenter {
+export class TournamentPresenter implements DiceHandler {
   private readonly _scene: Scene;
   private readonly _dicePresenter: DicePresenter;
   private readonly _tournamentModel: TournamentModel;
@@ -12,7 +12,7 @@ export class TournamentPresenter {
 
   constructor(scene: Scene, tournamentManagerPresenter: TournamentManagerPresenter, tournamentModel: TournamentModel) {
     this._scene = scene;
-    this._dicePresenter = new DicePresenter(scene);
+    this._dicePresenter = new DicePresenter(scene, this);
     this._tournamentModel = tournamentModel;
     this._tournamentManagerPresenter = tournamentManagerPresenter;
   }
@@ -50,6 +50,10 @@ export class TournamentPresenter {
     }
     this.tournamentModel.characters = participantsShuffle;
     this.tournamentModel.initTournament();
+  }
+
+  handleRollDice(diceValue: number) {
+    console.log('TournamentPresenter handleRollDice ' + diceValue);
   }
 
   get isInPool() {
