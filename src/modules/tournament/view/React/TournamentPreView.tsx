@@ -1,6 +1,5 @@
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import React from 'react';
-import { Button, ModalBody } from '@nextui-org/react';
 
 interface Props {
   tournament: TournamentPresenter;

@@ -86,6 +86,10 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     return this._tournamentPresenter;
   }
 
+  public charactersInArena() {
+    return this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
+  }
+
   public startTournament(): void {
     const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
     this._tournamentPresenter.startTournament([...characters]);

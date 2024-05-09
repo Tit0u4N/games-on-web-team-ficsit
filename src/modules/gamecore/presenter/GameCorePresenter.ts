@@ -9,8 +9,6 @@ import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
 import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
-import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
 import { Season } from '../../../core/singleton/Season.ts';
 import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
@@ -74,7 +72,7 @@ export class GameCorePresenter {
       this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this.buildingPresenter = new BuildingPresenter(this._mapPresenter, this._tournamentManagerPresenter);
+      this.buildingPresenter = new BuildingPresenter(this, this._mapPresenter, this._tournamentManagerPresenter);
       this.buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
       this.buildingPresenter.updateArenasTournament();
