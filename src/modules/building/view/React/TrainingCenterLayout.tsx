@@ -1,7 +1,9 @@
-import { Button, Card, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, Card, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
 import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
+import { TrainingChoices } from './trainingCenter/TrainingChoices.tsx';
+import { CharacterStats } from './trainingCenter/CharacterStats.tsx';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -10,52 +12,49 @@ export interface TrainingCenterLayoutProps {
 }
 
 export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trainingCenter, isOpen, onClose }) => {
-  const [isStatsRolling, setIsStatsRolling] = useState(false);
-  const [isRoundRolling, setIsRoundRolling] = useState(false);
-  const [hideModal, setHideModal] = React.useState<boolean>(false);
+  const [isRolling, setIsRolling] = useState(false);
+  const [hideModal, setHideModal] = useState<boolean>(false);
+  const [diceResult, setDiceResult] = useState<number | null>(null);
+  const [showChoices, setShowChoices] = useState<boolean>(false);
+
+  const handleDiceRollEnd = (result: number) => {
+    trainingCenter.dicePresenter.unMountView();
+    setHideModal(false);
+    setDiceResult(result);
+    setShowChoices(true);
+  };
+
   return (
-    <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full" onClick={onClose}>
+    <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Training Center</ModalHeader>
-        <ModalBody className="flex flex-row justify-between py-6 h-[80%]">
-          <Card radius={'lg'} className={'flex flex-col gap-1 w-[380px] p-2'}>
-            <div className="w-full h-[300px]">
-              <div className="flex justify-between p-[10px] h-full w-full">
-                <div className="flex flex-col w-1/5 gap-1"></div>
-                <Divider orientation={'vertical'} />
-                <div className="w-[75%] h-full flex rounded-xl bg-case"></div>
-              </div>
-            </div>
-            <Divider />
-            <div className="w-full h-[300px] justify-center">
-              <div className="grid grid-cols-5 gap-1 p-[10px]"></div>
-            </div>
-          </Card>
-          {!isStatsRolling && (
+        <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
+          <div className={'flex flex-col w-full'}>
+            {trainingCenter.charactersInside.map((character) => (
+              <Card key={character.id} radius={'lg'} className={'flex flex-col gap-1 w-[600px] p-2 mt-4 mb-4'}>
+                <CharacterStats character={character} />
+              </Card>
+            ))}
+          </div>
+          {!isRolling && (
             <DiceComponent
-              className={'w-full p-2 flex items-center justify-around'}
-              dicePresenter={trainingCenter.diceStatsPresenter}
+              className={'w-[50%] p-2 flex items-center justify-around'}
+              dicePresenter={trainingCenter.dicePresenter}
               onRoll3DStart={() => {
                 setHideModal(true);
-                setIsStatsRolling(true);
+                setIsRolling(true);
               }}
               onRoll3DEnd={() => {
-                setHideModal(false);
-                trainingCenter.diceStatsPresenter.unMountView();
+                handleDiceRollEnd(12);
               }}
             />
           )}
-          {!isRoundRolling && (
-            <DiceComponent
-              className={'w-full p-2 flex items-center justify-around'}
-              dicePresenter={trainingCenter.diceRoundPresenter}
-              onRoll3DStart={() => {
-                setHideModal(true);
-                setIsRoundRolling(true);
-              }}
-              onRoll3DEnd={() => {
-                setHideModal(false);
-                trainingCenter.diceRoundPresenter.unMountView();
+          {showChoices && (
+            <TrainingChoices
+              diceResult={diceResult}
+              onChoiceSelected={(choice) => {
+                setShowChoices(false);
+                trainingCenter.userChoice = choice;
               }}
             />
           )}

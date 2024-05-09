@@ -75,35 +75,18 @@ interface IBabylonMainViewConfig {
   };
 }
 
+interface ITrainingCenterUserChoicesConfig {
+  label: string,
+  stats: number,
+  rounds: number
+}
+
 interface ITrainingCenterModelConfig {
   defaultRotation: number;
-  diceStats: {
-    lowDiceScore: {
-      score: number;
-      bonus: number;
-    };
-    mediumDiceScore: {
-      score: number;
-      bonus: number;
-    };
-    highDiceScore: {
-      score: number;
-      bonus: number;
-    };
-  };
-  diceRound: {
-    lowDiceScore: {
-      score: number;
-      rounds: number;
-    };
-    mediumDiceScore: {
-      score: number;
-      rounds: number;
-    };
-    highDiceScore: {
-      score: number;
-      rounds: number;
-    };
+  userChoices: {
+    lowDiceScore: ITrainingCenterUserChoicesConfig[]
+    mediumDiceScore: ITrainingCenterUserChoicesConfig[]
+    highDiceScore: ITrainingCenterUserChoicesConfig[]
   };
 }
 

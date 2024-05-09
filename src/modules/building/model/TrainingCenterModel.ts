@@ -5,29 +5,31 @@ import { Character } from '../../character/model/Character.ts';
 import { config } from '../../../core/Interfaces.ts';
 import { Statistics } from '../../character/model/Statistics.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { TypesTile } from '../../map/model/TileModel.ts';
+import { ITile, TypesTile } from '../../map/model/TileModel.ts';
+import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoices.tsx';
 
 interface ICharacterEffect {
   character: Character;
   sports: Sport[];
   rounds: number;
   stats: number;
+  injured: boolean;
 }
 
 export class TrainingCenterModel {
   private static readonly DEFAULT_ROTATION: number = config.building.trainingCenterModel.defaultRotation;
-  private readonly tileX: number;
-  private readonly tileY: number;
+  private readonly _tileX: number;
+  private readonly _tileY: number;
   private readonly mapPresenter: MapPresenter;
   private _sports!: Sport[];
   private rotation: number;
   private _position: Vector3;
   private _name: string;
-  private readonly _diceRoundPresenter: DicePresenter;
-  private readonly _diceStatsPresenter: DicePresenter;
-  private _diceStatsScore!: number;
-  private _diceRoundScore!: number;
-  private _characters!: ICharacterEffect[];
+  private readonly _dicePresenter: DicePresenter;
+  private _charactersEffect!: ICharacterEffect[];
+  private _userChoice!: TrainingChoice;
+  private _tile: ITile | undefined;
+  private _charactersInside: Character[] = [];
 
   /**
    * Creates a new instance of the TrainingCenterModel class.
@@ -40,14 +42,14 @@ export class TrainingCenterModel {
    * @param {string} name - The name of the training center.
    */
   constructor(mapPresenter: MapPresenter, scene: Scene, tileX: number, tileY: number, position: Vector3, name: string) {
-    this.tileX = tileX;
-    this.tileY = tileY;
+    this._tileX = tileX;
+    this._tileY = tileY;
     this.mapPresenter = mapPresenter;
-    this._diceRoundPresenter = new DicePresenter(scene);
-    this._diceStatsPresenter = new DicePresenter(scene);
+    this._dicePresenter = new DicePresenter(scene);
     this._position = position;
     this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
     this._name = name;
+    this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
   }
 
   /**
@@ -56,7 +58,7 @@ export class TrainingCenterModel {
    */
   public initialize(): void {
     this._sports = this.getSports();
-    this._characters = [];
+    this._charactersEffect = [];
   }
 
   /**
@@ -116,8 +118,10 @@ export class TrainingCenterModel {
    * - Otherwise: A mix of Spring and Autumn or a transitional period
    */
   private getSeasonByPosition(): string[] {
-    const tile = this.mapPresenter.getDisplacementGraph().getTile(this.tileX, this.tileY);
-    const neighbors = this.mapPresenter.getDisplacementGraph().getAdjacentTiles(tile!);
+    if (!this._tile) {
+      this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY);
+    }
+    const neighbors = this.mapPresenter.getDisplacementGraph().getAdjacentTiles(this._tile!);
 
     type TileWeights = {
       [key in TypesTile]?: number;
@@ -169,11 +173,12 @@ export class TrainingCenterModel {
    */
   public nextRound(): void {
     // for each character in the training center
-    this._characters.forEach((characterEffect: ICharacterEffect) => {
+    this._charactersEffect.forEach((characterEffect: ICharacterEffect) => {
       // remove one round from the character
       characterEffect.rounds--;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
+        if (characterEffect.injured) characterEffect.character.attributes.injured = true;
         // for each sport stats add the stats to the character
         for (const sport of characterEffect.sports) {
           const statistic = new Map<Sport, number>();
@@ -182,8 +187,9 @@ export class TrainingCenterModel {
         }
       }
     });
-    // remove all characters that have no more rounds
-    this._characters = this._characters.filter((characterEffect: ICharacterEffect) => characterEffect.rounds > 0);
+    // remove all characters that have no more rounds and removing them from the training center
+    this._charactersEffect = this._charactersEffect.filter((characterEffect) => characterEffect.rounds > 0);
+    this._charactersInside = this._charactersInside.filter((character) => this._charactersEffect.map((effect) => effect.character).includes(character));
     // Update the rotation value
     this.rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
@@ -199,52 +205,14 @@ export class TrainingCenterModel {
    * @param {Character} character - The character to be added to the training center.
    *
    * This function performs the following actions:
-   * 1. Determines the number of rounds the character will train based on their current level and the training center's level.
-   * 2. Calculates the stat improvement the character will gain after completing their training.
-   * 3. Gets the available sports for training in the current season.
-   * 4. Adds the character, along with their training details (rounds, stats, and sports), to the training center's list of characters in training.
+   * // TODO
    */
   public getEffect(character: Character): void {
-    const rounds: number = this.getRounds(character);
-    const stats: number = this.getStats(character);
+    const rounds = this._userChoice.rounds;
+    const stats = this._userChoice.stats;
     const sports: Sport[] = this._sports;
-    this._characters.push({ character, sports, rounds, stats });
-  }
-
-  /**
-   *
-   * @param character
-   * @private
-   */
-  private getRounds(character: Character): number {
-    switch (this._diceRoundScore) {
-      case config.building.trainingCenterModel.diceRound.lowDiceScore.score:
-        return config.building.trainingCenterModel.diceRound.lowDiceScore.rounds;
-      case config.building.trainingCenterModel.diceRound.mediumDiceScore.score:
-        return config.building.trainingCenterModel.diceRound.mediumDiceScore.rounds;
-      case config.building.trainingCenterModel.diceRound.highDiceScore.score:
-        return config.building.trainingCenterModel.diceRound.highDiceScore.rounds;
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   *
-   * @param character
-   * @private
-   */
-  private getStats(character: Character): number {
-    switch (this._diceStatsScore) {
-      case config.building.trainingCenterModel.diceStats.lowDiceScore.score:
-        return config.building.trainingCenterModel.diceStats.lowDiceScore.bonus;
-      case config.building.trainingCenterModel.diceStats.mediumDiceScore.score:
-        return config.building.trainingCenterModel.diceStats.mediumDiceScore.bonus;
-      case config.building.trainingCenterModel.diceStats.highDiceScore.score:
-        return config.building.trainingCenterModel.diceStats.highDiceScore.bonus;
-      default:
-        return 0;
-    }
+    const injured = this._userChoice.injuredRisk > Math.random();
+    this._charactersEffect.push({ character, sports, rounds, stats, injured });
   }
 
   get position(): Vector3 {
@@ -263,19 +231,24 @@ export class TrainingCenterModel {
     this._name = name;
   }
 
-  get diceRoundPresenter(): DicePresenter {
-    return this._diceRoundPresenter;
+  get dicePresenter(): DicePresenter {
+    return this._dicePresenter;
   }
 
-  get diceStatsPresenter(): DicePresenter {
-    return this._diceStatsPresenter;
+  set userChoice(userChoice: TrainingChoice) {
+    this._userChoice = userChoice;
   }
 
-  set diceStatsScore(diceStatsScore: number) {
-    this._diceStatsScore = diceStatsScore;
+  get tile(): ITile | undefined {
+    return this._tile;
   }
 
-  set diceRoundScore(diceRoundScore: number) {
-    this._diceRoundScore = diceRoundScore;
+  addCharacter(character: Character): void {
+    if (this._charactersInside.includes(character)) return;
+    this._charactersInside.push(character);
+  }
+
+  get charactersInside(): Character[] {
+    return this._charactersInside;
   }
 }
