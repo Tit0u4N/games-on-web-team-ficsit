@@ -46,7 +46,9 @@ export class Dice3D implements ViewInitable {
     }
     const mesh = MeshBuilder.CreatePolyhedron('dice', { type: 3, size: 2, faceUV: faceUV }, this.scene);
     const material = new StandardMaterial('diceMaterial', this.scene);
-    material.diffuseTexture = new Texture('/textures/dice/numbers_4.png', this.scene);
+    material.diffuseTexture = new Texture('/textures/dice/numbers.png', this.scene);
+    material.emissiveTexture = new Texture('/textures/dice/numbers.png', this.scene);
+    material.emissiveTexture.level = 0.5;
     mesh.material = material;
 
     return mesh;

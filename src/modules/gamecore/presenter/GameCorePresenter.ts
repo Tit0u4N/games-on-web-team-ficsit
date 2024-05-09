@@ -112,10 +112,6 @@ export class GameCorePresenter {
     this.buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
 
-    const scene = this._babylonView.scene;
-    const dicePresenter = new DicePresenter(scene);
-    ModalManager.getInstance().openModal(dicePresenter);
-
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
   }
