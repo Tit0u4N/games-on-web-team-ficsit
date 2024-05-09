@@ -78,16 +78,12 @@ interface IBabylonMainViewConfig {
 interface ITrainingCenterUserChoicesConfig {
   label: string,
   stats: number,
-  rounds: number
+  rounds: number,
+  image: string,
 }
 
 interface ITrainingCenterModelConfig {
   defaultRotation: number;
-  userChoices: {
-    lowDiceScore: ITrainingCenterUserChoicesConfig[]
-    mediumDiceScore: ITrainingCenterUserChoicesConfig[]
-    highDiceScore: ITrainingCenterUserChoicesConfig[]
-  };
 }
 
 interface IBuildingFactoryConfig {
@@ -102,9 +98,24 @@ interface IBuildingFactoryConfig {
   }
 }
 
+interface ITrainingCenterViewConfig {
+  trainingChoices: {
+    userChoices: {
+      lowDiceScore: ITrainingCenterUserChoicesConfig[]
+      mediumDiceScore: ITrainingCenterUserChoicesConfig[]
+      highDiceScore: ITrainingCenterUserChoicesConfig[]
+    }
+  }
+}
+
 interface IBuildingConfig {
-  buildingFactory: IBuildingFactoryConfig;
-  trainingCenterModel: ITrainingCenterModelConfig;
+  model: {
+    buildingFactory: IBuildingFactoryConfig;
+    trainingCenterModel: ITrainingCenterModelConfig;
+  },
+  view: {
+    trainingCenter: ITrainingCenterViewConfig;
+  }
 }
 
 interface IMapGetPositionConfig {

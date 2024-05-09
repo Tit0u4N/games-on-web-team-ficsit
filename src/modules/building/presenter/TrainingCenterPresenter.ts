@@ -64,4 +64,8 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
   onCharacterEnter(character: Character) {
     this.trainingCenter.addCharacter(character);
   }
+
+  onCharacterExit(character: Character) {
+    this.trainingCenter.removeCharacter(character);
+  }
 }

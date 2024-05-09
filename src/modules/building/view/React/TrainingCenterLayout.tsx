@@ -1,9 +1,10 @@
-import { Button, Card, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, Card, CardBody, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
+import { Character } from '../../../character/model/Character.ts';
+import { ClickableCard } from './trainingCenter/ClickableCard.tsx';
+import { TrainingChoice, TrainingChoiceCards } from './trainingCenter/TrainingChoiceCards.tsx';
 import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
-import { TrainingChoices } from './trainingCenter/TrainingChoices.tsx';
-import { CharacterStats } from './trainingCenter/CharacterStats.tsx';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -12,10 +13,15 @@ export interface TrainingCenterLayoutProps {
 }
 
 export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trainingCenter, isOpen, onClose }) => {
-  const [isRolling, setIsRolling] = useState(false);
   const [hideModal, setHideModal] = useState<boolean>(false);
   const [diceResult, setDiceResult] = useState<number | null>(null);
   const [showChoices, setShowChoices] = useState<boolean>(false);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [, setIsRolling] = useState(false);
+  const [choiceSelected, setChoiceSelected] = useState<TrainingChoice | null>(null);
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [messageContent, setMessageContent] = useState<string>('');
 
   const handleDiceRollEnd = (result: number) => {
     trainingCenter.dicePresenter.unMountView();
@@ -24,46 +30,82 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     setShowChoices(true);
   };
 
+  const handleDiceRollStart = () => {
+    setIsRolling(true);
+    setHideModal(true);
+  };
+
   return (
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Training Center</ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
-          <div className={'flex flex-col w-full'}>
+          <div className={'flex flex-col w-[600px]'}>
             {trainingCenter.charactersInside.map((character) => (
-              <Card key={character.id} radius={'lg'} className={'flex flex-col gap-1 w-[600px] p-2 mt-4 mb-4'}>
-                <CharacterStats character={character} />
-              </Card>
+              <ClickableCard
+                key={character.id}
+                character={character}
+                isSelected={selectedCharacter === character}
+                onSelect={() => {
+                  setSelectedCharacter(character);
+                }}
+              />
             ))}
           </div>
-          {!isRolling && (
-            <DiceComponent
-              className={'w-[50%] p-2 flex items-center justify-around'}
-              dicePresenter={trainingCenter.dicePresenter}
-              onRoll3DStart={() => {
-                setHideModal(true);
-                setIsRolling(true);
-              }}
-              onRoll3DEnd={() => {
-                handleDiceRollEnd(12);
-              }}
-            />
-          )}
-          {showChoices && (
-            <TrainingChoices
-              diceResult={diceResult}
-              onChoiceSelected={(choice) => {
-                setShowChoices(false);
-                trainingCenter.userChoice = choice;
-              }}
-            />
-          )}
+          <div className={`flex flex-col justify-between ${showMessage ? 'w-full': ''}`}>
+            {showMessage && (
+              <Card className="w-full m-auto text-center p-10">
+                <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
+                <CardBody className={'text-center'}>
+                  <p>{messageContent}</p>
+                </CardBody>
+              </Card>
+            )}
+            {showChoices && selectedCharacter && (
+              <TrainingChoiceCards
+                diceResult={diceResult}
+                trainingCenter={trainingCenter}
+                onChoiceSelected={(choice) => {
+                  setChoiceSelected(choice);
+                  setShowConfirm(true);
+                }}
+                character={selectedCharacter}
+                choiceSelected={choiceSelected}
+              />
+            )}
+            {selectedCharacter && !showMessage &&
+              (
+              <DiceComponent
+                className={`w-[50%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
+                dicePresenter={trainingCenter.dicePresenter}
+                onRoll3DStart={handleDiceRollStart}
+                onRoll3DEnd={() => {
+                  const random = Math.floor(Math.random() * 20);
+                  handleDiceRollEnd(random);
+                }}
+              />
+            )}
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
             Close
           </Button>
-          <Button color="primary">Action</Button>
+          {showConfirm && (
+            <Button color="primary" onClick={() => {
+              setShowChoices(false);
+              const rounds = choiceSelected?.rounds;
+              const stats = choiceSelected?.stats;
+              const message = `Your character will be training for ${rounds} rounds and will gain ${stats} stats.`;
+              setMessageContent(message);
+              setShowMessage(true);
+              trainingCenter.getEffect(selectedCharacter!, choiceSelected!);
+              setShowConfirm(false);
+            }}>
+              Confirm
+            </Button>
+          )}
+
         </ModalFooter>
       </ModalContent>
     </Modal>

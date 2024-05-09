@@ -10,9 +10,9 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({ character }) => 
   const stats = character.statistics;
 
   return (
-    <div className="w-full h-[300px]">
-      <div className="flex justify-between p-[10px] h-[80%] w-full">
-        <div className="flex flex-col w-1/3 h-[80%] gap-1 rounded-xl bg-case">
+    <div className={"w-full h-full"}>
+      <div className="flex justify-between p-[10px] h-full w-full">
+        <div className="flex flex-col w-1/3 h-full gap-1 rounded-xl bg-case">
           {character.image && (
             <img src={character.image} alt={character.name} className="w-[90%] h-[90%] object-cover rounded-t-xl self-center" />
           )}

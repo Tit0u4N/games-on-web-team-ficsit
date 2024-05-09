@@ -103,16 +103,15 @@ export class GameCorePresenter {
   nextRound() {
     this.gameModel.playRound();
 
-    this.buildingPresenter.trainingCenters.forEach((trainingCenter) => {
-      trainingCenter.trainingCenter.nextRound();
-    });
-
     const scene = this._babylonView.scene;
     const dicePresenter = new DicePresenter(scene);
     ModalManager.getInstance().openModal(dicePresenter);
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
+    this.buildingPresenter.trainingCenters.forEach((trainingCenter) => {
+      trainingCenter.trainingCenter.nextRound();
+    });
   }
 
   getCurrentRound() {
@@ -136,13 +135,14 @@ export class GameCorePresenter {
   }
 
   checkCharacterInBuilding(character: Character) {
-    // for each character in the game check if they are in a trainingCenter
     if (this.buildingPresenter === undefined) {
       return;
     }
     this.buildingPresenter.trainingCenters.forEach((building) => {
       if (building.isCharacterInBuilding(character)) {
         building.onCharacterEnter(character);
+      } else {
+        building.onCharacterExit(character);
       }
     });
   }
