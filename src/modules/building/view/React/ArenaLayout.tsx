@@ -32,7 +32,14 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
             <>
               <ModalBody>
                 <TournamentPreView tournament={arena.tournamentPresenter}></TournamentPreView>
-                <Button onClick={() => arena.startTournament()}>Start tournament</Button>
+                Your characters in arena: {arena.charactersInArena().size}
+                <Button
+                  onPress={() => {
+                    arena.startTournament();
+                  }}
+                  isDisabled={arena.charactersInArena().size === 0}>
+                  Start tournament
+                </Button>
               </ModalBody>
             </>
           )

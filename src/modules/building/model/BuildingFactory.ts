@@ -66,7 +66,7 @@ export class BuildingFactory {
           buildingPresenter,
           new ArenaModel(
             Math.random() > 0.5 ? summerSports : springSports,
-            getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING), //TODO replace position
+            { x, y: z, type: tempTileModel.type },
             'Arena ' + arenas.length,
           ),
           tournamentManagerPresenter,

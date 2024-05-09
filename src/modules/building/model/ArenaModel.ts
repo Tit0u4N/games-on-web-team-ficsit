@@ -1,5 +1,4 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
-import { Vector3 } from '@babylonjs/core';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { TypesTile } from '../../map/model/TileModel.ts';
 
