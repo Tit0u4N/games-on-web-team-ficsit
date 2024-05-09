@@ -6,7 +6,7 @@ import { config } from '../../../core/Interfaces.ts';
 import { Statistics } from '../../character/model/Statistics.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 import { ITile, TypesTile } from '../../map/model/TileModel.ts';
-import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoices.tsx';
+import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoiceCards.tsx';
 
 interface ICharacterEffect {
   character: Character;
@@ -17,7 +17,7 @@ interface ICharacterEffect {
 }
 
 export class TrainingCenterModel {
-  private static readonly DEFAULT_ROTATION: number = config.building.trainingCenterModel.defaultRotation;
+  private static readonly DEFAULT_ROTATION: number = config.building.model.trainingCenterModel.defaultRotation;
   private readonly _tileX: number;
   private readonly _tileY: number;
   private readonly mapPresenter: MapPresenter;
@@ -27,7 +27,6 @@ export class TrainingCenterModel {
   private _name: string;
   private readonly _dicePresenter: DicePresenter;
   private _charactersEffect!: ICharacterEffect[];
-  private _userChoice!: TrainingChoice;
   private _tile: ITile | undefined;
   private _charactersInside: Character[] = [];
 
@@ -178,18 +177,19 @@ export class TrainingCenterModel {
       characterEffect.rounds--;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
-        if (characterEffect.injured) characterEffect.character.attributes.injured = true;
         // for each sport stats add the stats to the character
         for (const sport of characterEffect.sports) {
           const statistic = new Map<Sport, number>();
           statistic.set(sport, characterEffect.stats);
           characterEffect.character.statistics.addStat(new Statistics(statistic));
         }
+      } else {
+        characterEffect.character.attributes.movement = 0;
+        characterEffect.character.attributes.injured = characterEffect.injured;
       }
     });
-    // remove all characters that have no more rounds and removing them from the training center
+    // remove all characters that have no more rounds
     this._charactersEffect = this._charactersEffect.filter((characterEffect) => characterEffect.rounds > 0);
-    this._charactersInside = this._charactersInside.filter((character) => this._charactersEffect.map((effect) => effect.character).includes(character));
     // Update the rotation value
     this.rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
@@ -203,16 +203,19 @@ export class TrainingCenterModel {
    * Adds a character to the training center and initializes their training effect.
    *
    * @param {Character} character - The character to be added to the training center.
+   * @param userChoice
    *
    * This function performs the following actions:
    * // TODO
    */
-  public getEffect(character: Character): void {
-    const rounds = this._userChoice.rounds;
-    const stats = this._userChoice.stats;
+  public getEffect(character: Character, userChoice: TrainingChoice): void {
+    const rounds = userChoice.rounds;
+    const stats = userChoice.stats;
     const sports: Sport[] = this._sports;
-    const injured = this._userChoice.injuredRisk > Math.random();
+    const injured = userChoice.injuredRisk > Math.random();
     this._charactersEffect.push({ character, sports, rounds, stats, injured });
+    character.attributes.movement = 0;
+    character.attributes.injured = injured;
   }
 
   get position(): Vector3 {
@@ -235,10 +238,6 @@ export class TrainingCenterModel {
     return this._dicePresenter;
   }
 
-  set userChoice(userChoice: TrainingChoice) {
-    this._userChoice = userChoice;
-  }
-
   get tile(): ITile | undefined {
     return this._tile;
   }
@@ -248,7 +247,15 @@ export class TrainingCenterModel {
     this._charactersInside.push(character);
   }
 
+  removeCharacter(character: Character): void {
+    this._charactersInside = this._charactersInside.filter((c) => c.id !== character.id);
+  }
+
   get charactersInside(): Character[] {
     return this._charactersInside;
+  }
+
+  get sports(): Sport[] {
+    return this._sports;
   }
 }

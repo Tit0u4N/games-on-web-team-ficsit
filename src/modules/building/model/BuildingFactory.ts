@@ -21,15 +21,15 @@ type BuildingFactoryOptions = {
 };
 
 export class BuildingFactory {
-  private static readonly MAX_ATTEMPTS = config.building.buildingFactory.maxAttempts;
+  private static readonly MAX_ATTEMPTS = config.building.model.buildingFactory.maxAttempts;
   private readonly options: BuildingFactoryOptions = {
     arena: {
-      number: config.building.buildingFactory.arena.numberOfBuildings,
-      spacing: config.building.buildingFactory.arena.spacing,
+      number: config.building.model.buildingFactory.arena.numberOfBuildings,
+      spacing: config.building.model.buildingFactory.arena.spacing,
     },
     trainingCenter: {
-      number: config.building.buildingFactory.trainingCenter.numberOfBuildings,
-      spacing: config.building.buildingFactory.trainingCenter.spacing,
+      number: config.building.model.buildingFactory.trainingCenter.numberOfBuildings,
+      spacing: config.building.model.buildingFactory.trainingCenter.spacing,
     },
   };
   private mapPresenter: MapPresenter;
@@ -52,7 +52,7 @@ export class BuildingFactory {
     let index: number = 0;
     while (
       index < BuildingFactory.MAX_ATTEMPTS &&
-      arenas.length < (this.options.arena?.number ?? config.building.buildingFactory.arena.numberOfBuildings)
+      arenas.length < (this.options.arena?.number ?? config.building.model.buildingFactory.arena.numberOfBuildings)
     ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -95,7 +95,7 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.arena?.spacing ?? config.building.buildingFactory.arena.spacing)) {
+      if (distance <= (this.options.arena?.spacing ?? config.building.model.buildingFactory.arena.spacing)) {
         return true; // Neighboring arena found
       }
     }
@@ -115,7 +115,7 @@ export class BuildingFactory {
     while (
       index < BuildingFactory.MAX_ATTEMPTS &&
       trainingCenters.length <
-        (this.options.trainingCenter?.number ?? config.building.buildingFactory.trainingCenter.numberOfBuildings)
+        (this.options.trainingCenter?.number ?? config.building.model.buildingFactory.trainingCenter.numberOfBuildings)
     ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -164,7 +164,7 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.trainingCenter?.spacing ?? config.building.buildingFactory.trainingCenter.spacing)) {
+      if (distance <= (this.options.trainingCenter?.spacing ?? config.building.model.buildingFactory.trainingCenter.spacing)) {
         return true; // Neighboring training center found
       }
     }

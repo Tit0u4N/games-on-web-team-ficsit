@@ -87,74 +87,91 @@
     }
   },
   "building": {
-    "buildingFactory": {
-      "maxAttempts": 100,
-      "arena": {
-        "numberOfBuildings": 5,
-        "spacing": 10
+    "model": {
+      "buildingFactory": {
+        "maxAttempts": 100,
+        "arena": {
+          "numberOfBuildings": 5,
+          "spacing": 10
+        },
+        "trainingCenter": {
+          "numberOfBuildings": 5,
+          "spacing": 10
+        }
       },
-      "trainingCenter": {
-        "numberOfBuildings": 5,
-        "spacing": 10
+      "trainingCenterModel": {
+        "defaultRotation": 8
       }
     },
-    "trainingCenterModel": {
-      "defaultRotation": 8,
-      "userChoices": {
-        "lowDiceScore":
-          [
-            {
-              "label": "Small improvement, short training (1 stat, 2 rounds)",
-              "stats": 1,
-              "rounds": 2
-            },
-            {
-              "label": "Slightly better improvement, longer training (2 stats, 3 rounds)",
-              "stats": 2,
-              "rounds": 3
-            },
-            {
-              "label": "Moderate improvement, extensive training (3 stats, 4 rounds)",
-              "stats": 3,
-              "rounds": 4
-            }
-          ],
-        "mediumDiceScore":
-        [
-          {
-            "label": "Moderate improvement, short training (4 stats, 1 round)",
-            "stats": 4,
-            "rounds": 1
-          },
-          {
-            "label": "Good improvement, moderate training (5 stats, 2 rounds)",
-            "stats": 5,
-            "rounds": 2
-          },
-          {
-            "label": "Very good improvement, longer training (6 stats, 3 rounds)",
-            "stats": 6,
-            "rounds": 3
+    "view": {
+      "trainingCenter": {
+        "trainingChoices": {
+          "userChoices": {
+            "lowDiceScore":
+            [
+              {
+                "label": "Small improvement, short training (1 stat, 2 rounds)",
+                "stats": 1,
+                "rounds": 2,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Slightly better improvement, longer training (2 stats, 3 rounds)",
+                "stats": 2,
+                "rounds": 3,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Moderate improvement, extensive training (3 stats, 4 rounds)",
+                "stats": 3,
+                "rounds": 4,
+                "image": "/vite.svg"
+              }
+            ],
+            "mediumDiceScore":
+            [
+              {
+                "label": "Moderate improvement, short training (4 stats, 1 round)",
+                "stats": 4,
+                "rounds": 1,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Good improvement, moderate training (5 stats, 2 rounds)",
+                "stats": 5,
+                "rounds": 2,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Very good improvement, longer training (6 stats, 3 rounds)",
+                "stats": 6,
+                "rounds": 3,
+                "image": "/vite.svg"
+              }
+            ],
+            "highDiceScore":
+            [
+              {
+                "label": "Excellent improvement, short training (7 stats, 1 round)",
+                "stats": 7,
+                "rounds": 1,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Outstanding improvement, moderate training (8 stats, 2 rounds)",
+                "stats": 8,
+                "rounds": 2,
+                "image": "/vite.svg"
+              },
+              {
+                "label": "Exceptional improvement, extensive training (9 stats, 3 rounds)",
+                "stats": 9,
+                "rounds": 3,
+                "image": "/vite.svg"
+              }
+            ]
           }
-        ],
-        "highDiceScore":
-        [
-          {
-            "label": "Excellent improvement, short training (7 stats, 1 round)",
-            "stats": 7,
-            "rounds": 1
-          },
-          {
-            "label": "Outstanding improvement, moderate training (8 stats, 2 rounds)",
-            "stats": 8,
-            "rounds": 2
-          },
-          {
-            "label": "Exceptional improvement, extensive training (9 stats, 3 rounds)",
-            "stats": 9,
-            "rounds": 3
-          }
-        ]
+        }
       }
     }
   },
