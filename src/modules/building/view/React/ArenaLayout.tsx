@@ -2,8 +2,8 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
-import { Bracketv1, BracketObject } from '../../../tournament/view/React/bracket/Bracketv1.tsx';
 import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
+import { Bracketv2 } from '../../../tournament/view/React/bracket/Bracketv2.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -26,7 +26,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
               // <div className="flex justify-center items-center h-[50%] w-full">
               //   <h1>No tournament</h1>
               // </div>
-              <Bracketv1 bracket={BracketObject.testBracket()} />
+              <Bracketv2 />
             )
           ) : (
             <>

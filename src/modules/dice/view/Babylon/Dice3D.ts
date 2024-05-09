@@ -20,7 +20,7 @@ export class Dice3D implements ViewInitable {
   private physics!: PhysicsAggregate;
   private camera!: TargetCamera;
   private observer!: Observer<Scene>;
-  private state: 'idle' | 'rolling' | 'rolled' = 'idle';
+  private state: 'idle' | 'rolling' | 'rolled' | 'fellOutOfBounds' = 'idle';
 
   constructor(scene: Scene, dicePresenter: DicePresenter) {
     this.scene = scene;
@@ -46,7 +46,9 @@ export class Dice3D implements ViewInitable {
     }
     const mesh = MeshBuilder.CreatePolyhedron('dice', { type: 3, size: 2, faceUV: faceUV }, this.scene);
     const material = new StandardMaterial('diceMaterial', this.scene);
-    material.diffuseTexture = new Texture('/textures/dice/numbers_4.png', this.scene);
+    material.diffuseTexture = new Texture('/textures/dice/numbers.png', this.scene);
+    material.emissiveTexture = new Texture('/textures/dice/numbers.png', this.scene);
+    material.emissiveTexture.level = 0.5;
     mesh.material = material;
 
     return mesh;
@@ -59,6 +61,9 @@ export class Dice3D implements ViewInitable {
         this.physics.body.getAngularVelocity().length() < 0.1
       ) {
         this.state = 'rolled';
+        this.scene.onBeforeRenderObservable.remove(this.observer);
+      } else if (this.mesh.position.y < -10) {
+        this.state = 'fellOutOfBounds';
         this.scene.onBeforeRenderObservable.remove(this.observer);
       }
     });
@@ -159,7 +164,7 @@ export class Dice3D implements ViewInitable {
   async waitForDiceToRoll() {
     return new Promise((resolve) => {
       const checkDiceState = () => {
-        if (this.state === 'rolled') {
+        if (this.state === 'rolled' || this.state === 'fellOutOfBounds') {
           resolve(null);
         } else {
           setTimeout(checkDiceState, 100); // Vérifie l'état toutes les 100 millisecondes
@@ -174,6 +179,13 @@ export class Dice3D implements ViewInitable {
     this.state = 'rolling';
 
     await this.waitForDiceToRoll();
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    if (this.state === 'fellOutOfBounds') {
+      console.log('Dice fell out of bounds');
+      return -1;
+    }
     return this.getDiceValue();
   }
 }
