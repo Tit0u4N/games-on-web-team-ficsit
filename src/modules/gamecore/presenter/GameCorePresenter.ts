@@ -32,6 +32,7 @@ export class GameCorePresenter {
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
   }
+
   /* Application management*/
 
   public getStatus() {
@@ -132,5 +133,17 @@ export class GameCorePresenter {
 
   public getMapLimits(): MapLimits {
     return this._mapPresenter.view.getLimitXYZ();
+  }
+
+  checkCharacterInBuilding(character: Character) {
+    // for each character in the game check if they are in a trainingCenter
+    if (this.buildingPresenter === undefined) {
+      return;
+    }
+    this.buildingPresenter.trainingCenters.forEach((building) => {
+      if (building.isCharacterInBuilding(character)) {
+        building.onCharacterEnter(character);
+      }
+    });
   }
 }

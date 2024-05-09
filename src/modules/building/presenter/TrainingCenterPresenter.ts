@@ -5,6 +5,7 @@ import { TrainingCenterView } from '../view/Babylon/TrainingCenterView.ts';
 import React from 'react';
 import { TrainingCenterLayout, TrainingCenterLayoutProps } from '../view/React/TrainingCenterLayout.tsx';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
+import { Character } from '../../character/model/Character.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;
@@ -52,5 +53,15 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
 
   unMountView(): void {
     this._trainingCenterView.unMountView();
+  }
+
+  isCharacterInBuilding(character: Character) {
+    const characterTile = character.tile;
+    const trainingCenterTile = this.trainingCenter.tile;
+    return characterTile?.x === trainingCenterTile?.x && characterTile?.y === trainingCenterTile?.y;
+  }
+
+  onCharacterEnter(character: Character) {
+    this.trainingCenter.addCharacter(character);
   }
 }
