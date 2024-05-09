@@ -5,16 +5,23 @@ import { ViewInitable } from '../../../core/Interfaces.ts';
 import { ArenaPresenter } from './ArenaPresenter.ts';
 import { TrainingCenterPresenter } from './TrainingCenterPresenter.ts';
 import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
+import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
 
 export class BuildingPresenter implements ViewInitable {
+  private readonly _gameCorePresenter: GameCorePresenter;
   private _arenasPresenter: ArenaPresenter[] = [];
   private _trainingCenterPresenter: TrainingCenterPresenter[] = [];
   private buildingFactory: BuildingFactory;
   private _scene!: Scene;
 
-  constructor(mapPresenter: MapPresenter, _tournamentManagerPresenter: TournamentManagerPresenter) {
+  constructor(
+    _gameCorePresenter: GameCorePresenter,
+    mapPresenter: MapPresenter,
+    _tournamentManagerPresenter: TournamentManagerPresenter,
+  ) {
+    this._gameCorePresenter = _gameCorePresenter;
     this.buildingFactory = new BuildingFactory(mapPresenter);
-    this._arenasPresenter = this.buildingFactory.createArenas(_tournamentManagerPresenter);
+    this._arenasPresenter = this.buildingFactory.createArenas(this, _tournamentManagerPresenter);
     this._trainingCenterPresenter = this.buildingFactory.createTrainingCenters();
   }
 
@@ -26,6 +33,10 @@ export class BuildingPresenter implements ViewInitable {
     this._trainingCenterPresenter.forEach((trainingCenterPresenter) => {
       trainingCenterPresenter.initView(scene);
     });
+  }
+
+  get gameCorePresenter(): GameCorePresenter {
+    return this._gameCorePresenter;
   }
 
   get arenas(): ArenaPresenter[] {

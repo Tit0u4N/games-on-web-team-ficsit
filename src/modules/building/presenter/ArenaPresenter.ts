@@ -9,21 +9,28 @@ import { TournamentManagerPresenter } from '../../tournament/presenter/Tournamen
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
 import { TournamentDifficulty } from '../../tournament/model/TournamentDifficulty.ts';
+import { BuildingPresenter } from './BuildingPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arena: ArenaModel;
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private readonly _difficulty: TournamentDifficulty;
-  private _arenaView: ArenaView;
+  private readonly _buildingPresenter: BuildingPresenter;
+  private readonly _arenaView: ArenaView;
   private _modalIsOpen: boolean;
   private _tournamentPresenter!: TournamentPresenter;
 
-  constructor(arena: ArenaModel, tournamentManagerPresenter: TournamentManagerPresenter) {
+  constructor(
+    buildingPresenter: BuildingPresenter,
+    arena: ArenaModel,
+    tournamentManagerPresenter: TournamentManagerPresenter,
+  ) {
     this._arena = arena;
     this._arenaView = new ArenaView(this);
     this._modalIsOpen = false;
     this._tournamentManagerPresenter = tournamentManagerPresenter;
     this._difficulty = TournamentManagerPresenter.generateDifficulty();
+    this._buildingPresenter = buildingPresenter;
   }
 
   initView(scene: Scene) {
@@ -77,5 +84,10 @@ export class ArenaPresenter implements ViewInitable, Reactable {
 
   get tournamentPresenter(): TournamentPresenter {
     return this._tournamentPresenter;
+  }
+
+  public startTournament(): void {
+    const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
+    this._tournamentPresenter.startTournament([...characters]);
   }
 }

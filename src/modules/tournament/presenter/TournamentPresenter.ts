@@ -33,6 +33,10 @@ export class TournamentPresenter {
     return this._tournamentManagerPresenter;
   }
 
+  get isTournamentStarted(): boolean {
+    return this._tournamentModel.isTournamentStarted;
+  }
+
   startTournament(presentCharacters: Character[]) {
     const participants = this._tournamentManagerPresenter.generateNPCs(
       presentCharacters,
@@ -46,5 +50,9 @@ export class TournamentPresenter {
     }
     this.tournamentModel.characters = participantsShuffle;
     this.tournamentModel.initTournament();
+  }
+
+  get isInPool() {
+    return this._tournamentModel.isInPool;
   }
 }
