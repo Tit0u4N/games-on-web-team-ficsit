@@ -80,9 +80,8 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
                 className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
                 dicePresenter={trainingCenter.dicePresenter}
                 onRoll3DStart={handleDiceRollStart}
-                onRoll3DEnd={() => {
-                  const random = Math.floor(Math.random() * 20);
-                  handleDiceRollEnd(random);
+                onRoll3DEnd={(value: number | undefined) => {
+                  handleDiceRollEnd(value!);
                 }}
               />
             )}

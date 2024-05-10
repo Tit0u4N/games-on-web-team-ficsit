@@ -8,7 +8,7 @@ export interface DiceComponentProps {
   diceValues?: number[];
   className?: string;
   onRoll3DStart?: () => void;
-  onRoll3DEnd?: () => void;
+  onRoll3DEnd?: (value?: number) => void;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({

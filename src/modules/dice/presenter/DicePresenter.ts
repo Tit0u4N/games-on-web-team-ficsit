@@ -18,7 +18,7 @@ export class DicePresenter implements Reactable, ViewInitable {
   private _is3DMod: boolean = true;
 
   private _onRoll3DStart: () => void = () => {};
-  private _onRoll3DEnd: () => void = () => {};
+  private _onRoll3DEnd: (value?: number) => void = () => {};
 
   private _rollDiceFunc2D!: (finalValue: number, nbRolls?: number) => Promise<void>;
   private _rollDiceFunc3D!: () => Promise<number>;
@@ -55,7 +55,7 @@ export class DicePresenter implements Reactable, ViewInitable {
       } else {
         this.model.finalValue = value;
       }
-      this._onRoll3DEnd();
+      this._onRoll3DEnd(this.model.finalValue);
     } else {
       await this._rollDiceFunc2D(this.model.getRandDiceValue());
     }
