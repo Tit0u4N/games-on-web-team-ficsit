@@ -1,6 +1,6 @@
 import { Scene, Vector3 } from '@babylonjs/core';
 import { Sport } from '../../../core/singleton/Sport.ts';
-import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
+import { DiceHandler, DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { Character } from '../../character/model/Character.ts';
 import { config } from '../../../core/Interfaces.ts';
 import { Statistics } from '../../character/model/Statistics.ts';
@@ -16,7 +16,7 @@ interface ICharacterEffect {
   injured: boolean;
 }
 
-export class TrainingCenterModel {
+export class TrainingCenterModel implements DiceHandler {
   private static readonly DEFAULT_ROTATION: number = config.building.model.trainingCenterModel.defaultRotation;
   private readonly _tileX: number;
   private readonly _tileY: number;
@@ -29,6 +29,7 @@ export class TrainingCenterModel {
   private _charactersEffect!: ICharacterEffect[];
   private _tile: ITile | undefined;
   private _charactersInside: Character[] = [];
+  private _diceScore!: number;
 
   /**
    * Creates a new instance of the TrainingCenterModel class.
@@ -44,11 +45,15 @@ export class TrainingCenterModel {
     this._tileX = tileX;
     this._tileY = tileY;
     this.mapPresenter = mapPresenter;
-    this._dicePresenter = new DicePresenter(scene);
+    this._dicePresenter = new DicePresenter(scene, this);
     this._position = position;
     this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
     this._name = name;
     this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
+  }
+
+  handleRollDice(diceValue: number): void {
+    this._diceScore = diceValue;
   }
 
   /**
@@ -257,5 +262,9 @@ export class TrainingCenterModel {
 
   get sports(): Sport[] {
     return this._sports;
+  }
+
+  get diceScore(): number {
+    return this._diceScore;
   }
 }
