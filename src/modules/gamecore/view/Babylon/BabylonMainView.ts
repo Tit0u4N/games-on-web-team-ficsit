@@ -129,7 +129,6 @@ export class BabylonMainView {
   createLight(): DirectionalLight | HemisphericLight {
     let light: DirectionalLight | HemisphericLight;
     if (GameOptions.instance.shadows) {
-      console.log('shadow enabled');
       light = new DirectionalLight('sunLight', new Vector3(-1, -1, -1), this.scene);
       light.position = new Vector3(0, 80, 0);
       light.shadowEnabled = true;

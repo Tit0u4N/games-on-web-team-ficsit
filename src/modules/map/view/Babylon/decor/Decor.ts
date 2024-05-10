@@ -1,6 +1,7 @@
 import { Matrix, Mesh, Scene, Vector3 } from '@babylonjs/core';
 import { ViewInitable } from '@/core/Interfaces.ts';
 import { importModel, ImportModelOptions } from '@/core/ModelImporter.ts';
+import { GameOptions } from '@/core/GameOptions.ts';
 
 export type DecorMeshOptions = {
   scale?: Vector3 | number;
@@ -86,6 +87,7 @@ export class Decor implements IDecor {
 
   private applyOptions() {
     if (!this.mesh) throw new Error('Mesh not loaded');
+    if (GameOptions.instance.shadows) this.mesh.receiveShadows = true;
     this.applyScale();
     this.applyPosition();
     this.applyRotation();
