@@ -57,7 +57,7 @@ export const TrainingChoiceCards: React.FC<Props> = ({
 
   const choices = getChoices(diceResult);
   return (
-    <div className="flex flex-row gap-4 h-[50%]">
+    <div className="flex flex-row gap-4 h-[70%]">
       {choices.map((choice, index) => (
         <div onClick={() =>
           onChoiceSelected(choice)
