@@ -6,8 +6,13 @@ import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
 import React from 'react';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
+export interface DiceHandler {
+  handleRollDice(diceValue: number): void;
+}
+
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
+  private diceHandler: DiceHandler;
   private viewBabylon!: Dice3D;
   private viewReact!: typeof DiceComponent;
   private _is3DMod: boolean = true;
@@ -19,8 +24,9 @@ export class DicePresenter implements Reactable, ViewInitable {
   private _rollDiceFunc3D!: () => Promise<number>;
   private state: 'idle' | 'rolling' | 'rolled' = 'idle';
 
-  constructor(scene: Scene) {
+  constructor(scene: Scene, diceHandler: DiceHandler) {
     this.model = new DiceModel();
+    this.diceHandler = diceHandler;
     this.initView(scene);
   }
 
@@ -38,12 +44,17 @@ export class DicePresenter implements Reactable, ViewInitable {
     this._is3DMod = !this._is3DMod;
   }
 
-  async rollDice(): Promise<number> {
+  async rollDice(): Promise<void> {
     this.state = 'rolling';
     ModalManager.getInstance().lock();
     if (this._is3DMod) {
       this._onRoll3DStart();
-      this.model.finalValue = await this._rollDiceFunc3D();
+      const value = await this._rollDiceFunc3D();
+      if (value === -1) {
+        this.model.getRandDiceValue();
+      } else {
+        this.model.finalValue = value;
+      }
       this._onRoll3DEnd();
     } else {
       await this._rollDiceFunc2D(this.model.getRandDiceValue());
@@ -51,7 +62,7 @@ export class DicePresenter implements Reactable, ViewInitable {
     ModalManager.getInstance().unlock();
     this.state = 'rolled';
     console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
-    return this.model.finalValue;
+    this.diceHandler.handleRollDice(this.model.finalValue);
   }
 
   initView(scene: Scene): void {

@@ -12,11 +12,11 @@ export interface DiceComponentProps {
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
-  dicePresenter,
-  className = '',
-  onRoll3DStart = () => {},
-  onRoll3DEnd = () => {},
-}) => {
+                                                              dicePresenter,
+                                                              className = '',
+                                                              onRoll3DStart = () => {},
+                                                              onRoll3DEnd = () => {},
+                                                            }) => {
   const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
   const [rollDice2DIsHidden, setRollDice2DIsHidden] = useState(true);
