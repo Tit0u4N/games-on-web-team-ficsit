@@ -9,14 +9,13 @@ interface TrainingChoiceCardProps {
   trainingCenter: TrainingCenterModel;
 }
 
-export const TrainingChoiceCard: React.FC<TrainingChoiceCardProps> = ({ choice, isSelected, trainingCenter}) => {
+export const TrainingChoiceCard: React.FC<TrainingChoiceCardProps> = ({ choice, isSelected, trainingCenter }) => {
   const cardClassName = `w-full h-full ${isSelected ? 'opacity-100' : 'opacity-50'}`;
   return (
     <Card className={cardClassName}>
       <CardHeader className={'flex flex-col'}>
-        {/* Replace this with the actual image component */}
         <div>
-        <img src={choice.image} alt={choice.label} className="w-full h-32 object-cover" />
+          <img src={choice.image} alt={choice.label} className="w-full h-32 object-cover" />
         </div>
         <div className="text-center text-xl font-semibold mt-2">{choice.label}</div>
       </CardHeader>

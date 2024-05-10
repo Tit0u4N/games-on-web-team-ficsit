@@ -44,6 +44,8 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
             {trainingCenter.charactersInside.map((character) => (
               <ClickableCard
                 key={character.id}
+                trainingCenter={trainingCenter}
+                choice={choiceSelected}
                 character={character}
                 isSelected={selectedCharacter === character}
                 onSelect={() => {
@@ -52,7 +54,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               />
             ))}
           </div>
-          <div className={`flex flex-col justify-between ${showMessage ? 'w-full': ''}`}>
+          <div className={`flex flex-col justify-between ${(showMessage || diceResult == null) ? 'w-full' : ''}  ${diceResult == null ? 'mt-auto' : ''}`}>
             {showMessage && (
               <Card className="w-full m-auto text-center p-10">
                 <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
@@ -73,10 +75,9 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
                 choiceSelected={choiceSelected}
               />
             )}
-            {selectedCharacter && !showMessage &&
-              (
+            {selectedCharacter && !showMessage && (
               <DiceComponent
-                className={`w-[50%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
+                className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
                 dicePresenter={trainingCenter.dicePresenter}
                 onRoll3DStart={handleDiceRollStart}
                 onRoll3DEnd={() => {
@@ -105,7 +106,6 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               Confirm
             </Button>
           )}
-
         </ModalFooter>
       </ModalContent>
     </Modal>

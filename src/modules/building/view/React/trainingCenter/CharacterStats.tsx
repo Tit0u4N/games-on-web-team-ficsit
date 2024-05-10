@@ -1,12 +1,16 @@
 import React from 'react';
 import { Character } from '../../../../character/model/Character.ts';
 import { Divider } from '@nextui-org/react';
+import { TrainingChoice } from './TrainingChoiceCards.tsx';
+import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 
 interface CharacterStatsProps {
   character: Character;
+  trainingCenter: TrainingCenterModel | null;
+  choice: TrainingChoice | null;
 }
 
-export const CharacterStats: React.FC<CharacterStatsProps> = ({ character }) => {
+export const CharacterStats: React.FC<CharacterStatsProps> = ({ character, trainingCenter, choice }) => {
   const stats = character.statistics;
 
   return (
@@ -23,6 +27,9 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({ character }) => 
           {Array.from(stats.entries()).map(([sport, value]) => (
             <div key={sport.name}>
               {sport.name}: {value}
+              {trainingCenter?.sports.includes(sport) && choice !== null && (
+                <span className="text-green-500">{' + ' + choice.stats}</span>
+              )}
             </div>
           ))}
         </div>
@@ -30,3 +37,4 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({ character }) => 
     </div>
   );
 };
+
