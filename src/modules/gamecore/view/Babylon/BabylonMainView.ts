@@ -1,18 +1,14 @@
 import {
   ArcRotateCamera,
   Camera,
-  CascadedShadowGenerator,
   DirectionalLight,
   Engine,
   EngineOptions,
   FreeCamera,
   HavokPlugin,
   HemisphericLight,
-  Light,
   Scene,
   SceneOptions,
-  ShadowGenerator,
-  ShadowLight,
   Vector3,
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
