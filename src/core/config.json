@@ -211,9 +211,9 @@
       },
       "rocks": {
         "low": 0,
-        "medium": 0,
-        "high": 0,
-        "ultra": 0
+        "medium": 3,
+        "high": 5,
+        "ultra": 7
       }
     }
   }

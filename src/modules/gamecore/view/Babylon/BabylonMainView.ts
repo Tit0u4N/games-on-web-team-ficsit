@@ -137,7 +137,6 @@ export class BabylonMainView {
       light.shadowMinZ = -180;
       light.shadowMaxZ = 260;
     } else {
-      console.log('shadow disabled');
       // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
       light = new HemisphericLight(
         'light',
