@@ -238,6 +238,7 @@ interface IModifiableOptions {
     trees: OptionLevel;
     rocks: OptionLevel;
   };
+}
 
 interface ISportConfig {
   all: { name: string; icon: string; description: string; seasons: string[] }[];

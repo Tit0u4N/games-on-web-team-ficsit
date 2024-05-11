@@ -1,8 +1,8 @@
 import React from 'react';
 import { Inventory } from '@inventory/model/Inventory.ts';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import { ModalType } from '@gamecore/view/React/GameView.tsx';
 import { InventoryLayout } from './InventoryLayout.tsx';
+import { ModalType } from '@gamecore/view/React/GameView.tsx';
 
 export interface InventoryModalProps {
   inventories: Inventory[];

@@ -1,12 +1,7 @@
 [
   {
     "gearId": "1",
-    "allEquipments": [
-      1,
-      2,
-      3,
-      4
-    ],
+    "allEquipments": [1, 2, 3, 4],
     "statsIncrease": [
       {
         "sport": "SKI",
@@ -20,12 +15,7 @@
   },
   {
     "gearId": "2",
-    "allEquipments": [
-      6,
-      7,
-      8,
-      9
-    ],
+    "allEquipments": [6, 7, 8, 9],
     "statsIncrease": [
       {
         "sport": "BASEBALL",
@@ -35,12 +25,7 @@
   },
   {
     "gearId": "3",
-    "allEquipments": [
-      11,
-      12,
-      13,
-      14
-    ],
+    "allEquipments": [11, 12, 13, 14],
     "statsIncrease": [
       {
         "sport": "SOCCER",
@@ -50,12 +35,7 @@
   },
   {
     "gearId": "4",
-    "allEquipments": [
-      16,
-      5,
-      10,
-      15
-    ],
+    "allEquipments": [16, 5, 10, 15],
     "statsIncrease": [
       {
         "sport": "SKI",
