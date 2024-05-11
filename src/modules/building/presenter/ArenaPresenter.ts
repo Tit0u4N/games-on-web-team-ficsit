@@ -19,7 +19,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arenaView: ArenaView;
   private _modalIsOpen: boolean;
   private _tournamentPresenter!: TournamentPresenter;
-  private _updateView: () => void;
 
   constructor(
     buildingPresenter: BuildingPresenter,
@@ -32,7 +31,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     this._tournamentManagerPresenter = tournamentManagerPresenter;
     this._difficulty = TournamentManagerPresenter.generateDifficulty();
     this._buildingPresenter = buildingPresenter;
-    this._updateView = () => {};
   }
 
   initView(scene: Scene) {
@@ -95,10 +93,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   public startTournament(): void {
     const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
     this._tournamentPresenter.startTournament([...characters]);
-    this._updateView();
-  }
-
-  setUpdateView(param: () => void) {
-    this._updateView = param;
+    ModalManager.getInstance().updateCurrentModal();
   }
 }

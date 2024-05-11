@@ -4,6 +4,7 @@ import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
 import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
 import { BracketObject, Bracketv1 } from '../../../tournament/view/React/bracket/Bracketv1.tsx';
+import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -12,22 +13,18 @@ export interface ArenaLayoutProps {
 }
 
 export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose }) => {
-  const [hideModal, setHideModal] = React.useState<boolean>(false);
-  const [isInPool, setIsInPool] = React.useState<boolean>(false);
-  const [isTournamentStarted, setIsTournamentStarted] = React.useState<boolean>(false);
+  const [, handle] = React.useState(true);
+  ModalManager.getInstance().modalUpdaterHandler = handle;
 
-  arena.setUpdateView(() => {
-    setIsInPool(arena.tournamentPresenter.isInPool);
-    setIsTournamentStarted(arena.tournamentPresenter.isTournamentStarted);
-  });
+  const [hideModal, setHideModal] = React.useState<boolean>(false);
 
   return (
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className={'h-[80%] w-[80%] max-w-full'}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.hasTournament() ? (
-          isTournamentStarted ? (
-            isInPool ? (
+          arena.tournamentPresenter.isTournamentStarted ? (
+            arena.tournamentPresenter.isInPool ? (
               <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />
             ) : (
               // <div className="flex justify-center items-center h-[50%] w-full">
