@@ -238,6 +238,21 @@ interface IModifiableOptions {
     trees: OptionLevel;
     rocks: OptionLevel;
   };
+
+interface ISportConfig {
+  all: { name: string; icon: string; description: string; seasons: string[] }[];
+}
+
+interface ISeasonConfig {
+  all: { name: string; icon: string }[];
+}
+
+interface IStatisticsConfig {
+  setDefaultStats: boolean;
+}
+
+interface IUsableObjectConfig {
+  basePath: string;
 }
 
 interface IConfig {
@@ -246,6 +261,10 @@ interface IConfig {
   buildings: IBuildingsConfig;
   map: IMapConfig;
   modifiableOptions: IModifiableOptions;
+  sports: ISportConfig;
+  seasons: ISeasonConfig;
+  statistics: IStatisticsConfig;
+  usableObject: IUsableObjectConfig;
 }
 
 export const config: IConfig = configJson;

@@ -1,21 +1,22 @@
 import { SportType } from '@sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
 import { Character } from 'data-structure-typed';
+import { Sport } from '../../../core/singleton/Sport.ts';
 
 export class TrainingCenterModel {
   private static readonly DEFAULT_ROTATION: number = 5;
-  private _sportType: SportType[];
-  private _actualSport: SportType;
+  private _sports: Sport[];
+  private _actualSport: Sport;
   private rotation: number;
   private _position: Vector3;
   private _name: string;
   private _character!: Character;
 
-  constructor(sportType: SportType[], position: Vector3, name: string) {
-    this._sportType = sportType;
+  constructor(sportType: Sport[], position: Vector3, name: string) {
+    this._sports = sportType;
     this._position = position;
     this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
-    this._actualSport = this._sportType[0];
+    this._actualSport = this._sports[0];
     this._name = name;
   }
 
@@ -24,17 +25,9 @@ export class TrainingCenterModel {
       this.rotation--;
     } else {
       this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
-      const index = this._sportType.indexOf(this._actualSport);
-      this._actualSport = this._sportType[(index + 1) % this._sportType.length];
+      const index = this._sports.indexOf(this._actualSport);
+      this._actualSport = this._sports[(index + 1) % this._sports.length];
     }
-  }
-
-  get sportType(): SportType[] {
-    return this._sportType;
-  }
-
-  set sportType(sportType: SportType[]) {
-    this._sportType = sportType;
   }
 
   get position(): Vector3 {

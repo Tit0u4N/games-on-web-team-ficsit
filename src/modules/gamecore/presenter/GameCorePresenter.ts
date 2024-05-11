@@ -13,6 +13,7 @@ import { DicePresenter } from '@dice/presenter/DicePresenter.ts';
 import { ModalManager } from '@/core/ModalManager.ts';
 import { MapLimits } from '@map/view/Babylon/MapView.ts';
 
+
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
   private status: ApplicationStatus;

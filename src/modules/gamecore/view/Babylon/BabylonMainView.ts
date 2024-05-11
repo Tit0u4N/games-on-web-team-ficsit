@@ -32,6 +32,9 @@ const DEFAULT_OPTIONS: Readonly<BabylonMainViewOptions> = {
   sceneOptions: {},
 };
 
+/**
+ * This class represents the main Babylon.js view, handling the engine, scene, camera, and input initialization.
+ */
 export class BabylonMainView {
   private readonly _gameCorePresenter: GameCorePresenter;
   private _options: BabylonMainViewOptions;
@@ -41,11 +44,21 @@ export class BabylonMainView {
   private _camera!: ArcRotateCamera;
   private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
 
+  /**
+   * Creates a new instance of the BabylonMainView class.
+   * @param gameCorePresenter - The GameCorePresenter instance.
+   * @param options - The BabylonMainViewOptions object containing optional configuration properties.
+   */
   constructor(gameCorePresenter: GameCorePresenter, options?: BabylonMainViewOptions) {
     this._gameCorePresenter = gameCorePresenter;
     this._options = { ...DEFAULT_OPTIONS, ...options };
   }
 
+  /**
+   * Initializes the Babylon.js engine, scene, and physics.
+   * @param canvas - The HTMLCanvasElement where the Babylon.js scene will be rendered.
+   * @returns A Promise that resolves when the initialization is complete.
+   */
   async init(canvas: HTMLCanvasElement): Promise<void> {
     this._canvas = canvas;
     if (!this._canvas) throw new Error('Canvas not found');
@@ -70,6 +83,9 @@ export class BabylonMainView {
     );
   }
 
+  /**
+   * Callback function to be executed when the scene is ready.
+   */
   onSceneReady(): void {
     if (debugConfig.activateDevCamera) {
       this.devCamera();
@@ -78,6 +94,9 @@ export class BabylonMainView {
     }
   }
 
+  /**
+   * Initializes the game camera and attaches keyboard inputs.
+   */
   private gameCamera(): void {
     // This creates and positions a free camera (non-mesh)
     this._camera = new ArcRotateCamera(
@@ -178,13 +197,18 @@ export class BabylonMainView {
     camera.attachControl(canvas, true);
   }
 
+  /**
+   * Callback function to be executed on each frame render.
+   */
   onRender(): void {
+    // This will resize the canvas when the window is resized
     const resizeWatcher = new ResizeObserver(() => {
       this._engine.resize();
     });
     resizeWatcher.observe(this._canvas);
   }
 
+  // ... (getters and setters)
   get engine(): Engine {
     return this._engine;
   }
