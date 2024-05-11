@@ -8,6 +8,7 @@ import EventLayout from '@event/view/React/EventLayout.tsx';
 import { Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/ModalManager.ts';
 
+
 interface GameViewProps {
   presenter: GameCorePresenter;
 }

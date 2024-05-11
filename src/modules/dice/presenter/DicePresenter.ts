@@ -6,6 +6,7 @@ import { Reactable, ViewInitable } from '@/core/Interfaces.ts';
 import React from 'react';
 import { ModalManager } from '@/core/ModalManager.ts';
 
+
 export class DicePresenter implements Reactable, ViewInitable {
   private model: DiceModel;
   private viewBabylon!: Dice3D;

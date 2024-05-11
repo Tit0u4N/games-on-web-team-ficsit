@@ -2,6 +2,10 @@ import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babyl
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { config, debugConfig } from '@/core/Interfaces.ts';
 
+/**
+ * This class represents the keyboard input controls for the ArcRotateCamera in the Babylon.js engine.
+ * It handles camera movement, zooming, and rotation based on user key presses.
+ */
 export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCamera> {
   private _keys: string[] = [];
   public _keysUp: string[] = config.arcRotateCameraKeyboardInputs.controls.keys.keysUp;
@@ -18,18 +22,27 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
   private _currentHeightPosition: number = config.arcRotateCameraKeyboardInputs.config.defaultPositionHeight;
   private _currentHeightTarget: number = config.arcRotateCameraKeyboardInputs.config.defaultTargetHeight;
 
+  /**
+   * Creates a new instance of the ArcRotateCameraKeyboardInputs class.
+   * @param camera - The ArcRotateCamera instance to control.
+   * @param gameCorePresenter - The GameCorePresenter instance.
+   */
   constructor(camera: ArcRotateCamera, gameCorePresenter: GameCorePresenter) {
     this.camera = camera;
     this._gameCorePresenter = gameCorePresenter;
   }
 
+  /**
+   * Attaches the keyboard input controls to the camera.
+   * @param noPreventDefault - If set to true, the default behavior of the keyboard events won't be prevented.
+   */
   public attachControl(noPreventDefault?: boolean): void {
     const _this = this;
     const engine = this.camera!.getEngine();
     const element = engine.getInputElement();
     if (!this._onKeyDown) {
       element!.tabIndex = 1;
-      this._onKeyDown = function (evt) {
+      this._onKeyDown = function(evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index === -1) {
@@ -40,7 +53,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           }
         }
       };
-      this._onKeyUp = function (evt) {
+      this._onKeyUp = function(evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {
@@ -53,17 +66,44 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
-      element!.addEventListener('keypress', function (evt) {
+      element!.addEventListener('keypress', function(evt) {
         if (config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition.indexOf(evt.key) !== -1) {
           _this.resetPositionCamera();
         }
       });
-      element!.addEventListener('blur', function () {
+      element!.addEventListener('blur', function() {
         _this._keys = [];
+      });
+      // Add event listener for mouse wheel
+      element!.addEventListener('wheel', function(evt) {
+        _this.onMouseWheel(evt);
       });
     }
   }
 
+  /**
+   * Handles the mouse wheel event for zooming in and out.
+   * @param evt - The WheelEvent object containing the mouse wheel event data.
+   */
+  private onMouseWheel(evt: WheelEvent) {
+    // Prevent the default behavior of the wheel event
+    evt.preventDefault();
+    // Zoom in when the wheel is scrolled upwards
+    if (evt.deltaY < 0) {
+      this.zoomIn();
+    }
+    // Zoom out when the wheel is scrolled downwards
+    else if (evt.deltaY > 0) {
+      this.zoomOut();
+    }
+  }
+
+  /**
+   * Checks if the pressed key is a camera movement key.
+   * @param _this - The ArcRotateCameraKeyboardInputs instance.
+   * @param evt - The KeyboardEvent object containing the key press event data.
+   * @returns A boolean indicating whether the pressed key is a camera movement key.
+   */
   static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
     if (debugConfig.logs.arcRotateCameraKeyboardInputs.isCameraMoveKey)
       console.log(
@@ -86,6 +126,9 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     );
   }
 
+  /**
+   * Checks and processes the user's keyboard input for camera movement.
+   */
   public checkInputs(): void {
     if (this._onKeyDown && this._activeMove) {
       if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkInputs)
@@ -123,24 +166,40 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     }
   }
 
+  /**
+   * Checks the user's key press and updates the camera's local direction accordingly.
+   * @param keyCode - The key code of the pressed key.
+   * @param localDirection - The local direction of the camera.
+   * @param speed - The camera's movement speed.
+   */
   private checkKeyInput(keyCode: string, localDirection: Vector3, speed: number) {
     if (this._keysLeft.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
+        console.log('_keysLeft', keyCode, this.camera!.target, this.camera!.position);
       localDirection.copyFromFloats(-speed, 0, 0);
     } else if (this._keysRight.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
+        console.log('_keysRight', keyCode, this.camera!.target, this.camera!.position);
       localDirection.copyFromFloats(speed, 0, 0);
     } else if (this._keysUp.indexOf(keyCode) !== -1) {
       if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
         console.log('keyUp', keyCode, this.camera!.target, this.camera!.position);
       localDirection.copyFromFloats(0, speed, speed);
     } else if (this._keysDown.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
+        console.log('_keysDown', keyCode, this.camera!.target, this.camera!.position);
       localDirection.copyFromFloats(0, -speed, -speed);
     } else if (this._keysZoomIn.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
+        console.log('_keysZoomIn', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, speed));
       if (newTargetPosition.y >= config.arcRotateCameraKeyboardInputs.config.maxYZoomIn) {
         localDirection.copyFromFloats(0, 0, speed * 2);
         this.checkTargetIsWithinMapLimits(newTargetPosition);
       }
     } else if (this._keysZoomOut.indexOf(keyCode) !== -1) {
+      if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
+        console.log('_keysZoomOut', keyCode, this.camera!.target, this.camera!.position);
       const newTargetPosition = this.camera!.target.add(new Vector3(0, 0, -speed));
       if (newTargetPosition.y <= config.arcRotateCameraKeyboardInputs.config.maxYZoomOut) {
         localDirection.copyFromFloats(0, 0, -speed * 2);
@@ -149,6 +208,10 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     }
   }
 
+  /**
+   * Checks if the new target position is within the map limits.
+   * @param newTargetPosition - The new target position of the camera.
+   */
   private checkTargetIsWithinMapLimits(newTargetPosition: Vector3) {
     const mapLimits = this._gameCorePresenter.getMapLimits();
     const zoomAdjustment =
@@ -182,6 +245,13 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     }
   }
 
+  /**
+   * Checks if the camera movement is possible within the map limits.
+   * @param transformedDirection - The transformed direction of the camera.
+   * @param transformMatrix - The transformation matrix of the camera.
+   * @param localDirection - The local direction of the camera.
+   * @param keyCode - The key code of the pressed key.
+   */
   private checkMovementIsPossible(
     transformedDirection: Vector3,
     transformMatrix: Matrix,
@@ -205,8 +275,6 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       console.log('newPosition', newPosition, localDirection, transformedDirection, mapLimits);
     // Check if the new position is within the map limits
 
-    console.log(this.camera!.position, this.camera!.target);
-
     if (
       newPosition.x >= mapLimits.left &&
       newPosition.x <= mapLimits.right &&
@@ -219,7 +287,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
       this.camera!.position.addInPlace(transformedDirection);
       this.camera!.target.addInPlace(transformedDirection);
-      if (keyCode === '+' || keyCode === '-') {
+      if (config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn.includes(keyCode) || config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut.includes(keyCode)) {
         this._currentHeightPosition = this.camera!.position.y;
         this._currentHeightTarget = this.camera!.target.y;
       } else {
@@ -243,6 +311,9 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     }
   }
 
+  /**
+   * Detaches the keyboard input controls from the camera.
+   */
   public detachControl(): void {
     if (debugConfig.logs.arcRotateCameraKeyboardInputs.detachControl) console.log('detachControl');
     const engine = this.camera!.getEngine();
@@ -258,38 +329,59 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       this._keys = [];
       this._onKeyUp = null;
     }
+    // Remove event listener for mouse wheel
+    if (this.onMouseWheel) {
+      element.removeEventListener('wheel', this.onMouseWheel);
+    }
   }
 
+  /**
+   * Zooms the camera in.
+   */
   public zoomIn(): void {
     for (let i = 0; i < 5; i++) {
       // i increase the zoom speed
       setTimeout(() => {
-        this._keys.push('+');
+        this._keys.push(config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn[0]);
         this.checkInputs();
         this._keys = [];
       }, i * 50); // 50ms delay between each iteration
     }
   }
 
+  /**
+   * Zooms the camera out.
+   */
   public zoomOut(): void {
     for (let i = 0; i < 5; i++) {
       // i increase the zoom speed
       setTimeout(() => {
-        this._keys.push('-');
+        this._keys.push(config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut[0]);
         this.checkInputs();
         this._keys = [];
       }, i * 50); // 50ms delay between each iteration
     }
   }
 
+  /**
+   * Returns the simple name of the input.
+   * @returns The simple name of the input.
+   */
   getSimpleName(): string {
     return 'KeyboardPan';
   }
 
+  /**
+   * Returns the class name of the input.
+   * @returns The class name of the input.
+   */
   getClassName(): string {
     return 'ArcRotateCameraKeyboardPanInput';
   }
 
+  /**
+   * Resets the camera's position to the default position.
+   */
   public resetPositionCamera(): void {
     this.detachControl();
     this._keys = [];

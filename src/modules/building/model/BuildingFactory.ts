@@ -9,6 +9,7 @@ import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '@building/presenter/TrainingCenterPresenter.ts';
 import { config } from '@/core/Interfaces.ts';
 
+
 type BuildingFactoryOptions = {
   arena?: {
     number?: number;
@@ -45,8 +46,8 @@ export class BuildingFactory {
    * @public
    */
   public createArenas(): ArenaPresenter[] {
-    const springSports = [SportType.SKI, SportType.SKATING];
-    const summerSports = [SportType.ATHLETISM, SportType.ESCALADE, SportType.NATATION];
+    const springSports = Sport.getBySeason('SPRING');
+    const summerSports = Sport.getBySeason('SUMMER');
     const arenas: ArenaPresenter[] = [];
     const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
     let index: number = 0;
@@ -124,7 +125,7 @@ export class BuildingFactory {
         const trainingCenterPresenter = new TrainingCenterPresenter(
           new TrainingCenterModel(
             // TODO: see if we set the sport or if the training center improve global stats
-            [SportType.ESCALADE, SportType.NATATION],
+            Sport.getRandoms(2),
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Training Center ' + trainingCenters.length,
           ),

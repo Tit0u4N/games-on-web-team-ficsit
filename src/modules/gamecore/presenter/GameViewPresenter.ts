@@ -3,6 +3,7 @@ import { Inventory } from '@inventory/model/Inventory.ts';
 import { EventModel } from '@event/model/EventModel.ts';
 import { UsableObject } from '@object/model/UsableObject.ts';
 
+
 export class GameViewPresenter {
   private gameCorePresenter: GameCorePresenter;
   private inventoryList: Inventory[] | undefined;
@@ -20,13 +21,13 @@ export class GameViewPresenter {
     const inventory2 = new Inventory();
     const inventory3 = new Inventory();
     for (let i = 0; i < 10; i++) {
-      inventory1.addItem(new UsableObject('vite.svg', 'vite.svg'));
+      inventory1.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
       if (i % 2 === 0) {
-        inventory1.addItem(new UsableObject('vite.svg', 'vite.svg'));
+        inventory1.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
       }
-      inventory2.addItem(new UsableObject('vite.svg', 'vite.svg'));
+      inventory2.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
       if (i % 3 == 0) {
-        inventory3.addItem(new UsableObject('vite.svg', 'vite.svg'));
+        inventory3.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
       }
     }
     this.inventoryList = [inventory1, inventory2, inventory3];
