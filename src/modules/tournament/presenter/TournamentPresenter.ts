@@ -48,7 +48,6 @@ export class TournamentPresenter implements DiceHandler {
       const j = Math.floor(Math.random() * (i + 1));
       [participantsShuffle[i], participantsShuffle[j]] = [participantsShuffle[j], participantsShuffle[i]]; // Échange des éléments
     }
-    console.log('TournamentPresenter startTournament ' + participantsShuffle.length);
     this.tournamentModel.characters = participantsShuffle;
     this.tournamentModel.initTournament();
   }

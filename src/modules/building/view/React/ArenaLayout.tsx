@@ -1,5 +1,5 @@
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
 import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
@@ -16,17 +16,9 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
   const [isInPool, setIsInPool] = React.useState<boolean>(false);
   const [isTournamentStarted, setIsTournamentStarted] = React.useState<boolean>(false);
 
-  const model = arena.tournamentPresenter.tournamentModel;
-
-  useEffect(() => {
-    console.log('ArenaLayout useEffect');
-    setIsInPool(arena.tournamentPresenter.isInPool);
-    setIsTournamentStarted(arena.tournamentPresenter.tournamentModel.isTournamentStarted);
-  }, [model.state, arena.state]);
-
   arena.setUpdateView(() => {
     setIsInPool(arena.tournamentPresenter.isInPool);
-    setIsTournamentStarted(arena.tournamentPresenter.tournamentModel.isTournamentStarted);
+    setIsTournamentStarted(arena.tournamentPresenter.isTournamentStarted);
   });
 
   return (

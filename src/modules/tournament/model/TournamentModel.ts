@@ -17,7 +17,6 @@ export class TournamentModel {
   private _pools: Character[][] = [];
   private _finalRankings: Character[] = [];
   private _isInPool: boolean = false;
-  private _state: string = 'init';
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -65,10 +64,6 @@ export class TournamentModel {
     return this._isTournamentStarted;
   }
 
-  get state(): string {
-    return this._state;
-  }
-
   initTournament() {
     this._season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
     const pools: Character[][] = [];
@@ -81,11 +76,7 @@ export class TournamentModel {
       pools[i % nbPools].push(characters[i]);
     }
     this._pools = pools;
-    console.log(this._isInPool);
-    this._isInPool = true;
     this._isTournamentStarted = true;
-    this._state = 'pool';
-    console.log(this._isInPool);
   }
 
   playRoundInPool(poolNo: number) {
