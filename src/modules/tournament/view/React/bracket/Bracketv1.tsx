@@ -1,6 +1,6 @@
 import React from 'react';
 import './Bracket.scss';
-import { Avatar, Badge } from '@nextui-org/react';
+import { Avatar } from '@nextui-org/react';
 
 type Props = {
   bracket: BracketObject;
