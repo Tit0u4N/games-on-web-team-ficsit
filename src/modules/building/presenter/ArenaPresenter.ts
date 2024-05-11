@@ -19,7 +19,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arenaView: ArenaView;
   private _modalIsOpen: boolean;
   private _tournamentPresenter!: TournamentPresenter;
-  private _state: string = 'init';
   private _updateView: () => void;
 
   constructor(
@@ -89,10 +88,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     return this._tournamentPresenter;
   }
 
-  get state(): string {
-    return this._state;
-  }
-
   public charactersInArena() {
     return this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
   }
@@ -100,8 +95,6 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   public startTournament(): void {
     const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
     this._tournamentPresenter.startTournament([...characters]);
-    this._state = 'started';
-    console.log('Tournament started');
     this._updateView();
   }
 
