@@ -47,6 +47,13 @@ export class TileView {
     return mesh;
   }
 
+  getRandomDecorPosition(): Vector3 {
+    const radius = TileView.radius * 1.35;
+    const x = Math.random() * radius - radius / 2 + this._mesh.position.x;
+    const z = Math.random() * radius - radius / 2 + this._mesh.position.z;
+    return new Vector3(x, this._mesh.position.y * 2, z);
+  }
+
   addForest(treeDecor: DecorsSet) {
     let nbTrees = 0;
     let distanceMinBetweenTrees = 0;
@@ -63,12 +70,7 @@ export class TileView {
     const max_attempts = 50;
     let attempts = 0;
     while (attempts < max_attempts && nbTrees > 0) {
-      const radius = TileView.radius * 1.5;
-      const x = Math.random() * radius - radius / 2 + this._mesh.position.x;
-      const z = Math.random() * radius - radius / 2 + this._mesh.position.z;
-      // const x = this._mesh.position.x;
-      // const z = this._mesh.position.z;
-      const vector = new Vector3(x, this._mesh.position.y * 2, z);
+      const vector = this.getRandomDecorPosition();
       if (treeDecor.distanceToNearestDecor(vector) > distanceMinBetweenTrees) {
         treeDecor.addDecorToMount(vector);
         attempts = 0;
