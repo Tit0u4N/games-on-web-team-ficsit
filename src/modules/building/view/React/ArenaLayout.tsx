@@ -4,6 +4,7 @@ import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
 import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
 import { Bracketv2 } from '../../../tournament/view/React/bracket/Bracketv2.tsx';
+import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -20,6 +21,9 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
     setIsInPool(arena.tournamentPresenter.isInPool);
     setIsTournamentStarted(arena.tournamentPresenter.isTournamentStarted);
   });
+
+  const [, handle] = React.useState(true);
+  ModalManager.getInstance().modalUpdaterHandler = handle;
 
   return (
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className={'h-[80%] w-[80%] max-w-full'}>
