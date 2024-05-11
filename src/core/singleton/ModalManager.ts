@@ -1,10 +1,13 @@
 import { Reactable } from '../Interfaces.ts';
+import React from 'react';
 
 export class ModalManager {
   private static _instance: ModalManager;
   private readonly setModalUseState: (presenter: Reactable | null) => void;
   private _currentModal: Reactable | null = null;
   private _isLocked = false;
+  private _modalUpdaterHandler!: React.Dispatch<React.SetStateAction<boolean>>;
+
   private constructor(setModal: (presenter: Reactable | null) => void) {
     this.setModalUseState = setModal;
   }
@@ -45,6 +48,17 @@ export class ModalManager {
   public unlock(): ModalManager {
     this._isLocked = false;
     return this;
+  }
+
+  public updateCurrentModal(): ModalManager {
+    if (this._modalUpdaterHandler) {
+      this._modalUpdaterHandler((prev) => !prev);
+    }
+    return this;
+  }
+
+  set modalUpdaterHandler(handler: React.Dispatch<React.SetStateAction<boolean>>) {
+    this._modalUpdaterHandler = handler;
   }
 
   get currentModal(): Reactable | null {

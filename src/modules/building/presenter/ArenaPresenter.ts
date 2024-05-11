@@ -95,7 +95,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
   public startTournament(): void {
     const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
     this._tournamentPresenter.startTournament([...characters]);
-    this._updateView();
+    ModalManager.getInstance().updateCurrentModal();
   }
 
   setUpdateView(param: () => void) {
