@@ -101,97 +101,17 @@ export class MapView implements ViewInitable {
 
   addDecors(scene: Scene): DecorsSet[] {
     const tiles = this.tiles.flat();
-    // Trees
-    const treesDecors = new DecorsSet({
-      importOptions: {
-        multiMaterial: true,
-        path: 'trees/',
-      },
-    });
 
-    treesDecors.addDecor(
-      new Decor('trees1.gltf', {
-        meshOptions: {
-          scale: 1.5,
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees1.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.5, 2, 1.5),
-          rotation: new Vector3(0, Math.PI / 3, 0),
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees1.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.3, 1.5, 1.3),
-          rotation: new Vector3(0, Math.PI / 2, 0),
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees2.gltf', {
-        meshOptions: {
-          scale: 1.5,
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees2.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.5, 2, 1.5),
-          rotation: new Vector3(0, Math.PI / 3, 0),
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees2.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.3, 1.5, 1.3),
-          rotation: new Vector3(0, Math.PI / 5, 0),
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees3.gltf', {
-        meshOptions: {
-          scale: 1.3,
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees3.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.5, 2, 1.5),
-          rotation: new Vector3(0, Math.PI / 3, 0),
-        },
-      }),
-    );
-
-    treesDecors.addDecor(
-      new Decor('trees3.gltf', {
-        meshOptions: {
-          scale: new Vector3(1.3, 1.5, 1.3),
-          rotation: new Vector3(0, Math.PI / 3, 0),
-        },
-      }),
-    );
+    const treesDecors = DecorsSet.createTreesSet();
+    const rocksDecors = DecorsSet.createRocksSet();
 
     tiles.forEach((tile) => {
       tile.addForest(treesDecors);
+      tile.addRocks(rocksDecors);
     });
 
     treesDecors.initView(scene);
+    rocksDecors.initView(scene);
 
     return [treesDecors];
   }

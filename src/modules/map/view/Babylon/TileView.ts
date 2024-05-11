@@ -81,6 +81,19 @@ export class TileView {
     }
   }
 
+  addRocks(rocksDecor: DecorsSet) {
+    if (
+      this.type === TypesTile.GRASS ||
+      this.type === TypesTile.HILL_GRASS ||
+      this.type === TypesTile.FOREST ||
+      this.type === TypesTile.HILL_FOREST
+    ) {
+      for (let i = 0; i < Math.floor(Math.random() * GameOptions.instance.rocks.value); i++) {
+        rocksDecor.addDecorToMount(this.getRandomDecorPosition());
+      }
+    }
+  }
+
   get mesh(): InstancedMesh {
     return this._mesh;
   }
