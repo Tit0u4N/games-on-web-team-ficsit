@@ -135,6 +135,58 @@ export class MapView implements ViewInitable {
       }),
     );
 
+    treesDecors.addDecor(
+      new Decor('trees2.gltf', {
+        meshOptions: {
+          scale: 1.5,
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees2.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.5, 2, 1.5),
+          rotation: new Vector3(0, Math.PI / 3, 0),
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees2.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.3, 1.5, 1.3),
+          rotation: new Vector3(0, Math.PI / 5, 0),
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees3.gltf', {
+        meshOptions: {
+          scale: 1.3,
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees3.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.5, 2, 1.5),
+          rotation: new Vector3(0, Math.PI / 3, 0),
+        },
+      }),
+    );
+
+    treesDecors.addDecor(
+      new Decor('trees3.gltf', {
+        meshOptions: {
+          scale: new Vector3(1.3, 1.5, 1.3),
+          rotation: new Vector3(0, Math.PI / 3, 0),
+        },
+      }),
+    );
+
     tiles.forEach((tile) => {
       tile.addForest(treesDecors);
     });
