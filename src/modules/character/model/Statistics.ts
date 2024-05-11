@@ -1,4 +1,6 @@
-import { Sport } from '@sport/model/Sport.ts';
+import { config } from '@/core/Interfaces.ts';
+import { Sport } from '@/core/singleton/Sport.ts';
+import { IStatIncrease } from '@object/model/UsableObject.ts';
 
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {

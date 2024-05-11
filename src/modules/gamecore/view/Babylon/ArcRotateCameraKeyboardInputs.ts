@@ -42,7 +42,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     const element = engine.getInputElement();
     if (!this._onKeyDown) {
       element!.tabIndex = 1;
-      this._onKeyDown = function(evt) {
+      this._onKeyDown = function (evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index === -1) {
@@ -53,7 +53,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           }
         }
       };
-      this._onKeyUp = function(evt) {
+      this._onKeyUp = function (evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
           const index = _this._keys.indexOf(evt.key);
           if (index >= 0) {
@@ -66,16 +66,16 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       element!.addEventListener('keydown', this._onKeyDown, false);
       element!.addEventListener('keyup', this._onKeyUp, false);
-      element!.addEventListener('keypress', function(evt) {
+      element!.addEventListener('keypress', function (evt) {
         if (config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition.indexOf(evt.key) !== -1) {
           _this.resetPositionCamera();
         }
       });
-      element!.addEventListener('blur', function() {
+      element!.addEventListener('blur', function () {
         _this._keys = [];
       });
       // Add event listener for mouse wheel
-      element!.addEventListener('wheel', function(evt) {
+      element!.addEventListener('wheel', function (evt) {
         _this.onMouseWheel(evt);
       });
     }
@@ -287,7 +287,10 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       Vector3.TransformNormalToRef(localDirection, transformMatrix, transformedDirection);
       this.camera!.position.addInPlace(transformedDirection);
       this.camera!.target.addInPlace(transformedDirection);
-      if (config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn.includes(keyCode) || config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut.includes(keyCode)) {
+      if (
+        config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn.includes(keyCode) ||
+        config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut.includes(keyCode)
+      ) {
         this._currentHeightPosition = this.camera!.position.y;
         this._currentHeightTarget = this.camera!.target.y;
       } else {
