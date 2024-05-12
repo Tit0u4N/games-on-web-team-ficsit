@@ -21,12 +21,11 @@ interface Props {
 }
 
 export const TrainingChoiceCards: React.FC<Props> = ({
-                                                       diceResult,
-                                                       trainingCenter,
-                                                       onChoiceSelected,
-                                                       choiceSelected,
-                                                     }) => {
-
+  diceResult,
+  trainingCenter,
+  onChoiceSelected,
+  choiceSelected,
+}) => {
   if (diceResult === null) {
     return null;
   }
@@ -59,9 +58,7 @@ export const TrainingChoiceCards: React.FC<Props> = ({
   return (
     <div className="flex flex-row gap-4 h-[70%]">
       {choices.map((choice, index) => (
-        <div onClick={() =>
-          onChoiceSelected(choice)
-        } className={'w-[300px] h-[100%]'}>
+        <div onClick={() => onChoiceSelected(choice)} className={'w-[300px] h-[100%]'}>
           <TrainingChoiceCard
             key={index}
             choice={choice}

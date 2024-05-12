@@ -100,9 +100,7 @@ export class GameCorePresenter {
    */
   nextRound() {
     const result: boolean = this._buildingPresenter.isAllCharactersReady();
-    console.log('Result', result);
     if (!result) {
-      console.error('Not all characters are ready to start a new round');
       return;
     }
     this.gameModel.playRound();
@@ -145,5 +143,9 @@ export class GameCorePresenter {
         building.onCharacterExit(character);
       }
     });
+  }
+
+  get buildingPresenter(): BuildingPresenter {
+    return this._buildingPresenter;
   }
 }

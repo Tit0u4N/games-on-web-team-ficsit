@@ -61,5 +61,4 @@ export class BuildingPresenter implements ViewInitable {
       });
     });
   }
-
 }

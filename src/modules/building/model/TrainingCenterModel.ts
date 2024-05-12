@@ -53,8 +53,7 @@ export class TrainingCenterModel implements DiceHandler {
     this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
   }
 
-  handleRollDice(diceValue: number): void {
-  }
+  handleRollDice(diceValue: number): void {}
 
   /**
    * Initializes the training center by determining the available sports based on the current season.
@@ -88,8 +87,7 @@ export class TrainingCenterModel implements DiceHandler {
     const sports: Sport[] = [];
     for (let i = 0; i < numberOfSportsSelected; i++) {
       const randomSport = sportsBySeason[Math.floor(Math.random() * sportsBySeason.length)];
-      if (!sports.includes(randomSport))
-        sports.push(randomSport);
+      if (!sports.includes(randomSport)) sports.push(randomSport);
     }
     return sports;
   }
@@ -179,7 +177,8 @@ export class TrainingCenterModel implements DiceHandler {
     this._charactersEffect.forEach((characterEffect: ICharacterEffect) => {
       // remove one round from the character
       characterEffect.rounds--;
-      this._differentStates.get(characterEffect.character)!.messageContent = `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} stats.`;
+      this._differentStates.get(characterEffect.character)!.messageContent =
+        `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} stats.`;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
         // for each sport stats add the stats to the character

@@ -46,7 +46,11 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     setShowMessage(false);
   };
 
-  const handleTrainingChoiceCards = (state: TrainingCenterLayoutState, character: Character, choice: TrainingChoice) => {
+  const handleTrainingChoiceCards = (
+    state: TrainingCenterLayoutState,
+    character: Character,
+    choice: TrainingChoice,
+  ) => {
     setDiceResult(state.diceResult!);
     setShowChoices(true);
     setSelectedCharacter(character);
@@ -81,31 +85,37 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     const state = trainingCenter.getState(character);
     switch (state?.state) {
       case State.ROLL_DICE:
-        return <DiceComponent
-          className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
-          dicePresenter={trainingCenter.dicePresenter}
-          onRoll3DStart={handleDiceRollStart}
-          onRoll3DEnd={(value: number | undefined) => {
-            handleDiceRollEnd(character, value!);
-          }}
-        />;
+        return (
+          <DiceComponent
+            className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
+            dicePresenter={trainingCenter.dicePresenter}
+            onRoll3DStart={handleDiceRollStart}
+            onRoll3DEnd={(value: number | undefined) => {
+              handleDiceRollEnd(character, value!);
+            }}
+          />
+        );
       case State.CARDS_CHOICE:
-        return <TrainingChoiceCards
-          diceResult={state.diceResult!}
-          trainingCenter={trainingCenter}
-          onChoiceSelected={(choice) => {
-            handleTrainingChoiceCards(state, character, choice);
-          }}
-          character={state.selectedCharacter!}
-          choiceSelected={state.choiceSelected}
-        />;
+        return (
+          <TrainingChoiceCards
+            diceResult={state.diceResult!}
+            trainingCenter={trainingCenter}
+            onChoiceSelected={(choice) => {
+              handleTrainingChoiceCards(state, character, choice);
+            }}
+            character={state.selectedCharacter!}
+            choiceSelected={state.choiceSelected}
+          />
+        );
       case State.MESSAGE:
-        return <Card className="w-full m-auto text-center p-10">
-          <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
-          <CardBody className={'text-center'}>
-            <p>{state.messageContent}</p>
-          </CardBody>
-        </Card>;
+        return (
+          <Card className="w-full m-auto text-center p-10">
+            <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
+            <CardBody className={'text-center'}>
+              <p>{state.messageContent}</p>
+            </CardBody>
+          </Card>
+        );
       default:
         return null;
     }
@@ -132,10 +142,8 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
             ))}
           </div>
           <div
-            className={`flex flex-col justify-between ${(showMessage || diceResult == null) ? 'w-full' : ''}  ${diceResult == null ? 'mt-auto' : ''}`}>
-            {
-              getReactElementFromCurrentState(selectedCharacter)
-            }
+            className={`flex flex-col justify-between ${showMessage || diceResult == null ? 'w-full' : ''}  ${diceResult == null ? 'mt-auto' : ''}`}>
+            {getReactElementFromCurrentState(selectedCharacter)}
           </div>
         </ModalBody>
         <ModalFooter>
@@ -143,24 +151,26 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
             Close
           </Button>
           {showConfirm && (
-            <Button color="primary" onClick={() => {
-              setShowChoices(false);
-              const rounds = choiceSelected?.rounds;
-              const stats = choiceSelected?.stats;
-              const message = `Your character will be training for ${rounds} rounds and will gain ${stats} stats.`;
-              setMessageContent(message);
-              setShowMessage(true);
-              trainingCenter.getEffect(selectedCharacter!, choiceSelected!);
-              setShowConfirm(false);
-              const newState = {
-                state: State.MESSAGE,
-                diceResult: diceResult,
-                selectedCharacter: selectedCharacter!,
-                choiceSelected: choiceSelected,
-                messageContent: message,
-              };
-              trainingCenter.updateState(selectedCharacter!, newState);
-            }}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowChoices(false);
+                const rounds = choiceSelected?.rounds;
+                const stats = choiceSelected?.stats;
+                const message = `Your character will be training for ${rounds} rounds and will gain ${stats} stats.`;
+                setMessageContent(message);
+                setShowMessage(true);
+                trainingCenter.getEffect(selectedCharacter!, choiceSelected!);
+                setShowConfirm(false);
+                const newState = {
+                  state: State.MESSAGE,
+                  diceResult: diceResult,
+                  selectedCharacter: selectedCharacter!,
+                  choiceSelected: choiceSelected,
+                  messageContent: message,
+                };
+                trainingCenter.updateState(selectedCharacter!, newState);
+              }}>
               Confirm
             </Button>
           )}
