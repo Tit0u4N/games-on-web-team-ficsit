@@ -7,6 +7,7 @@ import { Statistics } from '../../character/model/Statistics.ts';
 import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
 import { ITile, TypesTile } from '../../map/model/TileModel.ts';
 import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoiceCards.tsx';
+import { State, TrainingCenterLayoutState } from '../view/React/TrainingCenterLayout.tsx';
 
 interface ICharacterEffect {
   character: Character;
@@ -23,13 +24,13 @@ export class TrainingCenterModel implements DiceHandler {
   private readonly mapPresenter: MapPresenter;
   private _sports!: Sport[];
   private rotation: number;
-  private _position: Vector3;
+  private readonly _position: Vector3;
   private _name: string;
   private readonly _dicePresenter: DicePresenter;
   private _charactersEffect!: ICharacterEffect[];
   private _tile: ITile | undefined;
   private _charactersInside: Character[] = [];
-  private _diceScore!: number;
+  private _differentStates: Map<Character, TrainingCenterLayoutState> = new Map();
 
   /**
    * Creates a new instance of the TrainingCenterModel class.
@@ -53,7 +54,6 @@ export class TrainingCenterModel implements DiceHandler {
   }
 
   handleRollDice(diceValue: number): void {
-    this._diceScore = diceValue;
   }
 
   /**
@@ -163,7 +163,6 @@ export class TrainingCenterModel implements DiceHandler {
     }
   }
 
-
   /**
    * Advances the training center to the next round and updates the characters' stats accordingly.
    *
@@ -188,6 +187,7 @@ export class TrainingCenterModel implements DiceHandler {
           statistic.set(sport, characterEffect.stats);
           characterEffect.character.statistics.addStat(new Statistics(statistic));
         }
+        this._differentStates.delete(characterEffect.character);
       } else {
         characterEffect.character.attributes.movement = 0;
         characterEffect.character.attributes.injured = characterEffect.injured;
@@ -227,10 +227,6 @@ export class TrainingCenterModel implements DiceHandler {
     return this._position;
   }
 
-  set position(position: Vector3) {
-    this._position = position;
-  }
-
   get name(): string {
     return this._name;
   }
@@ -247,13 +243,36 @@ export class TrainingCenterModel implements DiceHandler {
     return this._tile;
   }
 
+  /**
+   * Adds a character to the training center.
+   * The character is added to the list of characters inside the training center.
+   * If the character is already inside the training center, it is not added again.
+   * If the character is not inside the training center, it is added to the list of characters inside the training center.
+   *
+   * @param character character to be added to the training center
+   */
   addCharacter(character: Character): void {
     if (this._charactersInside.includes(character)) return;
     this._charactersInside.push(character);
+    const initialState: TrainingCenterLayoutState = {
+      state: State.ROLL_DICE,
+      diceResult: null,
+      selectedCharacter: character,
+      choiceSelected: null,
+      messageContent: '',
+    };
+    this._differentStates.set(character, initialState);
   }
 
+  /**
+   * Removes a character from the training center.
+   * The character is removed from the list of characters inside the training center.
+   *
+   * @param character character to be removed from the training center
+   */
   removeCharacter(character: Character): void {
     this._charactersInside = this._charactersInside.filter((c) => c.id !== character.id);
+    this._differentStates.delete(character);
   }
 
   get charactersInside(): Character[] {
@@ -264,7 +283,26 @@ export class TrainingCenterModel implements DiceHandler {
     return this._sports;
   }
 
-  get diceScore(): number {
-    return this._diceScore;
+  /**
+   * Returns the state of a character in the training center.
+   *
+   * @param character character in the training center
+   */
+  getState(character: Character): TrainingCenterLayoutState | undefined {
+    return this._differentStates.get(character);
+  }
+
+  /**
+   * Updates the state of a character in the training center.
+   * The state is used to determine the current action of the character in the training center.
+   * The state is stored in a map with the character as the key.
+   * If the character is not found in the map, a new entry is created.
+   * If the character is found in the map, the state is updated.
+   *
+   * @param character character in the training center
+   * @param state state of the character
+   */
+  updateState(character: Character, state: TrainingCenterLayoutState): void {
+    this._differentStates.set(character, state);
   }
 }
