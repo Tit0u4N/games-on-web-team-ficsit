@@ -25,9 +25,7 @@ export const TrainingChoiceCard: React.FC<TrainingChoiceCardProps> = ({ choice, 
           <div className="text-sm font-medium">{choice.injuredRisk}%</div>
         </div>
         <div className="flex items-center justify-between mt-2">
-          <div className="text-sm font-medium">{trainingCenter.sports.map(
-            (sport) => sport.name + ' | ',
-          )}</div>
+          <div className="text-sm font-medium">{trainingCenter.sports.map((sport) => sport.name + ' | ')}</div>
           <div className="text-sm font-medium">{choice.stats}</div>
         </div>
         <div className="flex items-center justify-between mt-2">

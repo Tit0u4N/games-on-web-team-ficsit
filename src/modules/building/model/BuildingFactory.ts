@@ -164,7 +164,10 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.trainingCenter?.spacing ?? config.building.model.buildingFactory.trainingCenter.spacing)) {
+      if (
+        distance <=
+        (this.options.trainingCenter?.spacing ?? config.building.model.buildingFactory.trainingCenter.spacing)
+      ) {
         return true; // Neighboring training center found
       }
     }
