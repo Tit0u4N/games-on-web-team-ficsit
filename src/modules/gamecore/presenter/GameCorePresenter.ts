@@ -9,8 +9,6 @@ import { Inventory } from '../../inventory/model/Inventory.ts';
 import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
 import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
-import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
 
 export class GameCorePresenter {
@@ -18,7 +16,7 @@ export class GameCorePresenter {
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
-  private buildingPresenter!: BuildingPresenter;
+  private _buildingPresenter!: BuildingPresenter;
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
@@ -71,8 +69,8 @@ export class GameCorePresenter {
       this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
-      this.buildingPresenter.initView(this._babylonView.scene);
+      this._buildingPresenter = new BuildingPresenter(this._mapPresenter);
+      this._buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
     }, 1000);
   }
@@ -101,15 +99,17 @@ export class GameCorePresenter {
    * Start a new round
    */
   nextRound() {
+    const result: boolean = this._buildingPresenter.isAllCharactersReady();
+    console.log('Result', result);
+    if (!result) {
+      console.error('Not all characters are ready to start a new round');
+      return;
+    }
     this.gameModel.playRound();
-
-    const scene = this._babylonView.scene;
-    const dicePresenter = new DicePresenter(scene);
-    ModalManager.getInstance().openModal(dicePresenter);
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
-    this.buildingPresenter.trainingCenters.forEach((trainingCenter) => {
+    this._buildingPresenter.trainingCenters.forEach((trainingCenter) => {
       trainingCenter.trainingCenter.nextRound();
     });
   }
@@ -135,10 +135,10 @@ export class GameCorePresenter {
   }
 
   checkCharacterInBuilding(character: Character) {
-    if (this.buildingPresenter === undefined) {
+    if (this._buildingPresenter === undefined) {
       return;
     }
-    this.buildingPresenter.trainingCenters.forEach((building) => {
+    this._buildingPresenter.trainingCenters.forEach((building) => {
       if (building.isCharacterInBuilding(character)) {
         building.onCharacterEnter(character);
       } else {

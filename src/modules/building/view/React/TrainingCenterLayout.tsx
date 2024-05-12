@@ -123,6 +123,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
                 trainingCenter={trainingCenter}
                 choice={choiceSelected}
                 character={character}
+                selectecCharacter={selectedCharacter}
                 isSelected={selectedCharacter === character}
                 onSelect={() => {
                   handleCharacterSelect(character);
