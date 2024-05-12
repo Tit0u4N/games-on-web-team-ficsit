@@ -23,6 +23,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.hasTournament() ? (
+          // todo change condition
           arena.tournamentPresenter.isTournamentStarted ? (
             arena.tournamentPresenter.isInPool ? (
               <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />

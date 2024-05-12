@@ -7,7 +7,6 @@ body {
 
 .bracket-wrapper {
   display: flex;
-  height: 600px;
   justify-content: center;
 }
 
@@ -37,14 +36,14 @@ body {
       height: 2px;
       left: 0;
       top: 50%;
-      background-color: #fff;
+      background-color: black;
       transform: translateX(-100%);
     }
   }
-  &-childrens {
+  &-children {
+    justify-content: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
   }
   &-child {
     display: flex;
@@ -56,7 +55,7 @@ body {
     &:before {
       content: '';
       position: absolute;
-      background-color: #fff;
+      background-color: black;
       right: 0;
       top: 50%;
       transform: translateX(100%);
@@ -66,7 +65,7 @@ body {
     &:after {
       content: '';
       position: absolute;
-      background-color: #fff;
+      background-color: black;
       right: -$side-margin / 2;
       height: calc(50% + 22px);
       width: 2px;
