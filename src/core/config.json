@@ -308,5 +308,10 @@
   },
   "usableObject": {
     "basePath": ""
+  },
+  "character": {
+    "inventory": {
+      "maxItems": 20
+    }
   }
 }

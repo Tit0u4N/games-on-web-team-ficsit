@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Baseball",
     "sport": "BASEBALL",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "HEAD",
     "statsIncrease": [
       {
@@ -37,7 +37,7 @@
     "id": 2,
     "name": "Soccer Ball",
     "sport": "SOCCER",
-    "image": "vite.svg",
+    "image": "soccer_ball.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -58,7 +58,7 @@
     "id": 3,
     "name": "Basketball",
     "sport": "BASKETBALL",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -79,7 +79,7 @@
     "id": 4,
     "name": "Running Shoes",
     "sport": "ATHLETISM",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "chest",
     "statsIncrease": [
       {
@@ -100,7 +100,7 @@
     "id": 5,
     "name": "Swimming Goggles",
     "sport": "NATATION",
-    "image": "vite.svg",
+    "image": "swimming_goggles.png",
     "slot": "legs",
     "statsIncrease": [
       {
@@ -121,7 +121,7 @@
     "id": 6,
     "name": "Climbing Harness",
     "sport": "ESCALADE",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -142,7 +142,7 @@
     "id": 7,
     "name": "Ski Poles",
     "sport": "SKI",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "chest",
     "statsIncrease": [
       {
@@ -163,7 +163,7 @@
     "id": 8,
     "name": "Ice Skates",
     "sport": "SKATING",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -184,7 +184,7 @@
     "id": 9,
     "name": "Tennis Racket",
     "sport": "TENNIS",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -205,7 +205,7 @@
     "id": 10,
     "name": "Volleyball",
     "sport": "VOLLEYBALL",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -226,7 +226,7 @@
     "id": 11,
     "name": "Hockey Stick",
     "sport": "HOCKEY",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -247,7 +247,7 @@
     "id": 12,
     "name": "Rugby Ball",
     "sport": "RUGBY",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -268,7 +268,7 @@
     "id": 13,
     "name": "Tennis Racket",
     "sport": "TENNIS",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -289,7 +289,7 @@
     "id": 14,
     "name": "Table Tennis Paddle",
     "sport": "TABLE_TENNIS",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -310,7 +310,7 @@
     "id": 15,
     "name": "Boxing Gloves",
     "sport": "BOXING",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {
@@ -331,7 +331,7 @@
     "id": 16,
     "name": "Fencing Foil",
     "sport": "FENCING",
-    "image": "vite.svg",
+    "image": "default.png",
     "slot": "head",
     "statsIncrease": [
       {

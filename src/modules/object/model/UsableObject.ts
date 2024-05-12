@@ -5,7 +5,7 @@ import gameObjectsData from './gameObjects.json';
 import gearsCombinaisons from './completeGearKeys.json';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { config } from '../../../core/Interfaces.ts';
-import { EquippedObjectSlot } from '../../inventory/model/EquippedObject.ts';
+import { EquippedObjectSlot } from '../../inventory/model/EquippedObjects.ts';
 
 export class UsableObject {
   private readonly _id: number;
