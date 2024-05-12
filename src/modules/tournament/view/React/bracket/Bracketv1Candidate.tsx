@@ -16,7 +16,7 @@ export type Candidate = {
 
 export const Bracketv1Candidate: React.FC<Props> = ({ candidate }) => {
   return (
-    <div className={'h-[45px] w-[42%] ms-[20px] flex justify-center rounded-xl bg-default'}>
+    <div className={'h-[45px] w-[135px] ms-[20px] flex justify-center rounded-xl bg-default'}>
       <div className={'flex flex-col items-center justify-center size-[40px] ms-[-20px]'}>
         <Badge color={'default'} placement={'bottom-right'} content={candidate.country.getFlag()}>
           <Avatar
