@@ -23,7 +23,7 @@ export class TrainingCenterModel implements DiceHandler {
   private readonly _tileY: number;
   private readonly mapPresenter: MapPresenter;
   private _sports!: Sport[];
-  private rotation: number;
+  private _rotation: number;
   private readonly _position: Vector3;
   private _name: string;
   private readonly _dicePresenter: DicePresenter;
@@ -48,7 +48,7 @@ export class TrainingCenterModel implements DiceHandler {
     this.mapPresenter = mapPresenter;
     this._dicePresenter = new DicePresenter(scene, this);
     this._position = position;
-    this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
+    this._rotation = TrainingCenterModel.DEFAULT_ROTATION;
     this._name = name;
     this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
   }
@@ -196,10 +196,10 @@ export class TrainingCenterModel implements DiceHandler {
     // remove all characters that have no more rounds
     this._charactersEffect = this._charactersEffect.filter((characterEffect) => characterEffect.rounds > 0);
     // Update the rotation value
-    this.rotation--;
+    this._rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
-    if (this.rotation < 0) {
-      this.rotation = TrainingCenterModel.DEFAULT_ROTATION;
+    if (this._rotation < 0) {
+      this._rotation = TrainingCenterModel.DEFAULT_ROTATION;
       this._sports = this.getSports();
     }
   }
@@ -308,5 +308,9 @@ export class TrainingCenterModel implements DiceHandler {
    */
   updateState(character: Character, state: TrainingCenterLayoutState): void {
     this._differentStates.set(character, state);
+  }
+
+  get rotation(): number {
+    return this._rotation;
   }
 }
