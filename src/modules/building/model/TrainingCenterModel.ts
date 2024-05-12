@@ -179,6 +179,7 @@ export class TrainingCenterModel implements DiceHandler {
     this._charactersEffect.forEach((characterEffect: ICharacterEffect) => {
       // remove one round from the character
       characterEffect.rounds--;
+      this._differentStates.get(characterEffect.character)!.messageContent = `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} stats.`;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
         // for each sport stats add the stats to the character
@@ -281,6 +282,10 @@ export class TrainingCenterModel implements DiceHandler {
 
   get sports(): Sport[] {
     return this._sports;
+  }
+
+  get differentStates(): Map<Character, TrainingCenterLayoutState> {
+    return this._differentStates;
   }
 
   /**

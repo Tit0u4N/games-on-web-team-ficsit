@@ -6,11 +6,12 @@ import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 
 interface CharacterStatsProps {
   character: Character;
+  selectecCharacter: Character | null;
   trainingCenter: TrainingCenterModel | null;
   choice: TrainingChoice | null;
 }
 
-export const CharacterStats: React.FC<CharacterStatsProps> = ({ character, trainingCenter, choice }) => {
+export const CharacterStats: React.FC<CharacterStatsProps> = ({ character, selectecCharacter, trainingCenter, choice }) => {
   const stats = character.statistics;
 
   return (
@@ -27,7 +28,7 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({ character, train
           {Array.from(stats.entries()).map(([sport, value]) => (
             <div key={sport.name}>
               {sport.name}: {value}
-              {trainingCenter?.sports.includes(sport) && choice !== null && (
+              {trainingCenter?.sports.includes(sport) && choice !== null && selectecCharacter === character && (
                 <span className="text-green-500">{' + ' + choice.stats}</span>
               )}
             </div>
