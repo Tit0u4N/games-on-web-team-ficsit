@@ -3,18 +3,19 @@ import { Attributes } from '../model/Attributes';
 import { Character } from '../model/Character';
 import { Statistics } from '../model/Statistics';
 import { Inventory } from '../../inventory/model/Inventory.ts';
+import { Country } from '../../../core/Country.ts';
 
 export class CharacterBuilder {
   private readonly _id: number;
   private readonly _name: string;
-  private readonly _nationality: string;
+  private readonly _nationality: Country;
   private readonly _age: number;
   private readonly _image: string;
   private _statistics: Statistics;
   private _inventory: Inventory;
   private _attributes: Attributes;
 
-  constructor(id: number, name: string, nationality: string, age: number, image: string) {
+  constructor(id: number, name: string, nationality: Country, age: number, image: string) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;
