@@ -78,12 +78,9 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
 
   const getReactElementFromCurrentState = (character: Character | null) => {
     if (character == null) return null;
-    console.log('character: ', character);
     const state = trainingCenter.getState(character);
-    console.log('state: ', state);
     switch (state?.state) {
       case State.ROLL_DICE:
-        console.log('state.ROLL_DICE');
         return <DiceComponent
           className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
           dicePresenter={trainingCenter.dicePresenter}
@@ -93,7 +90,6 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           }}
         />;
       case State.CARDS_CHOICE:
-        console.log('state.CARDS_CHOICE');
         return <TrainingChoiceCards
           diceResult={state.diceResult!}
           trainingCenter={trainingCenter}
@@ -104,7 +100,6 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           choiceSelected={state.choiceSelected}
         />;
       case State.MESSAGE:
-        console.log('state.MESSAGE');
         return <Card className="w-full m-auto text-center p-10">
           <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
           <CardBody className={'text-center'}>
