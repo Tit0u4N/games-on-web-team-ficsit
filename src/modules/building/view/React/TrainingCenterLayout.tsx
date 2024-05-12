@@ -5,6 +5,7 @@ import { Character } from '../../../character/model/Character.ts';
 import { ClickableCard } from './trainingCenter/ClickableCard.tsx';
 import { TrainingChoice, TrainingChoiceCards } from './trainingCenter/TrainingChoiceCards.tsx';
 import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
+import { Sport } from '../../../../core/singleton/Sport.ts';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -124,7 +125,20 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
   return (
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">Training Center</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">
+          Training Center
+          {trainingCenter.sports.length > 0 && (
+            <div>
+              Sports:
+              {trainingCenter.sports.map((sport: Sport, index: number) => (
+                <span key={index}>
+                  {sport.name}
+                  {index < trainingCenter.sports.length - 1 && ', '}
+                </span>
+              ))}
+            </div>
+          )}
+        </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
           <div className={'flex flex-col w-[600px]'}>
             {trainingCenter.charactersInside.map((character: Character) => (
