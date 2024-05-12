@@ -128,15 +128,18 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
         <ModalHeader className="flex flex-col gap-1">
           Training Center
           {trainingCenter.sports.length > 0 && (
-            <div>
-              Sports:
-              {trainingCenter.sports.map((sport: Sport, index: number) => (
-                <span key={index}>
-                  {sport.name}
-                  {index < trainingCenter.sports.length - 1 && ', '}
-                </span>
-              ))}
-            </div>
+            <>
+              <div>
+                Sports:
+                {trainingCenter.sports.map((sport: Sport, index: number) => (
+                  <span key={index}>
+                    {sport.name}
+                    {index < trainingCenter.sports.length - 1 && ', '}
+                  </span>
+                ))}
+              </div>
+              <div>Rounds before sports change: {trainingCenter.rotation}</div>
+            </>
           )}
         </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
