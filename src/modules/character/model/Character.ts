@@ -3,11 +3,12 @@ import { Attributes } from './Attributes';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { ITile } from '../../map/model/TileModel.ts';
 import { Season } from '../../../core/singleton/Season.ts';
+import { Country } from '../../../core/Country.ts';
 
 export class Character {
   private _id: number;
   private _name: string;
-  private _nationality: string;
+  private _nationality: Country;
   private _age: number;
   private _image: string;
   private _statistics: Statistics;
@@ -18,7 +19,7 @@ export class Character {
   public constructor(
     id: number,
     name: string,
-    nationality: string,
+    nationality: Country,
     age: number,
     attributes: Attributes,
     image: string,
@@ -49,11 +50,11 @@ export class Character {
     this._name = value;
   }
 
-  get nationality(): string {
+  get nationality(): Country {
     return this._nationality;
   }
 
-  set nationality(value: string) {
+  set nationality(value: Country) {
     this._nationality = value;
   }
 

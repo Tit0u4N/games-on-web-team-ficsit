@@ -4,13 +4,14 @@ import { Character } from '../model/Character';
 import { Statistics } from '../model/Statistics';
 import { CharacterBuilder } from './CharacterBuilder';
 import { Inventory } from '../../inventory/model/Inventory.ts';
-import { countries, names, uniqueNamesGenerator } from 'unique-names-generator';
+import { names, uniqueNamesGenerator } from 'unique-names-generator';
+import { Country } from '../../../core/Country.ts';
 
 export class CharacterFactory {
   public static createDefaultCharacter(
     id: number,
     name: string,
-    nationality: string,
+    nationality: Country,
     age: number,
     image: string,
   ): Character {
@@ -28,7 +29,7 @@ export class CharacterFactory {
   public static createNPC(totalStats: number, minStats: number): Character {
     const id = Math.floor(Math.random() * 1000000) + 5;
     const name = uniqueNamesGenerator({ dictionaries: [names] });
-    const nationality = uniqueNamesGenerator({ dictionaries: [countries] });
+    const nationality = Country.getRandom();
     const age = Math.floor(Math.random() * 21) + 16; // Between 16 and 36
     const image = './character_' + Math.floor(Math.random() * 3) + 1 + '.png'; //TODO: Add random image
     const defaultStatistics = new Statistics(Statistics.initRandomStats(totalStats, minStats));
