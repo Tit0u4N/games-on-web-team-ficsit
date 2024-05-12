@@ -1,6 +1,6 @@
 import React from 'react';
 import { UsableObject } from '../../model/UsableObject.ts';
-import { Image } from '@nextui-org/react';
+import { Image, Tooltip } from '@nextui-org/react';
 
 interface Props {
   item: UsableObject;
@@ -8,15 +8,23 @@ interface Props {
 }
 
 export const UsableObjectView: React.FC<Props> = ({ item, handleDragStart }) => {
+  const tooltipContent = (
+    <div>
+      <p>{item.name}</p>
+      <p>{item.slot}</p>
+    </div>
+  );
+
   return (
     <div className={'size-full'} onDragStart={handleDragStart}>
-      <Image
-        src={item.image}
-        alt={item.name}
-        height={'100%'}
-        width={'100%'}
-        className="size-full object-cover hover:scale-110 transition-transform duration-300 ease-in-out"
-      />
+      <Tooltip showArrow={true} content={tooltipContent} placement="bottom">
+        <Image
+          src={'images/objects/' + item.image}
+          alt={item.name}
+          sizes={'100%'}
+          className="size-full object-cover hover:scale-110 transition-transform duration-300 ease-in-out select-none cursor-pointer"
+        />
+      </Tooltip>
     </div>
   );
 };

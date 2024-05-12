@@ -1,12 +1,28 @@
 import { UsableObject } from '../../object/model/UsableObject.ts';
-import { EquippedObject } from './EquippedObject.ts';
+import { EquippedObjects } from './EquippedObjects.ts';
+import { config } from '../../../core/Interfaces.ts';
 
 export class Inventory {
   private _items: UsableObject[] = [];
-  private _equippedObjects: EquippedObject = new EquippedObject();
+  private _equippedObjects: EquippedObjects = new EquippedObjects();
+
+  canBeAdded(item: UsableObject): boolean {
+    return this._items.length < config.character.inventory.maxItems;
+  }
 
   public addItem(item: UsableObject): void {
     this._items.push(item);
+  }
+
+  public canBeRemoved(item: UsableObject): boolean {
+    return this._items.includes(item);
+  }
+
+  public removeItem(item: UsableObject): void {
+    const index = this._items.indexOf(item);
+    if (index !== -1) {
+      this._items.splice(index, 1);
+    }
   }
 
   public equipItem(item: UsableObject): void {
@@ -16,15 +32,8 @@ export class Inventory {
     this._equippedObjects.equip(item, item.slot);
   }
 
-  public unequipItem(item: UsableObject): void {
+  public unEquipItem(item: UsableObject): void {
     this._equippedObjects.unequip(item.slot);
-  }
-
-  public removeItem(item: UsableObject): void {
-    const index = this._items.indexOf(item);
-    if (index !== -1) {
-      this._items.splice(index, 1);
-    }
   }
 
   get items(): UsableObject[] {
@@ -35,8 +44,8 @@ export class Inventory {
     return this._items.map((item) => item.id);
   }
 
-  get equippedItems(): UsableObject[] {
-    return this._equippedObjects.all;
+  get equippedItems(): EquippedObjects {
+    return this._equippedObjects;
   }
 
   get equippedItemsIds(): number[] {

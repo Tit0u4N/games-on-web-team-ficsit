@@ -1,6 +1,6 @@
 import { UsableObject } from '../../object/model/UsableObject';
 
-export class EquippedObject {
+export class EquippedObjects {
   private _head: UsableObject | null = null;
   private _chest: UsableObject | null = null;
   private _legs: UsableObject | null = null;
