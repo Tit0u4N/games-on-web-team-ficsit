@@ -65,7 +65,9 @@ export class ArenaPresenter implements ViewInitable, Reactable {
       props: {
         arena: this,
         isOpen: this._modalIsOpen,
-        onClose: () => this.closeModal(),
+        onClose: () => {
+          if (!this.tournamentPresenter.isTournamentStarted) this.closeModal();
+        },
       },
     };
   }

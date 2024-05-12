@@ -19,7 +19,11 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
   const [hideModal, setHideModal] = React.useState<boolean>(false);
 
   return (
-    <Modal isOpen={isOpen && !hideModal} onClose={onClose} className={'h-[80%] w-[80%] max-w-full'}>
+    <Modal
+      isOpen={isOpen && !hideModal}
+      onClose={onClose}
+      className={'h-[80%] w-[80%] max-w-full'}
+      isDismissable={arena.tournamentPresenter.isTournamentStarted}>
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.hasTournament() ? (
