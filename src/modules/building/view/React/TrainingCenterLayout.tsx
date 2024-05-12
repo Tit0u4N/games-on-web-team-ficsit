@@ -55,7 +55,6 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     setShowChoices(true);
     setSelectedCharacter(character);
     setChoiceSelected(choice);
-    setShowConfirm(false);
     setShowMessage(false);
     setShowConfirm(!!choice);
   };
@@ -104,7 +103,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               handleTrainingChoiceCards(state, character, choice);
             }}
             character={state.selectedCharacter!}
-            choiceSelected={state.choiceSelected}
+            choiceSelected={choiceSelected}
           />
         );
       case State.MESSAGE:
