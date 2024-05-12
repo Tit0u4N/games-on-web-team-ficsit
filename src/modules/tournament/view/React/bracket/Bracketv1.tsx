@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Bracket.scss';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { Bracketv1Candidate, Candidate } from './Bracketv1Candidate.tsx';
@@ -25,7 +25,8 @@ const randomCandidates = () => {
 
 export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
   const renderBlock = () => {
-    const [isOpen, setIsOpen] = React.useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [isOpen, setIsOpen] = useState(false);
     const handleOpen = (open: boolean) => {
       if (!bracket.hasCandidates()) return setIsOpen(false);
       return setIsOpen(open);
@@ -45,9 +46,12 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <div className={'flex flex-wrap gap-3 w-[360px] p-2'}>
+          <div className={'flex flex-wrap gap-3 w-[380px] p-2'}>
             {bracket.candidates.map((candidate, index) => (
-              <Bracketv1Candidate key={index} candidate={candidate} />
+              <div className={'flex gap-2 items-center'}>
+                <h3>{index + 1}.</h3>
+                <Bracketv1Candidate key={index} candidate={candidate} />
+              </div>
             ))}
           </div>
         </PopoverContent>
@@ -85,7 +89,7 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
 };
 
 export class BracketObject {
-  private _name: string;
+  private _name!: string;
   private _candidates: Array<Candidate> = [];
   private _parent?: BracketObject | null;
   private _children1?: BracketObject;
