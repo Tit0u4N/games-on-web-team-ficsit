@@ -5,9 +5,18 @@ import { IStatIncrease } from '../../object/model/UsableObject.ts';
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
     super();
-    if (config.statistics.setDefaultStats) this.initRandomStats();
+    if (config.statistics.setDefaultStats && (!stats || stats.size == 0)) this.initRandomStats();
     for (const [sport, value] of stats) {
       this.set(sport, value);
+    }
+    this.completeMissingStats();
+  }
+
+  private completeMissingStats(): void {
+    for (const sport of Sport.getAll()) {
+      if (!this.has(sport)) {
+        this.set(sport, 0);
+      }
     }
   }
 
@@ -21,7 +30,7 @@ export class Statistics extends Map<Sport, number> {
     return stats;
   }
 
-  public initRandomStats(): void {
+  private initRandomStats(): void {
     // Share not equitably the statsToShare between all sports and downgrades the statsToShare
     for (const sport of Sport.getAll()) {
       // the stats can be between 2 and 13
@@ -42,11 +51,9 @@ export class Statistics extends Map<Sport, number> {
     return super.set(sport, value);
   }
 
-  public addStat(statistics: Statistics): Statistics {
-    const newStats: Statistics = new Statistics();
+  public addStat(statistics: Statistics): void {
     for (const [sport, value] of this) {
-      newStats.set(sport, value + statistics.get(sport));
+      this.set(sport, value + statistics.get(sport));
     }
-    return newStats;
   }
 }
