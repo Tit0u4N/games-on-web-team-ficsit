@@ -1,6 +1,6 @@
 import React from 'react';
 import './Bracket.scss';
-import { BracketCandidate } from './BracketCandidate.tsx';
+import { Bracketv2Candidate } from './Bracketv2Candidate.tsx';
 import { Divider } from '@nextui-org/react';
 
 type Props = {
@@ -24,7 +24,7 @@ export const Bracketv2: React.FC<Props> = ({ bracket = [] }) => {
       <div>
         <div className={`flex justify-around w-full gap-${gap}`}>
           {Array.from({ length: round.nbCandidates }).map((_, index) => (
-            <BracketCandidate key={index} />
+            <Bracketv2Candidate key={index} />
           ))}
         </div>
         {divider && <Divider className={'mt-4'} />}
