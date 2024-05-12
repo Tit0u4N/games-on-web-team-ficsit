@@ -95,6 +95,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           />
         );
       case State.CARDS_CHOICE:
+        if (diceResult == null) handleTrainingChoiceCards(state, character, state.choiceSelected!);
         return (
           <TrainingChoiceCards
             diceResult={state.diceResult!}
