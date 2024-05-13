@@ -109,6 +109,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           />
         );
       case State.MESSAGE:
+        if (diceResult == null) handleTrainingChoiceCards(state, character, state.choiceSelected!);
         return (
           <Card className="w-full m-auto text-center p-10">
             <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
