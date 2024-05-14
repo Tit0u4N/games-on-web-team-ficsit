@@ -40,7 +40,7 @@ export class TournamentPresenter implements DiceHandler {
   startTournament(presentCharacters: Character[]) {
     const participants = this._tournamentManagerPresenter.generateNPCs(
       presentCharacters,
-      this._tournamentModel.numberRound * 8,
+      Math.pow(2, this._tournamentModel.numberRound - 1) * 8,
       this._tournamentModel.difficulty,
     );
     const participantsShuffle = [...participants];

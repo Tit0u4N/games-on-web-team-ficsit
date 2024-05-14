@@ -3,6 +3,7 @@ import './Bracket.scss';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { Bracketv1Candidate, Candidate } from './Bracketv1Candidate.tsx';
 import { Country } from '../../../../../core/Country.ts';
+import { Character } from '../../../../character/model/Character.ts';
 
 type Props = {
   bracket: BracketObject;
@@ -10,13 +11,16 @@ type Props = {
 };
 
 const randomCandidates = () => {
-  const candidates: Array<Candidate> = [];
+  const candidates: Array<{ rank: number; character: Candidate }> = [];
   for (let i = 0; i < 8; i++) {
     candidates.push({
-      name: 'Candidate_ ' + i,
-      country: Country.getRandom(),
-      image: 'https://i.pravatar.cc/150?img=' + i,
-      score: Math.floor(Math.random() * 100),
+      rank: -1,
+      character: {
+        name: 'Candidate_ ' + i,
+        nationality: Country.getRandom(),
+        image: 'https://i.pravatar.cc/150?img=' + i,
+        score: Math.floor(Math.random() * 100),
+      },
     });
   }
 
@@ -47,12 +51,14 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
         </PopoverTrigger>
         <PopoverContent>
           <div className={'flex flex-wrap gap-3 w-[380px] p-2'}>
-            {bracket.candidates.map((candidate, index) => (
-              <div className={'flex gap-2 items-center'}>
-                <h3>{index + 1}.</h3>
-                <Bracketv1Candidate key={index} candidate={candidate} />
-              </div>
-            ))}
+            {bracket.candidates
+              .sort((a, b) => (a.rank === -1 ? 1000 : a.rank) - (b.rank === -1 ? 1000 : b.rank))
+              .map((candidate, index) => (
+                <div className={'flex gap-2 items-center'}>
+                  <h3>{candidate.rank + 1}.</h3>
+                  <Bracketv1Candidate key={index} candidate={candidate.character} />
+                </div>
+              ))}
           </div>
         </PopoverContent>
       </Popover>
@@ -85,17 +91,25 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
       return renderBlock();
     }
   }
-  return <div className={'bracket-wrapper size-full'}>{renderHasChildren()}</div>;
+  return (
+    <div className={'bracket-wrapper size-full overflow-y-auto max-h-[90%] h-[90%] flex-wrap'}>
+      {renderHasChildren()}
+    </div>
+  );
 };
 
 export class BracketObject {
   private _name!: string;
-  private _candidates: Array<Candidate> = [];
+  private _candidates: Array<{ rank: number; character: Candidate }> = [];
   private _parent?: BracketObject | null;
   private _children1?: BracketObject;
   private _children2?: BracketObject;
 
-  constructor(candidates: Array<Candidate> = [], children1?: BracketObject, children2?: BracketObject) {
+  constructor(
+    candidates: Array<{ rank: number; character: Candidate }> = [],
+    children1?: BracketObject,
+    children2?: BracketObject,
+  ) {
     this._candidates = candidates;
     this.children1 = children1;
     this.children2 = children2;
@@ -112,6 +126,38 @@ export class BracketObject {
     const parent1_2 = new BracketObject(randomCandidates(), parent1, parent2_2);
 
     return new BracketObject(randomCandidates(), parent1_1, parent1_2);
+  }
+
+  static buildFromRoundList(
+    rounds: { round: number; pools: { rank: number; character: Character }[][] }[],
+  ): BracketObject {
+    let bracketList: BracketObject[] = [];
+    let currentRoundCounter = 0;
+    let currentRound = rounds.find((round) => round.round === currentRoundCounter);
+    console.log(currentRound);
+    console.log(rounds);
+    while (currentRound!.pools.length > 1) {
+      if (bracketList.length === 0) {
+        for (let i = 0; i < currentRound!.pools.length; i++) {
+          const bracket = new BracketObject(currentRound!.pools[i]);
+          bracketList.push(bracket);
+        }
+      } else {
+        const newBracketList: BracketObject[] = [];
+        for (let i = 0; i < currentRound!.pools.length; i++) {
+          const bracket = new BracketObject(currentRound!.pools[i], bracketList[i], bracketList[i + 1]);
+          newBracketList.push(bracket);
+        }
+        bracketList = [];
+        bracketList.push(...newBracketList);
+      }
+
+      currentRoundCounter++;
+      currentRound = rounds.find((round) => round.round === currentRoundCounter);
+    }
+
+    if (bracketList.length === 0) return new BracketObject(currentRound!.pools[0]);
+    return new BracketObject(currentRound!.pools[0], bracketList[0], bracketList[1]);
   }
 
   update() {
@@ -143,7 +189,7 @@ export class BracketObject {
     return this._name;
   }
 
-  get candidates(): Array<Candidate> {
+  get candidates(): Array<{ rank: number; character: Candidate }> {
     return this._candidates;
   }
 

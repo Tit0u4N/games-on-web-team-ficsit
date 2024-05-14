@@ -6,6 +6,9 @@ import { Sport } from '../../../core/singleton/Sport.ts';
 import { Season } from '../../../core/singleton/Season.ts';
 
 export class TournamentModel {
+  get currentPool(): number {
+    return this._currentPool;
+  }
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private readonly _reward: RewardModel;
   private readonly _numberRound: number;
@@ -14,9 +17,11 @@ export class TournamentModel {
   private _isTournamentStarted: boolean = false;
   private _season: Season | undefined;
   private _characters: Character[] = [];
-  private _pools: Character[][] = [];
+  private _rounds: { round: number; pools: { rank: number; character: Character }[][] }[] = [];
   private _finalRankings: Character[] = [];
   private _isInPool: boolean = false;
+  private _currentPool: number = 0;
+  private currentRound: number = 0;
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -66,24 +71,33 @@ export class TournamentModel {
 
   initTournament() {
     this._season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
-    const pools: Character[][] = [];
+    this._rounds = [];
+    const lastRound: { rank: number; character: Character }[][] = [];
+    lastRound.push([]);
+    this._rounds.push({ round: this._numberRound - 1, pools: lastRound });
+    for (let i = 1; i < this._numberRound; i++) {
+      const pools: { rank: number; character: Character }[][] = [];
+      for (let j = 0; j < Math.pow(2, i); j++) {
+        pools.push([]);
+      }
+      this._rounds.push({ round: this._numberRound - i - 1, pools: pools });
+      this.currentRound = this._numberRound - i - 1;
+    }
+    const firstRound = this._rounds.find((round) => round.round == 0);
+    const nbPools = firstRound?.pools.length || 0;
     const characters = this.characters;
-    const nbPools = Math.ceil(characters.length / 8);
-    for (let i = 0; i < nbPools; i++) {
-      pools.push([]);
-    }
     for (let i = 0; i < characters.length; i++) {
-      pools[i % nbPools].push(characters[i]);
+      firstRound?.pools[i % nbPools].push({ rank: -1, character: characters[i] });
     }
-    this._pools = pools;
     this._isTournamentStarted = true;
   }
 
   playRoundInPool(poolNo: number) {
-    const pool = this.pools[poolNo];
+    const currentRound = this._rounds.find((round) => round.round == this.currentRound);
+    const pool = currentRound?.pools[poolNo];
     const rankingOfThePool: { rank: number; character: Character }[] = [];
-    for (let j = 0; j < pool.length; j++) {
-      const character = pool[j];
+    for (let j = 0; j < pool!.length; j++) {
+      const character = pool![j].character;
       const ranking = this.calculateScore(
         character.getStatsWithEffect(this._season).get(this._sport),
         Math.floor(Math.random() * 20),
@@ -92,28 +106,28 @@ export class TournamentModel {
       console.log(ranking, character.name);
     }
     rankingOfThePool.sort((a, b) => b.rank - a.rank);
-    if (this._pools.length == 1) {
+    if (currentRound?.pools.length == 1) {
       //add all the characters to _finalRankings in the inverse order of rankingOfThePool
       for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
         const character = rankingOfThePool[i].character;
         this._finalRankings.push(character);
+        currentRound!.pools[0][i].rank = i;
       }
     } else {
-      //add the last 4 to _finalRankings and remove them from the pool
-      for (let i = 0; i < 4; i++) {
-        const character = rankingOfThePool.pop();
-        if (character) {
-          this._finalRankings.push(character.character);
-          pool.pop();
-        }
+      for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
+        currentRound!.pools[0][i].rank = i;
+      }
+      //add the first half of the rankingOfThePool to the next pool
+      for (let i = 0; i < rankingOfThePool.length / 2; i++) {
+        currentRound!.pools[1].push(rankingOfThePool[i]);
       }
     }
     console.log(rankingOfThePool);
     console.log(this._finalRankings);
   }
 
-  get pools(): Character[][] {
-    return this._pools;
+  get rounds(): { round: number; pools: { rank: number; character: Character }[][] }[] {
+    return this._rounds;
   }
 
   get finalRankings(): Character[] {
