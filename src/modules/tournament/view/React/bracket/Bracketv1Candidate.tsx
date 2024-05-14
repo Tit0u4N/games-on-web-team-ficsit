@@ -9,7 +9,7 @@ type Props = {
 
 export type Candidate = {
   name: string;
-  country: Country;
+  nationality: Country;
   image: string;
   score?: number;
 };
@@ -18,7 +18,7 @@ export const Bracketv1Candidate: React.FC<Props> = ({ candidate }) => {
   return (
     <div className={'h-[45px] w-[135px] ms-[20px] flex justify-center rounded-xl bg-default'}>
       <div className={'flex flex-col items-center justify-center size-[40px] ms-[-20px]'}>
-        <Badge color={'default'} placement={'bottom-right'} content={candidate.country.getFlag()}>
+        <Badge color={'default'} placement={'bottom-right'} content={candidate.nationality.getFlag()}>
           <Avatar
             showFallback
             fallback={<h1 className={'text-4xl font-semibold text-gray-600 a'}> ? </h1>}
