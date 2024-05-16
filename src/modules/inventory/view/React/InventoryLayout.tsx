@@ -16,22 +16,18 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory }) =
         <div className="flex justify-between p-[10px] h-full w-full">
           <div className="flex flex-col w-1/5 gap-1">
             <InventoryCase
-              itemBase={inventory.equippedItems.head}
               inventory={inventory}
               slot={EquippedObjectSlot.HEAD}
             />
             <InventoryCase
-              itemBase={inventory.equippedItems.chest}
               inventory={inventory}
               slot={EquippedObjectSlot.CHEST}
             />
             <InventoryCase
-              itemBase={inventory.equippedItems.legs}
               inventory={inventory}
               slot={EquippedObjectSlot.LEGS}
             />
             <InventoryCase
-              itemBase={inventory.equippedItems.feet}
               inventory={inventory}
               slot={EquippedObjectSlot.FEET}
             />
@@ -45,11 +41,9 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory }) =
       <Divider />
       <div className="w-full h-[300px] justify-center">
         <div className="grid grid-cols-5 gap-1 p-[10px]">
-          {inventory.items.map((item, index) => (
-            <InventoryCase key={index} itemBase={item} inventory={inventory} />
-          ))}
-          {Array.from({ length: config.character.inventory.maxItems - inventory.items.length }, (_, index) => (
-            <InventoryCase key={index} inventory={inventory} />
+          {
+            Array.from({ length: config.character.inventory.maxItems }, (_, index) => (
+            <InventoryCase key={index} position={index} inventory={inventory} />
           ))}
         </div>
       </div>
