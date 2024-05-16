@@ -1,49 +1,50 @@
 import React from 'react';
 import { Character } from '../../../../character/model/Character.ts';
-import { Divider } from '@nextui-org/react';
+import { Divider, Image } from '@nextui-org/react';
 import { TrainingChoice } from './TrainingChoiceCards.tsx';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 
 interface CharacterStatsProps {
   character: Character;
-  selectecCharacter: Character | null;
+  selectedCharacter: Character | null;
   trainingCenter: TrainingCenterModel | null;
   choice: TrainingChoice | null;
 }
 
 export const CharacterStats: React.FC<CharacterStatsProps> = ({
   character,
-  selectecCharacter,
+  selectedCharacter,
   trainingCenter,
   choice,
 }) => {
   const stats = character.statistics;
 
   return (
-    <div className={'w-full h-full'}>
-      <div className="flex justify-between p-[10px] h-full w-full">
-        <div className="flex flex-col w-1/3 h-full gap-1 rounded-xl bg-case">
-          {character.image && (
-            <img
-              src={character.image}
-              alt={character.name}
-              className="w-[90%] h-[90%] object-cover rounded-t-xl self-center"
-            />
-          )}
+    <div className={'flex flex-col w-full h-full'}>
+      <div className={"flex w-full"}>
+        <div className={"h-full aspect-square"}>
+          {
+            character.image &&
+            <Image radius={'lg'} src={character.image} alt={character.name} width={100} height={100} />
+          }
         </div>
-        <Divider orientation={'vertical'} className={'ml-4 mr-4'} />
-        <div className="w-[50%] h-full overflow-y-auto">
-          <h3>{character.name}</h3>
-          {Array.from(stats.entries()).map(([sport, value]) => (
-            <div key={sport.name}>
-              {sport.name}: {value}
-              {trainingCenter?.sports.includes(sport) && choice !== null && selectecCharacter === character && (
-                <span className="text-green-500">{' + ' + choice.stats}</span>
-              )}
-            </div>
-          ))}
+        <div className={"h-full flex flex-col items-center"}>
+          <h3 className={"text-xl"}>{character.name}</h3>
         </div>
+      </div>
+      <Divider />
+      <div className={"flex flex-wrap gap-3 w-full"}>
+        {Array.from(stats.entries()).map(([sport, value]) => (
+          <div className={"w-[45%]"} key={sport.name}>
+            {sport.name}: {value}
+            {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character && (
+              <span className="text-green-500">{' + ' + choice.stats}</span>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
+
+
