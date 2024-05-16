@@ -146,7 +146,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           )}
         </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
-          <div className={'flex flex-col w-[600px]'}>
+          <div className={'flex flex-col w-[40%] min-w-[450px]'}>
             {trainingCenter.charactersInside.map((character: Character) => (
               <ClickableCard
                 key={character.id}
@@ -161,10 +161,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               />
             ))}
           </div>
-          <div
-            className={`flex flex-col justify-between ${showMessage || diceResult == null ? 'w-full' : ''}  ${diceResult == null ? 'mt-auto' : ''}`}>
             {getReactElementFromCurrentState(selectedCharacter)}
-          </div>
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
