@@ -9,8 +9,11 @@ export class DnDItemManager {
   private draggedItem: UsableObject | null = null;
   private startDragItemHandler: ItemHandlerUseState | null = null;
   private startDragInventory: Inventory | null = null;
+  private startDragPosition: number | null = null;
+  private startDragSlot: EquippedObjectSlot | null = null;
 
-  private constructor() {}
+  private constructor() {
+  }
 
   static getInstance(): DnDItemManager {
     if (!DnDItemManager.instance) {
@@ -23,42 +26,93 @@ export class DnDItemManager {
     endDragItem: UsableObject | null,
     endDragItemHandler: ItemHandlerUseState,
     endDragItemInventory: Inventory,
+    position?: number,
     slot?: EquippedObjectSlot,
   ): void {
-    if (!this.draggedItem || !this.startDragItemHandler || !this.startDragInventory) return;
-    if (slot) {
-      if (!endDragItemInventory.equippedItems.canBePlacedInSlot(slot, this.draggedItem)) return;
-      // Replace the item in the slot
-      endDragItemInventory.equippedItems.equip(this.draggedItem, slot);
-      endDragItemHandler(this.draggedItem);
-
-      this.startDragInventory.removeItem(this.draggedItem);
-      endDragItem && this.startDragInventory.addItem(endDragItem);
-      this.startDragItemHandler(endDragItem);
-    } else {
-      // Add the item to the new inventory and remove it from the old one
-      this.startDragItemHandler(endDragItem);
-      this.startDragInventory.removeItem(this.draggedItem);
-      endDragItem && this.startDragInventory.addItem(endDragItem);
-
-      // If there was an item in the new inventory, remove it from there
-      endDragItemHandler(this.draggedItem);
-      endDragItem && endDragItemInventory.removeItem(endDragItem);
-      endDragItemInventory.addItem(this.draggedItem);
+    if (slot || this.startDragSlot) {
+      this.dropItemInSlot(endDragItem, endDragItemHandler, endDragItemInventory, slot, position);
+    } else if (position) {
+      this.dropClassicItem(endDragItem, endDragItemHandler, endDragItemInventory, position);
     }
-
     this.clearDraggedItem();
   }
 
-  setDraggedItem(item: UsableObject | null, itemHandler: ItemHandlerUseState, inventory: Inventory): void {
+  private dropItemInSlot(
+    endDragItem: UsableObject | null,
+    endDragItemHandler: ItemHandlerUseState,
+    endDragItemInventory: Inventory,
+    endDragSlot: EquippedObjectSlot | undefined,
+    endDragPosition: number | undefined,
+  ) {
+    console.log("endDragItem : ", endDragItem, "endDragSlot : ", endDragSlot, "endDragPosition : ", endDragPosition);
+    if (!this.draggedItem || !this.startDragItemHandler || !this.startDragInventory) return;
+    // When the item is dropped in a slot from another slot
+    if (endDragSlot && this.startDragSlot &&
+      endDragItemInventory.equippedItems.canBePlacedInSlot(endDragSlot, this.draggedItem) &&
+      this.startDragInventory.equippedItems.canBePlacedInSlot(this.startDragSlot, endDragItem)
+    ) {
+      console.log("slot to slot");
+      endDragItemInventory.equippedItems.equip(this.draggedItem, endDragSlot);
+      endDragItemHandler(this.draggedItem);
+
+      this.startDragInventory.equippedItems.equip(endDragItem, this.startDragSlot);
+      this.startDragItemHandler(endDragItem);
+      // When the item is dropped in a slot
+    } else if (endDragSlot && !this.startDragSlot && endDragItemInventory.equippedItems.canBePlacedInSlot(endDragSlot, this.draggedItem)) {
+      console.log("inventory to slot");
+      endDragItemInventory.equippedItems.equip(this.draggedItem, endDragSlot);
+      endDragItemHandler(this.draggedItem);
+
+      this.startDragInventory.removeItem(this.draggedItem);
+      endDragItem && this.startDragInventory.addItem(endDragItem);
+      this.startDragItemHandler(endDragItem);
+
+      // When the item is dropped from a slot in the inventory
+    } else if (this.startDragSlot && endDragItem && this.startDragInventory.equippedItems.canBePlacedInSlot(this.startDragSlot, endDragItem) && !endDragSlot) {
+      console.log("slot to inventory full");
+      // Replace the item in the slot
+      this.startDragInventory.equippedItems.equip(endDragItem, this.startDragSlot);
+      this.startDragItemHandler(endDragItem);
+
+      endDragItemInventory.removeItem(endDragItem);
+      this.startDragInventory.addItem(this.draggedItem);
+      endDragItemHandler(this.draggedItem);
+    } else if (this.startDragSlot && !endDragItem && endDragPosition && !endDragSlot) {
+      console.log('slot to inventory empty');
+      this.startDragInventory.equippedItems.unequip(this.startDragSlot);
+      this.startDragItemHandler(null);
+
+      endDragItemInventory.addItem(this.draggedItem, endDragPosition)
+      endDragItemHandler(this.draggedItem);
+    }
+  }
+
+  private dropClassicItem(endDragItem: UsableObject | null, endDragItemHandler: ItemHandlerUseState, endDragItemInventory: Inventory, position: number) {
+    if (!this.draggedItem || !this.startDragItemHandler || !this.startDragInventory) return;
+    // Add the item to the new inventory and remove it from the old one
+    this.startDragItemHandler(endDragItem);
+    this.startDragInventory.removeItem(this.draggedItem);
+    endDragItem && this.startDragInventory.addItem(endDragItem, this.startDragPosition || undefined);
+
+    // If there was an item in the new inventory, remove it from there
+    endDragItemHandler(this.draggedItem);
+    endDragItem && endDragItemInventory.removeItem(endDragItem);
+    endDragItemInventory.addItem(this.draggedItem, position);
+  }
+
+  setDraggedItem(item: UsableObject | null, itemHandler: ItemHandlerUseState, inventory: Inventory, position?: number, slot?: EquippedObjectSlot): void {
     this.draggedItem = item;
     this.startDragItemHandler = itemHandler;
     this.startDragInventory = inventory;
+    this.startDragPosition = position || null;
+    this.startDragSlot = slot || null;
   }
 
   private clearDraggedItem() {
     this.draggedItem = null;
     this.startDragItemHandler = null;
     this.startDragInventory = null;
+    this.startDragPosition = null;
+    this.startDragSlot = null;
   }
 }

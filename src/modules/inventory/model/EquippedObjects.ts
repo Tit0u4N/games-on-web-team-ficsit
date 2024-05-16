@@ -15,10 +15,10 @@ export class EquippedObjects {
    * @param slot the slot to replace
    * @returns the replaced object
    */
-  public equip(object: UsableObject, slot: EquippedObjectSlot): UsableObject | null {
+  public equip(object: UsableObject | null, slot: EquippedObjectSlot): UsableObject | null {
     if (!this.canBePlacedInSlot(slot, object))
-      throw new Error(`The object slot is not the same as the slot to replace: ${object.slot} !== ${slot}`);
-    return this.setObject(slot, object);
+      throw new Error(`The object slot is not the same as the slot to replace: ${object?.slot} !== ${slot}`);
+    return this.setObject(slot, object || null);
   }
 
   /**
@@ -61,6 +61,21 @@ export class EquippedObjects {
     return replacedObject;
   }
 
+  get(slot: EquippedObjectSlot): UsableObject | null {
+    switch (slot) {
+      case EquippedObjectSlot.HEAD:
+        return this._head;
+      case EquippedObjectSlot.CHEST:
+        return this._chest;
+      case EquippedObjectSlot.LEGS:
+        return this._legs;
+      case EquippedObjectSlot.FEET:
+        return this._feet;
+      default:
+        return null;
+    }
+  }
+
   /**
    * Return all equipped objects
    */
@@ -84,7 +99,8 @@ export class EquippedObjects {
     return this._feet;
   }
 
-  public canBePlacedInSlot(slot: EquippedObjectSlot, usableObject: UsableObject): boolean {
+  public canBePlacedInSlot(slot: EquippedObjectSlot, usableObject: UsableObject | null): boolean {
+    if (!usableObject) return true;
     return usableObject.slot === slot;
   }
 }
