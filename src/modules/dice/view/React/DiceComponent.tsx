@@ -8,7 +8,8 @@ export interface DiceComponentProps {
   diceValues?: number[];
   className?: string;
   onRoll3DStart?: () => void;
-  onRoll3DEnd?: (value?: number) => void;
+  onRoll3DEnd?: () => void;
+  handleDiceValue?: (value: number) => void;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
@@ -16,6 +17,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   className = '',
   onRoll3DStart = () => {},
   onRoll3DEnd = () => {},
+  handleDiceValue
 }) => {
   const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
@@ -34,6 +36,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter.RollDiceFunc2D = rollDice;
   dicePresenter.onRoll3DStart = onRoll3DStart;
   dicePresenter.onRoll3DEnd = onRoll3DEnd;
+  if (handleDiceValue) dicePresenter.handleDiceValue = handleDiceValue;
 
   return (
     <div className="w-full">
@@ -56,7 +59,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
       </div>
       {rollDice2DIsHidden ? null : (
         <div
-          className={'absolute w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
+          className={'fixed w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
           onClick={() => {
             if (rollDice2DCanClose) setRollDice2DIsHidden(true);
           }}>

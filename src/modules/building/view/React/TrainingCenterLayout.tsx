@@ -60,20 +60,23 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     setShowConfirm(!!choice);
   };
 
-  const handleDiceRollEnd = (character: Character, result: number) => {
-    trainingCenter.dicePresenter.unMountView();
-    setHideModal(false);
-    setDiceResult(result);
+  const handleDiceValue = (value: number) => {
+    setDiceResult(value);
     setShowChoices(true);
     const newState = {
       state: State.CARDS_CHOICE,
-      diceResult: result!,
+      diceResult: value!,
       selectedCharacter: selectedCharacter!,
       choiceSelected: null,
       messageContent: '',
     };
     trainingCenter.updateState(selectedCharacter!, newState);
   };
+
+  const handleDice3DEnd = () => {
+    trainingCenter.dicePresenter.unMountView();
+    setHideModal(false);
+}
 
   const handleDiceRollStart = () => {
     setIsRolling(true);
@@ -90,9 +93,8 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
             className={`w-[100%] mt-auto flex items-center justify-around p-5 rounded-[20px] shadow ml-auto ${showChoices ? 'hidden' : ''}`}
             dicePresenter={trainingCenter.dicePresenter}
             onRoll3DStart={handleDiceRollStart}
-            onRoll3DEnd={(value: number | undefined) => {
-              handleDiceRollEnd(character, value!);
-            }}
+            onRoll3DEnd={handleDice3DEnd}
+            handleDiceValue={handleDiceValue}
           />
         );
       case State.CARDS_CHOICE:
