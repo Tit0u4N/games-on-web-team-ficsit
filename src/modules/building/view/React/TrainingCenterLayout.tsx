@@ -35,7 +35,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
   const [, setIsRolling] = useState(false);
   const [choiceSelected, setChoiceSelected] = useState<TrainingChoice | null>(null);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
-  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [, setShowMessage] = useState<boolean>(false);
   const [, setMessageContent] = useState<string>('');
 
   const handleCharacterSelect = (character: Character) => {
@@ -61,6 +61,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
   };
 
   const handleDiceValue = (value: number) => {
+    selectedCharacter!.attributes.movement = 0;
     setDiceResult(value);
     setShowChoices(true);
     const newState = {
@@ -76,11 +77,12 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
   const handleDice3DEnd = () => {
     trainingCenter.dicePresenter.unMountView();
     setHideModal(false);
-}
+  };
 
   const handleDiceRollStart = () => {
     setIsRolling(true);
     setHideModal(true);
+    selectedCharacter!.attributes.movement = 0;
   };
 
   const getReactElementFromCurrentState = (character: Character | null) => {
@@ -145,7 +147,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
             </>
           )}
         </ModalHeader>
-        <ModalBody className="flex flex-row justify-between py-6 h-[85%]">
+        <ModalBody className="flex flex-row justify-between py-6 h-[85%] overflow-y-auto">
           <div className={'flex flex-col w-[40%] min-w-[450px]'}>
             {trainingCenter.charactersInside.map((character: Character) => (
               <ClickableCard
@@ -161,7 +163,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               />
             ))}
           </div>
-            {getReactElementFromCurrentState(selectedCharacter)}
+          {getReactElementFromCurrentState(selectedCharacter)}
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>

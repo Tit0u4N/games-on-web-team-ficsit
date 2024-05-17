@@ -17,7 +17,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   className = '',
   onRoll3DStart = () => {},
   onRoll3DEnd = () => {},
-  handleDiceValue
+  handleDiceValue,
 }) => {
   const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
