@@ -59,6 +59,7 @@ export class TileViewFactory {
       material.alpha = config.map.view.tileViewFactory.createBaseTile.alphaTypeTileAccessible;
     }
     mesh.material = material;
+    mesh.receiveShadows = true;
 
     return {
       type: type,

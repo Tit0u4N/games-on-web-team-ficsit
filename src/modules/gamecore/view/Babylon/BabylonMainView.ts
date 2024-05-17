@@ -9,6 +9,7 @@ import {
   HemisphericLight,
   Scene,
   SceneOptions,
+  ShadowGenerator,
   Vector3,
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
@@ -43,6 +44,7 @@ export class BabylonMainView {
   private _scene!: Scene;
   private _camera!: ArcRotateCamera;
   private _arcRotateCameraKeyboardInputs!: ArcRotateCameraKeyboardInputs;
+  private _shadowGenerator!: ShadowGenerator;
 
   /**
    * Creates a new instance of the BabylonMainView class.
@@ -144,13 +146,18 @@ export class BabylonMainView {
   createLight(): DirectionalLight | HemisphericLight {
     let light: DirectionalLight | HemisphericLight;
     if (GameOptions.instance.shadows) {
-      light = new DirectionalLight('sunLight', new Vector3(-1, -1, -1), this.scene);
-      light.position = new Vector3(0, 80, 0);
+      light = new DirectionalLight('sunLight', new Vector3(-1, -0.9, -0.96), this.scene);
+      light.position = new Vector3(0, 200, 0);
       light.shadowEnabled = true;
 
       light.intensity = 1;
       light.shadowMinZ = -180;
       light.shadowMaxZ = 260;
+      this._shadowGenerator = new ShadowGenerator(512, light);
+      this._shadowGenerator.bias = 0.0001;
+      this._shadowGenerator.normalBias = 0;
+      this._shadowGenerator.useBlurCloseExponentialShadowMap = true;
+      this._shadowGenerator.useKernelBlur = true;
     } else {
       // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
       light = new HemisphericLight(
@@ -235,5 +242,9 @@ export class BabylonMainView {
 
   set canvas(value: HTMLCanvasElement) {
     this._canvas = value;
+  }
+
+  get shadowGenerator(): ShadowGenerator {
+    return this._shadowGenerator;
   }
 }
