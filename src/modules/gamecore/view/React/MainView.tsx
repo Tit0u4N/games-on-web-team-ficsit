@@ -39,6 +39,11 @@ export class MainComponent extends React.Component<MainComponentProps> {
 
   handleViewChange() {
     this.forceUpdate();
+    if (this.props.gameCorePresenter.babylonView.shadowGenerator) {
+      this.props.gameCorePresenter.babylonView.scene?.meshes?.forEach((mesh) => {
+        this.props.gameCorePresenter.babylonView.shadowGenerator.addShadowCaster(mesh);
+      });
+    }
   }
 
   render() {
