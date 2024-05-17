@@ -98,4 +98,8 @@ export class DicePresenter implements Reactable, ViewInitable {
   set handleDiceValue(func: (value: number) => void) {
     this._handleDiceValue = func;
   }
+
+  resetIs3DMod() {
+    this._is3DMod = true;
+  }
 }

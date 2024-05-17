@@ -262,6 +262,7 @@ export class TrainingCenterModel implements DiceHandler {
       messageContent: '',
     };
     this._differentStates.set(character, initialState);
+    this._dicePresenter.resetIs3DMod(); // reset the _is3DMod variable to true
   }
 
   /**
