@@ -14,16 +14,15 @@ export class Inventory {
     return Array.from({ length: config.character.inventory.maxItems }, () => null);
   }
 
-  public addItem(item: UsableObject | null, position? : number): void {
+  public addItem(item: UsableObject | null, position?: number): void {
     if (!position) position = this.findEmptyPosition();
     this._items[position] = item;
   }
 
-
   public removeItem(item: UsableObject | null): void {
     if (!item) return;
     const index = this._items.indexOf(item);
-    console.log("removeItem index : ", index);
+    console.log('removeItem index : ', index);
     if (index !== -1) {
       this._items[index] = null;
     }
