@@ -134,8 +134,6 @@ export class BracketObject {
     let bracketList: BracketObject[] = [];
     let currentRoundCounter = 0;
     let currentRound = rounds.find((round) => round.round === currentRoundCounter);
-    console.log(currentRound);
-    console.log(rounds);
     while (currentRound!.pools.length > 1) {
       if (bracketList.length === 0) {
         for (let i = 0; i < currentRound!.pools.length; i++) {
@@ -145,7 +143,7 @@ export class BracketObject {
       } else {
         const newBracketList: BracketObject[] = [];
         for (let i = 0; i < currentRound!.pools.length; i++) {
-          const bracket = new BracketObject(currentRound!.pools[i], bracketList[i], bracketList[i + 1]);
+          const bracket = new BracketObject(currentRound!.pools[i], bracketList[i * 2], bracketList[i * 2 + 1]);
           newBracketList.push(bracket);
         }
         bracketList = [];

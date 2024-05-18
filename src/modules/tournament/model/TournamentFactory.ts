@@ -25,11 +25,10 @@ export class TournamentFactory {
         else if (random <= 8) nbRound = 3;
         else nbRound = 4;
         break;
-      case TournamentDifficulty.INTERNATIONAL: // 3/14 chance of 3 rounds, 6/14 chance of 4 rounds, 5/14 chance of 5 rounds
-        random = Math.floor(Math.random() * 14) + 1;
-        if (random <= 3) nbRound = 3;
-        else if (random <= 9) nbRound = 4;
-        else nbRound = 5;
+      case TournamentDifficulty.INTERNATIONAL: // 7/20 chance of 3 rounds, 13/20 chance of 4 rounds
+        random = Math.floor(Math.random() * 20) + 1;
+        if (random <= 7) nbRound = 3;
+        else nbRound = 4;
         break;
     }
     return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, sport, reward);

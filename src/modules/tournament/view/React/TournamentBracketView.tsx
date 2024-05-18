@@ -14,7 +14,7 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament }) => {
         <Bracketv1 bracket={BracketObject.buildFromRoundList(tournament.tournamentModel.rounds)} />
         <Divider orientation={'vertical'} />
         <div className={'flex-col flex gap-2 p-4 mr-4 h-full justify-center'}>
-          <Button>Next round</Button>
+          <Button onPress={tournament.playNextRound()}>Next round</Button>
         </div>
       </div>
     </ModalBody>
