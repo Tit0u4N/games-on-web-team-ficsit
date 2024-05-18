@@ -35,7 +35,7 @@
   },
   {
     "gearId": "4",
-    "allEquipments": [16, 5, 10, 15],
+    "allEquipments": [5, 10, 15],
     "statsIncrease": [
       {
         "sport": "SKI",
