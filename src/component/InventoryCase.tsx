@@ -11,7 +11,7 @@ type InventoryCaseProps = {
   slot?: EquippedObjectSlot;
 };
 
-export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory,position, slot }) => {
+export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, position, slot }) => {
   let baseItem: UsableObject | null = null;
   if (position !== undefined) {
     baseItem = inventory.getItemsFromPosition(position);
