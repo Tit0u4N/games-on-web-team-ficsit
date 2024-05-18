@@ -59,4 +59,8 @@ export class TournamentPresenter implements DiceHandler {
   get isInPool() {
     return this._tournamentModel.isInPool;
   }
+
+  playNextRound() {
+    return undefined;
+  }
 }
