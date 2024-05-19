@@ -36,6 +36,7 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
       return setIsOpen(open);
     };
 
+    bracket.open = setIsOpen;
     const classNameContainer = isOpen ? 'bg-default' : '';
 
     return (
@@ -101,15 +102,22 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
 export class BracketObject {
   private _name!: string;
   private _candidates: Array<{ rank: number; character: Candidate }> = [];
+  private readonly _roundNumber: number;
+  private readonly _poolNumber: number;
+  private _opener: React.Dispatch<React.SetStateAction<boolean>> | null = null;
   private _parent?: BracketObject | null;
   private _children1?: BracketObject;
   private _children2?: BracketObject;
 
   constructor(
+    roundNumber: number,
+    poolNumber: number,
     candidates: Array<{ rank: number; character: Candidate }> = [],
     children1?: BracketObject,
     children2?: BracketObject,
   ) {
+    this._roundNumber = roundNumber;
+    this._poolNumber = poolNumber;
     this._candidates = candidates;
     this.children1 = children1;
     this.children2 = children2;
@@ -117,15 +125,15 @@ export class BracketObject {
   }
 
   static testBracket(): BracketObject {
-    const child = new BracketObject(randomCandidates());
-    const child2 = new BracketObject(randomCandidates());
-    const parent1 = new BracketObject(randomCandidates(), child, child2);
-    const parent2_1 = new BracketObject(randomCandidates(), child, child2);
-    const parent2_2 = new BracketObject(randomCandidates(), child, child2);
-    const parent1_1 = new BracketObject(randomCandidates(), parent1, parent2_1);
-    const parent1_2 = new BracketObject(randomCandidates(), parent1, parent2_2);
+    const child = new BracketObject(3, 0, randomCandidates());
+    const child2 = new BracketObject(3, 1, randomCandidates());
+    const parent1 = new BracketObject(2, 0, randomCandidates(), child, child2);
+    const parent2_1 = new BracketObject(1, 0, randomCandidates(), child, child2);
+    const parent2_2 = new BracketObject(1, 1, randomCandidates(), child, child2);
+    const parent1_1 = new BracketObject(1, 0, randomCandidates(), parent1, parent2_1);
+    const parent1_2 = new BracketObject(1, 1, randomCandidates(), parent1, parent2_2);
 
-    return new BracketObject(randomCandidates(), parent1_1, parent1_2);
+    return new BracketObject(0, 0, randomCandidates(), parent1_1, parent1_2);
   }
 
   static buildFromRoundList(
@@ -137,13 +145,19 @@ export class BracketObject {
     while (currentRound!.pools.length > 1) {
       if (bracketList.length === 0) {
         for (let i = 0; i < currentRound!.pools.length; i++) {
-          const bracket = new BracketObject(currentRound!.pools[i]);
+          const bracket = new BracketObject(currentRound!.round, i, currentRound!.pools[i]);
           bracketList.push(bracket);
         }
       } else {
         const newBracketList: BracketObject[] = [];
         for (let i = 0; i < currentRound!.pools.length; i++) {
-          const bracket = new BracketObject(currentRound!.pools[i], bracketList[i * 2], bracketList[i * 2 + 1]);
+          const bracket = new BracketObject(
+            currentRound!.round,
+            i,
+            currentRound!.pools[i],
+            bracketList[i * 2],
+            bracketList[i * 2 + 1],
+          );
           newBracketList.push(bracket);
         }
         bracketList = [];
@@ -154,8 +168,8 @@ export class BracketObject {
       currentRound = rounds.find((round) => round.round === currentRoundCounter);
     }
 
-    if (bracketList.length === 0) return new BracketObject(currentRound!.pools[0]);
-    return new BracketObject(currentRound!.pools[0], bracketList[0], bracketList[1]);
+    if (bracketList.length === 0) return new BracketObject(0, 0, currentRound!.pools[0]);
+    return new BracketObject(currentRound!.round, 0, currentRound!.pools[0], bracketList[0], bracketList[1]);
   }
 
   update() {
@@ -212,5 +226,26 @@ export class BracketObject {
   set parent(parent: BracketObject | null) {
     this._parent = parent;
     this.update();
+  }
+
+  get opener(): React.Dispatch<React.SetStateAction<boolean>> | null {
+    return this._opener;
+  }
+
+  set open(opener: React.Dispatch<React.SetStateAction<boolean>>) {
+    this._opener = opener;
+  }
+
+  getPool(round: number, pool: number): BracketObject | null {
+    if (round === this._roundNumber && pool === this._poolNumber) return this;
+    if (this._children1) {
+      const child = this._children1.getPool(round, pool);
+      if (child) return child;
+    }
+    if (this._children2) {
+      const child = this._children2.getPool(round, pool);
+      if (child) return child;
+    }
+    return null;
   }
 }

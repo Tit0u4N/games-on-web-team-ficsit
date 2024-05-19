@@ -3,6 +3,7 @@ import { DiceHandler, DicePresenter } from '../../dice/presenter/DicePresenter.t
 import { TournamentModel } from '../model/TournamentModel.ts';
 import { TournamentManagerPresenter } from './TournamentManagerPresenter.ts';
 import { Character } from '../../character/model/Character.ts';
+import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
 export class TournamentPresenter implements DiceHandler {
   private readonly _scene: Scene;
@@ -61,6 +62,7 @@ export class TournamentPresenter implements DiceHandler {
   }
 
   playNextRound() {
-    return undefined;
+    this._tournamentModel.playNextRound();
+    ModalManager.getInstance().updateCurrentModal();
   }
 }
