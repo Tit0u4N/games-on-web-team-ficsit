@@ -6,9 +6,6 @@ import { Sport } from '../../../core/singleton/Sport.ts';
 import { Season } from '../../../core/singleton/Season.ts';
 
 export class TournamentModel {
-  get currentPool(): number {
-    return this._currentPool;
-  }
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private readonly _reward: RewardModel;
   private readonly _numberRound: number;
@@ -21,7 +18,7 @@ export class TournamentModel {
   private _finalRankings: Character[] = [];
   private _isInPool: boolean = false;
   private _currentPool: number = 0;
-  private currentRound: number = 0;
+  private _currentRound: number = 0;
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -81,7 +78,7 @@ export class TournamentModel {
         pools.push([]);
       }
       this._rounds.push({ round: this._numberRound - i - 1, pools: pools });
-      this.currentRound = this._numberRound - i - 1;
+      this._currentRound = this._numberRound - i - 1;
     }
     const firstRound = this._rounds.find((round) => round.round == 0);
     const nbPools = firstRound?.pools.length || 0;
@@ -93,7 +90,7 @@ export class TournamentModel {
   }
 
   playRoundInPool(poolNo: number) {
-    const currentRound = this._rounds.find((round) => round.round == this.currentRound);
+    const currentRound = this._rounds.find((round) => round.round == this._currentRound);
     const pool = currentRound?.pools[poolNo];
     const rankingOfThePool: { rank: number; character: Character }[] = [];
     for (let j = 0; j < pool!.length; j++) {
@@ -103,7 +100,6 @@ export class TournamentModel {
         Math.floor(Math.random() * 20),
       );
       rankingOfThePool.push({ rank: ranking, character });
-      console.log(ranking, character.name);
     }
     rankingOfThePool.sort((a, b) => b.rank - a.rank);
     if (currentRound?.pools.length == 1) {
@@ -111,19 +107,19 @@ export class TournamentModel {
       for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
         const character = rankingOfThePool[i].character;
         this._finalRankings.push(character);
-        currentRound!.pools[0][i].rank = i;
+        currentRound!.pools[poolNo][i].rank = i;
       }
     } else {
-      for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
-        currentRound!.pools[0][i].rank = i;
+      for (let i = 0; i < rankingOfThePool.length; i++) {
+        currentRound!.pools[poolNo].find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
       }
       //add the first half of the rankingOfThePool to the next pool
-      for (let i = 0; i < rankingOfThePool.length / 2; i++) {
-        currentRound!.pools[1].push(rankingOfThePool[i]);
+      for (let i = 0; i < currentRound!.pools[poolNo].length / 2; i++) {
+        this._rounds
+          .find((round) => round.round == this._currentRound + 1)!
+          .pools[Math.floor(poolNo / 2)].push({ rank: -1, character: currentRound!.pools[poolNo][i].character });
       }
     }
-    console.log(rankingOfThePool);
-    console.log(this._finalRankings);
   }
 
   get rounds(): { round: number; pools: { rank: number; character: Character }[][] }[] {
@@ -136,5 +132,34 @@ export class TournamentModel {
 
   get isInPool(): boolean {
     return this._isInPool;
+  }
+
+  get currentRound(): number {
+    return this._currentRound;
+  }
+
+  getCurrentRound() {
+    return this._rounds.find((round) => round.round == this._currentRound);
+  }
+
+  get currentPool(): number {
+    return this._currentPool;
+  }
+
+  playNextRound() {
+    this.playRoundInPool(this._currentPool);
+    if (this.getCurrentRound()!.pools.length > this._currentPool + 1) this._currentPool++;
+    else {
+      if (this._currentRound == this._numberRound - 1) {
+        this._isTournamentStarted = false;
+      } else {
+        this._currentRound++;
+        this._currentPool = 0;
+      }
+    }
+  }
+
+  playNextPool() {
+    this._currentPool++;
   }
 }
