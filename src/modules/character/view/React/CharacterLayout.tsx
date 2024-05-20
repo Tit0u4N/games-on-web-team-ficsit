@@ -5,11 +5,12 @@ import { InventoryCase } from '../../../../component/InventoryCase.tsx';
 
 interface CharacterLayoutProps {
   character: Character;
+  isInTournament?: boolean;
 }
 
-const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character }) => {
+const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTournament }) => {
   return (
-    <Card className="w-[28%] h-[150px]">
+    <Card className={isInTournament ? 'w-[100%]' : 'w-[28%]' + ' h-[150px]'}>
       <CardBody>
         <div className="flex size-full">
           <div className="relative mr-4 flex-shrink-0 mt-auto mb-auto p-1">

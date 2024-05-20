@@ -1,8 +1,9 @@
 import React from 'react';
-import { ModalBody, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import { Card, ModalBody, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import { NPCList } from './NPCList.tsx';
 import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
+import CharacterLayout from '../../../character/view/React/CharacterLayout.tsx';
 
 interface Props {
   tournament: TournamentPresenter;
@@ -13,6 +14,9 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
   const model = tournament.tournamentModel;
   const playerCharacters = Array.from(tournament.tournamentManagerPresenter.gameCorePresenter.getCharacters());
   const npcs = model.currentPoolRolls.filter((character) => !playerCharacters.includes(character.character));
+  const presentPlayerCharacters = model.currentPoolRolls.filter((character) =>
+    playerCharacters.includes(character.character),
+  );
   const [showResult, setShowResult] = React.useState(false);
 
   setTimeout(() => {
@@ -21,11 +25,23 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
   return (
     <ModalBody className={'flex-row'}>
       <div className={'w-1/3 flex'}>
-        {/*{*/}
-        {/*  model.characters.map((character, index) => (*/}
-        {/*  ))*/}
-        {/*}*/}
-        TODO CharacterLayout
+        {presentPlayerCharacters.map((character, index) => (
+          <Card key={index} className="w-full max-h-[400px] h-fit">
+            <CharacterLayout character={character.character} isInTournament={true} />
+            <DiceComponent
+              className={'w-full p-2 flex items-center justify-around'}
+              dicePresenter={tournament.dicePresenter}
+              onRoll3DStart={() => {
+                setHideModal(true);
+              }}
+              onRoll3DEnd={() => {
+                setTimeout(() => {
+                  setHideModal(false);
+                }, 2000);
+              }}
+            />
+          </Card>
+        ))}
       </div>
       <div className={'w-2/3 flex flex-col gap-4'}>
         <NPCList npcs={npcs} />
