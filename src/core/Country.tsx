@@ -44,7 +44,6 @@ export class Country {
     this.code = code;
     if (Country.chromiumMethod === undefined) {
       Country.chromiumMethod = navigator.userAgent.toLowerCase().indexOf('firefox') <= -1;
-      console.log('chromiumMethod', Country.chromiumMethod);
     }
   }
 
