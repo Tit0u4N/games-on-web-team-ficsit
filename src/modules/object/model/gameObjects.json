@@ -21,7 +21,6 @@
   {"id":23,"name":"Ski Pants","sport":"SKI","image":"default.png","slot":"legs","statsIncrease":[{"sport":"SKI","bonus":3}]},
   {"id":24,"name":"Ski Boots","sport":"SKI","image":"default.png","slot":"feet","statsIncrease":[{"sport":"SKI","bonus":4}]},
   
-  {"id":27,"name": "Hockey Stick","sport": "HOCKEY","image": "hockey_stick.png","slot": "chest","statsIncrease": [{"sport": "HOCKEY","bonus": 4}]},
   {"id":25,"name":"Hockey Pucks","sport":"HOCKEY","image":"default.png","slot":"feet","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
   {"id":26,"name":"Hockey Helmet","sport":"HOCKEY","image":"default.png","slot":"head","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
   {"id":27,"name": "Hockey Stick","sport": "HOCKEY","image": "hockey_stick.png","slot": "chest","statsIncrease": [{"sport": "HOCKEY","bonus": 4}]},
