@@ -1,9 +1,11 @@
 import React from 'react';
 import { Avatar, Badge, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { simulateRoll } from '../../../dice/view/React/DiceComponent.tsx';
+import { Character } from '../../../character/model/Character.ts';
+import { Sport } from '../../../../core/singleton/Sport.ts';
 
 type NPCProps = {
-  npc: object;
+  npc: { rank: number; character: Character; diceRoll: number };
 };
 
 export const NPC: React.FC<NPCProps> = ({ npc }) => {
@@ -21,8 +23,10 @@ export const NPC: React.FC<NPCProps> = ({ npc }) => {
   }
 
   React.useEffect(() => {
-    rollDice(6);
+    rollDice(npc.diceRoll);
   }, []);
+
+  const sports = Array.from<Sport>(npc.character.statistics.keys());
 
   return (
     <Popover placement={'bottom'} isOpen={showBadge ? undefined : false}>
@@ -30,7 +34,7 @@ export const NPC: React.FC<NPCProps> = ({ npc }) => {
         <div className={'size-[70px] flex flex-col justify-center items-center'}>
           <div className={'flex justify-center items-center w-full'}>
             <Badge content={showBadge ? diceValue : null} placement={'bottom-left'}>
-              <Avatar isDisabled={avatarIsDisabled} src={'character_1.png'} isBordered radius={'full'} size={'lg'} />
+              <Avatar isDisabled={avatarIsDisabled} src={npc.character.image} isBordered radius={'full'} size={'lg'} />
             </Badge>
           </div>
           {!showBadge ? (
@@ -42,7 +46,16 @@ export const NPC: React.FC<NPCProps> = ({ npc }) => {
           ) : null}
         </div>
       </PopoverTrigger>
-      <PopoverContent>Statistiques du personnage</PopoverContent>
+      <PopoverContent>
+        Statistiques du personnage
+        <div>
+          {sports.map((sport) => (
+            <div>
+              {sport.name}: {npc.character.statistics.get(sport)}
+            </div>
+          ))}
+        </div>
+      </PopoverContent>
     </Popover>
   );
 };
