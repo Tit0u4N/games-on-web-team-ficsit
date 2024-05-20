@@ -1,4 +1,5 @@
 import getUnicodeFlagIcon from 'country-flag-icons/unicode';
+import { Image } from '@nextui-org/react';
 export enum CountryCode {
   FRANCE = 'FR',
   USA = 'US',
@@ -37,9 +38,14 @@ export enum CountryCode {
 
 export class Country {
   private readonly code: string;
+  private static chromiumMethod: boolean | undefined = undefined;
 
   constructor(code: string | CountryCode) {
     this.code = code;
+    if (Country.chromiumMethod === undefined) {
+      Country.chromiumMethod = navigator.userAgent.toLowerCase().indexOf('firefox') <= -1;
+      console.log('chromiumMethod', Country.chromiumMethod);
+    }
   }
 
   getCode() {
@@ -47,6 +53,16 @@ export class Country {
   }
 
   getFlag() {
+    if (Country.chromiumMethod) {
+      return (
+        <Image
+          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${this.code}.svg`}
+          alt={this.code}
+          width={32}
+          height={32}
+        />
+      );
+    }
     return getUnicodeFlagIcon(this.code);
   }
 

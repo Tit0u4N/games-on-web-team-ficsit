@@ -3,7 +3,7 @@ import { Attributes } from './Attributes';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { ITile } from '../../map/model/TileModel.ts';
 import { Season } from '../../../core/singleton/Season.ts';
-import { Country } from '../../../core/Country.ts';
+import { Country } from '../../../core/Country.tsx';
 
 export class Character {
   private _id: number;
