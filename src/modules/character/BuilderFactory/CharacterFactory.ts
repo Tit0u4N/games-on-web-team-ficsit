@@ -5,7 +5,7 @@ import { Statistics } from '../model/Statistics';
 import { CharacterBuilder } from './CharacterBuilder';
 import { Inventory } from '../../inventory/model/Inventory.ts';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
-import { Country } from '../../../core/Country.ts';
+import { Country } from '../../../core/Country.tsx';
 
 export class CharacterFactory {
   public static count = 20;

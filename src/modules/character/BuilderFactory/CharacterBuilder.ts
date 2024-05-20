@@ -3,7 +3,7 @@ import { Attributes } from '../model/Attributes';
 import { Character } from '../model/Character';
 import { Statistics } from '../model/Statistics';
 import { Inventory } from '../../inventory/model/Inventory.ts';
-import { Country } from '../../../core/Country.ts';
+import { Country } from '../../../core/Country.tsx';
 
 export class CharacterBuilder {
   private readonly _id: number;
