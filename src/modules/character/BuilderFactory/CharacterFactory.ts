@@ -21,7 +21,7 @@ export class CharacterFactory {
     const defaultInventory = new Inventory();
     const defaultAttributes = new Attributes(5, 0, false);
 
-    return new CharacterBuilder(id, name, nationality, age, image)
+    return new CharacterBuilder(id, name, nationality, age, image, true)
       .setStatistics(defaultStatistics)
       .setInventory(defaultInventory)
       .setAttributes(defaultAttributes)

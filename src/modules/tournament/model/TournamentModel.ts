@@ -19,6 +19,7 @@ export class TournamentModel {
   private _isInPool: boolean = false;
   private _currentPool: number = 0;
   private _currentRound: number = 0;
+  private _currentPoolRolls: { diceRoll: number; character: Character; rank: number }[] = [];
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -97,7 +98,7 @@ export class TournamentModel {
       const character = pool![j].character;
       const ranking = this.calculateScore(
         character.getStatsWithEffect(this._season).get(this._sport),
-        Math.floor(Math.random() * 20),
+        Math.floor(Math.random() * 20) + 1,
       );
       rankingOfThePool.push({ rank: ranking, character });
     }
@@ -142,12 +143,41 @@ export class TournamentModel {
     return this._rounds.find((round) => round.round == this._currentRound);
   }
 
+  getCurrentPool() {
+    return this.getCurrentRound()!.pools[this._currentPool];
+  }
+
   get currentPool(): number {
     return this._currentPool;
   }
 
+  get currentPoolRolls(): { diceRoll: number; character: Character; rank: number }[] {
+    return this._currentPoolRolls;
+  }
+
+  get sport(): Sport {
+    return this._sport;
+  }
+
   playNextRound() {
-    this.playRoundInPool(this._currentPool);
+    if (this.currentPoolContainsCharacter()) {
+      this._isInPool = true;
+      for (let i = 0; i < this.getCurrentPool()!.length; i++) {
+        this._currentPoolRolls.push({
+          diceRoll: !this.getCurrentPool()![i].character.isPlayer ? Math.floor(Math.random() * 20) + 1 : -1,
+          character: this.getCurrentPool()![i].character,
+          rank: -1,
+        });
+      }
+    }
+    if (!this._isInPool) {
+      this.playRoundInPool(this._currentPool);
+      this.passToNextRound();
+    }
+  }
+
+  public passToNextRound() {
+    this._isInPool = false;
     if (this.getCurrentRound()!.pools.length > this._currentPool + 1) this._currentPool++;
     else {
       if (this._currentRound == this._numberRound - 1) {
@@ -159,7 +189,10 @@ export class TournamentModel {
     }
   }
 
-  playNextPool() {
-    this._currentPool++;
+  private currentPoolContainsCharacter(): boolean {
+    const characters = this._tournamentManagerPresenter.gameCorePresenter.characterPresenter.characters;
+    const characterArray = Array.from(characters);
+    const currentPool = this.getCurrentRound()!.pools[this._currentPool]!;
+    return characterArray.some((character) => currentPool.some((pool) => pool.character.id === character.id));
   }
 }

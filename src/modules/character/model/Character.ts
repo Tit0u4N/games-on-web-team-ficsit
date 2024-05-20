@@ -15,6 +15,7 @@ export class Character {
   private _inventory: Inventory;
   private _attributes: Attributes;
   private _currentTile: ITile | undefined;
+  private readonly _isPlayer: boolean = false;
 
   public constructor(
     id: number,
@@ -23,6 +24,7 @@ export class Character {
     age: number,
     attributes: Attributes,
     image: string,
+    isPlayer: boolean = false,
   ) {
     this._id = id;
     this._name = name;
@@ -32,6 +34,7 @@ export class Character {
     this._statistics = new Statistics();
     this._attributes = attributes;
     this._image = image;
+    this._isPlayer = isPlayer;
   }
 
   get id(): number {
@@ -104,6 +107,10 @@ export class Character {
 
   set tile(value: ITile | undefined) {
     this._currentTile = value;
+  }
+
+  get isPlayer(): boolean {
+    return this._isPlayer;
   }
 
   public removeMovementPoints(value: number): void {
