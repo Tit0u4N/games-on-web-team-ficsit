@@ -35,7 +35,7 @@ export class UsableObject {
     return this._statsIncrease;
   }
 
-  getEffect(character: Character, season: Season) {
+  getEffect(character: Character, season: Season): Statistics | null {
     // Copy the current stats
     const modifiedStats: Statistics = new Statistics(this._statsIncrease);
 
@@ -59,6 +59,7 @@ export class UsableObject {
 
       return modifiedStats;
     }
+    return null;
   }
 
   private getCompleteGearBonus(character: Character, gears: IGears[]): Statistics | null {
