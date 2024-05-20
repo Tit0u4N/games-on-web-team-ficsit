@@ -43,7 +43,6 @@ export class DnDItemManager {
     endDragSlot: EquippedObjectSlot | undefined,
     endDragPosition: number | undefined,
   ) {
-    console.log('endDragItem : ', endDragItem, 'endDragSlot : ', endDragSlot, 'endDragPosition : ', endDragPosition);
     if (!this.draggedItem || !this.startDragItemHandler || !this.startDragInventory) return;
     // When the item is dropped in a slot from another slot
     if (
@@ -52,11 +51,10 @@ export class DnDItemManager {
       endDragItemInventory.equippedItems.canBePlacedInSlot(endDragSlot, this.draggedItem) &&
       this.startDragInventory.equippedItems.canBePlacedInSlot(this.startDragSlot, endDragItem)
     ) {
-      console.log('slot to slot');
-      endDragItemInventory.equippedItems.equip(this.draggedItem, endDragSlot);
+      endDragItemInventory.equipItem(this.draggedItem, endDragSlot);
       endDragItemHandler(this.draggedItem);
 
-      this.startDragInventory.equippedItems.equip(endDragItem, this.startDragSlot);
+      this.startDragInventory.equipItem(endDragItem, this.startDragSlot);
       this.startDragItemHandler(endDragItem);
       // When the item is dropped in a slot
     } else if (
@@ -64,8 +62,7 @@ export class DnDItemManager {
       !this.startDragSlot &&
       endDragItemInventory.equippedItems.canBePlacedInSlot(endDragSlot, this.draggedItem)
     ) {
-      console.log('inventory to slot');
-      endDragItemInventory.equippedItems.equip(this.draggedItem, endDragSlot);
+      endDragItemInventory.equipItem(this.draggedItem, endDragSlot);
       endDragItemHandler(this.draggedItem);
 
       this.startDragInventory.removeItem(this.draggedItem);
@@ -79,17 +76,15 @@ export class DnDItemManager {
       this.startDragInventory.equippedItems.canBePlacedInSlot(this.startDragSlot, endDragItem) &&
       !endDragSlot
     ) {
-      console.log('slot to inventory full');
       // Replace the item in the slot
-      this.startDragInventory.equippedItems.equip(endDragItem, this.startDragSlot);
+      this.startDragInventory.equipItem(endDragItem, this.startDragSlot);
       this.startDragItemHandler(endDragItem);
 
       endDragItemInventory.removeItem(endDragItem);
       this.startDragInventory.addItem(this.draggedItem);
       endDragItemHandler(this.draggedItem);
     } else if (this.startDragSlot && !endDragItem && endDragPosition && !endDragSlot) {
-      console.log('slot to inventory empty');
-      this.startDragInventory.equippedItems.unequip(this.startDragSlot);
+      this.startDragInventory.unEquipItem(this.startDragSlot);
       this.startDragItemHandler(null);
 
       endDragItemInventory.addItem(this.draggedItem, endDragPosition);

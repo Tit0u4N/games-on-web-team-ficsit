@@ -1,5 +1,5 @@
 import { UsableObject } from '../../object/model/UsableObject.ts';
-import { EquippedObjects } from './EquippedObjects.ts';
+import { EquippedObjects, EquippedObjectSlot } from './EquippedObjects.ts';
 import { config } from '../../../core/Interfaces.ts';
 
 export class Inventory {
@@ -22,7 +22,6 @@ export class Inventory {
   public removeItem(item: UsableObject | null): void {
     if (!item) return;
     const index = this._items.indexOf(item);
-    console.log('removeItem index : ', index);
     if (index !== -1) {
       this._items[index] = null;
     }
@@ -32,15 +31,12 @@ export class Inventory {
     return this._items.indexOf(null);
   }
 
-  public equipItem(item: UsableObject): void {
-    if (!this._equippedObjects.canBePlacedInSlot(item.slot, item)) {
-      throw new Error(`Cannot equip the item in the slot: ${item.slot}`);
-    }
-    this._equippedObjects.equip(item, item.slot);
+  public equipItem(item: UsableObject | null, slot: EquippedObjectSlot): UsableObject | null {
+    return this._equippedObjects.equip(item, slot);
   }
 
-  public unEquipItem(item: UsableObject): void {
-    this._equippedObjects.unequip(item.slot);
+  public unEquipItem(slot: EquippedObjectSlot): UsableObject | null {
+    return this._equippedObjects.unEquip(slot);
   }
 
   getItemsFromPosition(position: number): UsableObject | null {

@@ -26,7 +26,7 @@ export class EquippedObjects {
    * @param slot The slot to unequip
    * @returns the unequipped object
    */
-  public unequip(slot: EquippedObjectSlot): UsableObject | null {
+  public unEquip(slot: EquippedObjectSlot): UsableObject | null {
     return this.setObject(slot, null);
   }
 
