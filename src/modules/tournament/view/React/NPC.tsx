@@ -6,12 +6,13 @@ import { Sport } from '../../../../core/singleton/Sport.ts';
 
 type NPCProps = {
   npc: { rank: number; character: Character; diceRoll: number };
+  isRolled?: boolean;
 };
 
-export const NPC: React.FC<NPCProps> = ({ npc }) => {
-  const [diceValue, setDiceValue] = React.useState(0);
+export const NPC: React.FC<NPCProps> = ({ npc, isRolled = false }) => {
+  const [diceValue, setDiceValue] = React.useState(isRolled ? npc.diceRoll : 0);
   const [avatarIsDisabled, setAvatarIsDisabled] = React.useState(false);
-  const [showBadge, setShowBadge] = React.useState(false);
+  const [showBadge, setShowBadge] = React.useState(isRolled);
 
   async function rollDice(finalValue: number, nbRolls: number = 30) {
     setAvatarIsDisabled(true);
@@ -23,7 +24,7 @@ export const NPC: React.FC<NPCProps> = ({ npc }) => {
   }
 
   React.useEffect(() => {
-    rollDice(npc.diceRoll);
+    if (!isRolled) rollDice(npc.diceRoll);
   }, []);
 
   const sports = Array.from<Sport>(npc.character.statistics.keys());
