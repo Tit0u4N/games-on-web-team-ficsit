@@ -17,7 +17,7 @@ export class CharacterFactory {
     age: number,
     image: string,
   ): Character {
-    const defaultStatistics = new Statistics();
+    const defaultStatistics = new Statistics(Statistics.initRandomStats(110, 7));
     const defaultInventory = new Inventory();
     const defaultAttributes = new Attributes(5, 0, false);
 

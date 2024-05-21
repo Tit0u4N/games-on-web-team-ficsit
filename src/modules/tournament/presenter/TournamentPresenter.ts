@@ -10,6 +10,7 @@ export class TournamentPresenter implements DiceHandler {
   private readonly _dicePresenter: DicePresenter;
   private readonly _tournamentModel: TournamentModel;
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
+  private _echoRollDice: number = 0;
 
   constructor(scene: Scene, tournamentManagerPresenter: TournamentManagerPresenter, tournamentModel: TournamentModel) {
     this._scene = scene;
@@ -38,6 +39,10 @@ export class TournamentPresenter implements DiceHandler {
     return this._tournamentModel.isTournamentStarted;
   }
 
+  get echoRollDice(): number {
+    return this._echoRollDice;
+  }
+
   startTournament(presentCharacters: Character[]) {
     const participants = this._tournamentManagerPresenter.generateNPCs(
       presentCharacters,
@@ -54,7 +59,7 @@ export class TournamentPresenter implements DiceHandler {
   }
 
   handleRollDice(diceValue: number) {
-    console.log('TournamentPresenter handleRollDice ' + diceValue);
+    this._echoRollDice = diceValue;
   }
 
   get isInPool() {

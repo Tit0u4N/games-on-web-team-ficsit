@@ -4,6 +4,7 @@ import { TournamentDifficulty } from './TournamentDifficulty.ts';
 import { RewardModel } from './RewardModel.ts';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { Season } from '../../../core/singleton/Season.ts';
+import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
@@ -20,6 +21,7 @@ export class TournamentModel {
   private _currentPool: number = 0;
   private _currentRound: number = 0;
   private _currentPoolRolls: { diceRoll: number; character: Character; rank: number }[] = [];
+  private _isRolled: boolean = false;
 
   constructor(
     tournamentManagerPresenter: TournamentManagerPresenter,
@@ -65,6 +67,10 @@ export class TournamentModel {
 
   get isTournamentStarted(): boolean {
     return this._isTournamentStarted;
+  }
+
+  get isRolled(): boolean {
+    return this._isRolled;
   }
 
   initTournament() {
@@ -160,6 +166,7 @@ export class TournamentModel {
   }
 
   playNextRound() {
+    this._isRolled = false;
     if (this.currentPoolContainsCharacter()) {
       this._isInPool = true;
       for (let i = 0; i < this.getCurrentPool()!.length; i++) {
@@ -194,5 +201,11 @@ export class TournamentModel {
     const characterArray = Array.from(characters);
     const currentPool = this.getCurrentRound()!.pools[this._currentPool]!;
     return characterArray.some((character) => currentPool.some((pool) => pool.character.id === character.id));
+  }
+
+  setCurrentPoolRoll(characterId: number, diceRoll: number) {
+    this._currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll = diceRoll;
+    this._isRolled = true;
+    ModalManager.getInstance().updateCurrentModal();
   }
 }
