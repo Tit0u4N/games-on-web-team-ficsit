@@ -164,6 +164,10 @@ export class TournamentModel {
     return this.currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll != -1;
   }
 
+  isAllRolled() {
+    return this._currentPoolRolls.every((value) => value.diceRoll != -1);
+  }
+
   playNextRound() {
     this._isRolled = false;
     if (this.currentPoolContainsCharacter()) {
@@ -205,6 +209,45 @@ export class TournamentModel {
   setCurrentPoolRoll(characterId: number, diceRoll: number) {
     this._currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll = diceRoll;
     this._isRolled = true;
+    if (this.isAllRolled()) this.rankCurrentPool();
     ModalManager.getInstance().updateCurrentModal();
+  }
+
+  private rankCurrentPool() {
+    const currentPool = this.getCurrentPool()!;
+    const currentPoolRolls = this._currentPoolRolls;
+    const currentRound = this.getCurrentRound();
+    const rankingOfThePool: { rank: number; character: Character }[] = [];
+    for (let j = 0; j < currentPoolRolls!.length; j++) {
+      const character = currentPoolRolls![j].character;
+      const ranking = this.calculateScore(
+        character.getStatsWithEffect(this._season).get(this._sport),
+        currentPoolRolls![j].diceRoll,
+      );
+      rankingOfThePool.push({ rank: ranking, character });
+    }
+    rankingOfThePool.sort((a, b) => b.rank - a.rank);
+    if (currentRound?.pools.length == 1) {
+      //add all the characters to _finalRankings in the inverse order of rankingOfThePool
+      for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
+        const character = rankingOfThePool[i].character;
+        this._finalRankings.push(character);
+        currentPool.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
+        currentPoolRolls.find((value) => value.character.id == character.id)!.rank = i;
+      }
+    } else {
+      for (let i = 0; i < rankingOfThePool.length; i++) {
+        currentPool.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
+        currentPoolRolls.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
+      }
+      //add the first half of the rankingOfThePool to the next pool
+      for (let i = 0; i < currentPool.length / 2; i++) {
+        this._rounds
+          .find((round) => round.round == this._currentRound + 1)!
+          .pools[
+            Math.floor(this._currentPool / 2)
+          ].push({ rank: -1, character: currentRound!.pools[this._currentPool][i].character });
+      }
+    }
   }
 }

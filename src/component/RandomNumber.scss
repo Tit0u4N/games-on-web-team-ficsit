@@ -1,0 +1,14 @@
+$charNum: 2; // Stops looking good around 30
+
+div.rollContainer{
+  width: $charNum + ch;
+  overflow: hidden;
+}
+
+div.rollContainer div.rolling {
+  animation: randomGen (300 / $charNum / 15) + s steps(300 / $charNum) infinite;
+}
+
+@keyframes randomGen {
+  100% { transform: translateX(-300 / $charNum * 100%); }
+}
