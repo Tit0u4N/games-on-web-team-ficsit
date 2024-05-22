@@ -16,8 +16,8 @@
       "@inventory/*": ["./src/modules/inventory/*"],
       "@map/*": ["./src/modules/map/*"],
       "@object/*": ["./src/modules/object/*"],
-      "@sport/*": ["./src/modules/sport/*"],
-      "@tournament/*": ["./src/modules/tournement/*"]
+      "@tournament/*": ["./src/modules/tournament/*"],
+      "@core/*": ["./src/core/*"],
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

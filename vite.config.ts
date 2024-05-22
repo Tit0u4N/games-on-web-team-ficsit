@@ -14,17 +14,17 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@building': path.resolve(__dirname, 'src/modules/building'),
-      '@character': path.resolve(__dirname, 'src/modules/character'),
-      '@dice': path.resolve(__dirname, 'src/modules/dice'),
-      '@event': path.resolve(__dirname, 'src/modules/event'),
-      '@gamecore': path.resolve(__dirname, 'src/modules/gamecore'),
-      '@inventory': path.resolve(__dirname, 'src/modules/inventory'),
-      '@map': path.resolve(__dirname, 'src/modules/map'),
-      '@object': path.resolve(__dirname, 'src/modules/object'),
-      '@sport': path.resolve(__dirname, 'src/modules/sport'),
-      '@tournament': path.resolve(__dirname, 'src/modules/tournement'),
+      '@': path.resolve(__dirname, './src'),
+      '@building': path.resolve(__dirname, './src/modules/building'),
+      '@character': path.resolve(__dirname, './src/modules/character'),
+      '@dice': path.resolve(__dirname, './src/modules/dice'),
+      '@event': path.resolve(__dirname, './src/modules/event'),
+      '@gamecore': path.resolve(__dirname, './src/modules/gamecore'),
+      '@inventory': path.resolve(__dirname, './src/modules/inventory'),
+      '@map': path.resolve(__dirname, './src/modules/map'),
+      '@object': path.resolve(__dirname, './src/modules/object'),
+      '@tournament': path.resolve(__dirname, './src/modules/tournament'),
+      '@core': path.resolve(__dirname, './src/core'),
     }
   },
   // add the public folder to the build
