@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Bracket.scss';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { Bracketv1Candidate, Candidate } from './Bracketv1Candidate.tsx';
@@ -20,6 +20,7 @@ const randomCandidates = () => {
         nationality: Country.getRandom(),
         image: 'https://i.pravatar.cc/150?img=' + i,
         score: Math.floor(Math.random() * 100),
+        id: i,
       },
     });
   }
@@ -28,19 +29,35 @@ const randomCandidates = () => {
 };
 
 export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleOpen = (open: boolean) => {
+    if (!bracket.hasCandidates()) return setIsOpen(false);
+    return setIsOpen(open);
+  };
+
+  bracket.open = setIsOpen;
+  bracket.loading = setIsLoading;
+  const [candidates, setCandidates] = useState(bracket.candidates);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (!isLoading) {
+      setCandidates(candidates.sort((a, b) => (a.rank === -1 ? 1000 : a.rank) - (b.rank === -1 ? 1000 : b.rank)));
+    } else {
+      setCandidates(candidates.sort((a, b) => a.character.id - b.character.id));
+    }
+  }, [candidates, isLoading, isOpen]);
+
   const renderBlock = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [isOpen, setIsOpen] = useState(false);
-    const handleOpen = (open: boolean) => {
-      if (!bracket.hasCandidates()) return setIsOpen(false);
-      return setIsOpen(open);
-    };
-
-    bracket.open = setIsOpen;
     const classNameContainer = isOpen ? 'bg-default' : '';
-
     return (
-      <Popover placement={'left'} isOpen={isOpen} onOpenChange={handleOpen}>
+      <Popover
+        placement={'left'}
+        isOpen={isOpen}
+        onOpenChange={handleOpen}
+        shouldCloseOnInteractOutside={() => !isLoading}>
         <PopoverTrigger>
           <div
             className={
@@ -52,11 +69,15 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
         </PopoverTrigger>
         <PopoverContent>
           <div className={'flex flex-wrap gap-3 w-[380px] p-2'}>
-            {bracket.candidates
-              .sort((a, b) => (a.rank === -1 ? 1000 : a.rank) - (b.rank === -1 ? 1000 : b.rank))
+            {candidates
+              .sort(
+                (a, b) =>
+                  (!isLoading ? (a.rank === -1 ? 1000 : a.rank) : a.character.id) -
+                  (!isLoading ? (b.rank === -1 ? 1000 : b.rank) : b.character.id),
+              )
               .map((candidate, index) => (
                 <div className={'flex gap-2 items-center'} key={index}>
-                  <h3>{candidate.rank + 1}.</h3>
+                  <h3>{isLoading ? 0 : candidate.rank + 1}.</h3>
                   <Bracketv1Candidate key={index} candidate={candidate.character} />
                 </div>
               ))}
@@ -105,6 +126,7 @@ export class BracketObject {
   private readonly _roundNumber: number;
   private readonly _poolNumber: number;
   private _opener: React.Dispatch<React.SetStateAction<boolean>> | null = null;
+  private _loading: React.Dispatch<React.SetStateAction<boolean>> | null = null;
   private _parent?: BracketObject | null;
   private _children1?: BracketObject;
   private _children2?: BracketObject;
@@ -231,9 +253,19 @@ export class BracketObject {
   get opener(): React.Dispatch<React.SetStateAction<boolean>> | null {
     return this._opener;
   }
-
   set open(opener: React.Dispatch<React.SetStateAction<boolean>>) {
     this._opener = opener;
+  }
+
+  set loading(loading: React.Dispatch<React.SetStateAction<boolean>>) {
+    this._loading = loading;
+  }
+
+  public startLoading(): void {
+    this._loading!(true);
+    setTimeout(() => {
+      this._loading!(false);
+    }, 1000);
   }
 
   getPool(round: number, pool: number): BracketObject | null {

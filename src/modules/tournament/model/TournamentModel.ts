@@ -119,6 +119,7 @@ export class TournamentModel {
       for (let i = 0; i < rankingOfThePool.length; i++) {
         currentRound!.pools[poolNo].find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
       }
+      currentRound!.pools[poolNo].sort((a, b) => a.rank - b.rank);
       //add the first half of the rankingOfThePool to the next pool
       for (let i = 0; i < currentRound!.pools[poolNo].length / 2; i++) {
         this._rounds
@@ -172,6 +173,7 @@ export class TournamentModel {
     this._isRolled = false;
     if (this.currentPoolContainsCharacter()) {
       this._tournamentStatus = 'inPool';
+      this._currentPoolRolls = [];
       for (let i = 0; i < this.getCurrentPool()!.length; i++) {
         this._currentPoolRolls.push({
           diceRoll: !this.getCurrentPool()![i].character.isPlayer ? Math.floor(Math.random() * 20) + 1 : -1,
@@ -197,6 +199,7 @@ export class TournamentModel {
         this._tournamentStatus = 'finished';
       }
     }
+    ModalManager.getInstance().updateCurrentModal();
   }
 
   private currentPoolContainsCharacter(): boolean {
@@ -240,6 +243,7 @@ export class TournamentModel {
         currentPool.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
         currentPoolRolls.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
       }
+      currentPool.sort((a, b) => a.rank - b.rank);
       //add the first half of the rankingOfThePool to the next pool
       for (let i = 0; i < currentPool.length / 2; i++) {
         this._rounds

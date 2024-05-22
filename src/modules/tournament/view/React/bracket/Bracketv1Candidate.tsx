@@ -11,6 +11,7 @@ export type Candidate = {
   name: string;
   nationality: Country;
   image: string;
+  id: number;
   score?: number;
 };
 

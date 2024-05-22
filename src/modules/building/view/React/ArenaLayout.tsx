@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
@@ -18,7 +18,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
 
   const [hideModal, setHideModal] = React.useState<boolean>(false);
 
-  const buildTournament = (status: 'notStarted' | 'inProgress' | 'inPool' | 'finished') => {
+  const buildTournament = (status: 'notStarted' | 'inProgress' | 'inPool' | 'finished', arena: ArenaPresenter) => {
     switch (status) {
       case 'notStarted':
         return (
@@ -56,20 +56,12 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.hasTournament() ? (
-          buildTournament(arena.tournamentPresenter.tournamentModel.tournamentStatus)
+          buildTournament(arena.tournamentPresenter.tournamentModel.tournamentStatus, arena)
         ) : (
           <div className="flex justify-center items-center h-[50%] w-full">
             <h1>No tournament</h1>
           </div>
         )}
-        <ModalFooter>
-          <Button color="danger" variant="light" onClick={onClose}>
-            Close
-          </Button>
-          <Button color="primary" onClick={onClose}>
-            Action
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
