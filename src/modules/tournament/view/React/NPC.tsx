@@ -50,8 +50,8 @@ export const NPC: React.FC<NPCProps> = ({ npc, isRolled = false }) => {
       <PopoverContent>
         Statistiques du personnage
         <div>
-          {sports.map((sport) => (
-            <div>
+          {sports.map((sport, index) => (
+            <div key={index}>
               {sport.name}: {npc.character.statistics.get(sport)}
             </div>
           ))}

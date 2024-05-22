@@ -35,12 +35,14 @@ export class TournamentPresenter implements DiceHandler {
     return this._tournamentManagerPresenter;
   }
 
-  get isTournamentStarted(): boolean {
-    return this._tournamentModel.isTournamentStarted;
-  }
-
   get echoRollDice(): number {
     return this._echoRollDice;
+  }
+
+  get isTournamentStarted(): boolean {
+    return (
+      this._tournamentModel.tournamentStatus !== 'notStarted' && this._tournamentModel.tournamentStatus !== 'finished'
+    );
   }
 
   startTournament(presentCharacters: Character[]) {
@@ -61,11 +63,6 @@ export class TournamentPresenter implements DiceHandler {
   handleRollDice(diceValue: number) {
     this._echoRollDice = diceValue;
   }
-
-  get isInPool() {
-    return this._tournamentModel.isInPool;
-  }
-
   playNextRound() {
     this._tournamentModel.playNextRound();
     ModalManager.getInstance().updateCurrentModal();
