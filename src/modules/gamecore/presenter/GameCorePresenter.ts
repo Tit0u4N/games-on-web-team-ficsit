@@ -24,7 +24,7 @@ export class GameCorePresenter {
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
 
-  private _setIsLoading: (isLoading: boolean) => void;
+  private _setIsLoading!: (isLoading: boolean) => void;
 
   constructor() {
     this.gameModel = new GameCoreModel();

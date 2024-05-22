@@ -15,17 +15,11 @@ export class TileView {
   private readonly scene: Scene;
   private readonly _mesh: InstancedMesh;
   private type: TypesTile;
-  private x: number;
-  private y: number;
-  private mapView: MapView;
   private static readonly _radius: number = config.map.view.tileViewFactory.radius;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
     this._mesh = this.createHexagonMesh(x, y, baseTile);
-    this.x = x;
-    this.y = y;
-    this.mapView = mapView;
     this.type = baseTile.type;
   }
 

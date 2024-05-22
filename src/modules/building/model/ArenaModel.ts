@@ -1,7 +1,7 @@
-import { SportType } from '@sport/model/Sport.ts';
 import { Vector3 } from '@babylonjs/core';
-import { Tournament } from '@tournament/model/Tournament.ts';
 import { Character } from 'data-structure-typed';
+import { Sport } from '@core/singleton/Sport.ts';
+import { Tournament } from '@tournament/model/Tournament.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
