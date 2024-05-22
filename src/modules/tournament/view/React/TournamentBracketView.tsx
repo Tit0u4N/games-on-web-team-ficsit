@@ -14,9 +14,10 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament }) => {
     bracketObjects.getPool(tournament.tournamentModel.currentRound, tournament.tournamentModel.currentPool)!.opener!(
       true,
     );
-    setTimeout(() => {
-      tournament.playNextRound();
-    }, 1000);
+    bracketObjects
+      .getPool(tournament.tournamentModel.currentRound, tournament.tournamentModel.currentPool)!
+      .startLoading();
+    tournament.playNextRound();
   };
 
   return (

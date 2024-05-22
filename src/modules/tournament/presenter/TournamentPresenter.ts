@@ -63,6 +63,7 @@ export class TournamentPresenter implements DiceHandler {
   handleRollDice(diceValue: number) {
     this._echoRollDice = diceValue;
   }
+
   playNextRound() {
     this._tournamentModel.playNextRound();
     ModalManager.getInstance().updateCurrentModal();

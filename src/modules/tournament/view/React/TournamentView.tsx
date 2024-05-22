@@ -1,5 +1,15 @@
-import React from 'react';
-import { Card, ModalBody, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import React, { useEffect } from 'react';
+import {
+  Button,
+  Card,
+  ModalBody,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react';
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import { NPCList } from './NPCList.tsx';
 import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
@@ -27,15 +37,22 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
     model.setCurrentPoolRoll(characterId, tournament.echoRollDice);
   };
 
-  let list = model.currentPoolRolls.sort((a, b) => a.rank - b.rank);
+  let list = model.currentPoolRolls;
+
+  useEffect(() => {
+    if (showResult) {
+      setTimeout(() => {
+        setShowRank(true);
+        list = model.currentPoolRolls.sort((a, b) => a.rank - b.rank);
+      }, 4000);
+    }
+  }, [showResult]);
 
   const showResults = () => {
     setShowResult(true);
-    console.log('showRank');
     setTimeout(() => {
-      console.log('showRank');
-      list = model.currentPoolRolls;
       setShowRank(true);
+      list = model.currentPoolRolls.sort((a, b) => a.rank - b.rank);
     }, 4000);
   };
 
@@ -64,7 +81,9 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
                       setTimeout(() => {
                         setDiceRoll(character.character.id);
                         setHideModal(false);
-                        if (model.isAllRolled()) showResults();
+                        setTimeout(() => {
+                          if (model.isAllRolled()) showResults();
+                        }, 500);
                       }, 2000);
                     }}
                     onRoll2DEnd={() => {
@@ -117,7 +136,9 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
             </Table>
           </div>
           <div className={'w-1/3 flex flex-col gap-4'}>
-            <div className={'flex size-full border border-default-200 rounded-2xl'}>Boom</div>
+            <div className={'flex size-full border border-default-200 rounded-2xl flex-col-reverse'}>
+              {showResult && <Button onPress={() => model.passToNextRound()}>Next round</Button>}
+            </div>
           </div>
         </div>
       </div>
