@@ -24,7 +24,7 @@
   },
   "activateDevCamera": false,
   "babylonInspector": {
-    "enabled": true,
+    "enabled": false,
     "options": {
       "overlay": true
     }
