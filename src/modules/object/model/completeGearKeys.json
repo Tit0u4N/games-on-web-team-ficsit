@@ -9,8 +9,8 @@
 
   {"gearId": "athletism_gear1", "allEquipments": [51, 52, 50], "statsIncrease": [{ "sport": "ATHLETISM", "bonus": 2 }]},
 
-  { "gearId": "natation_gear1", "allEquipments": [53, 55, 56], "statsIncrease": [{ "sport": "NATATION", "bonus": 2 }] },
-  { "gearId": "natation_gear2", "allEquipments": [54, 55, 56], "statsIncrease": [{ "sport": "NATATION", "bonus": 2 }] },
+  { "gearId": "natation_gear1", "allEquipments": [53, 55], "statsIncrease": [{ "sport": "NATATION", "bonus": 2 }] },
+  { "gearId": "natation_gear2", "allEquipments": [54, 55], "statsIncrease": [{ "sport": "NATATION", "bonus": 2 }] },
 
   {"gearId": "kayak_gear1", "allEquipments": [60,59,58,57], "statsIncrease": [{"sport": "KAYAK", "bonus": 2}]}
 ]
