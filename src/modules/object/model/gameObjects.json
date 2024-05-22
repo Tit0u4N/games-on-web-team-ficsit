@@ -5,7 +5,7 @@
   {"id":22,"name":"Ski Jacket","sport":"SKI","image":"ski_jacket.png","slot":"chest","statsIncrease":[{"sport":"SKI","bonus":3}]},
   {"id":23,"name":"Ski Pants","sport":"SKI","image":"ski_pants.png","slot":"legs","statsIncrease":[{"sport":"SKI","bonus":3}]},
 
-  {"id":25,"name":"Hockey Pucks","sport":"HOCKEY","image":"default.png","slot":"feet","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
+  {"id":25,"name":"Hockey Puck","sport":"HOCKEY","image":"hockey_puck.png","slot":"feet","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
   {"id":26,"name":"Hockey Helmet","sport":"HOCKEY","image":"hockey_helmet.png","slot":"head","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
   {"id":27,"name":"Hockey Stick","sport":"HOCKEY","image":"hockey_stick.png","slot":"chest","statsIncrease":[{"sport":"HOCKEY","bonus":4}]},
   {"id":28,"name":"Hockey Skates","sport":"HOCKEY","image":"hockey_skates.png","slot":"feet","statsIncrease":[{"sport":"HOCKEY","bonus":4}]},
@@ -15,9 +15,9 @@
   {"id": 41, "name": "Bobsleigh Helmet", "sport": "BOBSLEIGH", "image": "bobsleigh_helmet.png", "slot": "head", "statsIncrease": [{"sport": "BOBSLEIGH", "bonus": 3}]},
   {"id": 42, "name": "Bobsleigh Suit", "sport": "BOBSLEIGH", "image": "bobsleigh_suit.png", "slot": "chest", "statsIncrease": [{"sport": "BOBSLEIGH", "bonus": 4}]},
 
-  {"id":50,"name":"Running Shoes","sport":"ATHLETISM","image":"running_shoes.png","slot":"feet","statsIncrease":[{"sport":"ATHLETISM","bonus":4}]},
-  {"id":51,"name":"Singlet","sport":"ATHLETISM","image":"default.png","slot":"chest","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
-  {"id":52,"name":"Shorts","sport":"ATHLETISM","image":"default.png","slot":"legs","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
+  {"id":50,"name":"Running Shoes","sport":"ATHLETISM","image":"athletism_shoes.png","slot":"feet","statsIncrease":[{"sport":"ATHLETISM","bonus":4}]},
+  {"id":51,"name":"Singlet","sport":"ATHLETISM","image":"athletism_singlet.png","slot":"chest","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
+  {"id":52,"name":"Shorts","sport":"ATHLETISM","image":"athletism_short.png","slot":"legs","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
 
   {"id":53,"name":"Swimming Goggles","sport":"NATATION","image":"swimming_goggles.png","slot":"head","statsIncrease":[{"sport":"NATATION","bonus":3}]},
   {"id":54,"name":"Swim Cap","sport":"NATATION","image":"default.png","slot":"head","statsIncrease":[{"sport":"NATATION","bonus":2}]},
@@ -27,5 +27,5 @@
   {"id": 57, "name": "Kayak", "sport": "KAYAK", "image": "kayak.png", "slot": "feet", "statsIncrease": [{"sport": "KAYAK", "bonus": 5}]},
   {"id": 58, "name": "Paddle", "sport": "KAYAK", "image": "kayak_paddle.png", "slot": "chest", "statsIncrease": [{"sport": "KAYAK", "bonus": 3}]},
   {"id": 59, "name": "Life Vest", "sport": "KAYAK", "image": "kayak_life_vest.png", "slot": "chest", "statsIncrease": [{"sport": "KAYAK", "bonus": 2}]},
-  {"id": 60, "name": "Helmet", "sport": "KAYAK", "image": "kayak_helmet.png", "slot": "head", "statsIncrease": [{"sport": "KAYAK", "bonus": 2}]},
+  {"id": 60, "name": "Helmet", "sport": "KAYAK", "image": "kayak_helmet.png", "slot": "head", "statsIncrease": [{"sport": "KAYAK", "bonus": 2}]}
 ]
