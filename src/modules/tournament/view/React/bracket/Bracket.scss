@@ -32,7 +32,7 @@ body {
     &:after {
       position: absolute;
       content: '';
-      width: $side-margin/2;
+      width: calc(-1 * $side-margin / 2);
       height: 2px;
       left: 0;
       top: 50%;
@@ -66,7 +66,7 @@ body {
       content: '';
       position: absolute;
       background-color: black;
-      right: -$side-margin / 2;
+      right: calc(-1 * $side-margin / 2);
       height: calc(50% + 22px);
       width: 2px;
       top: 50%;
