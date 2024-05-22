@@ -18,6 +18,35 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
 
   const [hideModal, setHideModal] = React.useState<boolean>(false);
 
+  const buildTournament = (status: 'notStarted' | 'inProgress' | 'inPool' | 'finished') => {
+    switch (status) {
+      case 'notStarted':
+        return (
+          <ModalBody>
+            <TournamentPreView tournament={arena.tournamentPresenter}></TournamentPreView>
+            Your characters in arena: {arena.charactersInArena().size}
+            <Button
+              onPress={() => {
+                arena.startTournament();
+              }}
+              isDisabled={arena.charactersInArena().size === 0}>
+              Start tournament
+            </Button>
+          </ModalBody>
+        );
+      case 'inProgress':
+        return <TournamentBracketView tournament={arena.tournamentPresenter} />;
+      case 'inPool':
+        return <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />;
+      case 'finished':
+        return (
+          <div className="flex justify-center items-center h-[50%] w-full">
+            <h1>Finish</h1>
+          </div>
+        );
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen && !hideModal}
@@ -27,30 +56,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
         {arena.hasTournament() ? (
-          arena.tournamentPresenter.isTournamentStarted ? (
-            arena.tournamentPresenter.isInPool ? (
-              <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />
-            ) : (
-              // <div className="flex justify-center items-center h-[50%] w-full">
-              //   <h1>No tournament</h1>
-              // </div>
-              <TournamentBracketView tournament={arena.tournamentPresenter} />
-            )
-          ) : (
-            <>
-              <ModalBody>
-                <TournamentPreView tournament={arena.tournamentPresenter}></TournamentPreView>
-                Your characters in arena: {arena.charactersInArena().size}
-                <Button
-                  onPress={() => {
-                    arena.startTournament();
-                  }}
-                  isDisabled={arena.charactersInArena().size === 0}>
-                  Start tournament
-                </Button>
-              </ModalBody>
-            </>
-          )
+          buildTournament(arena.tournamentPresenter.tournamentModel.tournamentStatus)
         ) : (
           <div className="flex justify-center items-center h-[50%] w-full">
             <h1>No tournament</h1>

@@ -33,7 +33,10 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
           <Card key={index} className="w-full max-h-[400px] h-fit">
             <CharacterLayout character={character.character} isInTournament={true} />
             <DiceComponent
-              className={'w-full p-2 flex items-center justify-around'}
+              className={
+                'w-full p-2 flex items-center justify-around' +
+                (model.isUserRolledDice(character.character.id) ? ' hidden' : '')
+              }
               dicePresenter={tournament.dicePresenter}
               onRoll3DStart={() => {
                 setHideModal(true);
@@ -47,9 +50,7 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
               onRoll2DEnd={() => {
                 setDiceRoll(character.character.id);
               }}
-              isDisabled={
-                model.currentPoolRolls.find((value) => value.character.id == character.character.id)!.diceRoll != -1
-              }
+              isDisabled={model.isUserRolledDice(character.character.id)}
             />
           </Card>
         ))}

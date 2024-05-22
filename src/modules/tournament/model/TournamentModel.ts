@@ -12,15 +12,14 @@ export class TournamentModel {
   private readonly _numberRound: number;
   private readonly _difficulty: TournamentDifficulty;
   private readonly _sport: Sport;
-  private _isTournamentStarted: boolean = false;
   private _season: Season | undefined;
   private _characters: Character[] = [];
   private _rounds: { round: number; pools: { rank: number; character: Character }[][] }[] = [];
   private _finalRankings: Character[] = [];
-  private _isInPool: boolean = false;
   private _currentPool: number = 0;
   private _currentRound: number = 0;
   private _currentPoolRolls: { diceRoll: number; character: Character; rank: number }[] = [];
+  private _tournamentStatus: 'notStarted' | 'inProgress' | 'inPool' | 'finished' = 'notStarted';
   private _isRolled: boolean = false;
 
   constructor(
@@ -65,8 +64,8 @@ export class TournamentModel {
     return stat * 2 + diceRoll;
   }
 
-  get isTournamentStarted(): boolean {
-    return this._isTournamentStarted;
+  get tournamentStatus(): 'notStarted' | 'inProgress' | 'inPool' | 'finished' {
+    return this._tournamentStatus;
   }
 
   get isRolled(): boolean {
@@ -93,7 +92,7 @@ export class TournamentModel {
     for (let i = 0; i < characters.length; i++) {
       firstRound?.pools[i % nbPools].push({ rank: -1, character: characters[i] });
     }
-    this._isTournamentStarted = true;
+    this._tournamentStatus = 'inProgress';
   }
 
   playRoundInPool(poolNo: number) {
@@ -137,10 +136,6 @@ export class TournamentModel {
     return this._finalRankings;
   }
 
-  get isInPool(): boolean {
-    return this._isInPool;
-  }
-
   get currentRound(): number {
     return this._currentRound;
   }
@@ -165,10 +160,14 @@ export class TournamentModel {
     return this._sport;
   }
 
+  public isUserRolledDice(characterId: number): boolean {
+    return this.currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll != -1;
+  }
+
   playNextRound() {
     this._isRolled = false;
     if (this.currentPoolContainsCharacter()) {
-      this._isInPool = true;
+      this._tournamentStatus = 'inPool';
       for (let i = 0; i < this.getCurrentPool()!.length; i++) {
         this._currentPoolRolls.push({
           diceRoll: !this.getCurrentPool()![i].character.isPlayer ? Math.floor(Math.random() * 20) + 1 : -1,
@@ -177,21 +176,21 @@ export class TournamentModel {
         });
       }
     }
-    if (!this._isInPool) {
+    if (this._tournamentStatus !== 'inPool') {
       this.playRoundInPool(this._currentPool);
       this.passToNextRound();
     }
   }
 
   public passToNextRound() {
-    this._isInPool = false;
+    this._tournamentStatus = 'inProgress';
     if (this.getCurrentRound()!.pools.length > this._currentPool + 1) this._currentPool++;
     else {
-      if (this._currentRound == this._numberRound - 1) {
-        this._isTournamentStarted = false;
-      } else {
+      if (this._currentRound != this._numberRound - 1) {
         this._currentRound++;
         this._currentPool = 0;
+      } else {
+        this._tournamentStatus = 'finished';
       }
     }
   }

@@ -55,7 +55,7 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
             {bracket.candidates
               .sort((a, b) => (a.rank === -1 ? 1000 : a.rank) - (b.rank === -1 ? 1000 : b.rank))
               .map((candidate, index) => (
-                <div className={'flex gap-2 items-center'}>
+                <div className={'flex gap-2 items-center'} key={index}>
                   <h3>{candidate.rank + 1}.</h3>
                   <Bracketv1Candidate key={index} candidate={candidate.character} />
                 </div>
