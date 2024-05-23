@@ -210,10 +210,10 @@
         "seasons": ["winter"]
       },
       {
-        "name": "Athletics",
-        "icon": "athletics",
+        "name": "Athletism",
+        "icon": "athletism",
         "description": "Athletics is a collection of sporting events that involve competitive running, jumping, throwing, and walking.",
-        "seasons": ["spring", "summer", "fall", "winter"]
+        "seasons": ["spring", "summer", "autumn", "winter"]
       },
       {
         "name": "Swimming",
@@ -237,7 +237,7 @@
         "name": "Kayak",
         "icon": "kayak",
         "description": "Kayaking is the use of a kayak for moving across water. It is distinguished from canoeing by the sitting position of the paddler and the number of blades on the paddle.",
-        "seasons": ["spring", "summer", "fall"]
+        "seasons": ["spring", "summer", "autumn"]
       }
     ]
   },
