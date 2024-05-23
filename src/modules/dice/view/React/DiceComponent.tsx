@@ -46,7 +46,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
           className={'block'}
           disabled={rollFinished || isDisabled}
           onChange={() => dicePresenter.toggle3DMod()}
-          defaultSelected={!isDisabled}>
+          defaultSelected={dicePresenter.is3DMod}>
           3D Dice
         </Checkbox>
 
