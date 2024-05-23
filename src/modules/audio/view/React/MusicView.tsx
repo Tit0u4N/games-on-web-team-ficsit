@@ -1,4 +1,4 @@
-import { AudioPresenter } from '../../presenter/AudioPresenter.ts';
+import { AudioPresenter, EffectType } from '../../presenter/AudioPresenter.ts';
 import { FC } from 'react';
 
 export type MusicViewProps = {
@@ -8,13 +8,22 @@ export type MusicViewProps = {
 export const MusicView: FC<MusicViewProps> = ({ audioPresenter }) => {
   const musicPlayer = audioPresenter.music;
   const atmospherePlayer = audioPresenter.atmosphere;
-  const effectPlayer = audioPresenter.effects;
+  const effectPlayers = audioPresenter.effects;
+
+  // add event listeners to window
+  window.addEventListener(
+    'click',
+    () => {
+      audioPresenter.playEffect(EffectType.CLICK);
+    },
+    true,
+  );
 
   return (
     <div className={'hidden'}>
       {musicPlayer.id}
       {atmospherePlayer.id}
-      {effectPlayer.id}
+      {effectPlayers.map((value) => value.id)}
     </div>
   );
 };

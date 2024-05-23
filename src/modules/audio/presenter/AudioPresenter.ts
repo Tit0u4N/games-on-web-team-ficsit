@@ -5,7 +5,7 @@ import { MusicView, MusicViewProps } from '../view/React/MusicView.tsx';
 export class AudioPresenter implements Reactable {
   private readonly _music: HTMLAudioElement;
   private readonly _atmosphere: HTMLAudioElement;
-  private _effects: HTMLAudioElement;
+  private _effects: HTMLAudioElement[];
 
   constructor() {
     this._music = new Audio();
@@ -14,8 +14,7 @@ export class AudioPresenter implements Reactable {
     this._atmosphere = new Audio();
     this._atmosphere.loop = true;
     this._atmosphere.volume = 0.5;
-    this._effects = new Audio();
-    this._effects.volume = 0.6;
+    this._effects = [];
   }
 
   get music(): HTMLAudioElement {
@@ -26,7 +25,7 @@ export class AudioPresenter implements Reactable {
     return this._atmosphere;
   }
 
-  get effects(): HTMLAudioElement {
+  get effects(): HTMLAudioElement[] {
     return this._effects;
   }
 
@@ -41,15 +40,24 @@ export class AudioPresenter implements Reactable {
   }
 
   public playEffect(effectType: EffectType): void {
-    this._effects.src = this.getEffectPath(effectType);
-    this._effects.play();
+    const effect = new Audio();
+    effect.src = this.getEffectPath(effectType);
+    effect.volume = 0.5;
+    this._effects.push(effect);
+    //play and remove effect after it ends
+    effect.play();
+    effect.onended = () => {
+      this._effects = this._effects.filter((e) => e !== effect);
+    };
   }
 
   private getMusicPath(musicType: MusicType) {
     switch (musicType) {
       case MusicType.OPENING:
+        this._music.volume = 0.3;
         return './sounds/musics/openingMusic.mp3';
       case MusicType.MAIN:
+        this._music.volume = 0.45;
         return './sounds/musics/main1.mp3';
     }
   }
@@ -63,8 +71,8 @@ export class AudioPresenter implements Reactable {
 
   private getEffectPath(effectType: EffectType) {
     switch (effectType) {
-      case EffectType.COMBAT:
-        return './sounds/effects/combat.wav';
+      case EffectType.CLICK:
+        return './sounds/effects/defaultClick.wav';
     }
   }
 
@@ -88,5 +96,5 @@ export enum AtmosphereType {
 }
 
 export enum EffectType {
-  COMBAT,
+  CLICK,
 }
