@@ -90,4 +90,8 @@ export class DicePresenter implements Reactable, ViewInitable {
   set onRoll3DEnd(func: () => void) {
     this._onRoll3DEnd = func;
   }
+
+  get is3DMod(): boolean {
+    return this._is3DMod;
+  }
 }
