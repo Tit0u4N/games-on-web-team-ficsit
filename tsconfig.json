@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -17,17 +18,14 @@
       "@map/*": ["./src/modules/map/*"],
       "@object/*": ["./src/modules/object/*"],
       "@tournament/*": ["./src/modules/tournament/*"],
-      "@core/*": ["./src/core/*"],
+      "@core/*": ["./src/core/*"]
     },
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
