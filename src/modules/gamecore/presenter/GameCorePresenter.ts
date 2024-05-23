@@ -12,6 +12,7 @@ import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts
 import { DicePresenter } from '../../dice/presenter/DicePresenter.ts';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
+import { AtmosphereType, AudioPresenter, MusicType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -23,6 +24,7 @@ export class GameCorePresenter {
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private readonly _characterPresenter: CharacterPresenter;
+  private readonly _audioPresenter: AudioPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -31,6 +33,10 @@ export class GameCorePresenter {
     this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
+    this._audioPresenter = new AudioPresenter();
+    setTimeout(() => {
+      this._audioPresenter.playMusic(MusicType.OPENING);
+    }, 1000);
   }
   /* Application management*/
 
@@ -64,6 +70,8 @@ export class GameCorePresenter {
     this.gameModel.createNewGame();
     this.status = ApplicationStatus.GAME;
     this.notifyViewChange();
+    this._audioPresenter.playMusic(MusicType.MAIN);
+    this._audioPresenter.playAtmosphere(AtmosphereType.MAIN);
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
@@ -124,6 +132,10 @@ export class GameCorePresenter {
 
   get mapPresenter(): MapPresenter {
     return this._mapPresenter;
+  }
+
+  get audioPresenter(): AudioPresenter {
+    return this._audioPresenter;
   }
 
   public getMapLimits(): MapLimits {
