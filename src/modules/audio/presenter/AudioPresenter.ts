@@ -73,6 +73,10 @@ export class AudioPresenter implements Reactable {
     switch (effectType) {
       case EffectType.CLICK:
         return './sounds/effects/defaultClick.wav';
+      case EffectType.DEPLACEMENT:
+        return './sounds/effects/deplacement.wav';
+      case EffectType.OPEN:
+        return './sounds/effects/open.wav';
     }
   }
 
@@ -97,4 +101,6 @@ export enum AtmosphereType {
 
 export enum EffectType {
   CLICK,
+  DEPLACEMENT,
+  OPEN,
 }

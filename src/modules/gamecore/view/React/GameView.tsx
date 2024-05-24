@@ -7,6 +7,7 @@ import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx
 import EventLayout from '../../../event/view/React/EventLayout.tsx';
 import { Reactable } from '../../../../core/Interfaces.ts';
 import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
+import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -33,6 +34,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   ModalManager.createInstance(setModalToShow);
 
   const toggleModal = (type: ModalType, isOpen: boolean) => {
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     switch (type) {
       case ModalType.INVENTORY:
         setIsInventoryOpen(isOpen);
