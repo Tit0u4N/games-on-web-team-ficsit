@@ -3,9 +3,10 @@ import { MapView } from '../view/Babylon/MapView.ts';
 import { Scene, Vector3 } from '@babylonjs/core';
 import { IGraphTiles } from '../model/GraphTilesModel.ts';
 import { importModel } from '../../../core/ModelImporter.ts';
-import { getPosition, getCharacterPositionOnTile, PositionTypes } from '../core/GamePlacer.ts';
+import { getCharacterPositionOnTile, getPosition, PositionTypes } from '../core/GamePlacer.ts';
 import { ViewInitable } from '../../../core/Interfaces.ts';
 import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 type MapPresenterOptions = {
   size?: number;
@@ -121,6 +122,7 @@ export class MapPresenter implements ViewInitable {
       if (!tileModel.isWalkable()) return;
       const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
       if (distance > selectedCharacter.attributes.movement) return;
+      GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.DEPLACEMENT);
       selectedCharacter.tile?.removeCharacter(selectedCharacter);
       console.log(distance);
       selectedCharacter.removeMovementPoints(distance);

@@ -5,6 +5,8 @@ import { Scene } from '@babylonjs/core';
 import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 import React from 'react';
+import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arena: ArenaModel;
@@ -35,11 +37,13 @@ export class ArenaPresenter implements ViewInitable, Reactable {
 
   public openModal(): void {
     this._modalIsOpen = true;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().openModal(this);
   }
 
   public closeModal(): void {
     this._modalIsOpen = false;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
   }
 

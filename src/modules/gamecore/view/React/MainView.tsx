@@ -27,8 +27,8 @@ export class MainComponent extends React.Component<MainComponentProps> {
     return (
       <>
         {React.createElement(
-          this.props.gameCorePresenter.audioPresenter.getReactView().type,
-          this.props.gameCorePresenter.audioPresenter.getReactView().props,
+          GameCorePresenter.AUDIO_PRESENTER.getReactView().type,
+          GameCorePresenter.AUDIO_PRESENTER.getReactView().props,
         )}
         {this.props.gameCorePresenter.getStatus() === ApplicationStatus.MENU ? (
           <MenuView presenter={this.props.gameCorePresenter} />

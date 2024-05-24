@@ -11,13 +11,9 @@ export const MusicView: FC<MusicViewProps> = ({ audioPresenter }) => {
   const effectPlayers = audioPresenter.effects;
 
   // add event listeners to window
-  window.addEventListener(
-    'click',
-    () => {
-      audioPresenter.playEffect(EffectType.CLICK);
-    },
-    true,
-  );
+  window.addEventListener('click', () => {
+    audioPresenter.playEffect(EffectType.CLICK);
+  });
 
   return (
     <div className={'hidden'}>
