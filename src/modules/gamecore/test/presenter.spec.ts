@@ -66,6 +66,9 @@ jest.mock('../../audio/presenter/AudioPresenter.ts', () => {
         playEffect: jest.fn(),
       };
     }),
+    MusicType: jest.fn(),
+    AudioType: jest.fn(),
+    EffectType: jest.fn(),
   };
 });
 
