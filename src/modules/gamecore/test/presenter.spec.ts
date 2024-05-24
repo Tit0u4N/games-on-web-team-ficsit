@@ -59,6 +59,19 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
   };
 });
 
+jest.mock('../../building/presenter/BuildingPresenter.ts', () => {
+  return {
+    BuildingPresenter: jest.fn().mockImplementation(() => {
+      return {
+        getBuildingView: jest.fn(),
+        getBuilding: jest.fn(),
+        resetBuildingView: jest.fn(),
+        getBuildingModel: jest.fn(),
+      };
+    }),
+  };
+});
+
 jest.mock('../../character/presenter/CharacterPresenter.ts', () => {
   return {
     CharacterPresenter: jest.fn().mockImplementation(() => {
