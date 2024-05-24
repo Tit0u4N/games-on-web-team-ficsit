@@ -58,6 +58,16 @@ jest.mock('../../map/presenter/MapPresenter.ts', () => {
     }),
   };
 });
+jest.mock('../../audio/presenter/AudioPresenter.ts', () => {
+  return {
+    AudioPresenter: jest.fn().mockImplementation(() => {
+      return {
+        playMusic: jest.fn(),
+        playEffect: jest.fn(),
+      };
+    }),
+  };
+});
 
 jest.mock('../../character/presenter/CharacterPresenter.ts', () => {
   return {
