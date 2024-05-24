@@ -5,15 +5,17 @@ import { MusicView, MusicViewProps } from '../view/React/MusicView.tsx';
 export class AudioPresenter implements Reactable {
   private readonly _music: HTMLAudioElement;
   private readonly _atmosphere: HTMLAudioElement;
+  private _effectsVolume: number;
   private _effects: HTMLAudioElement[];
 
   constructor() {
     this._music = new Audio();
     this._music.loop = true;
-    this._music.volume = 0.45;
+    this._music.volume = 0.35;
     this._atmosphere = new Audio();
     this._atmosphere.loop = true;
     this._atmosphere.volume = 0.5;
+    this._effectsVolume = 0.5;
     this._effects = [];
   }
 
@@ -29,6 +31,14 @@ export class AudioPresenter implements Reactable {
     return this._effects;
   }
 
+  get effectsVolume(): number {
+    return this._effectsVolume;
+  }
+
+  set effectsVolume(value: number) {
+    this._effectsVolume = value;
+  }
+
   public playMusic(musicType: MusicType): void {
     this._music.src = this.getMusicPath(musicType);
     this._music.play();
@@ -42,7 +52,7 @@ export class AudioPresenter implements Reactable {
   public playEffect(effectType: EffectType): void {
     const effect = new Audio();
     effect.src = this.getEffectPath(effectType);
-    effect.volume = 0.5;
+    effect.volume = this._effectsVolume;
     this._effects.push(effect);
     //play and remove effect after it ends
     effect.play();
@@ -54,10 +64,8 @@ export class AudioPresenter implements Reactable {
   private getMusicPath(musicType: MusicType) {
     switch (musicType) {
       case MusicType.OPENING:
-        this._music.volume = 0.3;
         return './sounds/musics/openingMusic.mp3';
       case MusicType.MAIN:
-        this._music.volume = 0.45;
         return './sounds/musics/main1.mp3';
     }
   }
