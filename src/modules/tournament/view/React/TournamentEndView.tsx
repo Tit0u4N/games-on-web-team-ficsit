@@ -17,8 +17,9 @@ export const TournamentEndView: React.FC<Props> = ({ tournament }) => {
 
   return (
     <ModalBody className={'max-h-[90%]'}>
-      <div className={'flex gap-3 h-full m-1 max-h-[100%] relative'}>
+      <div className={'gap-3 h-full m-1 max-h-[100%] relative p-5 overflow-y-scroll'}>
         <Table
+          removeWrapper
           isHeaderSticky
           aria-label="Final ranking"
           classNames={{

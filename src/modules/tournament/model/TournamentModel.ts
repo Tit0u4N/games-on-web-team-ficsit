@@ -170,6 +170,10 @@ export class TournamentModel {
   }
 
   playNextRound() {
+    if (this._tournamentStatus === 'finished') {
+      ModalManager.getInstance().updateCurrentModal();
+      return;
+    }
     this._isRolled = false;
     if (this.currentPoolContainsCharacter()) {
       this._tournamentStatus = 'inPool';
