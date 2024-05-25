@@ -74,11 +74,13 @@ export class MapPresenter implements ViewInitable {
   }
 
   private async testObjects(scene: Scene) {
-    const mesh3 = await importModel('trees2.gltf', { scene, multiMaterial: true });
+    const importedModel = await importModel('trees2.gltf', { scene, multiMaterial: true });
+    const mesh3 = importedModel.mesh;
     mesh3.position = getPosition(this._mapModel.getTile(12, 24), PositionTypes.DECORATION).add(new Vector3(0, -0.3, 0));
     mesh3.scaling = new Vector3(1.2, 1.2, 1.2);
     mesh3.rotation = new Vector3(0, 0, 0);
-    const mesh2 = await importModel('trees.gltf', { scene, multiMaterial: true });
+    const importedModel2 = await importModel('trees.gltf', { scene, multiMaterial: true });
+    const mesh2 = importedModel2.mesh;
     mesh2.position = getPosition(this._mapModel.getTile(12, 25), PositionTypes.BUILDING);
     mesh2.scaling = new Vector3(0.7, 0.7, 0.7);
     mesh2.rotation = new Vector3(0, Math.PI / 4, 0);

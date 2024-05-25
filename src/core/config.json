@@ -324,5 +324,15 @@
   },
   "usableObject": {
     "basePath": ""
+  },
+  "character": {
+    "view": {
+      "babylon": {
+        "pawnView": {
+          "defaultScaling": 5,
+          "selectedScaling": 5
+        }
+      }
+    }
   }
 }

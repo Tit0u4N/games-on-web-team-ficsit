@@ -1,9 +1,17 @@
 import { TypesTile } from '@map/model/TileModel.ts';
 import { BaseTile } from './TileViewFactory.ts';
 import { MapView } from './MapView.ts';
-import { InstancedMesh, PhysicsAggregate, PhysicsShapeType, Scene, Vector3 } from '@babylonjs/core';
 import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { config } from '@/core/Interfaces.ts';
+import {
+  ActionManager,
+  ExecuteCodeAction,
+  InstancedMesh,
+  PhysicsAggregate,
+  PhysicsShapeType,
+  Scene,
+  Vector3,
+} from '@babylonjs/core';
 import { DecorsSet } from './decor/DecorsSet.ts';
 import { GameOptions } from '@/core/GameOptions.ts';
 
@@ -15,17 +23,26 @@ export class TileView {
   private readonly scene: Scene;
   private readonly _mesh: InstancedMesh;
   private type: TypesTile;
+  private x: number;
+  private y: number;
+  private mapView: MapView;
   private static readonly _radius: number = config.map.view.tileViewFactory.radius;
 
   constructor(scene: Scene, x: number, y: number, baseTile: BaseTile, mapView: MapView) {
     this.scene = scene;
     this._mesh = this.createHexagonMesh(x, y, baseTile);
+    this.x = x;
+    this.y = y;
+    this.mapView = mapView;
+    this.addActionManger();
     this.type = baseTile.type;
   }
 
   private createHexagonMesh(x: number, y: number, baseTile: BaseTile): InstancedMesh {
     const mesh = baseTile.baseMesh.createInstance('tileInstance_' + x + '_' + y);
     mesh.metadata = { x, y, type: baseTile.type };
+
+    mesh.actionManager = new ActionManager(this.scene);
 
     mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
 
@@ -39,6 +56,21 @@ export class TileView {
       );
 
     return mesh;
+  }
+
+  private addActionManger() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const tile = this;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    this._mesh.actionManager.registerAction(
+      new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
+        tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
+        console.log(tile.mesh.position);
+        console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
+      }),
+    );
   }
 
   getRandomDecorPosition(): Vector3 {

@@ -81,7 +81,8 @@ export class Decor implements IDecor {
       this.mesh = this.meshLoader(scene);
     } else {
       const options = { ...this._importOptions, scene: scene };
-      this.mesh = await importModel(this.fileName, options);
+      const importedModel = await importModel(this.fileName, options);
+      this.mesh = importedModel.mesh;
     }
     this.mesh.receiveShadows = GameOptions.instance.shadows;
   }

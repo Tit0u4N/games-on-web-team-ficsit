@@ -24,7 +24,8 @@ export class ArenaView implements ViewInitable {
 
   // Create a cube above the tile
   public async createMesh(vector: Vector3) {
-    const mesh = await importModel('arena.glb', { scene: this.scene, path: 'arena/', multiMaterial: true });
+    const importedModel = await importModel('arena.glb', { scene: this.scene, path: 'arena/', multiMaterial: true });
+    const mesh = importedModel.mesh;
     if (!mesh) throw new Error('Mesh not found');
     mesh.scaling = new Vector3(ArenaView.SCALE, ArenaView.SCALE, ArenaView.SCALE);
     mesh.position = vector.add(new Vector3(0, 0.1, 0));
