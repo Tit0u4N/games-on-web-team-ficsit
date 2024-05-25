@@ -16,6 +16,7 @@ export class DicePresenter implements Reactable, ViewInitable {
   private viewBabylon!: Dice3D;
   private viewReact!: typeof DiceComponent;
   private _is3DMod: boolean = true;
+  private _on3DModChange: ((is3DMod: boolean) => void)[] = [];
 
   private _onRoll3DStart: () => void = () => {};
   private _onRoll3DEnd: () => void = () => {};
@@ -42,6 +43,9 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   toggle3DMod() {
     this._is3DMod = !this._is3DMod;
+    this._on3DModChange.forEach((func) => {
+      func(this._is3DMod);
+    });
   }
 
   async rollDice(): Promise<void> {
@@ -93,5 +97,13 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   get is3DMod(): boolean {
     return this._is3DMod;
+  }
+
+  get on3DModChange(): ((is3DMod: boolean) => void)[] {
+    return this._on3DModChange;
+  }
+
+  set on3DModChange(func: (is3DMod: boolean) => void) {
+    this._on3DModChange.push(func);
   }
 }
