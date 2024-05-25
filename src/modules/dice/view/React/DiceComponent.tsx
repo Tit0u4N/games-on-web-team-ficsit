@@ -39,6 +39,11 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter.onRoll3DStart = onRoll3DStart;
   dicePresenter.onRoll3DEnd = onRoll3DEnd;
 
+  const [is3DMod, setIs3DMod] = useState(dicePresenter.is3DMod);
+  dicePresenter.on3DModChange.push((is3DMod: boolean) => {
+    setIs3DMod(is3DMod);
+  });
+
   return (
     <div className="w-full">
       <div className={className}>
@@ -46,7 +51,8 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
           className={'block'}
           disabled={rollFinished || isDisabled}
           onChange={() => dicePresenter.toggle3DMod()}
-          defaultSelected={dicePresenter.is3DMod}>
+          isSelected={is3DMod}
+          defaultSelected={is3DMod}>
           3D Dice
         </Checkbox>
 
