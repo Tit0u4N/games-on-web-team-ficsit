@@ -5,6 +5,7 @@ import { TournamentView } from '../../../tournament/view/React/TournamentView.ts
 import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
 import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 import { TournamentBracketView } from '../../../tournament/view/React/TournamentBracketView.tsx';
+import { TournamentEndView } from '../../../tournament/view/React/TournamentEndView.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -32,6 +33,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
               isDisabled={arena.charactersInArena().size === 0}>
               Start tournament
             </Button>
+            <p></p>
           </ModalBody>
         );
       case 'inProgress':
@@ -39,11 +41,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       case 'inPool':
         return <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />;
       case 'finished':
-        return (
-          <div className="flex justify-center items-center h-[50%] w-full">
-            <h1>Finish</h1>
-          </div>
-        );
+        return <TournamentEndView tournament={arena.tournamentPresenter} />;
     }
   };
 
