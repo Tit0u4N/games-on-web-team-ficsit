@@ -15,7 +15,7 @@ export class TournamentModel {
   private _season: Season | undefined;
   private _characters: Character[] = [];
   private _rounds: { round: number; pools: { rank: number; character: Character }[][] }[] = [];
-  private _finalRankings: Character[] = [];
+  private _finalRankings: { rank: number; character: Character }[] = [];
   private _currentPool: number = 0;
   private _currentRound: number = 0;
   private _currentPoolRolls: { diceRoll: number; character: Character; rank: number }[] = [];
@@ -113,8 +113,6 @@ export class TournamentModel {
     if (currentRound?.pools.length == 1) {
       //add all the characters to _finalRankings in the inverse order of rankingOfThePool
       for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
-        const character = rankingOfThePool[i].character;
-        this._finalRankings.push(character);
         currentRound!.pools[poolNo][i].rank = i;
       }
     } else {
@@ -135,7 +133,7 @@ export class TournamentModel {
     return this._rounds;
   }
 
-  get finalRankings(): Character[] {
+  get finalRankings() {
     return this._finalRankings;
   }
 
@@ -198,11 +196,33 @@ export class TournamentModel {
         this._currentRound++;
         this._currentPool = 0;
       } else {
-        this._tournamentStatus = 'finished';
+        this.endTournament();
         //TODO: add reward + tiredness
       }
     }
     ModalManager.getInstance().updateCurrentModal();
+  }
+
+  private endTournament() {
+    this._tournamentStatus = 'finished';
+    this._finalRankings = [];
+    this.getCurrentPool()!.sort((a, b) => a.rank - b.rank);
+    this.getCurrentPool()!.forEach((value) => {
+      this._finalRankings.push(value);
+    });
+    console.log(this._currentRound);
+    for (let i = this._currentRound - 1; i >= 0; i--) {
+      const currentRound = this._rounds.find((round) => round.round == i);
+      currentRound!.pools.forEach((pool) => {
+        pool.sort((a, b) => a.rank - b.rank);
+        for (let j = 0; j < pool.length / 2; j++) {
+          const copy = pool[j + 4];
+          const currentRank = 8 + (copy.rank - 4) + (this.numberRound - i - 2) * 4;
+          this._finalRankings.push({ rank: currentRank, character: copy.character });
+        }
+      });
+    }
+    this._finalRankings.sort((a, b) => a.rank - b.rank);
   }
 
   private currentPoolContainsCharacter(): boolean {
@@ -238,7 +258,6 @@ export class TournamentModel {
       //add all the characters to _finalRankings in the inverse order of rankingOfThePool
       for (let i = rankingOfThePool.length - 1; i >= 0; i--) {
         const character = rankingOfThePool[i].character;
-        this._finalRankings.push(character);
         currentPool.find((value) => value.character.id == rankingOfThePool[i].character.id)!.rank = i;
         currentPoolRolls.find((value) => value.character.id == character.id)!.rank = i;
       }
