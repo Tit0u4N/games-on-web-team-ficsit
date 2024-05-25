@@ -1,10 +1,20 @@
-import { ActionManager, Color3, ExecuteCodeAction, Mesh, PBRMaterial, Scene, Vector3 } from '@babylonjs/core';
+import {
+  ActionManager,
+  AnimationGroup,
+  Color3,
+  ExecuteCodeAction,
+  Mesh,
+  PBRMaterial,
+  Scene,
+  Vector3,
+} from '@babylonjs/core';
 import { importModel } from '@/core/ModelImporter.ts';
 import { CharacterView } from './CharacterView.ts';
+import { config } from '@core/Interfaces.ts';
 
 export class PawnView {
-  protected static readonly DEFAULT_SCALING = 0.2;
-  protected static readonly SELECTED_SCALING = 0.3;
+  protected static readonly DEFAULT_SCALING = config.character.view.babylon.pawnView.defaultScaling;
+  protected static readonly SELECTED_SCALING = config.character.view.babylon.pawnView.selectedScaling;
 
   private readonly _characterView: CharacterView;
   private _mesh: Mesh | undefined;
@@ -12,12 +22,20 @@ export class PawnView {
   private readonly _scene: Scene;
   private readonly _color: string;
   private _isSelected: boolean = false;
+  private _animations: AnimationGroup[] = [];
 
   async importMesh(): Promise<void> {
-    const mesh = await importModel('scene.gltf', { scene: this._scene });
+    const importedModel = await importModel('male_running_15_frames_loop.glb', {
+      scene: this._scene,
+      path: 'pawn/',
+      multiMaterial: true,
+    });
+    const mesh = importedModel.mesh;
+    // Store animations
+    this._animations = importedModel.animations;
     if (!mesh) throw new Error('Mesh not found');
     mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
-    mesh.rotation = new Vector3(0, -Math.PI / 2, 0);
+    mesh.rotation = new Vector3(Math.PI / 2, 0, 0);
     (mesh.material as PBRMaterial).albedoColor = Color3.FromHexString(this._color);
     mesh.actionManager = new ActionManager(this._scene);
     this._mesh = mesh;
@@ -75,6 +93,18 @@ export class PawnView {
   resetScaling() {
     if (this._mesh) {
       this._mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
+    }
+  }
+
+  startAnimations(): void {
+    for (const anim of this._animations) {
+      anim.start(true);
+    }
+  }
+
+  stopAnimations(): void {
+    for (const anim of this._animations) {
+      anim.stop();
     }
   }
 }

@@ -256,6 +256,21 @@ interface IUsableObjectConfig {
   basePath: string;
 }
 
+interface ICharacterViewBabylonConfig {
+  pawnView: {
+    defaultScaling: number;
+    selectedScaling: number;
+  };
+}
+
+interface ICharacterViewConfig {
+  babylon: ICharacterViewBabylonConfig;
+}
+
+interface ICharacterConfig {
+  view: ICharacterViewConfig;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -266,6 +281,7 @@ interface IConfig {
   seasons: ISeasonConfig;
   statistics: IStatisticsConfig;
   usableObject: IUsableObjectConfig;
+  character: ICharacterConfig;
 }
 
 export const config: IConfig = configJson;

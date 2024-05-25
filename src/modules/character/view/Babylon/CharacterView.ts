@@ -30,6 +30,7 @@ export class CharacterView implements ViewInitable {
   public givePosition(idCharacter: number, position: Vector3, initial: boolean = false): void {
     const pawn = [...this.pawnSet].find((pawn) => pawn.id === idCharacter);
     if (pawn && pawn.mesh) {
+      pawn.startAnimations();
       if (initial) {
         pawn.mesh.position = position;
         return;
@@ -48,7 +49,7 @@ export class CharacterView implements ViewInitable {
         value: pawn.mesh.position,
       });
       keys.push({
-        frame: distance / 1.5,
+        frame: distance / 0.5,
         value: position,
       });
       animationBox.setKeys(keys);
@@ -57,6 +58,7 @@ export class CharacterView implements ViewInitable {
       this.scene?.beginAnimation(pawn.mesh, 0, 100, false, 2, () => {
         mesh.position = position;
         mesh.animations = [];
+        pawn.stopAnimations();
       });
     }
   }
