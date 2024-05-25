@@ -33,7 +33,6 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
               isDisabled={arena.charactersInArena().size === 0}>
               Start tournament
             </Button>
-            <p></p>
           </ModalBody>
         );
       case 'inProgress':
