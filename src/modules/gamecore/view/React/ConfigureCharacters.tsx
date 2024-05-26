@@ -29,7 +29,7 @@ const initialStats = sports.reduce(
   },
   {} as Record<string, number>,
 );
-const LOGOS_PER_PAGE = 10;
+const LOGOS_PER_PAGE = 5;
 
 const logos = characterLogos;
 
@@ -75,19 +75,40 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   }, [characters, pointsLeft]);
 
   const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
-    // If the field is age and the input is between 10 and 99, update the age
-    if (field === 'age') {
+    if (field === 'logo') {
+      const newCharacters = [...characters];
+      // Remove the selected logo from other characters
+      newCharacters.forEach((character, i) => {
+        if (i !== index && character.logo === value) {
+          newCharacters[i] = { ...newCharacters[i], logo: '' };
+        }
+      });
+      // Replace the logo if it's no longer used
+      if (
+        !newCharacters[index].name &&
+        !newCharacters[index].lastName &&
+        !newCharacters[index].age &&
+        !newCharacters[index].nationality
+      ) {
+        newCharacters[index] = { ...newCharacters[index], logo: '' };
+      }
+      // Update the character with the selected logo
+      newCharacters[index] = { ...newCharacters[index], [field]: value };
+      setCharacters(newCharacters);
+    } else if (field === 'age') {
+      // If the field is age and the input is between 10 and 99, update the age
       const age = parseInt(value, 10);
       if (age >= 10 && age <= 99) {
         const newCharacters = [...characters];
         newCharacters[index] = { ...newCharacters[index], age };
         setCharacters(newCharacters);
-        return;
       }
+    } else {
+      // For other fields, update the character directly
+      const newCharacters = [...characters];
+      newCharacters[index] = { ...newCharacters[index], [field]: value };
+      setCharacters(newCharacters);
     }
-    const newCharacters = [...characters];
-    newCharacters[index] = { ...newCharacters[index], [field]: value };
-    setCharacters(newCharacters);
   };
 
   const handleStatChange = (index: number, sport: string, change: number) => {
@@ -156,6 +177,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                 className={'h-[50px] '}>
                 <Card className={cardSize}>
                   <CardBody className={'flex flex-col'}>
+                    <Badge content={'!'} color="danger" isInvisible={!!character.logo}>
+                      <span></span>
+                    </Badge>
                     <div className={'mb-4'}>
                       <label className={'block text-lg font-medium mb-2'}>Logo</label>
                       <div className="grid grid-cols-5 gap-4">
@@ -163,9 +187,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                           <button
                             key={logoIndex}
                             onClick={() => handleInputChange(index, 'logo', logo)}
-                            className={`p-2 border-2 ${character.logo === logo ? 'border-blue-500' : 'border-transparent'}`}>
+                            className={`border-2 ${character.logo === logo ? 'border-blue-500' : 'border-transparent'}`}>
                             <div className="flex flex-col items-center">
-                              <Image src={logo} alt={`Logo ${logoIndex}`} width={32} height={32} />
+                              <Image src={logo} alt={`Logo ${logoIndex}`} width={500} height={500} />
                             </div>
                           </button>
                         ))}
