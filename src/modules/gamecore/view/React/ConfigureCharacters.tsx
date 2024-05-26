@@ -4,9 +4,9 @@ import { Button, Card, CardBody, Input, Image, Tabs, Tab, Badge } from '@nextui-
 import { Country, CountryCode } from '@core/Country.tsx';
 import { Sport } from '@core/singleton/Sport.ts';
 import { Character } from '@character/model/Character.ts';
-import { Attributes } from '@character/model/Attributes.ts';
 import characterLogos from '../../../../../public/images/characters';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
+import {CharacterFactory} from "@character/BuilderFactory/CharacterFactory.ts";
 
 interface ICharacter {
   logo: string;
@@ -121,18 +121,13 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       const charactersOfSet = new Set<Character>();
 
       characters.forEach((character, index) => {
-        const attributes = new Attributes(0, 0, false);
-
-        const characterObject = new Character(
-          index + 1,
-          character.name,
-          character.nationality,
-          character.age,
-          attributes,
-          character.logo,
-        );
-
-        charactersOfSet.add(characterObject);
+        charactersOfSet.add(CharacterFactory.createDefaultCharacter(
+            index+1,
+            character.name,
+            character.nationality,
+            character.age,
+            character.logo
+        ));
       });
 
       presenter.startGame(charactersOfSet);

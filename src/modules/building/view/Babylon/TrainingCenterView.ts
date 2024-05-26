@@ -20,6 +20,7 @@ export class TrainingCenterView implements ViewInitable {
     this.scene = scene;
     await this.createMesh(this.trainingCenterModel.position);
     this.addActionManager();
+    this.trainingCenterModel.initialize();
   }
 
   // Create a cube above the tile

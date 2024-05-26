@@ -7,6 +7,7 @@ import InventoriesModal from '@inventory/view/React/InventoriesModal.tsx';
 import EventLayout from '@event/view/React/EventLayout.tsx';
 import { Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -31,6 +32,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
 
   ModalManager.createInstance(setModalToShow);
+
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const toggleModal = (type: ModalType, isOpen: boolean) => {
     switch (type) {
@@ -82,7 +85,13 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
     <div>
       <div className={'HUD-container'}>
         <RoundStatusBar
-          nextRound={() => presenter.nextRound()}
+          nextRound={() => {
+            presenter.nextRound();
+            const result = presenter.buildingPresenter!.isAllCharactersReady();
+            if (!result) {
+              setIsModalVisible(true);
+            }
+          }}
           round={presenter.getCurrentRound()}
           toggleModal={toggleModal}
           isModalOpen={isModalOpen}
@@ -141,6 +150,21 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
       </div>
       <div className={'absolute z-[1000]'}>
         {modalToShow ? React.createElement(modalToShow.getReactView().type, modalToShow.getReactView().props) : null}
+        {isModalVisible && (
+          <Modal
+            isOpen={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            className="h-[30%] w-[30%] max-w-full">
+            <ModalContent>
+              <ModalHeader className={'flex flex-col gap-1 text-center'}>
+                <h2>Character Action Required</h2>
+              </ModalHeader>
+              <ModalBody className={'py-6 text-center'}>
+                <h4>A character is still waiting for an action.</h4>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        )}
       </div>
       <BabylonScene babylonMainView={presenter.babylonView} />
     </div>
