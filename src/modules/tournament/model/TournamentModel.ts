@@ -113,6 +113,23 @@ export class TournamentModel {
     return this._currentPoolRolls.every((value) => value.diceRoll != -1);
   }
 
+  isUserCharacterStillInTournament(): boolean {
+    for (const round of this._rounds) {
+      for (const pool of round.pools) {
+        if (pool.length > 0) if (pool[0].rank === -1 && pool.find((value) => value.character.isPlayer)) return true;
+      }
+    }
+    return false;
+  }
+
+  skipTournament() {
+    while (this._tournamentStatus !== 'finished') {
+      this.playNextRound();
+    }
+    this.playNextRound();
+    ModalManager.getInstance().updateCurrentModal();
+  }
+
   initTournament() {
     this._season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
     this._rounds = [];

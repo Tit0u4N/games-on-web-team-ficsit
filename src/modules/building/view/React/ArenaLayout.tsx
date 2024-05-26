@@ -15,6 +15,7 @@ export interface ArenaLayoutProps {
 
 export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose }) => {
   const [, handle] = React.useState(true);
+  const [onStatusChange, setOnStatusChange] = React.useState<boolean>(false);
   ModalManager.getInstance().modalUpdaterHandler = handle;
 
   const [hideModal, setHideModal] = React.useState<boolean>(false);
@@ -36,7 +37,12 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
           </ModalBody>
         );
       case 'inProgress':
-        return <TournamentBracketView tournament={arena.tournamentPresenter} />;
+        return (
+          <TournamentBracketView
+            tournament={arena.tournamentPresenter}
+            onStatusChange={() => setOnStatusChange(!onStatusChange)}
+          />
+        );
       case 'inPool':
         return <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />;
       case 'finished':
