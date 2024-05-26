@@ -1,4 +1,14 @@
-import { Button, Card, CardBody, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import {
+  Button,
+  Card,
+  CardBody,
+  Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from '@nextui-org/react';
 import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
 import { Character } from '../../../character/model/Character.ts';
@@ -131,24 +141,26 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     <Modal isOpen={isOpen && !hideModal} onClose={onClose} className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         <ModalHeader className="flex flex-col gap-1">
-          Training Center
-          {trainingCenter.sports.length > 0 && (
-            <>
-              <div>
-                Sports:
-                {trainingCenter.sports.map((sport: Sport, index: number) => (
-                  <span key={index}>
-                    {sport.name}
-                    {index < trainingCenter.sports.length - 1 && ', '}
-                  </span>
-                ))}
-              </div>
-              <div>Rounds before sports change: {trainingCenter.rotation}</div>
-            </>
-          )}
+          <h1 className="text-2xl">Training Center</h1>
         </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%] overflow-y-auto">
-          <div className={'flex flex-col w-[40%] min-w-[450px]'}>
+          <div className={'flex flex-col w-[45%] min-w-[500px]'}>
+            {trainingCenter.sports.length > 0 && (
+              <>
+                <div className="my-2">
+                  <p>Sports:</p>
+                  <div>
+                    {trainingCenter.sports.map((sport: Sport, index: number) => (
+                      <div key={index} className="flex my-1">
+                        <Image src={sport.iconPath} width={30} height={30} alt={sport.name} />
+                        <span className="mx-2">{sport.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>Rounds before sports change: {trainingCenter.rotation}</div>
+              </>
+            )}
             {trainingCenter.charactersInside.map((character: Character) => (
               <ClickableCard
                 key={character.id}

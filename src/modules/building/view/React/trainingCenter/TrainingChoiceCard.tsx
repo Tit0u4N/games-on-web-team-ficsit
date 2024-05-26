@@ -22,10 +22,14 @@ export const TrainingChoiceCard: React.FC<TrainingChoiceCardProps> = ({ choice, 
       <CardBody className={'mt-[20px]'}>
         <div className="flex items-center justify-between">
           <div className="text-sm font-medium">Injury Risk</div>
-          <div className="text-sm font-medium">{choice.injuredRisk}%</div>
+          <div className="text-sm font-medium">{Math.floor(choice.injuredRisk * 100)}%</div>
         </div>
         <div className="flex items-center justify-between mt-2">
-          <div className="text-sm font-medium">{trainingCenter.sports.map((sport) => sport.name + ' | ')}</div>
+          <div className="text-sm font-medium">
+            {trainingCenter.sports.map(
+              (sport, index) => sport.name + (index !== trainingCenter.sports.length - 1 ? ' | ' : ''),
+            )}
+          </div>
           <div className="text-sm font-medium">{choice.stats}</div>
         </div>
         <div className="flex items-center justify-between mt-2">
