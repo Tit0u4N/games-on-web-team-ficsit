@@ -20,21 +20,19 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
   const stats = character.statistics;
 
   return (
-    <div className={'flex flex-col w-full h-full'}>
+    <div className={'flex  flex-col w-full h-full overflow-hidden'}>
       <div className={'flex w-full'}>
         <div className={'h-full aspect-square'}>
-          {character.image && (
-            <Image radius={'lg'} src={character.image} alt={character.name} width={100} height={100} />
-          )}
+          {character.image && <Image radius={'lg'} src={character.image} alt={character.name} width={50} height={50} />}
         </div>
         <div className={'h-full flex flex-col items-center'}>
           <h3 className={'text-xl'}>{character.name}</h3>
         </div>
       </div>
       <Divider />
-      <div className={'flex flex-wrap gap-3 w-full'}>
+      <div className={'ml-2 grid grid-cols-3 gap-1'}>
         {Array.from(stats.entries()).map(([sport, value]) => (
-          <div className={'w-[45%]'} key={sport.name}>
+          <div className={'text-sm'} key={sport.name}>
             {sport.name}: {value}
             {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character && (
               <span className="text-green-500">{' + ' + choice.stats}</span>

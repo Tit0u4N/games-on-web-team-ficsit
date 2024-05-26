@@ -22,7 +22,7 @@ export const ClickableCard: React.FC<ClickableCardProps> = ({
   isSelected,
   onSelect,
 }) => {
-  const cardClassName = `flex flex-col gap-1 w-full p-2 mt-4 mb-4 ${isSelected ? 'opacity-100' : 'opacity-50'}`;
+  const cardClassName = `flex flex-col gap-1 w-full p-2 my-1 ${isSelected ? 'opacity-100' : 'opacity-50'}`;
 
   return (
     <Card key={character.id} radius={'lg'} className={cardClassName}>
