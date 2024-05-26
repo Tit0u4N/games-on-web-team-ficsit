@@ -6,11 +6,11 @@ import { Sport } from '@core/singleton/Sport.ts';
 import { Character } from '@character/model/Character.ts';
 import { Attributes } from '@character/model/Attributes.ts';
 import characterLogos from '../../../../../public/images/characters';
+import { names, uniqueNamesGenerator } from 'unique-names-generator';
 
 interface ICharacter {
   logo: string;
   name: string;
-  lastName: string;
   age: number;
   nationality: CountryCode;
   stats: Record<string, number>;
@@ -38,9 +38,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   localStorage.clear();
 
   const [characters, setCharacters] = useState<ICharacter[]>([
-    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
@@ -141,6 +141,35 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     }
   };
 
+  const generateRandomCharacters = () => {
+    const randomCharacters = Array.from({ length: 3 }, (_) => {
+      const randomStats: Record<string, number> = {};
+      let remainingPoints = 20;
+
+      // Shuffle sports array to distribute points more evenly
+      const shuffledSports = sports.sort(() => Math.random() - 0.5);
+
+      shuffledSports.forEach((sport) => {
+        const maxPoints = Math.min(remainingPoints, 20);
+        const randomPoints = Math.floor(Math.random() * (maxPoints + 1));
+        randomStats[sport.name] = randomPoints;
+        remainingPoints -= randomPoints;
+      });
+
+      setPointsLeft([0, 0, 0]);
+
+      return {
+        logo: logos[Math.floor(Math.random() * logos.length)],
+        name: uniqueNamesGenerator({ dictionaries: [names] }),
+        age: Math.floor(Math.random() * 90) + 10,
+        nationality: Object.values(CountryCode)[Math.floor(Math.random() * totalFlags)],
+        stats: randomStats,
+      };
+    });
+
+    setCharacters(randomCharacters);
+  };
+
   const cardSize = 'w-[500px] h-[600px] p-2 pb-4';
 
   return (
@@ -148,6 +177,22 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
         <div className={'mt-[-50px] h-[640px] font-semibold'}>
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
+            <Tab
+              key={`RandomCharacter`}
+              title={`Random Character`}
+              aria-label={`Menu Configuration Random Character`}
+              className={'h-[50px]'}>
+              <Card className={cardSize}>
+                <CardBody className={'flex flex-col justify-center items-center'}>
+                  <Button
+                    color="primary"
+                    className={'w-[350px] h-[75px] text-white text-3xl z-10'}
+                    onClick={generateRandomCharacters}>
+                    Random Characters
+                  </Button>
+                </CardBody>
+              </Card>
+            </Tab>
             {characters.map((character, index) => (
               <Tab
                 key={`Character${index + 1}`}
@@ -168,7 +213,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                             onClick={() => handleInputChange(index, 'logo', logo)}
                             className={`border-2 ${character.logo === logo ? 'border-blue-500' : 'border-transparent'}`}>
                             <div className="flex flex-col items-center">
-                              <Image src={logo} alt={`Logo ${logoIndex}`} width={500} height={500} />
+                              <Image src={logo} alt={`Logo ${logoIndex}`} />
                             </div>
                           </button>
                         ))}
@@ -194,16 +239,6 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                       aria-label={'Name'}
                       value={character.name}
                       onChange={(e) => handleInputChange(index, 'name', e.target.value)}
-                      className={'mb-4'}
-                    />
-                    <Badge content={'!'} color="danger" isInvisible={!!character.lastName}>
-                      <span></span>
-                    </Badge>
-                    <Input
-                      placeholder="Last Name"
-                      aria-label={'Last Name'}
-                      value={character.lastName}
-                      onChange={(e) => handleInputChange(index, 'lastName', e.target.value)}
                       className={'mb-4'}
                     />
                     <Badge content={'!'} color="danger" isInvisible={!!character.age}>
@@ -276,7 +311,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                                 handleStatChange(index, sport.name, 1);
                               }}
                               disabled={pointsLeft[index] === 0}
-                              className="mx-2">
+                              className={'mx-2'}>
                               +
                             </Button>
                           </div>
@@ -289,7 +324,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
             ))}
           </Tabs>
         </div>
-        <Button color="primary" className={'w-[250px] h-[75px] text-white text-3xl'} onClick={startGame}>
+        <Button color="primary" className={'w-[250px] h-[75px] text-white text-3xl z-10'} onClick={startGame}>
           Start Game
         </Button>
       </div>
