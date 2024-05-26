@@ -88,6 +88,18 @@ export class UsableObject {
     }
   }
 
+  copy(): UsableObject {
+    return new UsableObject(
+      this._id,
+      this._name,
+      this._image,
+      this._statsIncrease,
+      this._conditions,
+      this._slot,
+      this._rarity,
+    );
+  }
+
   get id(): number {
     return this._id;
   }
@@ -165,3 +177,12 @@ function parseCondition(conditionData: Condition): Condition {
 
 export const gameObjects: UsableObject[] = parseGameObjects(gameObjectsData);
 export const gears: IGears[] = gearsCombinaisons;
+
+export function getRandomUsableObject(rarity?: ObjectRarity, sport?: Sport): UsableObject {
+  let objects = rarity ? gameObjects.filter((obj) => obj.rarity === rarity) : gameObjects;
+  if (sport) {
+    objects = objects.filter((obj) => obj.statsIncrease.has(sport) && obj.statsIncrease.get(sport) > 0);
+  }
+
+  return objects[Math.floor(Math.random() * objects.length)];
+}

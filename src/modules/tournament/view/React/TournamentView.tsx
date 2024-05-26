@@ -66,7 +66,11 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
         <div className={'w-1/3 flex flex-col gap-1'}>
           {presentPlayerCharacters.map((character, index) => (
             <Card key={index} className="w-full max-h-[400px] h-fit">
-              <CharacterLayout character={character.character} isInTournament={true} />
+              <CharacterLayout
+                character={character.character}
+                isInTournament={true}
+                season={tournament.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason()}
+              />
               <AnimatePresence>
                 {!model.isUserRolledDice(character.character.id) && (
                   <motion.div

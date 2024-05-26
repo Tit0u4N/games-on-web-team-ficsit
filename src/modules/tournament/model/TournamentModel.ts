@@ -8,7 +8,7 @@ import { ModalManager } from '../../../core/singleton/ModalManager.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
-  private readonly _reward: RewardModel;
+  private readonly _rewards: RewardModel[];
   private readonly _numberRound: number;
   private readonly _difficulty: TournamentDifficulty;
   private readonly _sport: Sport;
@@ -27,10 +27,10 @@ export class TournamentModel {
     difficulty: TournamentDifficulty,
     numberRound: number,
     sport: Sport,
-    reward: RewardModel,
+    rewards: RewardModel[],
   ) {
     this._tournamentManagerPresenter = tournamentManagerPresenter;
-    this._reward = reward;
+    this._rewards = rewards;
     this._numberRound = numberRound;
     this._difficulty = difficulty;
     this._sport = sport;
@@ -48,8 +48,8 @@ export class TournamentModel {
     this._characters = characters;
   }
 
-  get reward(): RewardModel {
-    return this._reward;
+  get reward(): RewardModel[] {
+    return this._rewards;
   }
 
   get numberRound(): number {
@@ -244,6 +244,9 @@ export class TournamentModel {
       });
     }
     this._finalRankings.sort((a, b) => a.rank - b.rank);
+    this._finalRankings.forEach((value) => {
+      if (value.character.isPlayer) this.addRewardToCharacter(value.character, value.rank + 1);
+    });
   }
 
   private currentPoolContainsCharacter(): boolean {
@@ -297,5 +300,25 @@ export class TournamentModel {
           ].push({ rank: -1, character: currentRound!.pools[this._currentPool][i].character });
       }
     }
+  }
+
+  private addRewardToCharacter(character: Character, rank: number) {
+    const rewards = [];
+    let bestReward = null;
+    console.log(rank, this._rewards);
+    for (const reward of this._rewards) {
+      if (reward.rankToReach <= rank && reward.keepIfBetterReward) rewards.push(reward);
+      else if (reward.rankToReach >= rank && bestReward == null) bestReward = reward;
+      else if (reward.rankToReach >= rank && bestReward && bestReward.rankToReach > reward.rankToReach)
+        bestReward = reward;
+    }
+    if (bestReward) rewards.push(bestReward);
+
+    for (const reward of rewards) {
+      console.log(reward, rank);
+      character.inventory.addItem(reward.reward.copy());
+      console.log(reward.reward.copy());
+    }
+    console.log(character.inventory);
   }
 }
