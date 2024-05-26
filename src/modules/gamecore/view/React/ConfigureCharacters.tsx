@@ -4,11 +4,14 @@ import { Button, Card, CardBody, Input, Image, Tabs, Tab, Badge } from '@nextui-
 import { Country, CountryCode } from '@core/Country.tsx';
 import { Sport } from '@core/singleton/Sport.ts';
 import { Character } from '@character/model/Character.ts';
+import { Attributes } from '@character/model/Attributes.ts';
+import characterLogos from '../../../../../public/images/characters';
 
 interface ICharacter {
   logo: string;
   name: string;
   lastName: string;
+  age: number;
   nationality: CountryCode;
   stats: Record<string, number>;
 }
@@ -26,17 +29,21 @@ const initialStats = sports.reduce(
   },
   {} as Record<string, number>,
 );
+const LOGOS_PER_PAGE = 10;
+
+const logos = characterLogos;
 
 export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   // clear the localStorage
   localStorage.clear();
 
   const [characters, setCharacters] = useState<ICharacter[]>([
-    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', lastName: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
   const [pointsLeft, setPointsLeft] = useState<number[]>([20, 20, 20]);
 
   const totalFlags = Object.values(CountryCode).length;
@@ -45,6 +52,13 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   const startIndex = currentPage * FLAGS_PER_PAGE;
   const endIndex = Math.min(startIndex + FLAGS_PER_PAGE, totalFlags);
   const currentFlags = Object.values(CountryCode).slice(startIndex, endIndex);
+
+  const totalLogos = logos.length;
+  const totalLogoPages = Math.ceil(totalLogos / LOGOS_PER_PAGE);
+
+  const startLogoIndex = currentLogoPage * LOGOS_PER_PAGE;
+  const endLogoIndex = Math.min(startLogoIndex + LOGOS_PER_PAGE, totalLogos);
+  const currentLogos = logos.slice(startLogoIndex, endLogoIndex);
 
   useEffect(() => {
     // Load saved stats from storage when the component mounts
@@ -61,6 +75,16 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   }, [characters, pointsLeft]);
 
   const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
+    // If the field is age and the input is between 10 and 99, update the age
+    if (field === 'age') {
+      const age = parseInt(value, 10);
+      if (age >= 10 && age <= 99) {
+        const newCharacters = [...characters];
+        newCharacters[index] = { ...newCharacters[index], age };
+        setCharacters(newCharacters);
+        return;
+      }
+    }
     const newCharacters = [...characters];
     newCharacters[index] = { ...newCharacters[index], [field]: value };
     setCharacters(newCharacters);
@@ -94,8 +118,22 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
 
   const startGame = () => {
     if (validateCharacters()) {
-      // For each character, create a Character object and add it to a Set
       const charactersOfSet = new Set<Character>();
+
+      characters.forEach((character, index) => {
+        const attributes = new Attributes(0, 0, false);
+
+        const characterObject = new Character(
+          index + 1,
+          character.name,
+          character.nationality,
+          character.age,
+          attributes,
+          character.logo,
+        );
+
+        charactersOfSet.add(characterObject);
+      });
 
       presenter.startGame(charactersOfSet);
     } else {
@@ -120,11 +158,30 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                   <CardBody className={'flex flex-col'}>
                     <div className={'mb-4'}>
                       <label className={'block text-lg font-medium mb-2'}>Logo</label>
-                      <Input
-                        type="file"
-                        onChange={(e) => handleInputChange(index, 'logo', URL.createObjectURL(e.target.files![0]))}
-                      />
-                      {character.logo && <Image src={character.logo} alt="Logo" className={'mt-2'} />}
+                      <div className="grid grid-cols-5 gap-4">
+                        {currentLogos.map((logo, logoIndex) => (
+                          <button
+                            key={logoIndex}
+                            onClick={() => handleInputChange(index, 'logo', logo)}
+                            className={`p-2 border-2 ${character.logo === logo ? 'border-blue-500' : 'border-transparent'}`}>
+                            <div className="flex flex-col items-center">
+                              <Image src={logo} alt={`Logo ${logoIndex}`} width={32} height={32} />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex justify-between mt-4">
+                        <Button
+                          onClick={() => setCurrentLogoPage((prev) => Math.max(prev - 1, 0))}
+                          disabled={currentLogoPage === 0}>
+                          Previous
+                        </Button>
+                        <Button
+                          onClick={() => setCurrentLogoPage((prev) => Math.min(prev + 1, totalLogoPages - 1))}
+                          disabled={currentLogoPage === totalLogoPages - 1}>
+                          Next
+                        </Button>
+                      </div>
                     </div>
                     <Badge content={'!'} color="danger" isInvisible={!!character.name}>
                       <span></span>
@@ -144,6 +201,19 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                       aria-label={'Last Name'}
                       value={character.lastName}
                       onChange={(e) => handleInputChange(index, 'lastName', e.target.value)}
+                      className={'mb-4'}
+                    />
+                    <Badge content={'!'} color="danger" isInvisible={!!character.age}>
+                      <span></span>
+                    </Badge>
+                    <Input
+                      type={'number'}
+                      placeholder="Age"
+                      aria-label={'Age'}
+                      min={10}
+                      max={99}
+                      value={character.age.toString()}
+                      onChange={(e) => handleInputChange(index, 'age', e.target.value)}
                       className={'mb-4'}
                     />
                     <Badge content={'!'} color="danger" isInvisible={!!character.nationality}>
