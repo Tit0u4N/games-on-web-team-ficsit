@@ -7,7 +7,9 @@ const images = import.meta.glob('./*.png', { eager: true });
 const characterLogos = Object.keys(images).reduce((acc, path) => {
   const name = path.match(/character(\d+)\.png$/)?.[1];
   if (name) {
-    acc[+name] = (images[path] as any).default;
+    // Remove `/public/` from the path
+    const imagePath = images[path] as any;
+    acc[+name] = imagePath.default.replace('/public/', '/');
   }
   return acc;
 }, [] as string[]);
