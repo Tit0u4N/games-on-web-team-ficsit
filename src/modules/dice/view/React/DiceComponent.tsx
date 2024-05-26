@@ -9,6 +9,7 @@ export interface DiceComponentProps {
   className?: string;
   onRoll3DStart?: () => void;
   onRoll3DEnd?: () => void;
+  handleDiceValue?: (value: number) => void;
   onRoll2DEnd?: () => void;
   isDisabled?: boolean;
 }
@@ -20,6 +21,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   onRoll3DEnd = () => {},
   onRoll2DEnd = () => {},
   isDisabled = false,
+  handleDiceValue,
 }) => {
   const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
@@ -38,6 +40,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter.RollDiceFunc2D = rollDice;
   dicePresenter.onRoll3DStart = onRoll3DStart;
   dicePresenter.onRoll3DEnd = onRoll3DEnd;
+  if (handleDiceValue) dicePresenter.handleDiceValue = handleDiceValue;
 
   const [is3DMod, setIs3DMod] = useState(dicePresenter.is3DMod);
   dicePresenter.on3DModChange.push((is3DMod: boolean) => {

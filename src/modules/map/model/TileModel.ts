@@ -143,7 +143,12 @@ export class TileModel implements ITile {
   }
 
   isWalkable(): boolean {
-    return this._type !== TypesTile.WATER && this._type !== TypesTile.DEEP_WATER && this._type !== TypesTile.MOUNTAIN;
+    return (
+      this._type !== TypesTile.WATER &&
+      this._type !== TypesTile.DEEP_WATER &&
+      this._type !== TypesTile.MOUNTAIN &&
+      this._type !== TypesTile.SNOW
+    );
   }
 }
 

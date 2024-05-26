@@ -23,6 +23,9 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   private _rollDiceFunc2D!: (finalValue: number, nbRolls?: number) => Promise<void>;
   private _rollDiceFunc3D!: () => Promise<number>;
+
+  private _handleDiceValue!: (value: number) => void;
+
   private state: 'idle' | 'rolling' | 'rolled' = 'idle';
 
   constructor(scene: Scene, diceHandler: DiceHandler) {
@@ -66,6 +69,7 @@ export class DicePresenter implements Reactable, ViewInitable {
     ModalManager.getInstance().unlock();
     this.state = 'rolled';
     console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
+    if (this._handleDiceValue) this._handleDiceValue(this.model.finalValue);
     this.diceHandler.handleRollDice(this.model.finalValue);
   }
 
@@ -105,5 +109,13 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   set on3DModChange(func: (is3DMod: boolean) => void) {
     this._on3DModChange.push(func);
+  }
+
+  set handleDiceValue(func: (value: number) => void) {
+    this._handleDiceValue = func;
+  }
+
+  resetIs3DMod() {
+    this._is3DMod = true;
   }
 }

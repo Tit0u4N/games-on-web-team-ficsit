@@ -1,14 +1,15 @@
 import React from 'react';
-import { Card, Image, CardBody, Divider } from '@nextui-org/react';
+import { Card, Image, CardBody, Divider, Avatar, Badge } from '@nextui-org/react';
 import { Character } from '../../model/Character';
-import { InventoryCase } from '../../../../component/InventoryCase.tsx';
+import { Season } from '../../../../core/singleton/Season.ts';
 
 interface CharacterLayoutProps {
   character: Character;
+  season: Season;
   isInTournament?: boolean;
 }
 
-const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTournament }) => {
+const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTournament, season }) => {
   return (
     <Card className={isInTournament ? 'w-[100%]' : 'w-[28%]' + ' h-[150px]'}>
       <CardBody>
@@ -28,12 +29,18 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTourna
               <h3 className="text-xl">{character.name}</h3>
             </div>
             <Divider />
-            <div className="grid grid-cols-5 gap-1 ">
-              {character.inventory.items.map((item, index) => (
-                <InventoryCase key={index} item={item} />
-              ))}
-              {Array.from({ length: 5 - character.inventory.items.length }, (_, index) => (
-                <InventoryCase key={index} />
+            <div className="grid grid-cols-6 gap-1 ">
+              {Array.from(character.getStatsWithEffect(season).keys()).map((item, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <Badge
+                    content={character.getStatsWithEffect(season).get(item)}
+                    placement="bottom-right"
+                    variant="shadow"
+                    color="primary"
+                    shape="circle">
+                    <Avatar isBordered radius="full" src={item.iconPath} />
+                  </Badge>
+                </div>
               ))}
             </div>
           </div>
