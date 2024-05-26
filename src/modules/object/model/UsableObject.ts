@@ -6,6 +6,7 @@ import gearsCombinaisons from './completeGearKeys.json';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { config } from '../../../core/Interfaces.ts';
 import { EquippedObjectSlot } from '../../inventory/model/EquippedObjects.ts';
+import { ObjectRarity } from './ObjectRarity.ts';
 
 export class UsableObject {
   private readonly _id: number;
@@ -14,6 +15,7 @@ export class UsableObject {
   private readonly _statsIncrease: Statistics;
   private readonly _conditions: Condition[];
   private readonly _slot: EquippedObjectSlot;
+  private readonly _rarity: ObjectRarity;
 
   constructor(
     id: number,
@@ -22,6 +24,7 @@ export class UsableObject {
     statsIncrease: Statistics,
     conditions: Condition[] = [],
     slot: EquippedObjectSlot,
+    rarity: ObjectRarity,
   ) {
     this._id = id;
     this._name = name;
@@ -29,10 +32,15 @@ export class UsableObject {
     this._statsIncrease = statsIncrease;
     this._conditions = conditions;
     this._slot = slot;
+    this._rarity = rarity;
   }
 
   get statsIncrease(): Statistics {
     return this._statsIncrease;
+  }
+
+  get rarity(): ObjectRarity {
+    return this._rarity;
   }
 
   getEffect(character: Character, season: Season): Statistics | null {
@@ -132,12 +140,17 @@ interface IGears {
 }
 
 function parseGameObjects(data: GameObjectData[]): UsableObject[] {
-  return data.map((obj) => {
-    const conditions = obj.conditions ? obj.conditions.map(parseCondition) : [];
-    const statsIncrease = Statistics.createFromJsObject(obj.statsIncrease);
-    const slot = EquippedObjectSlot[obj.slot.toUpperCase() as keyof typeof EquippedObjectSlot];
-    return new UsableObject(obj.id, obj.name, obj.image, statsIncrease, conditions, slot);
+  const objects: UsableObject[] = [];
+  data.forEach((obj) => {
+    for (let i = 0; i < 3; i++) {
+      const conditions = obj.conditions ? obj.conditions.map(parseCondition) : [];
+      const statsIncrease = Statistics.createFromJsObject(obj.statsIncrease, ObjectRarity.ALL[i]);
+      const slot = EquippedObjectSlot[obj.slot.toUpperCase() as keyof typeof EquippedObjectSlot];
+      const rarity = ObjectRarity.ALL[i];
+      objects.push(new UsableObject(obj.id, obj.name, obj.image, statsIncrease, conditions, slot, rarity));
+    }
   });
+  return objects;
 }
 
 function parseCondition(conditionData: Condition): Condition {
