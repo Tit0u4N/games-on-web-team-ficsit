@@ -1,55 +1,39 @@
-import {
-  ActionManager,
-  Color4,
-  ExecuteCodeAction,
-  Mesh,
-  MeshBuilder,
-  Scene,
-  StandardMaterial,
-  Vector3,
-} from '@babylonjs/core';
+import { ActionManager, ExecuteCodeAction, Mesh, Scene, Vector3 } from '@babylonjs/core';
 import { ViewInitable } from '@/core/Interfaces.ts';
 import { TrainingCenterModel } from '@building/model/TrainingCenterModel.ts';
 import { TrainingCenterPresenter } from '@building/presenter/TrainingCenterPresenter.ts';
+import { importModel } from '@core/ModelImporter.ts';
 
 export class TrainingCenterView implements ViewInitable {
   private trainingCenterModel: TrainingCenterModel;
   private scene!: Scene;
   private _mesh!: Mesh;
   private trainingCenterPresenter: TrainingCenterPresenter;
+  private static readonly SCALE = 0.01;
 
   constructor(arenaPresenter: TrainingCenterPresenter) {
     this.trainingCenterPresenter = arenaPresenter;
     this.trainingCenterModel = this.trainingCenterPresenter.trainingCenter;
   }
 
-  initView(scene: Scene) {
+  async initView(scene: Scene) {
     this.scene = scene;
-    this.createMesh(this.trainingCenterModel.position);
+    await this.createMesh(this.trainingCenterModel.position);
     this.addActionManager();
   }
 
   // Create a cube above the tile
-  public createMesh(vector: Vector3): void {
-    // add red color
-    const cube = MeshBuilder.CreateBox(
-      'cube_tile',
-      {
-        size: 1,
-        faceColors: [
-          new Color4(0, 0, 1, 1),
-          new Color4(0, 0, 1, 1),
-          new Color4(0, 0, 1, 1),
-          new Color4(0, 0, 1, 1),
-          new Color4(0, 0, 1, 1),
-          new Color4(0, 0, 1, 1),
-        ],
-      },
-      this.scene,
-    );
-    cube.position = vector.add(new Vector3(0, 0, 0));
-    cube.material = new StandardMaterial('material_cube', this.scene);
-    this._mesh = cube;
+  public async createMesh(vector: Vector3) {
+    const importedModel = await importModel('scene.glb', {
+      scene: this.scene,
+      path: 'trainingCenter/',
+      multiMaterial: true,
+    });
+    const mesh = importedModel.mesh;
+    if (!mesh) throw new Error('Mesh not found');
+    mesh.scaling = new Vector3(TrainingCenterView.SCALE, TrainingCenterView.SCALE, TrainingCenterView.SCALE);
+    mesh.position = vector.add(new Vector3(0, 0.1, 0));
+    this._mesh = mesh;
   }
 
   private addActionManager(): void {
