@@ -7,13 +7,19 @@ export interface DiceComponentProps {
   dicePresenter: DicePresenter;
   diceValues?: number[];
   className?: string;
+  onRoll3DStart?: () => void;
+  onRoll3DEnd?: () => void;
+  handleDiceValue?: (value: number) => void;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter,
-  diceValues = DiceModel.initDiceValues(),
   className = '',
+  onRoll3DStart = () => {},
+  onRoll3DEnd = () => {},
+  handleDiceValue,
 }) => {
+  const diceValues = DiceModel.initDiceValues();
   const [value, setValue] = useState(diceValues[0]);
   const [rollDice2DIsHidden, setRollDice2DIsHidden] = useState(true);
   const [rollDice2DCanClose, setRollDice2DCanClose] = useState(false);
@@ -21,26 +27,25 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
 
   async function rollDice(finalValue: number, nbRolls: number = 30) {
     setRollDice2DIsHidden(false);
-    let i = 0;
-    for (i = nbRolls + 1; i >= 0; i--) {
-      let interval = 75;
-      if (i < 5) {
-        interval = 75 + (5 - i) * 50;
-      }
-      await new Promise((resolve) => setTimeout(resolve, interval));
-      setValue(diceValues[Math.floor(Math.random() * diceValues.length)]);
-    }
+    await simulateRoll(finalValue, setValue, nbRolls);
     setValue(finalValue);
     setRollDice2DCanClose(true);
     setRollFinished(true);
   }
 
   dicePresenter.RollDiceFunc2D = rollDice;
+  dicePresenter.onRoll3DStart = onRoll3DStart;
+  dicePresenter.onRoll3DEnd = onRoll3DEnd;
+  if (handleDiceValue) dicePresenter.handleDiceValue = handleDiceValue;
 
   return (
-    <div>
+    <div className="w-full">
       <div className={className}>
-        <Checkbox disabled={rollFinished} onChange={() => dicePresenter.toggle3DMod()} isSelected={true}>
+        <Checkbox
+          className={'block'}
+          disabled={rollFinished}
+          onChange={() => dicePresenter.toggle3DMod()}
+          defaultSelected={true}>
           3D Dice
         </Checkbox>
 
@@ -54,7 +59,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
       </div>
       {rollDice2DIsHidden ? null : (
         <div
-          className={'absolute w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
+          className={'fixed w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
           onClick={() => {
             if (rollDice2DCanClose) setRollDice2DIsHidden(true);
           }}>
@@ -65,4 +70,18 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
       )}
     </div>
   );
+};
+
+export const simulateRoll = async (finalValue: number, setValue: (value: number) => void, nbRolls: number = 30) => {
+  const diceValues = DiceModel.initDiceValues();
+  let i = 0;
+  for (i = nbRolls + 1; i >= 0; i--) {
+    let interval = 75;
+    if (i < 5) {
+      interval = 75 + (5 - i) * 50;
+    }
+    await new Promise((resolve) => setTimeout(resolve, interval));
+    setValue(diceValues[Math.floor(Math.random() * diceValues.length)]);
+  }
+  setValue(finalValue);
 };

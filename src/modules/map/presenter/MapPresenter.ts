@@ -61,6 +61,7 @@ export class MapPresenter implements ViewInitable {
         if (character.tile.getNumberOfCharacters() > 1) counter++;
         if (position !== this._gameCorePresenter.characterPresenter.getCharacterView(character.id)?.mesh?.position)
           this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position, initial);
+        this._gameCorePresenter.checkCharacterInBuilding(character);
       }
     });
   }
