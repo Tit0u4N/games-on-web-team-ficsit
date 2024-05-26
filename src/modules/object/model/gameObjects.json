@@ -1,9 +1,9 @@
 [
-  {"id":7,"name":"Ski Poles","sport":"SKI","image":"ski_poles.png","slot":"chest","statsIncrease":[{"sport":"SKI","bonus":4}]},
-  {"id":20,"name":"Skis","sport":"SKI","image":"ski.png","slot":"feet","statsIncrease":[{"sport":"SKI","bonus":4}],"conditions":[{"type":"terrain","terrain":"Snow","season":"Winter","statsIncrease":[{"sport":"SKI","bonus":2}]}]},
-  {"id":21,"name":"Ski helmet","sport":"SKI","image":"ski_helmet.png","slot":"head","statsIncrease":[{"sport":"SKI","bonus":3}]},
-  {"id":22,"name":"Ski Jacket","sport":"SKI","image":"ski_jacket.png","slot":"chest","statsIncrease":[{"sport":"SKI","bonus":3}]},
-  {"id":23,"name":"Ski Pants","sport":"SKI","image":"ski_pants.png","slot":"legs","statsIncrease":[{"sport":"SKI","bonus":3}]},
+  {"id":7,"name":"Ski Poles","sport":"SKI","image":"ski_poles.png","slot":"chest","statsIncrease":[{"sport":"SKIING","bonus":4}]},
+  {"id":20,"name":"Skis","sport":"SKI","image":"ski.png","slot":"feet","statsIncrease":[{"sport":"SKIING","bonus":4}],"conditions":[{"type":"terrain","terrain":"Snow","season":"Winter","statsIncrease":[{"sport":"SKIING","bonus":2}]}]},
+  {"id":21,"name":"Ski helmet","sport":"SKI","image":"ski_helmet.png","slot":"head","statsIncrease":[{"sport":"SKIING","bonus":3}]},
+  {"id":22,"name":"Ski Jacket","sport":"SKI","image":"ski_jacket.png","slot":"chest","statsIncrease":[{"sport":"SKIING","bonus":3}]},
+  {"id":23,"name":"Ski Pants","sport":"SKI","image":"ski_pants.png","slot":"legs","statsIncrease":[{"sport":"SKIING","bonus":3}]},
 
   {"id":25,"name":"Hockey Puck","sport":"HOCKEY","image":"hockey_puck.png","slot":"feet","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
   {"id":26,"name":"Hockey Helmet","sport":"HOCKEY","image":"hockey_helmet.png","slot":"head","statsIncrease":[{"sport":"HOCKEY","bonus":3}]},
@@ -15,9 +15,9 @@
   {"id": 41, "name": "Bobsleigh Helmet", "sport": "BOBSLEIGH", "image": "bobsleigh_helmet.png", "slot": "head", "statsIncrease": [{"sport": "BOBSLEIGH", "bonus": 3}]},
   {"id": 42, "name": "Bobsleigh Suit", "sport": "BOBSLEIGH", "image": "bobsleigh_suit.png", "slot": "chest", "statsIncrease": [{"sport": "BOBSLEIGH", "bonus": 4}]},
 
-  {"id":50,"name":"Running Shoes","sport":"ATHLETISM","image":"athletism_shoes.png","slot":"feet","statsIncrease":[{"sport":"ATHLETISM","bonus":4}]},
-  {"id":51,"name":"Singlet","sport":"ATHLETISM","image":"athletism_singlet.png","slot":"chest","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
-  {"id":52,"name":"Shorts","sport":"ATHLETISM","image":"athletism_short.png","slot":"legs","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
+  {"id":50,"name":"Running Shoes","sport":"ATHLETICS","image":"athletics_shoes.png","slot":"feet","statsIncrease":[{"sport":"ATHLETICS","bonus":4}]},
+  {"id":51,"name":"Singlet","sport":"ATHLETICS","image":"athletics_singlet.png","slot":"chest","statsIncrease":[{"sport":"ATHLETICS","bonus":3}]},
+  {"id":52,"name":"Shorts","sport":"ATHLETICS","image":"athletics_short.png","slot":"legs","statsIncrease":[{"sport":"ATHLETICS","bonus":3}]},
 
   {"id":53,"name":"Swimming Goggles","sport":"SWIMMING","image":"swimming_goggles.png","slot":"head","statsIncrease":[{"sport":"SWIMMING","bonus":3}]},
   {"id":54,"name":"Swim Cap","sport":"SWIMMING","image":"swimming_cap.png","slot":"head","statsIncrease":[{"sport":"SWIMMING","bonus":2}]},
