@@ -1,5 +1,6 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { IStatIncrease } from '../../object/model/UsableObject.ts';
+import { ObjectRarity } from '../../object/model/ObjectRarity.ts';
 
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
@@ -18,12 +19,13 @@ export class Statistics extends Map<Sport, number> {
     }
   }
 
-  public static createFromJsObject(jsObject: IStatIncrease[]): Statistics {
+  public static createFromJsObject(jsObject: IStatIncrease[], rarity?: ObjectRarity): Statistics {
     const stats = new Statistics();
     for (const stat of jsObject) {
       // todo check if the sport is in the object
       const sport = Sport.getByName(stat.sport);
-      if (sport) stats.set(sport, stat.bonus);
+      const bonus = rarity ? Math.floor(((stat.bonus + 1) / 3) * rarity.bonus) : stat.bonus;
+      if (sport) stats.set(sport, bonus);
     }
     return stats;
   }
