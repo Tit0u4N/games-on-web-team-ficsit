@@ -1,25 +1,45 @@
-import React from 'react';
-import { Image } from '@nextui-org/react';
+import React, { useState } from 'react';
+import { UsableObjectView } from '../modules/object/view/React/UsableObjectView.tsx';
+import { UsableObject } from '../modules/object/model/UsableObject.ts';
+import { DnDItemManager } from '../core/singleton/DndItemManager.ts';
+import { Inventory } from '../modules/inventory/model/Inventory.ts';
+import { EquippedObjectSlot } from '../modules/inventory/model/EquippedObjects.ts';
 
 type InventoryCaseProps = {
-  item?: any;
-  className?: string;
+  inventory: Inventory;
+  position?: number;
+  slot?: EquippedObjectSlot;
+  onChange?: () => void;
 };
 
-export const InventoryCase: React.FC<InventoryCaseProps> = ({ item, className = '' }) => {
-  const isEmpty: boolean = !item;
-  className = 'p-[8px] aspect-square w-full rounded-xl bg-case ' + className;
+export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, position, slot, onChange }) => {
+  let baseItem: UsableObject | null = null;
+  if (position !== undefined) {
+    baseItem = inventory.getItemsFromPosition(position);
+  } else if (slot) {
+    baseItem = inventory.equippedItems.get(slot);
+  }
+
+  const [item, setItem] = useState<UsableObject | null>(baseItem);
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    DnDItemManager.getInstance().setDraggedItem(item, setItem, inventory, position, slot);
+    onChange && onChange();
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    DnDItemManager.getInstance().dropItem(item, setItem, inventory, position, slot);
+    onChange && onChange();
+  };
+
   return (
-    <div className={className}>
-      {isEmpty ? null : (
-        <Image
-          src={item.image}
-          alt={item.name}
-          height={'100%'}
-          width={'100%'}
-          className="size-full object-cover hover:scale-110 transition-transform duration-300 ease-in-out"
-        />
-      )}
+    <div onDrop={handleDrop} onDragOver={handleDragOver} className={'p-[8px] aspect-square w-full rounded-xl bg-case'}>
+      {item && <UsableObjectView item={item} handleDragStart={handleDragStart} />}
     </div>
   );
 };

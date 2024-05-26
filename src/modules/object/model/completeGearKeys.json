@@ -1,66 +1,16 @@
 [
-  {
-    "gearId": "1",
-    "allEquipments": [
-      1,
-      2,
-      3,
-      4
-    ],
-    "statsIncrease": [
-      {
-        "sport": "SKI",
-        "bonus": 2
-      },
-      {
-        "sport": "BASEBALL",
-        "bonus": 2
-      }
-    ]
-  },
-  {
-    "gearId": "2",
-    "allEquipments": [
-      6,
-      7,
-      8,
-      9
-    ],
-    "statsIncrease": [
-      {
-        "sport": "BASEBALL",
-        "bonus": 2
-      }
-    ]
-  },
-  {
-    "gearId": "3",
-    "allEquipments": [
-      11,
-      12,
-      13,
-      14
-    ],
-    "statsIncrease": [
-      {
-        "sport": "SOCCER",
-        "bonus": 2
-      }
-    ]
-  },
-  {
-    "gearId": "4",
-    "allEquipments": [
-      16,
-      5,
-      10,
-      15
-    ],
-    "statsIncrease": [
-      {
-        "sport": "SKI",
-        "bonus": 2
-      }
-    ]
-  }
+  { "gearId": "ski_gear1", "allEquipments": [21, 22, 23, 24], "statsIncrease": [{ "sport": "SKIING", "bonus": 2 }] },
+  { "gearId": "ski_gear2", "allEquipments": [21, 7, 23, 24], "statsIncrease": [{ "sport": "SKIING", "bonus": 2 }] },
+
+  { "gearId": "hockey_gear1", "allEquipments": [26, 27, 29, 28], "statsIncrease": [{ "sport": "HOCKEY", "bonus": 2 }] },
+  { "gearId": "hockey_gear2", "allEquipments": [26, 27, 29, 25], "statsIncrease": [{ "sport": "HOCKEY", "bonus": 2 }] },
+
+  {"gearId": "bobsleigh_gear1", "allEquipments": [41, 42, 40], "statsIncrease": [{"sport": "BOBSLEIGH", "bonus": 2}]},
+
+  {"gearId": "athletics_gear1", "allEquipments": [51, 52, 50], "statsIncrease": [{ "sport": "ATHLETICS", "bonus": 2 }]},
+
+  { "gearId": "swimming_gear1", "allEquipments": [53, 55], "statsIncrease": [{ "sport": "SWIMMING", "bonus": 2 }] },
+  { "gearId": "swimming_gear2", "allEquipments": [54, 55], "statsIncrease": [{ "sport": "SWIMMING", "bonus": 2 }] },
+
+  {"gearId": "kayak_gear1", "allEquipments": [60,59,58,57], "statsIncrease": [{"sport": "KAYAK", "bonus": 2}]}
 ]

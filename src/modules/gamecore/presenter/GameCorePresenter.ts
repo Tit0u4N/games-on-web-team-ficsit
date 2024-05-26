@@ -10,6 +10,7 @@ import { EventModel } from '../../event/model/EventModel.ts';
 import { Character } from '../../character/model/Character.ts';
 import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
 import { MapLimits } from '../../map/view/Babylon/MapView.ts';
+import { Season } from '../../../core/singleton/Season.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -29,6 +30,9 @@ export class GameCorePresenter {
     this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
+    const inventoryPresenter = new InventoryPresenter();
+    const characterArray = Array.from(this._characterPresenter.characters);
+    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
   }
 
   /* Application management*/
@@ -76,9 +80,6 @@ export class GameCorePresenter {
   }
 
   private initializeTestData(): void {
-    const inventoryPresenter = new InventoryPresenter();
-    this.inventoryList = inventoryPresenter.getDefaultInventories();
-
     const eventPresenter = new EventPresenter();
     this.events = eventPresenter.getDefaultEvents();
   }
@@ -147,5 +148,28 @@ export class GameCorePresenter {
 
   get buildingPresenter(): BuildingPresenter {
     return this._buildingPresenter;
+  }
+
+  public getCurrentSeason(): Season {
+    switch (this.gameModel.getRound() % 12) {
+      case 0:
+      case 1:
+      case 2:
+        return Season.getByName('Spring')!;
+      case 3:
+      case 4:
+      case 5:
+        return Season.getByName('Summer')!;
+      case 6:
+      case 7:
+      case 8:
+        return Season.getByName('Autumn')!;
+      case 9:
+      case 10:
+      case 11:
+        return Season.getByName('Winter')!;
+      default:
+        return Season.getByName('Spring')!;
+    }
   }
 }
