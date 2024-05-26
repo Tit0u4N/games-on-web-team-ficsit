@@ -1,11 +1,11 @@
-import { Statistics } from '../../character/model/Statistics.ts';
-import { Character } from '../../character/model/Character.ts';
-import { Season } from '../../../core/singleton/Season.ts';
+import { Statistics } from '@character/model/Statistics.ts';
+import { Character } from '@character/model/Character.ts';
+import { Season } from '@core/singleton/Season.ts';
 import gameObjectsData from './gameObjects.json';
 import gearsCombinaisons from './completeGearKeys.json';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { EquippedObjectSlot } from '../../inventory/model/EquippedObject.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { config } from '@core/Interfaces.ts';
+import { EquippedObjectSlot } from '@inventory/model/EquippedObjects.ts';
 
 export class UsableObject {
   private readonly _id: number;
@@ -35,10 +35,9 @@ export class UsableObject {
     return this._statsIncrease;
   }
 
-  getEffect(character: Character, season: Season) {
+  getEffect(character: Character, season: Season): Statistics | null {
     // Copy the current stats
     const modifiedStats: Statistics = new Statistics(this._statsIncrease);
-
     // Get complete gear bonus
     const completeGearBonus = this.getCompleteGearBonus(character, gears);
     if (completeGearBonus) {
@@ -56,16 +55,15 @@ export class UsableObject {
           }
         }
       }
-
-      return modifiedStats;
     }
+
+    return modifiedStats;
   }
 
   private getCompleteGearBonus(character: Character, gears: IGears[]): Statistics | null {
     for (const gear of gears) {
       if (gear.allEquipments.every((id) => character.inventory.equippedItemsIds.includes(id))) {
-        const bonus = Statistics.createFromJsObject(gear.statsIncrease);
-        return bonus;
+        return Statistics.createFromJsObject(gear.statsIncrease);
       }
     }
     return null;

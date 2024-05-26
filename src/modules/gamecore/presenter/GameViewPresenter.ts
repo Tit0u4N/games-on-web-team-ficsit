@@ -1,7 +1,6 @@
 import { GameCorePresenter } from './GameCorePresenter';
 import { Inventory } from '@inventory/model/Inventory.ts';
 import { EventModel } from '@event/model/EventModel.ts';
-import { gameObjects } from '@object/model/UsableObject.ts';
 
 export class GameViewPresenter {
   private gameCorePresenter: GameCorePresenter;
@@ -15,22 +14,6 @@ export class GameViewPresenter {
   }
 
   private initializeTestData(): void {
-    // Initialize inventory
-    const inventory1 = new Inventory();
-    const inventory2 = new Inventory();
-    const inventory3 = new Inventory();
-    for (let i = 0; i < 10; i++) {
-      inventory1.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
-      if (i % 2 === 0) {
-        inventory1.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
-      }
-      inventory2.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
-      if (i % 3 == 0) {
-        inventory3.addItem(gameObjects[Math.floor(Math.random() * gameObjects.length)]);
-      }
-    }
-    this.inventoryList = [inventory1, inventory2, inventory3];
-
     // Initialize events
     const event1 = new EventModel(1, 'This is the first event');
     const event2 = new EventModel(2, 'This is the second event');

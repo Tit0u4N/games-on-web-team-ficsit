@@ -220,51 +220,21 @@
   "sports": {
     "all": [
       {
-        "name": "Ski",
-        "icon": "ski",
+        "name": "Skiing",
+        "icon": "skiing",
         "description": "Skiing is a means of transport using skis to glide on snow. Variations of purpose include basic transport, a recreational activity, or a competitive winter sport.",
         "seasons": ["winter"]
-      },
-      {
-        "name": "Basketball",
-        "icon": "basketball",
-        "description": "Basketball is a team sport in which two teams, most commonly of five players each, opposing one another on a rectangular court, compete with the primary objective of shooting a basketball through the defender's hoop while preventing the opposing team from shooting through their own hoop.",
-        "seasons": []
       },
       {
         "name": "Athletics",
         "icon": "athletics",
         "description": "Athletics is a collection of sporting events that involve competitive running, jumping, throwing, and walking.",
-        "seasons": []
+        "seasons": ["spring", "summer", "autumn", "winter"]
       },
       {
         "name": "Swimming",
         "icon": "swimming",
         "description": "Swimming is an individual or team racing sport that requires the use of one's entire body to move through water.",
-        "seasons": ["summer"]
-      },
-      {
-        "name": "Baseball",
-        "icon": "baseball",
-        "description": "Baseball is a bat-and-ball game played between two opposing teams who take turns batting and fielding.",
-        "seasons": ["spring", "summer"]
-      },
-      {
-        "name": "Soccer",
-        "icon": "soccer",
-        "description": "Soccer, also known as football, is a team sport played with a spherical ball between two teams of 11 players.",
-        "seasons": ["autumn", "spring"]
-      },
-      {
-        "name": "Tennis",
-        "icon": "tennis",
-        "description": "Tennis is a racket sport that can be played individually against a single opponent or between two teams of two players each.",
-        "seasons": ["spring", "summer"]
-      },
-      {
-        "name": "Volleyball",
-        "icon": "volleyball",
-        "description": "Volleyball is a team sport in which two teams of six players are separated by a net. Each team tries to score points by grounding a ball on the other team's court under organized rules.",
         "seasons": ["summer"]
       },
       {
@@ -274,28 +244,16 @@
         "seasons": ["winter"]
       },
       {
-        "name": "Rugby",
-        "icon": "rugby",
-        "description": "Rugby is a sport that involves two teams trying to score points by carrying or kicking a ball into the opposing team's end zone.",
-        "seasons": ["autumn", "winter"]
+        "name": "Bobsleigh",
+        "icon": "bobsleigh",
+        "description": "Bobsleigh is a winter sport in which teams of two or four teammates make timed runs down narrow, twisting, banked, iced tracks in a gravity-powered sled.",
+        "seasons": ["winter"]
       },
       {
-        "name": "Table Tennis",
-        "icon": "table_tennis",
-        "description": "Table tennis, also known as ping pong, is a sport in which two or four players hit a lightweight ball back and forth across a table using small rackets.",
-        "seasons": []
-      },
-      {
-        "name": "Boxing",
-        "icon": "boxing",
-        "description": "Boxing is a martial art and combat sport in which two people wearing protective gloves throw punches at each other for a predetermined set of time in a boxing ring.",
-        "seasons": []
-      },
-      {
-        "name": "Fencing",
-        "icon": "fencing",
-        "description": "Fencing is a sport of fighting with swords. It is one of the four sports which have been featured at every one of the modern Olympic Games.",
-        "seasons": []
+        "name": "Kayak",
+        "icon": "kayak",
+        "description": "Kayaking is the use of a kayak for moving across water. It is distinguished from canoeing by the sitting position of the paddler and the number of blades on the paddle.",
+        "seasons": ["spring", "summer", "autumn"]
       }
     ]
   },
@@ -332,6 +290,11 @@
           "defaultScaling": 5,
           "selectedScaling": 5
         }
+      }
+    },
+    "model": {
+      "inventory": {
+        "maxItems": 20
       }
     }
   }

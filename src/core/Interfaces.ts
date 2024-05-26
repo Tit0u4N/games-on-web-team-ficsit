@@ -267,8 +267,15 @@ interface ICharacterViewConfig {
   babylon: ICharacterViewBabylonConfig;
 }
 
+interface ICharacterModelConfig {
+  inventory: {
+    maxItems: number;
+  };
+}
+
 interface ICharacterConfig {
   view: ICharacterViewConfig;
+  model: ICharacterModelConfig;
 }
 
 interface IConfig {
