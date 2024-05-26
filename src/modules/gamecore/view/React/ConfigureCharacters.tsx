@@ -75,40 +75,19 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   }, [characters, pointsLeft]);
 
   const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
-    if (field === 'logo') {
-      const newCharacters = [...characters];
-      // Remove the selected logo from other characters
-      newCharacters.forEach((character, i) => {
-        if (i !== index && character.logo === value) {
-          newCharacters[i] = { ...newCharacters[i], logo: '' };
-        }
-      });
-      // Replace the logo if it's no longer used
-      if (
-        !newCharacters[index].name &&
-        !newCharacters[index].lastName &&
-        !newCharacters[index].age &&
-        !newCharacters[index].nationality
-      ) {
-        newCharacters[index] = { ...newCharacters[index], logo: '' };
-      }
-      // Update the character with the selected logo
-      newCharacters[index] = { ...newCharacters[index], [field]: value };
-      setCharacters(newCharacters);
-    } else if (field === 'age') {
-      // If the field is age and the input is between 10 and 99, update the age
+    // If the field is age and the input is between 10 and 99, update the age
+    if (field === 'age') {
       const age = parseInt(value, 10);
       if (age >= 10 && age <= 99) {
         const newCharacters = [...characters];
         newCharacters[index] = { ...newCharacters[index], age };
         setCharacters(newCharacters);
+        return;
       }
-    } else {
-      // For other fields, update the character directly
-      const newCharacters = [...characters];
-      newCharacters[index] = { ...newCharacters[index], [field]: value };
-      setCharacters(newCharacters);
     }
+    const newCharacters = [...characters];
+    newCharacters[index] = { ...newCharacters[index], [field]: value };
+    setCharacters(newCharacters);
   };
 
   const handleStatChange = (index: number, sport: string, change: number) => {
