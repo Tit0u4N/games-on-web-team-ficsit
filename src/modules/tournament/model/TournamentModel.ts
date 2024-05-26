@@ -73,6 +73,46 @@ export class TournamentModel {
     return this._isRolled;
   }
 
+  get rounds(): { round: number; pools: { rank: number; character: Character }[][] }[] {
+    return this._rounds;
+  }
+
+  get finalRankings() {
+    return this._finalRankings;
+  }
+
+  get currentRound(): number {
+    return this._currentRound;
+  }
+
+  getCurrentRound() {
+    return this._rounds.find((round) => round.round == this._currentRound);
+  }
+
+  getCurrentPool() {
+    return this.getCurrentRound()!.pools[this._currentPool];
+  }
+
+  get currentPool(): number {
+    return this._currentPool;
+  }
+
+  get currentPoolRolls(): { diceRoll: number; character: Character; rank: number }[] {
+    return this._currentPoolRolls;
+  }
+
+  get sport(): Sport {
+    return this._sport;
+  }
+
+  public isUserRolledDice(characterId: number): boolean {
+    return this.currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll != -1;
+  }
+
+  isAllRolled() {
+    return this._currentPoolRolls.every((value) => value.diceRoll != -1);
+  }
+
   initTournament() {
     this._season = this.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason();
     this._rounds = [];
@@ -127,46 +167,6 @@ export class TournamentModel {
           .pools[Math.floor(poolNo / 2)].push({ rank: -1, character: currentRound!.pools[poolNo][i].character });
       }
     }
-  }
-
-  get rounds(): { round: number; pools: { rank: number; character: Character }[][] }[] {
-    return this._rounds;
-  }
-
-  get finalRankings() {
-    return this._finalRankings;
-  }
-
-  get currentRound(): number {
-    return this._currentRound;
-  }
-
-  getCurrentRound() {
-    return this._rounds.find((round) => round.round == this._currentRound);
-  }
-
-  getCurrentPool() {
-    return this.getCurrentRound()!.pools[this._currentPool];
-  }
-
-  get currentPool(): number {
-    return this._currentPool;
-  }
-
-  get currentPoolRolls(): { diceRoll: number; character: Character; rank: number }[] {
-    return this._currentPoolRolls;
-  }
-
-  get sport(): Sport {
-    return this._sport;
-  }
-
-  public isUserRolledDice(characterId: number): boolean {
-    return this.currentPoolRolls.find((value) => value.character.id == characterId)!.diceRoll != -1;
-  }
-
-  isAllRolled() {
-    return this._currentPoolRolls.every((value) => value.diceRoll != -1);
   }
 
   playNextRound() {
