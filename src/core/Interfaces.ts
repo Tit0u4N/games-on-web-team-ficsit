@@ -269,6 +269,12 @@ interface IUsableObjectConfig {
   basePath: string;
 }
 
+interface ICharacterConfig {
+  inventory: {
+    maxItems: number;
+  };
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -278,6 +284,7 @@ interface IConfig {
   seasons: ISeasonConfig;
   statistics: IStatisticsConfig;
   usableObject: IUsableObjectConfig;
+  character: ICharacterConfig;
 }
 
 export const config: IConfig = configJson;
