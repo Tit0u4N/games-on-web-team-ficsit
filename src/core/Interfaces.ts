@@ -75,20 +75,47 @@ interface IBabylonMainViewConfig {
   };
 }
 
-interface IArenaConfig {
-  numberOfBuildings: number;
-  spacing: number;
+interface ITrainingCenterUserChoicesConfig {
+  label: string;
+  stats: number;
+  rounds: number;
+  image: string;
 }
 
-interface ITrainingCenterConfig {
-  numberOfBuildings: number;
-  spacing: number;
+interface ITrainingCenterModelConfig {
+  defaultRotation: number;
 }
 
-interface IBuildingsConfig {
+interface IBuildingFactoryConfig {
   maxAttempts: number;
-  arena: IArenaConfig;
-  trainingCenter: ITrainingCenterConfig;
+  arena: {
+    numberOfBuildings: number;
+    spacing: number;
+  };
+  trainingCenter: {
+    numberOfBuildings: number;
+    spacing: number;
+  };
+}
+
+interface ITrainingCenterViewConfig {
+  trainingChoices: {
+    userChoices: {
+      lowDiceScore: ITrainingCenterUserChoicesConfig[];
+      mediumDiceScore: ITrainingCenterUserChoicesConfig[];
+      highDiceScore: ITrainingCenterUserChoicesConfig[];
+    };
+  };
+}
+
+interface IBuildingConfig {
+  model: {
+    buildingFactory: IBuildingFactoryConfig;
+    trainingCenterModel: ITrainingCenterModelConfig;
+  };
+  view: {
+    trainingCenter: ITrainingCenterViewConfig;
+  };
 }
 
 interface IMapGetPositionConfig {
@@ -169,9 +196,16 @@ interface ITileViewFactoryConfig {
   getColor: ITileViewFactoryGetColorConfig;
 }
 
+interface IMapPresenterConfig {
+  defaultOptions: {
+    size: number;
+  }
+}
+
 interface IMapViewConfig {
   tileView: ITileViewConfig;
   tileViewFactory: ITileViewFactoryConfig;
+  mapPresenter: IMapPresenterConfig;
 }
 
 interface INoiseMapConfig {
@@ -281,7 +315,7 @@ interface ICharacterConfig {
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
-  buildings: IBuildingsConfig;
+  building: IBuildingConfig;
   map: IMapConfig;
   modifiableOptions: IModifiableOptions;
   sports: ISportConfig;

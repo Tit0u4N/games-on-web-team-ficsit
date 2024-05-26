@@ -9,8 +9,6 @@ import { Inventory } from '@inventory/model/Inventory.ts';
 import { EventModel } from '@event/model/EventModel.ts';
 import { Character } from '@character/model/Character.ts';
 import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
-import { DicePresenter } from '@dice/presenter/DicePresenter.ts';
-import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import { MapLimits } from '@map/view/Babylon/MapView.ts';
 import { Season } from '@core/singleton/Season.ts';
 
@@ -19,7 +17,7 @@ export class GameCorePresenter {
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
-  private buildingPresenter!: BuildingPresenter;
+  private _buildingPresenter!: BuildingPresenter;
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
@@ -31,9 +29,10 @@ export class GameCorePresenter {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView(this);
-    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
+    this._mapPresenter = new MapPresenter(this);
     this.initializeTestData();
   }
+
   /* Application management*/
 
   public getStatus() {
@@ -80,8 +79,8 @@ export class GameCorePresenter {
       await this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this.buildingPresenter = new BuildingPresenter(this._mapPresenter);
-      this.buildingPresenter.initView(this._babylonView.scene);
+      this._buildingPresenter = new BuildingPresenter(this._mapPresenter);
+      this._buildingPresenter.initView(this._babylonView.scene);
       this._setIsLoading(false);
       this.notifyViewChange();
     }, 1000);
@@ -108,14 +107,17 @@ export class GameCorePresenter {
    * Start a new round
    */
   nextRound() {
+    const result: boolean = this._buildingPresenter.isAllCharactersReady();
+    if (!result) {
+      return;
+    }
     this.gameModel.playRound();
-
-    const scene = this._babylonView.scene;
-    const dicePresenter = new DicePresenter(scene);
-    ModalManager.getInstance().openModal(dicePresenter);
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
+    this._buildingPresenter.trainingCenters.forEach((trainingCenter) => {
+      trainingCenter.trainingCenter.nextRound();
+    });
   }
 
   getCurrentRound() {
@@ -140,6 +142,23 @@ export class GameCorePresenter {
 
   set setIsLoading(value: (isLoading: boolean) => void) {
     this._setIsLoading = value;
+  }
+
+  checkCharacterInBuilding(character: Character) {
+    if (this._buildingPresenter === undefined) {
+      return;
+    }
+    this._buildingPresenter.trainingCenters.forEach((building) => {
+      if (building.isCharacterInBuilding(character)) {
+        building.onCharacterEnter(character);
+      } else {
+        building.onCharacterExit(character);
+      }
+    });
+  }
+
+  get buildingPresenter(): BuildingPresenter {
+    return this._buildingPresenter;
   }
 
   public getCurrentSeason(): Season {

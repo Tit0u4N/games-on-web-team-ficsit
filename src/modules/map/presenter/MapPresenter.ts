@@ -1,140 +1,164 @@
-import { IMapModelPresenter, MapModel } from '@map/model/MapModel.ts';
-import { MapView } from '@map/view/Babylon/MapView.ts';
-import { Scene, Vector3 } from '@babylonjs/core';
-import { IGraphTiles } from '@map/model/GraphTilesModel.ts';
-import { importModel } from '@/core/ModelImporter.ts';
-import { getPosition, getCharacterPositionOnTile, PositionTypes } from '@map/core/GamePlacer.ts';
-import { ViewInitable } from '@/core/Interfaces.ts';
-import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import {IMapModelPresenter, MapModel} from '@map/model/MapModel.ts';
+import {MapView} from '@map/view/Babylon/MapView.ts';
+import {Scene} from '@babylonjs/core';
+import {IGraphTiles} from '@map/model/GraphTilesModel.ts';
+import {getPosition, getCharacterPositionOnTile, PositionTypes} from '@map/core/GamePlacer.ts';
+import {config, ViewInitable} from '@/core/Interfaces.ts';
+import {GameCorePresenter} from '@gamecore/presenter/GameCorePresenter.ts';
 
 type MapPresenterOptions = {
-  size?: number;
-  seed?: number | string;
-  defaultCharacterPosition?: { x: number; y: number };
+    size?: number;
+    seed?: number | string;
 };
 
 const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
-  size: 100,
-  seed: Math.random(),
-  defaultCharacterPosition: { x: 12, y: 25 },
+    size: config.map.view.mapPresenter.defaultOptions.size,
+    seed: Math.random(),
 });
+
 export class MapPresenter implements ViewInitable {
-  private readonly _mapModel: IMapModelPresenter;
-  private _view: MapView;
-  private readonly _gameCorePresenter: GameCorePresenter;
+    private readonly _mapModel: IMapModelPresenter;
+    private _view: MapView;
+    private readonly _gameCorePresenter: GameCorePresenter;
 
-  private options: MapPresenterOptions;
+    private options: MapPresenterOptions;
 
-  constructor(gameCorePresenter: GameCorePresenter, options: MapPresenterOptions = {}) {
-    this.options = { ...DEFAULT_OPTIONS, ...options };
-    this._mapModel = new MapModel(this.options.size!, this.options.seed);
-    this._view = new MapView(this._mapModel, this);
-    this._gameCorePresenter = gameCorePresenter;
-  }
-  unMountView(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  initView(scene: Scene) {
-    this._mapModel.init();
-    this._view.initView(scene);
-    this.testObjects(scene).then();
-    this._gameCorePresenter.getCharacters().forEach((character) => {
-      this._mapModel
-        .getTile(
-          this.options.defaultCharacterPosition!.x + (character.id === 3 ? 1 : 0),
-          this.options.defaultCharacterPosition!.y,
-        )
-        .addCharacter(character);
-    });
-  }
-
-  placeCharacters(initial = false) {
-    let counter = 0;
-    this._gameCorePresenter.getCharacters().forEach((character) => {
-      if (character.tile !== undefined) {
-        const position = getCharacterPositionOnTile(
-          getPosition(character.tile, PositionTypes.CHARACTER),
-          character.tile.getNumberOfCharacters(),
-          character.tile.getNumberOfCharacters() > 1 ? counter : 1,
-        );
-        if (character.tile.getNumberOfCharacters() > 1) counter++;
-        if (position !== this._gameCorePresenter.characterPresenter.getCharacterView(character.id)?.mesh?.position)
-          this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position, initial);
-      }
-    });
-  }
-
-  public getDisplacementGraph(): IGraphTiles {
-    return this._mapModel.displacementGraph;
-  }
-
-  get gameCorePresenter(): GameCorePresenter {
-    return this._gameCorePresenter;
-  }
-
-  private async testObjects(scene: Scene) {
-    const importedModel = await importModel('trees2.gltf', { scene, multiMaterial: true });
-    const mesh3 = importedModel.mesh;
-    mesh3.position = getPosition(this._mapModel.getTile(12, 24), PositionTypes.DECORATION).add(new Vector3(0, -0.3, 0));
-    mesh3.scaling = new Vector3(1.2, 1.2, 1.2);
-    mesh3.rotation = new Vector3(0, 0, 0);
-    const importedModel2 = await importModel('trees.gltf', { scene, multiMaterial: true });
-    const mesh2 = importedModel2.mesh;
-    mesh2.position = getPosition(this._mapModel.getTile(12, 25), PositionTypes.BUILDING);
-    mesh2.scaling = new Vector3(0.7, 0.7, 0.7);
-    mesh2.rotation = new Vector3(0, Math.PI / 4, 0);
-  }
-
-  public addDeplacementTiles() {
-    const character = this.gameCorePresenter.characterPresenter.getSelectedCharacter();
-    if (!character || !character.tile) return;
-    const characterTile = character.tile;
-    const tileList = this._mapModel.displacementGraph.getAdjacentTilesInRange(
-      characterTile,
-      character.attributes.movement,
-    );
-    tileList.forEach((tile) => {
-      if (!tile.isWalkable()) return;
-      const distance = this._mapModel.displacementGraph.getDistance(characterTile, tile);
-      if (distance <= character.attributes.movement) this._view.addDeplacementTile(tile.x, tile.y, tile.type);
-    });
-  }
-
-  public removeDeplacementTiles() {
-    this._view.removeDeplacementTile();
-  }
-
-  updateSelectedCharacter() {
-    this.removeDeplacementTiles();
-    this.addDeplacementTiles();
-  }
-
-  unselectCharacter() {
-    this._gameCorePresenter.characterPresenter.unselectCharacter();
-  }
-
-  moveCharacterToTile(x: number, y: number) {
-    const selectedCharacter = this._gameCorePresenter.characterPresenter.getSelectedCharacter();
-    if (selectedCharacter) {
-      const characterTile = selectedCharacter.tile;
-      const tileModel = this._mapModel.getTile(x, y);
-      if (!characterTile || !tileModel) return;
-      if (!tileModel.isWalkable()) return;
-      const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
-      if (distance > selectedCharacter.attributes.movement) return;
-      selectedCharacter.tile?.removeCharacter(selectedCharacter);
-      console.log(distance);
-      selectedCharacter.removeMovementPoints(distance);
-      tileModel.addCharacter(selectedCharacter);
-
-      this.removeDeplacementTiles();
-      this.unselectCharacter();
-      this.placeCharacters();
+    constructor(gameCorePresenter: GameCorePresenter, options: MapPresenterOptions = {}) {
+        this.options = {...DEFAULT_OPTIONS, ...options};
+        this._mapModel = new MapModel(this.options.size!, this.options.seed);
+        this._view = new MapView(this._mapModel, this);
+        this._gameCorePresenter = gameCorePresenter;
     }
-  }
 
-  get view(): MapView {
-    return this._view;
-  }
+    unMountView(): void {
+        throw new Error('Method not implemented.');
+    }
+
+    initView(scene: Scene) {
+        this._mapModel.init();
+        this._view.initView(scene);
+
+        // Calculate the center of the map
+        const centerX = Math.floor(this._mapModel.tiles[0].length / 2);
+        const centerY = Math.floor(this._mapModel.tiles.length / 3);
+
+        // Initialize the search radius and the current tile
+        let radius = 1;
+        let tile = null;
+
+        // Search for a walkable tile in a circular radius around the center
+        while (radius <= Math.max(centerX, centerY) && !tile) {
+            for (let y = -radius; y <= radius; y++) {
+                for (let x = -radius; x <= radius; x++) {
+                    if (x * x + y * y > radius * radius) {
+                        continue; // Skip the points outside the circle
+                    }
+
+                    // Calculate the tile index and check if it's walkable
+                    const tileX = centerX + x;
+                    const tileY = centerY + y;
+                    if (
+                        tileX >= 0 &&
+                        tileX < this._mapModel.tiles[0].length &&
+                        tileY >= 0 &&
+                        tileY < this._mapModel.tiles.length &&
+                        this._mapModel.getTile(tileX, tileY).isWalkable()
+                    ) {
+                        tile = this._mapModel.getTile(tileX, tileY);
+                        break;
+                    }
+                }
+                if (tile) {
+                    break; // Stop the search if a walkable tile is found
+                }
+            }
+            radius++; // Increase the search radius
+        }
+
+        // Add the characters to the walkable tile
+        if (tile) {
+            this._gameCorePresenter.getCharacters().forEach((character) => {
+                tile.addCharacter(character);
+            });
+        } else {
+            console.error("No walkable tile found on the map!");
+        }
+    }
+
+
+    placeCharacters(initial = false) {
+        let counter = 0;
+        this._gameCorePresenter.getCharacters().forEach((character) => {
+            if (character.tile !== undefined) {
+                const position = getCharacterPositionOnTile(
+                    getPosition(character.tile, PositionTypes.CHARACTER),
+                    character.tile.getNumberOfCharacters(),
+                    character.tile.getNumberOfCharacters() > 1 ? counter : 1,
+                );
+                if (character.tile.getNumberOfCharacters() > 1) counter++;
+                if (position !== this._gameCorePresenter.characterPresenter.getCharacterView(character.id)?.mesh?.position)
+                    this._gameCorePresenter.characterPresenter.characterView.givePosition(character.id, position, initial);
+                this._gameCorePresenter.checkCharacterInBuilding(character);
+            }
+        });
+    }
+
+    public getDisplacementGraph(): IGraphTiles {
+        return this._mapModel.displacementGraph;
+    }
+
+    get gameCorePresenter(): GameCorePresenter {
+        return this._gameCorePresenter;
+    }
+
+    public addDeplacementTiles() {
+        const character = this.gameCorePresenter.characterPresenter.getSelectedCharacter();
+        if (!character || !character.tile) return;
+        const characterTile = character.tile;
+        const tileList = this._mapModel.displacementGraph.getAdjacentTilesInRange(
+            characterTile,
+            character.attributes.movement,
+        );
+        tileList.forEach((tile) => {
+            if (!tile.isWalkable()) return;
+            const distance = this._mapModel.displacementGraph.getDistance(characterTile, tile);
+            if (distance <= character.attributes.movement) this._view.addDeplacementTile(tile.x, tile.y, tile.type);
+        });
+    }
+
+    public removeDeplacementTiles() {
+        this._view.removeDeplacementTile();
+    }
+
+    updateSelectedCharacter() {
+        this.removeDeplacementTiles();
+        this.addDeplacementTiles();
+    }
+
+    unselectCharacter() {
+        this._gameCorePresenter.characterPresenter.unselectCharacter();
+    }
+
+    moveCharacterToTile(x: number, y: number) {
+        const selectedCharacter = this._gameCorePresenter.characterPresenter.getSelectedCharacter();
+        if (selectedCharacter) {
+            const characterTile = selectedCharacter.tile;
+            const tileModel = this._mapModel.getTile(x, y);
+            if (!characterTile || !tileModel) return;
+            if (!tileModel.isWalkable()) return;
+            const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
+            if (distance > selectedCharacter.attributes.movement) return;
+            selectedCharacter.tile?.removeCharacter(selectedCharacter);
+            selectedCharacter.removeMovementPoints(distance);
+            tileModel.addCharacter(selectedCharacter);
+
+            this.removeDeplacementTiles();
+            this.unselectCharacter();
+            this.placeCharacters();
+        }
+    }
+
+    get view(): MapView {
+        return this._view;
+    }
 }
