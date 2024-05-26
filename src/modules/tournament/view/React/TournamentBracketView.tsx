@@ -2,13 +2,13 @@ import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import { BracketObject, Bracketv1 } from './bracket/Bracketv1.tsx';
 import React from 'react';
 import { Button, Divider, ModalBody } from '@nextui-org/react';
-import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 
 interface Props {
   tournament: TournamentPresenter;
+  onStatusChange: () => void;
 }
 
-export const TournamentBracketView: React.FC<Props> = ({ tournament }) => {
+export const TournamentBracketView: React.FC<Props> = ({ tournament, onStatusChange }) => {
   const bracketObjects = BracketObject.buildFromRoundList(tournament.tournamentModel.rounds);
   const [isNextRoundDisabled, setIsNextRoundDisabled] = React.useState<boolean>(false);
   const nextRound = () => {
@@ -23,9 +23,14 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament }) => {
     setIsNextRoundDisabled(true);
     setTimeout(() => {
       setIsNextRoundDisabled(false);
-      if (tournament.tournamentModel.tournamentStatus === 'finished') ModalManager.getInstance().updateCurrentModal();
+      if (tournament.tournamentModel.tournamentStatus === 'finished') onStatusChange();
     }, 1000);
     tournament.playNextRound();
+  };
+
+  const skipTournament = () => {
+    tournament.tournamentModel.skipTournament();
+    onStatusChange();
   };
 
   return (
@@ -37,6 +42,12 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament }) => {
           <Button onPress={() => nextRound()} isDisabled={isNextRoundDisabled}>
             Next round
           </Button>
+          {!tournament.tournamentModel.isUserCharacterStillInTournament() && (
+            <>
+              <p>All your athletes have been eliminated</p>
+              <Button onPress={() => skipTournament()}>Skip tournament</Button>
+            </>
+          )}
         </div>
       </div>
     </ModalBody>
