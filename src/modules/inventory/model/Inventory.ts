@@ -1,13 +1,16 @@
 import { UsableObject } from '../../object/model/UsableObject.ts';
 import { EquippedObjects, EquippedObjectSlot } from './EquippedObjects.ts';
 import { config } from '../../../core/Interfaces.ts';
+import { Character } from '../../character/model/Character.ts';
 
 export class Inventory {
   private _items: Array<UsableObject | null> = [];
   private _equippedObjects: EquippedObjects = new EquippedObjects();
+  private readonly _character: Character;
 
-  constructor() {
+  constructor(character: Character) {
     this._items = Inventory.generateEmptyArray();
+    this._character = character;
   }
 
   static generateEmptyArray(): Array<null> {
@@ -57,5 +60,9 @@ export class Inventory {
 
   get equippedItemsIds(): number[] {
     return this._equippedObjects.all.map((item) => item.id);
+  }
+
+  get character(): Character {
+    return this._character;
   }
 }

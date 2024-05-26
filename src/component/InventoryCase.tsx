@@ -9,9 +9,10 @@ type InventoryCaseProps = {
   inventory: Inventory;
   position?: number;
   slot?: EquippedObjectSlot;
+  onChange?: () => void;
 };
 
-export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, position, slot }) => {
+export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, position, slot, onChange }) => {
   let baseItem: UsableObject | null = null;
   if (position !== undefined) {
     baseItem = inventory.getItemsFromPosition(position);
@@ -23,6 +24,7 @@ export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, positio
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     DnDItemManager.getInstance().setDraggedItem(item, setItem, inventory, position, slot);
+    onChange && onChange();
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -32,6 +34,7 @@ export const InventoryCase: React.FC<InventoryCaseProps> = ({ inventory, positio
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     DnDItemManager.getInstance().dropItem(item, setItem, inventory, position, slot);
+    onChange && onChange();
   };
 
   return (

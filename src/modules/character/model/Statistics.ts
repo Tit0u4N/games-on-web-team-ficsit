@@ -38,6 +38,10 @@ export class Statistics extends Map<Sport, number> {
     }
   }
 
+  public copy(): Statistics {
+    return new Statistics(this);
+  }
+
   get(sport: Sport): number {
     return super.get(sport) || 0;
   }

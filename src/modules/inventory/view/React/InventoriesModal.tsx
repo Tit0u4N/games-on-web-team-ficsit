@@ -3,14 +3,21 @@ import { Inventory } from '../../model/Inventory.ts';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
 import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 import { InventoryLayout } from './InventoryLayout.tsx';
+import { GameCorePresenter } from '../../../gamecore/presenter/GameCorePresenter.ts';
 
 export interface InventoryModalProps {
   inventories: Inventory[];
+  gameCorePresenter: GameCorePresenter;
   toggleModal: (type: ModalType, isOpen: boolean) => void;
   isModalOpen: (type: ModalType) => boolean;
 }
 
-const InventoriesModal: React.FC<InventoryModalProps> = ({ inventories, toggleModal, isModalOpen }) => {
+const InventoriesModal: React.FC<InventoryModalProps> = ({
+  inventories,
+  gameCorePresenter,
+  toggleModal,
+  isModalOpen,
+}) => {
   const { onOpenChange } = useDisclosure();
   const handleClose = () => {
     toggleModal(ModalType.INVENTORY, !isModalOpen(ModalType.INVENTORY));
@@ -24,7 +31,7 @@ const InventoriesModal: React.FC<InventoryModalProps> = ({ inventories, toggleMo
             <ModalHeader className="flex flex-col gap-1">Inventory</ModalHeader>
             <ModalBody className="flex flex-row justify-between py-6">
               {inventories.map((inventory, index) => (
-                <InventoryLayout inventory={inventory} key={index} />
+                <InventoryLayout inventory={inventory} key={index} gameCorePresenter={gameCorePresenter} />
               ))}
             </ModalBody>
             <ModalFooter>
