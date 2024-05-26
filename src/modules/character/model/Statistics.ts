@@ -29,14 +29,14 @@ export class Statistics extends Map<Sport, number> {
     return stats;
   }
 
-  private initRandomStats(): void {
-    //FIXME: remove this method not used in the version in tournaments
-    // Share not equitably the statsToShare between all sports and downgrades the statsToShare
-    for (const sport of Sport.getAll()) {
-      // the stats can be between 2 and 13
-      this.set(sport, Math.floor(Math.random() * 12) + 2);
-    }
-  }
+  // private initRandomStats(): void {
+  //   //FIXME: remove this method not used in the version in tournaments
+  //   // Share not equitably the statsToShare between all sports and downgrades the statsToShare
+  //   for (const sport of Sport.getAll()) {
+  //     // the stats can be between 2 and 13
+  //     this.set(sport, Math.floor(Math.random() * 12) + 2);
+  //   }
+  // }
 
   public copy(): Statistics {
     return new Statistics(this);
