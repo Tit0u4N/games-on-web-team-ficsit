@@ -63,6 +63,7 @@ jest.mock('../../character/presenter/CharacterPresenter.ts', () => {
   return {
     CharacterPresenter: jest.fn().mockImplementation(() => {
       return {
+        characters: new Set(),
         getDefaultCharacters: jest.fn(),
         initView: jest.fn(),
         getSelectedCharacter: jest.fn(),
@@ -98,6 +99,16 @@ jest.mock('../../map/model/GraphTilesModel.ts', () => {
         getTile: jest.fn(),
         getDistance: jest.fn(),
         getSize: jest.fn(),
+      };
+    }),
+  };
+});
+
+jest.mock('../../inventory/presenter/InventoryPresenter.ts', () => {
+  return {
+    InventoryPresenter: jest.fn().mockImplementation(() => {
+      return {
+        getDefaultInventories: jest.fn(),
       };
     }),
   };

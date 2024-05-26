@@ -26,7 +26,7 @@ export class Character {
     this._name = name;
     this._nationality = nationality;
     this._age = age;
-    this._inventory = new Inventory();
+    this._inventory = new Inventory(this);
     this._statistics = new Statistics();
     this._attributes = attributes;
     this._image = image;
@@ -110,5 +110,17 @@ export class Character {
 
   public resetMovementPoints(): void {
     this._attributes.resetMovement();
+  }
+
+  getStatsWithEffect(season: Season | undefined): Statistics {
+    if (!season) season = Season.getAll()[0]; //fallback to the first season
+    const stats = this.statistics.copy();
+    for (const item of this.inventory.equippedItems.all) {
+      const effect = item.getEffect(this, season);
+      if (effect) {
+        stats.addStat(effect);
+      }
+    }
+    return stats;
   }
 }
