@@ -23,7 +23,7 @@ export class GameCorePresenter {
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
-  private readonly _characterPresenter: CharacterPresenter;
+  private _characterPresenter!: CharacterPresenter;
 
   private _setIsLoading!: (isLoading: boolean) => void;
 
@@ -33,10 +33,6 @@ export class GameCorePresenter {
     this._babylonView = new BabylonMainView(this);
     this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
     this.initializeTestData();
-    this._characterPresenter = new CharacterPresenter(this);
-    const inventoryPresenter = new InventoryPresenter();
-    const characterArray = Array.from(this._characterPresenter.characters);
-    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
   }
   /* Application management*/
 
@@ -70,7 +66,11 @@ export class GameCorePresenter {
   /**
    * Start a new game
    */
-  startGame() {
+  startGame(characters: Set<Character>) {
+    this._characterPresenter = new CharacterPresenter(this, characters);
+    const inventoryPresenter = new InventoryPresenter();
+    const characterArray = Array.from(this._characterPresenter.characters);
+    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
     this.gameModel.createNewGame();
     this.status = ApplicationStatus.GAME;
     this.notifyViewChange();

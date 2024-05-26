@@ -1,11 +1,11 @@
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
-import React, { useState } from 'react';
-import { Button, Card, CardBody, Input, Select, Image, Tabs, Tab, SelectItem } from '@nextui-org/react';
-import getUnicodeFlagIcon from 'country-flag-icons/unicode';
-import { CountryCode } from '@core/Country.tsx';
-import { Sport } from '@core/singleton/Sport.ts'; // Adjust the import path as necessary
+import React, { useEffect, useState } from 'react';
+import { Button, Card, CardBody, Input, Image, Tabs, Tab, Badge } from '@nextui-org/react';
+import { Country, CountryCode } from '@core/Country.tsx';
+import { Sport } from '@core/singleton/Sport.ts';
+import { Character } from '@character/model/Character.ts';
 
-interface Character {
+interface ICharacter {
   logo: string;
   name: string;
   lastName: string;
@@ -18,6 +18,7 @@ interface Props {
 }
 
 const sports = Sport.getAll();
+const FLAGS_PER_PAGE = 15;
 const initialStats = sports.reduce(
   (acc, sport) => {
     acc[sport.name] = 0;
@@ -27,33 +28,78 @@ const initialStats = sports.reduce(
 );
 
 export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
-  const [characters, setCharacters] = useState<Character[]>([
-    { logo: '', name: '', lastName: '', nationality: CountryCode.USA, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', nationality: CountryCode.USA, stats: { ...initialStats } },
-    { logo: '', name: '', lastName: '', nationality: CountryCode.USA, stats: { ...initialStats } },
+  // clear the localStorage
+  localStorage.clear();
+
+  const [characters, setCharacters] = useState<ICharacter[]>([
+    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', lastName: '', nationality: CountryCode.FRANCE, stats: { ...initialStats } },
   ]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pointsLeft, setPointsLeft] = useState<number[]>([20, 20, 20]);
 
-  const [pointsLeft, setPointsLeft] = useState<number[]>([20, 20, 20]); // Assume 20 points to distribute per character
+  const totalFlags = Object.values(CountryCode).length;
+  const totalPages = Math.ceil(totalFlags / FLAGS_PER_PAGE);
 
-  const handleInputChange = (index: number, field: keyof Character, value: string | CountryCode) => {
+  const startIndex = currentPage * FLAGS_PER_PAGE;
+  const endIndex = Math.min(startIndex + FLAGS_PER_PAGE, totalFlags);
+  const currentFlags = Object.values(CountryCode).slice(startIndex, endIndex);
+
+  useEffect(() => {
+    // Load saved stats from storage when the component mounts
+    const savedStats = JSON.parse(localStorage.getItem('characterStats') || '{}');
+    if (Object.keys(savedStats).length > 0) {
+      setCharacters(savedStats.characters);
+      setPointsLeft(savedStats.pointsLeft);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save stats to storage whenever characters or pointsLeft change
+    localStorage.setItem('characterStats', JSON.stringify({ characters, pointsLeft }));
+  }, [characters, pointsLeft]);
+
+  const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
     const newCharacters = [...characters];
     newCharacters[index] = { ...newCharacters[index], [field]: value };
     setCharacters(newCharacters);
   };
 
-  const handleStatChange = (index: number, sport: string, value: number) => {
+  const handleStatChange = (index: number, sport: string, change: number) => {
     const newCharacters = [...characters];
     const currentPoints = pointsLeft[index];
     const currentStat = newCharacters[index].stats[sport];
 
-    if (value >= 0 && value <= 20 && currentPoints - (value - currentStat) >= 0) {
-      newCharacters[index].stats[sport] = value;
+    const newStatValue = currentStat + change;
+    if (newStatValue >= 0 && newStatValue <= 20 && currentPoints - change >= 0) {
+      newCharacters[index].stats[sport] = newStatValue;
       setCharacters(newCharacters);
       setPointsLeft((prev) => {
         const newPoints = [...prev];
-        newPoints[index] = currentPoints - (value - currentStat);
+        newPoints[index] = currentPoints - change;
         return newPoints;
       });
+    }
+  };
+
+  const validateCharacters = () => {
+    for (const character of characters) {
+      if (Object.values(character).some((value) => !value)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const startGame = () => {
+    if (validateCharacters()) {
+      // For each character, create a Character object and add it to a Set
+      const charactersOfSet = new Set<Character>();
+
+      presenter.startGame(charactersOfSet);
+    } else {
+      alert('Please complete all character data before starting the game.');
     }
   };
 
@@ -80,6 +126,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                       />
                       {character.logo && <Image src={character.logo} alt="Logo" className={'mt-2'} />}
                     </div>
+                    <Badge content={'!'} color="danger" isInvisible={!!character.name}>
+                      <span></span>
+                    </Badge>
                     <Input
                       placeholder="Name"
                       aria-label={'Name'}
@@ -87,6 +136,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                       onChange={(e) => handleInputChange(index, 'name', e.target.value)}
                       className={'mb-4'}
                     />
+                    <Badge content={'!'} color="danger" isInvisible={!!character.lastName}>
+                      <span></span>
+                    </Badge>
                     <Input
                       placeholder="Last Name"
                       aria-label={'Last Name'}
@@ -94,37 +146,67 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                       onChange={(e) => handleInputChange(index, 'lastName', e.target.value)}
                       className={'mb-4'}
                     />
-                    <Select
-                      placeholder="Nationality"
-                      aria-label={'National'}
-                      value={character.nationality}
-                      onChange={(e) => handleInputChange(index, 'nationality', e.target.value as CountryCode)}
-                      className={'mb-4'}>
-                      {Object.values(CountryCode).map((code) => (
-                        <SelectItem key={code} value={code}>
-                          <div className="flex items-center">
-                            {getUnicodeFlagIcon(code)}
-                            <span className="ml-2">{code}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </Select>
+                    <Badge content={'!'} color="danger" isInvisible={!!character.nationality}>
+                      <span></span>
+                    </Badge>
+                    <div className={'mb-4'}>
+                      <label className={'block text-lg font-medium mb-2'}>Nationality</label>
+                      <div className="grid grid-cols-5 gap-4">
+                        {currentFlags.map((code) => (
+                          <button
+                            key={code}
+                            onClick={() => handleInputChange(index, 'nationality', code)}
+                            className={`p-2 border-2 ${character.nationality === code ? 'border-blue-500' : 'border-transparent'}`}>
+                            <div className="flex flex-col items-center">
+                              {new Country(code).getFlag()}
+                              <span className="text-sm">{code}</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="flex justify-between mt-4">
+                        <Button
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+                          disabled={currentPage === 0}>
+                          Previous
+                        </Button>
+                        <Button
+                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+                          disabled={currentPage === totalPages - 1}>
+                          Next
+                        </Button>
+                      </div>
+                    </div>
+                    <Badge content={'!'} color="danger" isInvisible={pointsLeft[index] === 0}>
+                      <span></span>
+                    </Badge>
                     <div className={'mb-4'}>
                       <label className={'block text-lg font-medium mb-2'}>
                         Distribute Points (Remaining: {pointsLeft[index]})
                       </label>
                       {sports.map((sport) => (
-                        <div key={sport.name} className={'mb-2'}>
-                          <label className={'block text-md mb-1'} aria-label={`Distribute Points for ${sport.name}`}>
-                            {sport.name}
-                          </label>
-                          <Input
-                            type="number"
-                            min={0}
-                            max={20}
-                            value={character.stats[sport.name].toString()}
-                            onChange={(e) => handleStatChange(index, sport.name, parseInt(e.target.value))}
-                          />
+                        <div key={sport.name} className={'flex items-center justify-between mb-2'}>
+                          <span className="w-1/3">{sport.name}</span>
+                          <span className="w-1/6 text-center">{character.stats[sport.name]}</span>
+                          <div className="flex items-center w-1/2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleStatChange(index, sport.name, -1)}
+                              disabled={character.stats[sport.name] === 0}
+                              className="mx-2">
+                              -
+                            </Button>
+                            <span className="mx-2">{character.stats[sport.name]}</span>
+                            <Button
+                              size="sm"
+                              onClick={() => {
+                                handleStatChange(index, sport.name, 1);
+                              }}
+                              disabled={pointsLeft[index] === 0}
+                              className="mx-2">
+                              +
+                            </Button>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -134,10 +216,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
             ))}
           </Tabs>
         </div>
-        <Button
-          color="primary"
-          className={'w-[250px] h-[75px] text-white text-3xl'}
-          onClick={() => presenter.startGame()}>
+        <Button color="primary" className={'w-[250px] h-[75px] text-white text-3xl'} onClick={startGame}>
           Start Game
         </Button>
       </div>

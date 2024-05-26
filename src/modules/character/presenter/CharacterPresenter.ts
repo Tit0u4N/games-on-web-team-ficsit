@@ -9,8 +9,8 @@ export class CharacterPresenter {
   private readonly _characterView: CharacterView;
   private readonly _gameCorePresenter: GameCorePresenter;
 
-  constructor(gameCorePresenter: GameCorePresenter) {
-    this._characters = CharacterPresenter.getDefaultCharacters();
+  constructor(gameCorePresenter: GameCorePresenter, characters?: Set<Character>) {
+    this._characters = characters || CharacterPresenter.getDefaultCharacters();
     this._characterView = new CharacterView(this);
     this._gameCorePresenter = gameCorePresenter;
   }
