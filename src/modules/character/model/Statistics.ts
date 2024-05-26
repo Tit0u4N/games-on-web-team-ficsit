@@ -1,13 +1,20 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
-import { config } from '../../../core/Interfaces.ts';
 import { IStatIncrease } from '../../object/model/UsableObject.ts';
 
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
     super();
-    if (config.statistics.setDefaultStats && !stats) this.initRandomStats();
     for (const [sport, value] of stats) {
       this.set(sport, value);
+    }
+    this.completeMissingStats();
+  }
+
+  private completeMissingStats(): void {
+    for (const sport of Sport.getAll()) {
+      if (!this.has(sport)) {
+        this.set(sport, 0);
+      }
     }
   }
 
@@ -19,13 +26,6 @@ export class Statistics extends Map<Sport, number> {
       if (sport) stats.set(sport, stat.bonus);
     }
     return stats;
-  }
-
-  public initRandomStats(): void {
-    const randomStats = Statistics.initRandomStats(100, 5);
-    for (const [sport, value] of randomStats) {
-      this.set(sport, value);
-    }
   }
 
   get(sport: Sport): number {
@@ -41,19 +41,17 @@ export class Statistics extends Map<Sport, number> {
     return super.set(sport, value);
   }
 
-  public addStat(statistics: Statistics): Statistics {
-    const newStats: Statistics = new Statistics();
+  public addStat(statistics: Statistics): void {
     for (const [sport, value] of this) {
-      newStats.set(sport, value + statistics.get(sport));
+      this.set(sport, value + statistics.get(sport));
     }
-    return newStats;
   }
 
   public copy(): Statistics {
     return new Statistics(this);
   }
 
-  static initRandomStats(totalStats: number = 80, minStats: number = 5): Map<Sport, number> {
+  static initRandomStats(totalStats: number = 60, minStats: number = 5): Map<Sport, number> {
     const stats = new Map<Sport, number>();
     for (const sport of Sport.getAll()) {
       stats.set(sport, minStats);

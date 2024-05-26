@@ -18,7 +18,7 @@ export class GameCorePresenter {
   private status: ApplicationStatus;
   private viewChangeListeners: (() => void)[] = [];
   private _babylonView: BabylonMainView;
-  private buildingPresenter!: BuildingPresenter;
+  private _buildingPresenter!: BuildingPresenter;
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
@@ -33,7 +33,11 @@ export class GameCorePresenter {
     this.initializeTestData();
     this._characterPresenter = new CharacterPresenter(this);
     this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
+    const inventoryPresenter = new InventoryPresenter();
+    const characterArray = Array.from(this._characterPresenter.characters);
+    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
   }
+
   /* Application management*/
 
   public getStatus() {
@@ -72,17 +76,14 @@ export class GameCorePresenter {
       this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this.buildingPresenter = new BuildingPresenter(this, this._mapPresenter, this._tournamentManagerPresenter);
-      this.buildingPresenter.initView(this._babylonView.scene);
+      this._buildingPresenter = new BuildingPresenter(this, this._mapPresenter, this._tournamentManagerPresenter);
+      this._buildingPresenter.initView(this._babylonView.scene);
       this.notifyViewChange();
-      this.buildingPresenter.updateArenasTournament();
+      this._buildingPresenter.updateArenasTournament();
     }, 1000);
   }
 
   private initializeTestData(): void {
-    const inventoryPresenter = new InventoryPresenter();
-    this.inventoryList = inventoryPresenter.getDefaultInventories();
-
     const eventPresenter = new EventPresenter();
     this.events = eventPresenter.getDefaultEvents();
   }
@@ -107,11 +108,18 @@ export class GameCorePresenter {
    * Start a new round
    */
   nextRound() {
-    this.buildingPresenter.updateArenasTournament();
+    const result: boolean = this._buildingPresenter.isAllCharactersReady();
+    if (!result) {
+      return;
+    }
+    this._buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
+    this._buildingPresenter.trainingCenters.forEach((trainingCenter) => {
+      trainingCenter.trainingCenter.nextRound();
+    });
   }
 
   getCurrentRound() {
@@ -132,6 +140,23 @@ export class GameCorePresenter {
 
   public getMapLimits(): MapLimits {
     return this._mapPresenter.view.getLimitXYZ();
+  }
+
+  checkCharacterInBuilding(character: Character) {
+    if (this._buildingPresenter === undefined) {
+      return;
+    }
+    this._buildingPresenter.trainingCenters.forEach((building) => {
+      if (building.isCharacterInBuilding(character)) {
+        building.onCharacterEnter(character);
+      } else {
+        building.onCharacterExit(character);
+      }
+    });
+  }
+
+  get buildingPresenter(): BuildingPresenter {
+    return this._buildingPresenter;
   }
 
   public getCurrentSeason(): Season {

@@ -42,10 +42,10 @@ export class CharacterPresenter {
       CharacterFactory.createDefaultCharacter(1, 'John Doe', Country.getRandom(), 25, './character_1.png'),
     );
     characters.add(
-      CharacterFactory.createDefaultCharacter(2, 'John Doe', Country.getRandom(), 25, './character_2.png'),
+      CharacterFactory.createDefaultCharacter(2, 'John Doe2', Country.getRandom(), 25, './character_2.png'),
     );
     characters.add(
-      CharacterFactory.createDefaultCharacter(3, 'John Doe', Country.getRandom(), 25, './character_3.png'),
+      CharacterFactory.createDefaultCharacter(3, 'John Doe3', Country.getRandom(), 25, './character_3.png'),
     );
     return characters;
   }

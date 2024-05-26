@@ -32,15 +32,15 @@ export class TournamentManagerPresenter {
     let minStats = 0;
     switch (difficulty) {
       case TournamentDifficulty.REGIONAL:
-        totalStats = 80;
+        totalStats = 50;
         minStats = 4;
         break;
       case TournamentDifficulty.NATIONAL:
-        totalStats = 100;
+        totalStats = 65;
         minStats = 6;
         break;
       case TournamentDifficulty.INTERNATIONAL:
-        totalStats = 120;
+        totalStats = 80;
         minStats = 8;
         break;
     }

@@ -7,6 +7,7 @@ export class Sport {
   private readonly _icon: string;
   private readonly _description: string;
   private readonly _seasons: Season[];
+  private readonly _iconPath: string;
   private static idCounter = 0;
 
   private static allSports: Sport[];
@@ -17,6 +18,7 @@ export class Sport {
     this._icon = icon;
     this._description = description;
     this._seasons = seasons;
+    this._iconPath = 'images/sports/' + this._icon + '.svg';
   }
 
   // Static methods
@@ -88,5 +90,9 @@ export class Sport {
 
   get description(): string {
     return this._description;
+  }
+
+  get iconPath(): string {
+    return this._iconPath;
   }
 }

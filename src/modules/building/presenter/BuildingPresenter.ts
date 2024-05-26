@@ -6,6 +6,7 @@ import { ArenaPresenter } from './ArenaPresenter.ts';
 import { TrainingCenterPresenter } from './TrainingCenterPresenter.ts';
 import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
 import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { State } from '../view/React/TrainingCenterLayout.tsx';
 
 export class BuildingPresenter implements ViewInitable {
   private readonly _gameCorePresenter: GameCorePresenter;
@@ -63,6 +64,19 @@ export class BuildingPresenter implements ViewInitable {
   updateArenasTournament() {
     this._arenasPresenter.forEach((arenaPresenter) => {
       arenaPresenter.arena.updateSport();
+    });
+  }
+
+  /**
+   * Check if all characters are ready to start a new round
+   * They are ready when they are not inside a building or if their state is not CHOICE_CARD
+   * @returns {boolean} - true if all characters are ready
+   */
+  isAllCharactersReady(): boolean {
+    return this._trainingCenterPresenter.every((trainingCenter) => {
+      return Array.from(trainingCenter.trainingCenter.differentStates.values()).every((state) => {
+        return state.state !== State.CARDS_CHOICE;
+      });
     });
   }
 }

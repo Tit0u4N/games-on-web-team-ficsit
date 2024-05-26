@@ -22,15 +22,15 @@ type BuildingFactoryOptions = {
 };
 
 export class BuildingFactory {
-  private static readonly MAX_ATTEMPTS = config.buildings.maxAttempts;
+  private static readonly MAX_ATTEMPTS = config.building.model.buildingFactory.maxAttempts;
   private readonly options: BuildingFactoryOptions = {
     arena: {
-      number: config.buildings.arena.numberOfBuildings,
-      spacing: config.buildings.arena.spacing,
+      number: config.building.model.buildingFactory.arena.numberOfBuildings,
+      spacing: config.building.model.buildingFactory.arena.spacing,
     },
     trainingCenter: {
-      number: config.buildings.trainingCenter.numberOfBuildings,
-      spacing: config.buildings.trainingCenter.spacing,
+      number: config.building.model.buildingFactory.trainingCenter.numberOfBuildings,
+      spacing: config.building.model.buildingFactory.trainingCenter.spacing,
     },
   };
   private mapPresenter: MapPresenter;
@@ -56,7 +56,7 @@ export class BuildingFactory {
     let index: number = 0;
     while (
       index < BuildingFactory.MAX_ATTEMPTS &&
-      arenas.length < (this.options.arena?.number ?? config.buildings.arena.numberOfBuildings)
+      arenas.length < (this.options.arena?.number ?? config.building.model.buildingFactory.arena.numberOfBuildings)
     ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -66,7 +66,7 @@ export class BuildingFactory {
           buildingPresenter,
           new ArenaModel(
             Math.random() > 0.5 ? summerSports : springSports,
-            { x, y: z, type: tempTileModel.type },
+            { x: x, y: z, type: tempTileModel.type },
             'Arena ' + arenas.length,
           ),
           tournamentManagerPresenter,
@@ -101,7 +101,7 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.arena?.spacing ?? config.buildings.arena.spacing)) {
+      if (distance <= (this.options.arena?.spacing ?? config.building.model.buildingFactory.arena.spacing)) {
         return true; // Neighboring arena found
       }
     }
@@ -121,7 +121,7 @@ export class BuildingFactory {
     while (
       index < BuildingFactory.MAX_ATTEMPTS &&
       trainingCenters.length <
-        (this.options.trainingCenter?.number ?? config.buildings.trainingCenter.numberOfBuildings)
+        (this.options.trainingCenter?.number ?? config.building.model.buildingFactory.trainingCenter.numberOfBuildings)
     ) {
       const x = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
       const z = Math.floor(Math.random() * this.mapPresenter.getDisplacementGraph().getSize());
@@ -129,8 +129,10 @@ export class BuildingFactory {
       if (tempTileModel && !notConstructible.includes(tempTileModel.type)) {
         const trainingCenterPresenter = new TrainingCenterPresenter(
           new TrainingCenterModel(
-            // TODO: see if we set the sport or if the training center improve global stats
-            Sport.getRandoms(2),
+            this.mapPresenter,
+            this.mapPresenter.view.scene,
+            x,
+            z,
             getPosition({ x, y: z, type: tempTileModel.type }, PositionTypes.BUILDING),
             'Training Center ' + trainingCenters.length,
           ),
@@ -168,7 +170,10 @@ export class BuildingFactory {
       );
 
       // Check if the distance is within the specified spacing
-      if (distance <= (this.options.trainingCenter?.spacing ?? config.buildings.trainingCenter.spacing)) {
+      if (
+        distance <=
+        (this.options.trainingCenter?.spacing ?? config.building.model.buildingFactory.trainingCenter.spacing)
+      ) {
         return true; // Neighboring training center found
       }
     }

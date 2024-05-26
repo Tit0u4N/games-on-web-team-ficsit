@@ -2,7 +2,6 @@
 import { Attributes } from '../model/Attributes';
 import { Character } from '../model/Character';
 import { Statistics } from '../model/Statistics';
-import { Inventory } from '../../inventory/model/Inventory.ts';
 import { Country } from '../../../core/Country.tsx';
 
 export class CharacterBuilder {
@@ -13,7 +12,6 @@ export class CharacterBuilder {
   private readonly _image: string;
   private readonly _isPlayer: boolean = false;
   private _statistics: Statistics;
-  private _inventory: Inventory;
   private _attributes: Attributes;
 
   constructor(id: number, name: string, nationality: Country, age: number, image: string, isPlayer: boolean = false) {
@@ -24,17 +22,11 @@ export class CharacterBuilder {
     this._image = image;
     this._isPlayer = isPlayer;
     this._statistics = new Statistics();
-    this._inventory = new Inventory();
     this._attributes = new Attributes(0, 0, false); // Default attributes, you can change it as needed
   }
 
   public setStatistics(statistics: Statistics): this {
     this._statistics = statistics;
-    return this;
-  }
-
-  public setInventory(inventory: Inventory): this {
-    this._inventory = inventory;
     return this;
   }
 
@@ -55,9 +47,6 @@ export class CharacterBuilder {
     );
     if (this._statistics !== null) {
       character.statistics = this._statistics;
-    }
-    if (this._inventory !== null) {
-      character.inventory = this._inventory;
     }
     return character;
   }
