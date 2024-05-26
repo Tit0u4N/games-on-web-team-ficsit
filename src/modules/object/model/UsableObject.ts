@@ -38,7 +38,6 @@ export class UsableObject {
   getEffect(character: Character, season: Season): Statistics | null {
     // Copy the current stats
     const modifiedStats: Statistics = new Statistics(this._statsIncrease);
-
     // Get complete gear bonus
     const completeGearBonus = this.getCompleteGearBonus(character, gears);
     if (completeGearBonus) {
@@ -56,10 +55,9 @@ export class UsableObject {
           }
         }
       }
-
-      return modifiedStats;
     }
-    return null;
+
+    return modifiedStats;
   }
 
   private getCompleteGearBonus(character: Character, gears: IGears[]): Statistics | null {

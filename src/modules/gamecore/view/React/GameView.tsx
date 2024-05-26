@@ -89,7 +89,12 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         />
         <div>
           {isInventoryOpen && (
-            <InventoriesModal inventories={inventoryList} toggleModal={toggleModal} isModalOpen={isModalOpen} />
+            <InventoriesModal
+              inventories={inventoryList}
+              toggleModal={toggleModal}
+              isModalOpen={isModalOpen}
+              gameCorePresenter={presenter}
+            />
           )}
         </div>
         <div>

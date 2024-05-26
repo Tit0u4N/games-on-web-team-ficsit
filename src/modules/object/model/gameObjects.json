@@ -19,9 +19,9 @@
   {"id":51,"name":"Singlet","sport":"ATHLETISM","image":"athletism_singlet.png","slot":"chest","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
   {"id":52,"name":"Shorts","sport":"ATHLETISM","image":"athletism_short.png","slot":"legs","statsIncrease":[{"sport":"ATHLETISM","bonus":3}]},
 
-  {"id":53,"name":"Swimming Goggles","sport":"NATATION","image":"swimming_goggles.png","slot":"head","statsIncrease":[{"sport":"NATATION","bonus":3}]},
-  {"id":54,"name":"Swim Cap","sport":"NATATION","image":"swimming_cap.png","slot":"head","statsIncrease":[{"sport":"NATATION","bonus":2}]},
-  {"id":55,"name":"Swimsuit","sport":"NATATION","image":"swimming_suit.png","slot":"chest","statsIncrease":[{"sport":"NATATION","bonus":4}]},
+  {"id":53,"name":"Swimming Goggles","sport":"SWIMMING","image":"swimming_goggles.png","slot":"head","statsIncrease":[{"sport":"SWIMMING","bonus":3}]},
+  {"id":54,"name":"Swim Cap","sport":"SWIMMING","image":"swimming_cap.png","slot":"head","statsIncrease":[{"sport":"SWIMMING","bonus":2}]},
+  {"id":55,"name":"Swimsuit","sport":"SWIMMING","image":"swimming_suit.png","slot":"chest","statsIncrease":[{"sport":"SWIMMING","bonus":4}]},
 
   {"id": 57, "name": "Kayak", "sport": "KAYAK", "image": "kayak.png", "slot": "feet", "statsIncrease": [{"sport": "KAYAK", "bonus": 5}]},
   {"id": 58, "name": "Paddle", "sport": "KAYAK", "image": "kayak_paddle.png", "slot": "chest", "statsIncrease": [{"sport": "KAYAK", "bonus": 3}]},
