@@ -100,7 +100,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         <div>
           <EventLayout event={events} toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
-        <GameCharacterLayout character={characters} />
+        <GameCharacterLayout character={characters} season={presenter.getCurrentSeason()} />
       </div>
       <div
         onClick={handleResetCamera}
