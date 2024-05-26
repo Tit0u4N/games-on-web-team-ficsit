@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import { Button, Divider, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
 import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
@@ -6,6 +6,7 @@ import { TournamentPreView } from '../../../tournament/view/React/TournamentPreV
 import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
 import { TournamentBracketView } from '../../../tournament/view/React/TournamentBracketView.tsx';
 import { TournamentEndView } from '../../../tournament/view/React/TournamentEndView.tsx';
+import CharacterLayout from '../../../character/view/React/CharacterLayout.tsx';
 
 export interface ArenaLayoutProps {
   arena: ArenaPresenter;
@@ -25,8 +26,23 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       case 'notStarted':
         return (
           <ModalBody>
-            <TournamentPreView tournament={arena.tournamentPresenter}></TournamentPreView>
-            Your characters in arena: {arena.charactersInArena().size}
+            <div className="flex">
+              <TournamentPreView tournament={arena.tournamentPresenter}></TournamentPreView>
+              <Divider className="mx-4" orientation="vertical" />
+              <div className="min-w-[500px]">
+                <p className="text-lg mb-2 font-semibold">Your characters in arena:</p>
+                {arena.charactersInArena().size === 0 && <p>No characters in arena</p>}
+                {Array.from(arena.charactersInArena()).map((character, index) => (
+                  <div key={index}>
+                    <CharacterLayout
+                      character={character}
+                      isInTournament={true}
+                      season={arena.tournamentManagerPresenter.gameCorePresenter.getCurrentSeason()}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
             <Button
               onPress={() => {
                 arena.startTournament();
@@ -57,7 +73,9 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
       className={'h-[80%] w-[80%] max-w-full'}
       isDismissable={arena.tournamentPresenter.isTournamentStarted}>
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">Arena</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">
+          Arena: {arena.hasTournament() ? arena.tournamentPresenter.tournamentModel.sport.name : ''}
+        </ModalHeader>
         {arena.hasTournament() ? (
           buildTournament(arena.tournamentPresenter.tournamentModel.tournamentStatus, arena)
         ) : (

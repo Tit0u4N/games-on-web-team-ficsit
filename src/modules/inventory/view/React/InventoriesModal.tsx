@@ -10,6 +10,7 @@ export interface InventoryModalProps {
   gameCorePresenter: GameCorePresenter;
   toggleModal: (type: ModalType, isOpen: boolean) => void;
   isModalOpen: (type: ModalType) => boolean;
+  isOpen?: boolean;
 }
 
 const InventoriesModal: React.FC<InventoryModalProps> = ({
@@ -17,6 +18,7 @@ const InventoriesModal: React.FC<InventoryModalProps> = ({
   gameCorePresenter,
   toggleModal,
   isModalOpen,
+  isOpen,
 }) => {
   const { onOpenChange } = useDisclosure();
   const handleClose = () => {
@@ -24,7 +26,11 @@ const InventoriesModal: React.FC<InventoryModalProps> = ({
   };
 
   return (
-    <Modal isOpen={true} onOpenChange={onOpenChange} onClose={handleClose} className="h-[80%] w-[80%] max-w-full">
+    <Modal
+      isOpen={isOpen !== undefined ? isOpen : isModalOpen(ModalType.INVENTORY)}
+      onOpenChange={onOpenChange}
+      onClose={handleClose}
+      className="h-[80%] w-[80%] max-w-full">
       <ModalContent>
         {() => (
           <>

@@ -1,7 +1,7 @@
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import React from 'react';
 import { UsableObjectView } from '../../../object/view/React/UsableObjectView.tsx';
-import { Divider } from '@nextui-org/react';
+import { Divider, Image } from '@nextui-org/react';
 import { RewardModel } from '../../model/RewardModel.ts';
 
 interface Props {
@@ -15,9 +15,15 @@ export const TournamentPreView: React.FC<Props> = ({ tournament }) => {
   };
   return (
     <div className={'m-4 h-100 border-2 p-4 rounded-lg'}>
-      <p>Difficulty: {tournament.tournamentModel.difficulty}</p>
+      <p>
+        Difficulty: <span className="font-semibold">{tournament.tournamentModel.difficulty}</span>
+      </p>
       <p>Number of bracket: {tournament.tournamentModel.numberRound}</p>
-      <p>Sport: {tournament.tournamentModel.sport.name}</p>
+      <p>Sport:</p>
+      <div className="flex gap-1 my-2">
+        <Image src={tournament.tournamentModel.sport.iconPath} height={40} width={40} />
+        <p>{tournament.tournamentModel.sport.name}</p>
+      </div>
       <Divider className="my-4" />
       <p>Rewards:</p>
       <div className="flex gap-1 h-1/4 max-h-[200px] justify-center">
