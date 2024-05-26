@@ -40,6 +40,10 @@ export class GameCorePresenter {
     return this.status;
   }
 
+  public setStatus(status: ApplicationStatus) {
+    this.status = status;
+  }
+
   /* Events management */
 
   /**

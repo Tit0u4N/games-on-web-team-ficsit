@@ -4,6 +4,7 @@ import { MenuView } from './MenuView.tsx';
 import { GameView } from './GameView.tsx';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 import { LoadingScreen } from '@/component/LoadingScreen.tsx';
+import { ConfigureCharacters } from '@gamecore/view/React/ConfigureCharacters.tsx';
 
 interface MainComponentProps {
   gameCorePresenter: GameCorePresenter;
@@ -47,17 +48,20 @@ export class MainComponent extends React.Component<MainComponentProps> {
   }
 
   render() {
-    return (
-      <>
-        {this.props.gameCorePresenter.getStatus() === ApplicationStatus.MENU ? (
-          <MenuView presenter={this.props.gameCorePresenter} />
-        ) : (
+    const currentStatus = this.props.gameCorePresenter.getStatus();
+
+    switch (currentStatus) {
+      case ApplicationStatus.MENU:
+        return <MenuView presenter={this.props.gameCorePresenter} />;
+      case ApplicationStatus.CONFIGURE_CHARACTERS:
+        return <ConfigureCharacters presenter={this.props.gameCorePresenter} />;
+      default:
+        return (
           <>
             <LoadingScreen isLoading={this.getIsLoading()} />
             <GameView presenter={this.props.gameCorePresenter} />
           </>
-        )}
-      </>
-    );
+        );
+    }
   }
 }

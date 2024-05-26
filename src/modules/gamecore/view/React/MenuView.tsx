@@ -6,6 +6,7 @@ import { SelectOption } from '@/component/options/SelectOption.tsx';
 import { AvatarCredit } from '@/component/AvatarCredit.tsx';
 import { ControlOption } from '@/component/options/InputOption.tsx';
 import { config } from '@/core/Interfaces.ts';
+import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -113,9 +114,12 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
         </div>
         <Button
           color="primary"
-          className={'w-[250px] h-[75px] text-white text-3xl'}
-          onClick={() => presenter.startGame()}>
-          Start Game
+          className={'w-[300px] h-[75px] text-white text-3xl'}
+          onClick={() => {
+            presenter.setStatus(ApplicationStatus.CONFIGURE_CHARACTERS);
+            presenter.notifyViewChange();
+          }}>
+          Configure Characters
         </Button>
       </div>
     </div>

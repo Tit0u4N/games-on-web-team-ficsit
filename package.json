@@ -22,6 +22,7 @@
     "babylonjs": "^7.4.0",
     "babylonjs-gltf2interface": "7.4.0",
     "babylonjs-hook": "^0.1.1",
+    "country-flag-icons": "^1.5.11",
     "data-structure-typed": "^1.52.0",
     "framer-motion": "^11.0.5",
     "react": "^18.2.0",
