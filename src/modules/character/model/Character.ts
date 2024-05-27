@@ -25,7 +25,7 @@ export class Character {
     attributes: Attributes,
     image: string,
     modelName?: string,
-    modelPath?: string
+    modelPath?: string,
   ) {
     this._id = id;
     this._name = name;

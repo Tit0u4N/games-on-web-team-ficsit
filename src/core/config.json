@@ -371,8 +371,8 @@
     "view": {
       "babylon": {
         "pawnView": {
-          "defaultScaling": 5,
-          "selectedScaling": 5
+          "defaultScaling": 1,
+          "selectedScaling": 1.1
         }
       }
     },

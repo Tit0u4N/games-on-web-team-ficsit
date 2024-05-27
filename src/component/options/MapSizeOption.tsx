@@ -30,13 +30,7 @@ export const MapSizeOption: React.FC<MapSizeOptionProps> = ({ title, description
     <div className={'flex flex-col mb-4'}>
       <label className={'block text-lg font-medium mb-2'}>{title}</label>
       <span className={'text-sm text-gray-500 mb-2'}>{description}</span>
-      <Slider
-        minValue={20}
-        maxValue={100}
-        value={value}
-        onChange={handleChange}
-        aria-label={title}
-      />
+      <Slider minValue={20} maxValue={100} value={value} onChange={handleChange} aria-label={title} />
       <div className="flex justify-between text-sm text-gray-600">
         <span>{min}</span>
         <span>{value}</span>
