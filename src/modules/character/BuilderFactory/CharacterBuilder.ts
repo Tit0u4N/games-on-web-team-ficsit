@@ -11,8 +11,10 @@ export class CharacterBuilder {
   private readonly _image: string;
   private _statistics: Statistics;
   private _attributes: Attributes;
+  private readonly _modelName?: string;
+  private readonly _modelPath?: string;
 
-  constructor(id: number, name: string, nationality: string, age: number, image: string) {
+  constructor(id: number, name: string, nationality: string, age: number, image: string, modelName?: string, modelPath?: string) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;
@@ -20,6 +22,8 @@ export class CharacterBuilder {
     this._image = image;
     this._statistics = new Statistics();
     this._attributes = new Attributes(0, 0, false); // Default attributes, you can change it as needed
+    this._modelName = modelName;
+    this._modelPath = modelPath;
   }
 
   public setStatistics(statistics: Statistics): this {
@@ -34,6 +38,10 @@ export class CharacterBuilder {
 
   public build(): Character {
     const character = new Character(this._id, this._name, this._nationality, this._age, this._attributes, this._image);
+    if (this._modelName !== undefined && this._modelPath !== undefined) {
+      character.modelName = this._modelName;
+      character.modelPath = this._modelPath;
+    }
     if (this._statistics !== null) {
       character.statistics = this._statistics;
     }

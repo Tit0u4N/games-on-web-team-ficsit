@@ -21,9 +21,11 @@ export class CharacterView implements ViewInitable {
     this.scene = scene;
     for (const character of this.characterPresenter.characters) {
       const pawn = new PawnView(character.id, this.scene, this.getColorById(character.id), this);
-      await pawn.importMesh();
-      this.pawnSet.add(pawn);
-      pawn.addPointerEvent();
+      if (character.modelName && character.modelPath) {
+        await pawn.importMesh(character.modelName, character.modelPath);
+        this.pawnSet.add(pawn);
+        pawn.addPointerEvent();
+      }
     }
   }
 

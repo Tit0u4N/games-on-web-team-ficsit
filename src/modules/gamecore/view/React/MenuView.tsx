@@ -8,6 +8,7 @@ import { ControlOption } from '@/component/options/InputOption.tsx';
 import { config } from '@/core/Interfaces.ts';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 import { MapSizeOption } from '@/component/options/MapSizeOption.tsx';
+import { SeedInputOption } from '@/component/options/SeedInputOption.tsx';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -48,6 +49,12 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                         option={'mapSize'}
                         min={20}
                         max={100}
+                      />
+                      <DividerOptions />
+                      <SeedInputOption
+                        title={'Map Seed'}
+                        description={'Enter a seed value for map generation (optional)'}
+                        option={'mapSeed'}
                       />
                     </div>
                   </div>
