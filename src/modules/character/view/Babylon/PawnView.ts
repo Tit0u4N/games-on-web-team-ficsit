@@ -1,59 +1,75 @@
 import {
   ActionManager,
   AnimationGroup,
-  Color3,
-  ExecuteCodeAction,
-  Mesh,
-  PBRMaterial,
-  Scene,
+  ExecuteCodeAction, Mesh,
+  Scene, SceneLoader,
   Vector3,
 } from '@babylonjs/core';
-import { importModel } from '@/core/ModelImporter.ts';
-import { CharacterView } from './CharacterView.ts';
-import { config } from '@core/Interfaces.ts';
+import { CharacterView } from './CharacterView';
+import { config } from '@core/Interfaces';
 
 export class PawnView {
   protected static readonly DEFAULT_SCALING = config.character.view.babylon.pawnView.defaultScaling;
   protected static readonly SELECTED_SCALING = config.character.view.babylon.pawnView.selectedScaling;
 
   private readonly _characterView: CharacterView;
-  private _mesh: Mesh | undefined;
+  private _mesh!: Mesh;
   private readonly _id: number;
   private readonly _scene: Scene;
-  private readonly _color: string;
   private _isSelected: boolean = false;
   private _animations: AnimationGroup[] = [];
 
-  async importMesh(fileName: string, path: string): Promise<void> {
-    const importedModel = await importModel(fileName, {
-      scene: this._scene,
-      path: path,
-      multiMaterial: true,
-    });
-    const mesh = importedModel.mesh;
-    // Store animations
-    this._animations = importedModel.animations;
-    if (!mesh) throw new Error('Mesh not found');
-    mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
-    (mesh.material as PBRMaterial).albedoColor = Color3.FromHexString(this._color);
-    mesh.actionManager = new ActionManager(this._scene);
-    this._mesh = mesh;
-  }
-
-  constructor(id: number, scene: Scene, color: string = '#ff0000', characterView: CharacterView) {
+  constructor(id: number, scene: Scene, characterView: CharacterView) {
     this._id = id;
     this._scene = scene;
-    this._color = color;
     this._characterView = characterView;
   }
 
+  async importMesh(fileName: string, path: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      SceneLoader.ImportMesh(
+        '',
+        './models/' + path,
+        fileName,
+        this._scene,
+        (meshes, particleSystems, skeletons, animationGroups) => {
+          if (!meshes || meshes.length === 0) {
+            reject(new Error('Mesh not found'));
+            return;
+          }
+
+          const mesh = meshes[0] as Mesh; // Cast to Mesh
+          this._animations = animationGroups;
+
+          mesh.scaling = new Vector3(
+            PawnView.DEFAULT_SCALING,
+            PawnView.DEFAULT_SCALING,
+            PawnView.DEFAULT_SCALING
+          );
+
+          mesh.isPickable = true; // Ensure the mesh is pickable
+          mesh.actionManager = new ActionManager(this._scene);
+
+          this._mesh = mesh;
+
+          this.stopAnimations();
+
+          resolve();
+        },
+        null,
+        (scene, message, exception) => {
+          reject(new Error(message));
+        }
+      );
+    });
+  }
+
   addPointerEvent(): void {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    console.log('addPointerEvent', this._mesh)
     const pawn = this;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    this._mesh.actionManager.registerAction(
+    this._mesh.actionManager!.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
+        console.log('click');
         if (!pawn.mesh) return;
         if (!pawn.isSelected) {
           pawn.mesh.scaling = new Vector3(
@@ -73,7 +89,7 @@ export class PawnView {
     );
   }
 
-  get mesh(): Mesh | undefined {
+  get mesh(): Mesh {
     return this._mesh;
   }
 
@@ -96,9 +112,7 @@ export class PawnView {
   }
 
   startAnimations(): void {
-    for (const anim of this._animations) {
-      anim.start(true);
-    }
+    this._animations[16]?.start(true); // Ensure the animation exists and then play it
   }
 
   stopAnimations(): void {

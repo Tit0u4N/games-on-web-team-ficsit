@@ -20,9 +20,11 @@ export class CharacterView implements ViewInitable {
   async initPawns(scene: Scene): Promise<void> {
     this.scene = scene;
     for (const character of this.characterPresenter.characters) {
-      const pawn = new PawnView(character.id, this.scene, this.getColorById(character.id), this);
+      const pawn = new PawnView(character.id, this.scene, this);
       if (character.modelName && character.modelPath) {
         await pawn.importMesh(character.modelName, character.modelPath);
+        // log the mesh
+        console.log('initPawns', pawn.mesh);
         this.pawnSet.add(pawn);
         pawn.addPointerEvent();
       }
@@ -32,11 +34,11 @@ export class CharacterView implements ViewInitable {
   public givePosition(idCharacter: number, position: Vector3, initial: boolean = false): void {
     const pawn = [...this.pawnSet].find((pawn) => pawn.id === idCharacter);
     if (pawn && pawn.mesh) {
-      pawn.startAnimations();
       if (initial) {
         pawn.mesh.position = position;
         return;
       }
+      pawn.startAnimations();
       const animationBox = new Animation(
         'deplacementAnimation',
         'position',
@@ -62,19 +64,6 @@ export class CharacterView implements ViewInitable {
         mesh.animations = [];
         pawn.stopAnimations();
       });
-    }
-  }
-
-  private getColorById(id: number): string {
-    switch (id) {
-      case 1:
-        return '#ff0000';
-      case 2:
-        return '#00ff00';
-      case 3:
-        return '#0000ff';
-      default:
-        return '#1d0038';
     }
   }
 
