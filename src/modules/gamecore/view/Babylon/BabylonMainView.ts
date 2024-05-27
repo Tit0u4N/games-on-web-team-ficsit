@@ -107,7 +107,7 @@ export class BabylonMainView {
       config.babylonMainView.gameCamera.beta,
       config.babylonMainView.gameCamera.radius,
       new Vector3(
-        config.babylonMainView.gameCamera.direction.x,
+        config.map.view.mapPresenter.defaultOptions.size * 1.5,
         config.babylonMainView.gameCamera.direction.y,
         config.babylonMainView.gameCamera.direction.z,
       ),
@@ -117,7 +117,7 @@ export class BabylonMainView {
     // The target should also be adjusted so that the camera is looking at the correct location
     this._camera.setTarget(
       new Vector3(
-        config.babylonMainView.gameCamera.target.x,
+        config.map.view.mapPresenter.defaultOptions.size * 1.5,
         config.babylonMainView.gameCamera.target.y,
         config.babylonMainView.gameCamera.target.z,
       ),
@@ -220,14 +220,6 @@ export class BabylonMainView {
     return this._engine;
   }
 
-  set engine(value: Engine) {
-    this._engine = value;
-  }
-
-  set scene(value: Scene) {
-    this._scene = value;
-  }
-
   get scene(): Scene {
     return this._scene;
   }
@@ -238,10 +230,6 @@ export class BabylonMainView {
 
   get arcRotateCameraKeyboardInputs(): ArcRotateCameraKeyboardInputs {
     return this._arcRotateCameraKeyboardInputs;
-  }
-
-  set canvas(value: HTMLCanvasElement) {
-    this._canvas = value;
   }
 
   get shadowGenerator(): ShadowGenerator {
