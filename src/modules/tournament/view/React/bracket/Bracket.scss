@@ -1,0 +1,83 @@
+$side-margin: 50px;
+$vertical-margin: 10px;
+
+body {
+  background-color: DarkSalmon;
+}
+
+.bracket-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.bracket-item {
+  display: flex;
+  flex-direction: row-reverse;
+  div.bracket-block {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
+    margin: 0;
+    background-color: Beige;
+  }
+
+  &-parent {
+    position: relative;
+    margin-left: $side-margin;
+    display: flex;
+    align-items: center;
+    &:after {
+      position: absolute;
+      content: '';
+      width: calc(-1 * $side-margin / 2);
+      height: 2px;
+      left: 0;
+      top: 50%;
+      background-color: black;
+      transform: translateX(-100%);
+    }
+  }
+  &-children {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  &-child {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    margin-top: $vertical-margin;
+    margin-bottom: $vertical-margin;
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: black;
+      right: 0;
+      top: 50%;
+      transform: translateX(100%);
+      width: 25px;
+      height: 2px;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      background-color: black;
+      right: calc(-1 * $side-margin / 2);
+      height: calc(50% + 22px);
+      width: 2px;
+      top: 50%;
+    }
+    &:last-child {
+      &:after {
+        transform: translateY(-100%);
+      }
+    }
+    &:only-child:after {
+      display: none;
+    }
+  }
+}

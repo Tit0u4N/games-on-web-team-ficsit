@@ -10,6 +10,8 @@ export interface DiceComponentProps {
   onRoll3DStart?: () => void;
   onRoll3DEnd?: () => void;
   handleDiceValue?: (value: number) => void;
+  onRoll2DEnd?: () => void;
+  isDisabled?: boolean;
 }
 
 export const DiceComponent: React.FC<DiceComponentProps> = ({
@@ -17,6 +19,8 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   className = '',
   onRoll3DStart = () => {},
   onRoll3DEnd = () => {},
+  onRoll2DEnd = () => {},
+  isDisabled = false,
   handleDiceValue,
 }) => {
   const diceValues = DiceModel.initDiceValues();
@@ -38,34 +42,51 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   dicePresenter.onRoll3DEnd = onRoll3DEnd;
   if (handleDiceValue) dicePresenter.handleDiceValue = handleDiceValue;
 
+  const [is3DMod, setIs3DMod] = useState(dicePresenter.is3DMod);
+  dicePresenter.on3DModChange.push((is3DMod: boolean) => {
+    setIs3DMod(is3DMod);
+  });
+
   return (
     <div className="w-full">
       <div className={className}>
         <Checkbox
           className={'block'}
-          disabled={rollFinished}
+          disabled={rollFinished || isDisabled}
           onChange={() => dicePresenter.toggle3DMod()}
-          defaultSelected={true}>
+          isSelected={is3DMod}
+          defaultSelected={is3DMod}>
           3D Dice
         </Checkbox>
 
         <Button
           color={'primary'}
           variant={'flat'}
-          disabled={rollFinished || false}
-          onClick={() => dicePresenter.rollDice()}>
+          disabled={rollFinished || isDisabled}
+          onClick={() => {
+            dicePresenter.RollDiceFunc2D = rollDice;
+            dicePresenter.onRoll3DStart = onRoll3DStart;
+            dicePresenter.onRoll3DEnd = onRoll3DEnd;
+            dicePresenter.rollDice();
+          }}>
           Launch
         </Button>
       </div>
       {rollDice2DIsHidden ? null : (
         <div
           className={'fixed w-[100vw] h-[100vh] flex justify-center items-center inset-0 select-none'}
+          style={{ zIndex: 1000 }}
           onClick={() => {
-            if (rollDice2DCanClose) setRollDice2DIsHidden(true);
+            if (rollDice2DCanClose) {
+              onRoll2DEnd();
+              setRollDice2DIsHidden(true);
+            }
           }}>
-          <Card className={'size-[150px] flex justify-center items-center'}>
-            <div className={'text-6xl text-center text-black '}>{value}</div>
-          </Card>
+          <div>
+            <Card className={'size-[150px] flex justify-center items-center'}>
+              <div className={'text-6xl text-center text-black '}>{value}</div>
+            </Card>
+          </div>
         </div>
       )}
     </div>
