@@ -103,7 +103,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                         description={'Key to reset camera'}
                         option={'resetCamera'}
                         defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition[0]}
-                      />q
+                      />
                     </div>
                   </div>
                 </CardBody>
