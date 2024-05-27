@@ -53,7 +53,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                   <DividerOptions />
                   <div className={'w-full pt-4'}>
                     <h3 className={'text-xl pb-2'}> Controls </h3>
-                    <div className={'flex flex-col w-full'}>
+                    <div className={'flex flex-col w-full pb-2q'}>
                       {/* Add ControlOption components for each control setting */}
                       <ControlOption
                         title={'Move Forward'}
