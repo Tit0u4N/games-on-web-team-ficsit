@@ -24,10 +24,10 @@ export class PawnView {
   private _isSelected: boolean = false;
   private _animations: AnimationGroup[] = [];
 
-  async importMesh(): Promise<void> {
-    const importedModel = await importModel('male_running_15_frames_loop.glb', {
+  async importMesh(fileName: string, path: string): Promise<void> {
+    const importedModel = await importModel(fileName, {
       scene: this._scene,
-      path: 'pawn/',
+      path: path,
       multiMaterial: true,
     });
     const mesh = importedModel.mesh;
@@ -35,7 +35,6 @@ export class PawnView {
     this._animations = importedModel.animations;
     if (!mesh) throw new Error('Mesh not found');
     mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
-    mesh.rotation = new Vector3(Math.PI / 2, 0, 0);
     (mesh.material as PBRMaterial).albedoColor = Color3.FromHexString(this._color);
     mesh.actionManager = new ActionManager(this._scene);
     this._mesh = mesh;

@@ -14,6 +14,8 @@ interface ICharacter {
   age: number;
   nationality: CountryCode;
   stats: Record<string, number>;
+  modelName: string;
+  modelPath: string;
 }
 
 interface Props {
@@ -38,9 +40,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   localStorage.clear();
 
   const [characters, setCharacters] = useState<ICharacter[]>([
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats } },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Animated Woman.glb', modelPath: 'pawn/' },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Hoodie Character.glb', modelPath: 'pawn/'  },
+    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Suit.glb', modelPath: 'pawn/'  },
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
@@ -126,7 +128,9 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
             character.name,
             character.nationality,
             character.age,
-            character.logo
+            character.logo,
+            character.modelName,
+            character.modelPath
         ));
       });
 
@@ -137,6 +141,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   };
 
   const generateRandomCharacters = () => {
+    const models = ['Animated Woman.glb', 'Hoodie Character.glb', 'Suit.glb'];
     const randomCharacters = Array.from({ length: 3 }, (_) => {
       const randomStats: Record<string, number> = {};
       let remainingPoints = 20;
@@ -153,12 +158,21 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
 
       setPointsLeft([0, 0, 0]);
 
+      const modelName = models[Math.floor(Math.random() * models.length)];
+      // remove it from the array
+      const index = models.indexOf(modelName);
+      if (index > -1) {
+        models.splice(index, 1);
+      }
+
       return {
         logo: logos[Math.floor(Math.random() * logos.length)],
         name: uniqueNamesGenerator({ dictionaries: [names] }),
         age: Math.floor(Math.random() * 90) + 10,
         nationality: Object.values(CountryCode)[Math.floor(Math.random() * totalFlags)],
         stats: randomStats,
+        modelName: modelName,
+        modelPath: 'pawn/',
       };
     });
 

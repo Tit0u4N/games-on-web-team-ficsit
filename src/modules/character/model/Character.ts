@@ -14,6 +14,8 @@ export class Character {
   private _inventory: Inventory;
   private _attributes: Attributes;
   private _currentTile: ITile | undefined;
+  private _modelName: string | undefined;
+  private _modelPath: string | undefined;
 
   public constructor(
     id: number,
@@ -22,6 +24,8 @@ export class Character {
     age: number,
     attributes: Attributes,
     image: string,
+    modelName?: string,
+    modelPath?: string
   ) {
     this._id = id;
     this._name = name;
@@ -31,6 +35,8 @@ export class Character {
     this._statistics = new Statistics();
     this._attributes = attributes;
     this._image = image;
+    this._modelName = modelName;
+    this._modelPath = modelPath;
   }
 
   get id(): number {
@@ -103,6 +109,22 @@ export class Character {
 
   set tile(value: ITile | undefined) {
     this._currentTile = value;
+  }
+
+  get modelName(): string | undefined {
+    return this._modelName;
+  }
+
+  set modelName(value: string | undefined) {
+    this._modelName = value;
+  }
+
+  get modelPath(): string | undefined {
+    return this._modelPath;
+  }
+
+  set modelPath(value: string | undefined) {
+    this._modelPath = value;
   }
 
   public removeMovementPoints(value: number): void {

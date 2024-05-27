@@ -11,11 +11,13 @@ export class CharacterFactory {
     nationality: string,
     age: number,
     image: string,
+    modelName?: string,
+    modelPath?: string
   ): Character {
     const defaultStatistics = new Statistics();
     const defaultAttributes = new Attributes(5, 0, false);
 
-    return new CharacterBuilder(id, name, nationality, age, image)
+    return new CharacterBuilder(id, name, nationality, age, image, modelName, modelPath)
       .setStatistics(defaultStatistics)
       .setAttributes(defaultAttributes)
       .build();

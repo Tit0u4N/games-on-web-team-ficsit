@@ -199,6 +199,7 @@ interface ITileViewFactoryConfig {
 interface IMapPresenterConfig {
   defaultOptions: {
     size: number;
+    seed: number | string | null;
   }
 }
 
