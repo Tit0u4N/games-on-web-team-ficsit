@@ -41,6 +41,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
                       <DividerOptions />
                       <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
+                      <DividerOptions />
                       <MapSizeOption
                         title={'Map Size'}
                         description={'Choose the size of the map'}
@@ -102,7 +103,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                         description={'Key to reset camera'}
                         option={'resetCamera'}
                         defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition[0]}
-                      />
+                      />q
                     </div>
                   </div>
                 </CardBody>
