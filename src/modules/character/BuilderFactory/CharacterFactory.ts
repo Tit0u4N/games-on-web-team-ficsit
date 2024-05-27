@@ -12,7 +12,7 @@ export class CharacterFactory {
     age: number,
     image: string,
     modelName?: string,
-    modelPath?: string
+    modelPath?: string,
   ): Character {
     const defaultStatistics = new Statistics();
     const defaultAttributes = new Attributes(5, 0, false);

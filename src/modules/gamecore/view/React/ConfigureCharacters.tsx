@@ -6,7 +6,7 @@ import { Sport } from '@core/singleton/Sport.ts';
 import { Character } from '@character/model/Character.ts';
 import characterLogos from '../../../../../public/images/characters';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
-import {CharacterFactory} from "@character/BuilderFactory/CharacterFactory.ts";
+import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory.ts';
 
 interface ICharacter {
   logo: string;
@@ -40,9 +40,33 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   localStorage.clear();
 
   const [characters, setCharacters] = useState<ICharacter[]>([
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Animated Woman.glb', modelPath: 'pawn/' },
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Hoodie Character.glb', modelPath: 'pawn/'  },
-    { logo: '', name: '', age: 20, nationality: CountryCode.FRANCE, stats: { ...initialStats }, modelName: 'Suit.glb', modelPath: 'pawn/'  },
+    {
+      logo: '',
+      name: '',
+      age: 20,
+      nationality: CountryCode.FRANCE,
+      stats: { ...initialStats },
+      modelName: 'Animated Woman.glb',
+      modelPath: 'pawn/',
+    },
+    {
+      logo: '',
+      name: '',
+      age: 20,
+      nationality: CountryCode.FRANCE,
+      stats: { ...initialStats },
+      modelName: 'Hoodie Character.glb',
+      modelPath: 'pawn/',
+    },
+    {
+      logo: '',
+      name: '',
+      age: 20,
+      nationality: CountryCode.FRANCE,
+      stats: { ...initialStats },
+      modelName: 'Suit.glb',
+      modelPath: 'pawn/',
+    },
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
@@ -123,15 +147,17 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       const charactersOfSet = new Set<Character>();
 
       characters.forEach((character, index) => {
-        charactersOfSet.add(CharacterFactory.createDefaultCharacter(
-            index+1,
+        charactersOfSet.add(
+          CharacterFactory.createDefaultCharacter(
+            index + 1,
             character.name,
             character.nationality,
             character.age,
             character.logo,
             character.modelName,
-            character.modelPath
-        ));
+            character.modelPath,
+          ),
+        );
       });
 
       presenter.startGame(charactersOfSet);

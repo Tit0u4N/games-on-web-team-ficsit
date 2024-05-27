@@ -34,8 +34,10 @@ export class MapPresenter implements ViewInitable {
 
   initView(scene: Scene) {
     // if the size of the map is not the same as teh config, update it
-    if (config.map.view.mapPresenter.defaultOptions.size !== this.options.size) this.options.size = config.map.view.mapPresenter.defaultOptions.size;
-    if (config.map.view.mapPresenter.defaultOptions.seed !== null) this.options.seed = config.map.view.mapPresenter.defaultOptions.seed;
+    if (config.map.view.mapPresenter.defaultOptions.size !== this.options.size)
+      this.options.size = config.map.view.mapPresenter.defaultOptions.size;
+    if (config.map.view.mapPresenter.defaultOptions.seed !== null)
+      this.options.seed = config.map.view.mapPresenter.defaultOptions.seed;
     this._mapModel = new MapModel(this.options.size!, this.options.seed);
     this._view = new MapView(this._mapModel, this);
     this._mapModel.init();
@@ -87,7 +89,6 @@ export class MapPresenter implements ViewInitable {
       console.error('No walkable tile found on the map!');
     }
   }
-
 
   placeCharacters(initial = false) {
     let counter = 0;

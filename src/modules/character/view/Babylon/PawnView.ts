@@ -1,8 +1,12 @@
 import {
   ActionManager,
   AnimationGroup,
-  ExecuteCodeAction, Mesh,
-  Scene, SceneLoader,
+  ExecuteCodeAction,
+  Mesh,
+  MeshBuilder,
+  Scene,
+  SceneLoader,
+  StandardMaterial,
   Vector3,
 } from '@babylonjs/core';
 import { CharacterView } from './CharacterView';
@@ -37,35 +41,45 @@ export class PawnView {
             reject(new Error('Mesh not found'));
             return;
           }
+          const root = meshes[0];
+          const outer = MeshBuilder.CreateBox('outer', { width: 0.55, depth: 0.55, height: 3.7 }, this._scene);
+          outer.isVisible = true;
+          outer.isPickable = true;
+          const material = new StandardMaterial('outerMaterial', this._scene);
+          material.alpha = 0;
+          outer.material = material;
+          //body is our actual player mesh
+          const body = root;
 
-          const mesh = meshes[0] as Mesh; // Cast to Mesh
+          body.parent = outer;
+          body.isPickable = true; //so our raycasts dont hit ourself
+          body.getChildMeshes().forEach((m) => {
+            m.isPickable = false;
+          });
+
+          const mesh = outer as Mesh;
           this._animations = animationGroups;
 
-          mesh.scaling = new Vector3(
-            PawnView.DEFAULT_SCALING,
-            PawnView.DEFAULT_SCALING,
-            PawnView.DEFAULT_SCALING
-          );
+          mesh.scaling = new Vector3(PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING, PawnView.DEFAULT_SCALING);
 
           mesh.isPickable = true; // Ensure the mesh is pickable
           mesh.actionManager = new ActionManager(this._scene);
 
           this._mesh = mesh;
 
-          this.stopAnimations();
+          this.startAnimations();
 
           resolve();
         },
         null,
         (scene, message, exception) => {
-          reject(new Error(message));
-        }
+          reject(exception);
+        },
       );
     });
   }
 
   addPointerEvent(): void {
-    console.log('addPointerEvent', this._mesh)
     const pawn = this;
     this._mesh.actionManager!.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
