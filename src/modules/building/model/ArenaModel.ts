@@ -1,27 +1,24 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
-import { Vector3 } from '@babylonjs/core';
-import { Tournament } from '../../tournament/model/Tournament.ts';
-import { Character } from '../../character/model/Character.ts';
+import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
+import { TypesTile } from '../../map/model/TileModel.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;
   private _sportType: Sport[];
   private _actualSport: Sport;
   private rotation: number;
-  private _position: Vector3;
+  private _position: { x: number; y: number; type: TypesTile };
   private _roundWaiting: number;
-  private _tournament: Tournament;
   private _name: string;
-  private _character!: Character;
+  private _arenaPresenter!: ArenaPresenter;
 
-  constructor(sportType: Sport[], position: Vector3, name: string, tournament: Tournament) {
+  constructor(sportType: Sport[], position: { x: number; y: number; type: TypesTile }, name: string) {
     this._sportType = sportType;
     this._position = position;
     this._roundWaiting = 0;
-    this.rotation = ArenaModel.DEFAULT_ROTATION;
+    this.rotation = 0;
     this._actualSport = this._sportType[0];
     this._name = name;
-    this._tournament = tournament;
   }
 
   public updateSport(): void {
@@ -31,21 +28,15 @@ export class ArenaModel {
       this.rotation = ArenaModel.DEFAULT_ROTATION;
       const index = this._sportType.indexOf(this._actualSport);
       this._actualSport = this._sportType[(index + 1) % this._sportType.length];
+      this._arenaPresenter.updateTournament(this._actualSport);
     }
   }
 
-  public startTournament(): void {
-    const win: boolean = this._tournament.startTournament();
-    if (win) {
-      console.log('The winner is ' + this._name);
-    }
-  }
-
-  get position(): Vector3 {
+  get position(): { x: number; y: number; type: TypesTile } {
     return this._position;
   }
 
-  set position(position: Vector3) {
+  set position(position: { x: number; y: number; type: TypesTile }) {
     this._position = position;
   }
 
@@ -57,14 +48,6 @@ export class ArenaModel {
     this._roundWaiting = roundWaiting;
   }
 
-  get tournament(): Tournament {
-    return this._tournament;
-  }
-
-  set tournament(tournament: Tournament) {
-    this._tournament = tournament;
-  }
-
   get name(): string {
     return this._name;
   }
@@ -73,11 +56,11 @@ export class ArenaModel {
     this._name = name;
   }
 
-  get character(): Character {
-    return this._character;
+  get arenaPresenter(): ArenaPresenter {
+    return this._arenaPresenter;
   }
 
-  set character(character: Character) {
-    this._character = character;
+  set arenaPresenter(arenaPresenter: ArenaPresenter) {
+    this._arenaPresenter = arenaPresenter;
   }
 }
