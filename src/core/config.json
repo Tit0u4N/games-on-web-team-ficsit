@@ -64,7 +64,7 @@
         "keysRight": ["d", "ArrowRight"],
         "keysZoomIn": ["+"],
         "keysZoomOut": ["-"],
-        "resetPosition": ["r", "à"]
+        "resetPosition": ["r"]
       }
     },
     "config": {

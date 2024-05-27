@@ -23,6 +23,8 @@ function getOptionConfig(option: string) {
       return config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn;
     case 'zoomOut':
       return config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut;
+    case 'resetCamera':
+      return config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition;
     default:
       return [];
   }
