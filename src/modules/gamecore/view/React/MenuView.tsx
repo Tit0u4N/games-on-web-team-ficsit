@@ -7,6 +7,7 @@ import { AvatarCredit } from '@/component/AvatarCredit.tsx';
 import { ControlOption } from '@/component/options/InputOption.tsx';
 import { config } from '@/core/Interfaces.ts';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
+import { MapSizeOption } from '@/component/options/MapSizeOption.tsx';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -40,6 +41,13 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
                       <DividerOptions />
                       <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
+                      <MapSizeOption
+                        title={'Map Size'}
+                        description={'Choose the size of the map'}
+                        option={'mapSize'}
+                        min={20}
+                        max={100}
+                      />
                     </div>
                   </div>
                   <DividerOptions />
