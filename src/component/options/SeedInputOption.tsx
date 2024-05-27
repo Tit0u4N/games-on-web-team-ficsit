@@ -9,7 +9,7 @@ interface SeedInputOptionProps {
 }
 
 export const SeedInputOption: React.FC<SeedInputOptionProps> = ({ title, description, option }) => {
-  const [value, setValue] = useState<number | string | null>(config.map.view.mapPresenter.defaultOptions.seed);
+  const [value, setValue] = useState<string | null>(config.map.view.mapPresenter.defaultOptions.seed);
 
   useEffect(() => {
     // Update the config when value changes
@@ -26,6 +26,7 @@ export const SeedInputOption: React.FC<SeedInputOptionProps> = ({ title, descrip
       <span className={'text-sm text-gray-500 mb-2'}>{description}</span>
       <Input
         type={'text'}
+        maxLength={24}
         value={value?.toString() || ''}
         onChange={handleChange}
         placeholder={'Enter seed value'}
