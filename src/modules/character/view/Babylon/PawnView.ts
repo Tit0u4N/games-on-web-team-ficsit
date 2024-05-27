@@ -67,7 +67,7 @@ export class PawnView {
 
           this._mesh = mesh;
 
-          this.startAnimations();
+          this.stopAnimations()
 
           resolve();
         },
