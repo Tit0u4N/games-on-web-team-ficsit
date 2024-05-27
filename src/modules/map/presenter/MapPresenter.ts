@@ -39,6 +39,7 @@ export class MapPresenter implements ViewInitable {
     if (config.map.view.mapPresenter.defaultOptions.seed !== null)
       this.options.seed = config.map.view.mapPresenter.defaultOptions.seed;
     this._mapModel = new MapModel(this.options.size!, this.options.seed);
+    console.log('this.options.seed', this.options.seed);
     this._view = new MapView(this._mapModel, this);
     this._mapModel.init();
     this._view.initView(scene);
