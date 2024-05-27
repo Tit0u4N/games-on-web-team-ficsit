@@ -96,6 +96,13 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                         option={'zoomOut'}
                         defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut[0]}
                       />
+                      <DividerOptions />
+                      <ControlOption
+                        title={'Reset Camera'}
+                        description={'Key to reset camera'}
+                        option={'resetCamera'}
+                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition[0]}
+                      />
                     </div>
                   </div>
                 </CardBody>
