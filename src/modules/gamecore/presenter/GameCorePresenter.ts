@@ -12,6 +12,7 @@ import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
 import { MapLimits } from '@map/view/Babylon/MapView.ts';
 import { Season } from '@core/singleton/Season.ts';
 import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
+import { AtmosphereType, AudioPresenter, MusicType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -25,6 +26,7 @@ export class GameCorePresenter {
   private _characterPresenter!: CharacterPresenter;
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private _setIsLoading!: (isLoading: boolean) => void;
+  public static readonly AUDIO_PRESENTER: AudioPresenter = new AudioPresenter();
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -33,6 +35,9 @@ export class GameCorePresenter {
     this._mapPresenter = new MapPresenter(this);
     this.initializeTestData();
     this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
+    setTimeout(() => {
+      if (this.status === ApplicationStatus.MENU) GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+    }, 1000);
   }
 
   /* Application management*/
@@ -75,6 +80,8 @@ export class GameCorePresenter {
     this.gameModel.createNewGame();
     this.status = ApplicationStatus.GAME;
     this.notifyViewChange();
+    GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
+    GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {

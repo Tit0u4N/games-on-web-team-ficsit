@@ -2,6 +2,9 @@ import { Button, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
 import React from 'react';
 import './RoundStatusBar.scss';
 import { ModalType } from './GameView.tsx';
+import { AudioModal } from '../../../audio/view/React/AudioModal.tsx';
+import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
+import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
 
 interface RoundStatusBarProps {
   nextRound: () => void;
@@ -37,6 +40,8 @@ function getSeasonList(round: number): number[] {
 }
 
 export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round, toggleModal, isModalOpen }) => {
+  const [isAudioModalOpen, setIsAudioModalOpen] = React.useState(false);
+
   return (
     <Navbar className={'fixed-top navbar'}>
       <NavbarContent>
@@ -69,6 +74,23 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
         </div>
       </NavbarContent>
       <NavbarContent justify="end">
+        <NavbarItem>
+          <Button
+            onClick={() => {
+              GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
+              setIsAudioModalOpen(true);
+            }}>
+            Settings
+          </Button>
+          <AudioModal
+            audioPresenter={GameCorePresenter.AUDIO_PRESENTER}
+            isOpen={isAudioModalOpen}
+            onClose={() => {
+              GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
+              setIsAudioModalOpen(false);
+            }}
+          />
+        </NavbarItem>
         <NavbarItem>
           <Button onClick={() => nextRound()}>Next round</Button>
         </NavbarItem>

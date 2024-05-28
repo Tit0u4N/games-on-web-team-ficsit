@@ -50,18 +50,23 @@ export class MainComponent extends React.Component<MainComponentProps> {
   render() {
     const currentStatus = this.props.gameCorePresenter.getStatus();
 
-    switch (currentStatus) {
-      case ApplicationStatus.MENU:
-        return <MenuView presenter={this.props.gameCorePresenter} />;
-      case ApplicationStatus.CONFIGURE_CHARACTERS:
-        return <ConfigureCharacters presenter={this.props.gameCorePresenter} />;
-      default:
-        return (
+    return (
+      <>
+        {React.createElement(
+          GameCorePresenter.AUDIO_PRESENTER.getReactView().type,
+          GameCorePresenter.AUDIO_PRESENTER.getReactView().props,
+        )}
+        {currentStatus === ApplicationStatus.MENU ? (
+          <MenuView presenter={this.props.gameCorePresenter} />
+        ) : currentStatus === ApplicationStatus.CONFIGURE_CHARACTERS ? (
+          <ConfigureCharacters presenter={this.props.gameCorePresenter} />
+        ) : (
           <>
             <LoadingScreen isLoading={this.getIsLoading()} />
             <GameView presenter={this.props.gameCorePresenter} />
           </>
-        );
-    }
+        )}
+      </>
+    );
   }
 }
