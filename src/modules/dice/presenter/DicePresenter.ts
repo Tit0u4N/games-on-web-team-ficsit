@@ -68,7 +68,6 @@ export class DicePresenter implements Reactable, ViewInitable {
     }
     ModalManager.getInstance().unlock();
     this.state = 'rolled';
-    console.log('Dice ' + this.state + ' with value : ' + this.model.finalValue);
     if (this._handleDiceValue) this._handleDiceValue(this.model.finalValue);
     this.diceHandler.handleRollDice(this.model.finalValue);
   }

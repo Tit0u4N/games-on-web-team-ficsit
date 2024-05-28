@@ -183,7 +183,6 @@ export class Dice3D implements ViewInitable {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
     if (this.state === 'fellOutOfBounds') {
-      console.log('Dice fell out of bounds');
       return -1;
     }
     return this.getDiceValue();
