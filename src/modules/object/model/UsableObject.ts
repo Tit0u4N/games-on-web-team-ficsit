@@ -7,6 +7,7 @@ import { Sport } from '../../../core/singleton/Sport.ts';
 import { config } from '../../../core/Interfaces.ts';
 import { EquippedObjectSlot } from '../../inventory/model/EquippedObjects.ts';
 import { ObjectRarity } from './ObjectRarity.ts';
+import { XpManager } from '../../../core/singleton/XpManager.ts';
 
 export class UsableObject {
   private readonly _id: number;
@@ -57,7 +58,10 @@ export class UsableObject {
         for (const statBonus of condition.statsIncrease) {
           const sport = Sport.getByName(statBonus.sport);
           if (sport) {
-            modifiedStats.set(sport, modifiedStats.get(sport) + statBonus.bonus);
+            modifiedStats.set(
+              sport,
+              XpManager.getInstance().getXpFromLevel(modifiedStats.get(sport) + statBonus.bonus),
+            );
           } else {
             console.error(`Sport not found: ${statBonus.sport}`);
           }
