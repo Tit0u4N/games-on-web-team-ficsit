@@ -47,13 +47,19 @@ export class TileView {
     mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
 
     // Add physics to the mesh
-    if (baseTile.type !== TypesTile.ACCESSIBLE)
-      new PhysicsAggregate(
-        mesh,
-        PhysicsShapeType.BOX,
-        { mass: config.map.view.tileView.createHexagonMesh.mass },
-        this.scene,
-      );
+    if (baseTile.type !== TypesTile.ACCESSIBLE) {
+      try {
+        new PhysicsAggregate(
+            mesh,
+            PhysicsShapeType.BOX,
+            { mass: config.map.view.tileView.createHexagonMesh.mass },
+            this.scene,
+        );
+      } catch (e) {
+        alert('Error : sometime web assembly is not loaded, please reload the page.');
+      }
+    }
+
 
     return mesh;
   }
