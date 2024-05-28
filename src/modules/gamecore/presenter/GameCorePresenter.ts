@@ -11,6 +11,7 @@ import { Character } from '@character/model/Character.ts';
 import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
 import { MapLimits } from '@map/view/Babylon/MapView.ts';
 import { Season } from '@core/singleton/Season.ts';
+import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -22,7 +23,7 @@ export class GameCorePresenter {
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
   private _characterPresenter!: CharacterPresenter;
-
+  private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private _setIsLoading!: (isLoading: boolean) => void;
 
   constructor() {
@@ -31,6 +32,7 @@ export class GameCorePresenter {
     this._babylonView = new BabylonMainView(this);
     this._mapPresenter = new MapPresenter(this);
     this.initializeTestData();
+    this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
   }
 
   /* Application management*/
@@ -79,10 +81,11 @@ export class GameCorePresenter {
       await this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
-      this._buildingPresenter = new BuildingPresenter(this._mapPresenter);
+      this._buildingPresenter = new BuildingPresenter(this, this._mapPresenter, this._tournamentManagerPresenter);
       this._buildingPresenter.initView(this._babylonView.scene);
       this._setIsLoading(false);
       this.notifyViewChange();
+      this._buildingPresenter.updateArenasTournament();
     }, 1000);
   }
 
@@ -103,6 +106,10 @@ export class GameCorePresenter {
     return this.events;
   }
 
+  public getTournamentManagerPresenter(): TournamentManagerPresenter {
+    return this._tournamentManagerPresenter;
+  }
+
   /**
    * Start a new round
    */
@@ -111,6 +118,7 @@ export class GameCorePresenter {
     if (!result) {
       return;
     }
+    this._buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
 
     this.notifyViewChange();

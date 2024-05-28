@@ -1,10 +1,10 @@
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { IStatIncrease } from '../../object/model/UsableObject.ts';
+import { ObjectRarity } from '../../object/model/ObjectRarity.ts';
 
 export class Statistics extends Map<Sport, number> {
   public constructor(stats: Map<Sport, number> | Statistics = new Map<Sport, number>()) {
     super();
-    //FIXME: if (config.statistics.setDefaultStats && (!stats || stats.size == 0)) this.initRandomStats();
     for (const [sport, value] of stats) {
       this.set(sport, value);
     }
@@ -19,27 +19,15 @@ export class Statistics extends Map<Sport, number> {
     }
   }
 
-  public static createFromJsObject(jsObject: IStatIncrease[]): Statistics {
+  public static createFromJsObject(jsObject: IStatIncrease[], rarity?: ObjectRarity): Statistics {
     const stats = new Statistics();
     for (const stat of jsObject) {
       // todo check if the sport is in the object
       const sport = Sport.getByName(stat.sport);
-      if (sport) stats.set(sport, stat.bonus);
+      const bonus = rarity ? Math.floor(((stat.bonus + 1) / 3) * rarity.bonus) : stat.bonus;
+      if (sport) stats.set(sport, bonus);
     }
     return stats;
-  }
-
-  // private initRandomStats(): void {
-  //   //FIXME: remove this method not used in the version in tournaments
-  //   // Share not equitably the statsToShare between all sports and downgrades the statsToShare
-  //   for (const sport of Sport.getAll()) {
-  //     // the stats can be between 2 and 13
-  //     this.set(sport, Math.floor(Math.random() * 12) + 2);
-  //   }
-  // }
-
-  public copy(): Statistics {
-    return new Statistics(this);
   }
 
   get(sport: Sport): number {
@@ -59,5 +47,28 @@ export class Statistics extends Map<Sport, number> {
     for (const [sport, value] of this) {
       this.set(sport, value + statistics.get(sport));
     }
+  }
+
+  public copy(): Statistics {
+    return new Statistics(this);
+  }
+
+  static initRandomStats(totalStats: number = 60, minStats: number = 5): Map<Sport, number> {
+    const stats = new Map<Sport, number>();
+    for (const sport of Sport.getAll()) {
+      stats.set(sport, minStats);
+      totalStats -= minStats;
+    }
+    while (totalStats > 0) {
+      const sport = Sport.getRandom();
+      let value = Math.floor(Math.random() * 4);
+      const currentValue = stats.get(sport);
+      if (!currentValue) continue;
+      if (value > totalStats) value = totalStats;
+      if (currentValue + value > 20) value = 20 - currentValue;
+      stats.set(sport, currentValue + value);
+      totalStats -= value;
+    }
+    return stats;
   }
 }

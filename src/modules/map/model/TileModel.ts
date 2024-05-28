@@ -14,6 +14,7 @@ export interface ITile {
   removeCharacter(character: Character): void;
   getNumberOfCharacters(): number;
   isWalkable(): boolean;
+  get characters(): Set<Character>;
 }
 
 export class TileModel implements ITile {
@@ -23,7 +24,7 @@ export class TileModel implements ITile {
   private noiseValue: number;
   private _typeBiome: TypesBiome;
   private _subBiome!: SubBiomeModel;
-  private characters: Set<Character>;
+  private _characters: Set<Character>;
 
   constructor(x: number, y: number, noiseValue: number) {
     this._x = x;
@@ -31,7 +32,7 @@ export class TileModel implements ITile {
     this.noiseValue = noiseValue;
     this._typeBiome = BiomeAbstractModel.getBiomeByNoiseValue(noiseValue);
     this._type = this.getTypeByBiome();
-    this.characters = new Set<Character>();
+    this._characters = new Set<Character>();
   }
 
   /**
@@ -122,6 +123,10 @@ export class TileModel implements ITile {
 
   set subBiome(value: SubBiomeModel) {
     this._subBiome = value;
+  }
+
+  get characters(): Set<Character> {
+    return this._characters;
   }
 
   addCharacter(character: Character): void {

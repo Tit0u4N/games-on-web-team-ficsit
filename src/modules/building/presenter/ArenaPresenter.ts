@@ -5,16 +5,32 @@ import { Scene } from '@babylonjs/core';
 import { ArenaLayout, ArenaLayoutProps } from '@building/view/React/ArenaLayout.tsx';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import React from 'react';
+import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
+import { Sport } from '../../../core/singleton/Sport.ts';
+import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
+import { TournamentDifficulty } from '../../tournament/model/TournamentDifficulty.ts';
+import { BuildingPresenter } from './BuildingPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arena: ArenaModel;
-  private _arenaView: ArenaView;
+  private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
+  private readonly _difficulty: TournamentDifficulty;
+  private readonly _buildingPresenter: BuildingPresenter;
+  private readonly _arenaView: ArenaView;
   private _modalIsOpen: boolean;
+  private _tournamentPresenter!: TournamentPresenter;
 
-  constructor(arena: ArenaModel) {
+  constructor(
+    buildingPresenter: BuildingPresenter,
+    arena: ArenaModel,
+    tournamentManagerPresenter: TournamentManagerPresenter,
+  ) {
     this._arena = arena;
     this._arenaView = new ArenaView(this);
     this._modalIsOpen = false;
+    this._tournamentManagerPresenter = tournamentManagerPresenter;
+    this._difficulty = TournamentManagerPresenter.generateDifficulty();
+    this._buildingPresenter = buildingPresenter;
   }
 
   initView(scene: Scene) {
@@ -47,10 +63,38 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     return {
       type: ArenaLayout,
       props: {
-        arena: this._arena,
+        arena: this,
         isOpen: this._modalIsOpen,
-        onClose: () => this.closeModal(),
+        onClose: () => {
+          if (!this.tournamentPresenter.isTournamentStarted) this.closeModal();
+        },
       },
     };
+  }
+
+  get tournamentManagerPresenter(): TournamentManagerPresenter {
+    return this._tournamentManagerPresenter;
+  }
+
+  updateTournament(actualSport: Sport) {
+    this._tournamentPresenter = this._tournamentManagerPresenter.createTournament(this._difficulty, actualSport);
+  }
+
+  hasTournament() {
+    return this.tournamentPresenter !== undefined;
+  }
+
+  get tournamentPresenter(): TournamentPresenter {
+    return this._tournamentPresenter;
+  }
+
+  public charactersInArena() {
+    return this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
+  }
+
+  public startTournament(): void {
+    const characters = this._buildingPresenter.gameCorePresenter.mapPresenter.getCharactersOnTile(this._arena.position);
+    this._tournamentPresenter.startTournament([...characters]);
+    ModalManager.getInstance().updateCurrentModal();
   }
 }

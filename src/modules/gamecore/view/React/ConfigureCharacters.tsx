@@ -12,7 +12,7 @@ interface ICharacter {
   logo: string;
   name: string;
   age: number;
-  nationality: CountryCode;
+  nationality: Country;
   stats: Record<string, number>;
   modelName: string;
   modelPath: string;
@@ -44,7 +44,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       logo: '',
       name: '',
       age: 20,
-      nationality: CountryCode.FRANCE,
+      nationality: new Country(CountryCode.FRANCE),
       stats: { ...initialStats },
       modelName: 'Animated Woman.glb',
       modelPath: 'pawn/',
@@ -53,7 +53,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       logo: '',
       name: '',
       age: 20,
-      nationality: CountryCode.FRANCE,
+      nationality: new Country(CountryCode.FRANCE),
       stats: { ...initialStats },
       modelName: 'Hoodie Character.glb',
       modelPath: 'pawn/',
@@ -62,7 +62,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       logo: '',
       name: '',
       age: 20,
-      nationality: CountryCode.FRANCE,
+      nationality: new Country(CountryCode.FRANCE),
       stats: { ...initialStats },
       modelName: 'Suit.glb',
       modelPath: 'pawn/',
@@ -195,7 +195,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
         logo: logos[Math.floor(Math.random() * logos.length)],
         name: uniqueNamesGenerator({ dictionaries: [names] }),
         age: Math.floor(Math.random() * 90) + 10,
-        nationality: Object.values(CountryCode)[Math.floor(Math.random() * totalFlags)],
+        nationality: new Country(Object.values(CountryCode)[Math.floor(Math.random() * totalFlags)]),
         stats: randomStats,
         modelName: modelName,
         modelPath: 'pawn/',
@@ -299,7 +299,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                           <button
                             key={code}
                             onClick={() => handleInputChange(index, 'nationality', code)}
-                            className={`p-2 border-2 ${character.nationality === code ? 'border-blue-500' : 'border-transparent'}`}>
+                            className={`p-2 border-2 ${character.nationality.getCode() === code ? 'border-blue-500' : 'border-transparent'}`}>
                             <div className="flex flex-col items-center">
                               {new Country(code).getFlag()}
                               <span className="text-sm">{code}</span>

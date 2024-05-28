@@ -1,7 +1,14 @@
-import { ActionManager, ExecuteCodeAction, Mesh, Scene, Vector3 } from '@babylonjs/core';
+import {
+  ActionManager,
+  ExecuteCodeAction,
+  Mesh,
+  Scene,
+  Vector3,
+} from '@babylonjs/core';
 import { ArenaModel } from '@building/model/ArenaModel.ts';
-import { ViewInitable } from '@/core/Interfaces.ts';
-import { ArenaPresenter } from '@building/presenter/ArenaPresenter.ts';
+import { ViewInitable } from '@core/Interfaces.ts';
+import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { importModel } from '@core/ModelImporter.ts';
 
 export class ArenaView implements ViewInitable {
@@ -9,16 +16,18 @@ export class ArenaView implements ViewInitable {
   private scene!: Scene;
   private _mesh!: Mesh;
   private arenaPresenter: ArenaPresenter;
+  private position: Vector3;
   private static readonly SCALE = 0.5;
 
   constructor(arenaPresenter: ArenaPresenter) {
     this.arenaPresenter = arenaPresenter;
     this.arenaModel = this.arenaPresenter.arena;
+    this.position = getPosition(this.arenaModel.position, PositionTypes.BUILDING);
   }
 
   async initView(scene: Scene) {
     this.scene = scene;
-    await this.createMesh(this.arenaModel.position);
+    await this.createMesh(this.position);
     this.addActionManager();
   }
 

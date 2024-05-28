@@ -2,6 +2,7 @@ import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory';
 import { Character } from '@character/model/Character';
 import { CharacterView } from '@character/view/Babylon/CharacterView.ts';
 import { Scene } from '@babylonjs/core';
+import { Country } from '../../../core/Country.tsx';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 export class CharacterPresenter {
@@ -31,11 +32,21 @@ export class CharacterPresenter {
     return this._characterView;
   }
 
+  public generateNPC(totalStats: number, minStats: number): Character {
+    return CharacterFactory.createNPC(totalStats, minStats);
+  }
+
   static getDefaultCharacters(): Set<Character> {
     const characters = new Set<Character>();
-    characters.add(CharacterFactory.createDefaultCharacter(1, 'John Doe', 'US', 25, './character_1.png'));
-    characters.add(CharacterFactory.createDefaultCharacter(2, 'John Doe2', 'US', 25, './character_2.png'));
-    characters.add(CharacterFactory.createDefaultCharacter(3, 'John Doe3', 'US', 25, './character_3.png'));
+    characters.add(
+      CharacterFactory.createDefaultCharacter(1, 'John Doe', Country.getRandom(), 25, './character_1.png'),
+    );
+    characters.add(
+      CharacterFactory.createDefaultCharacter(2, 'John Doe2', Country.getRandom(), 25, './character_2.png'),
+    );
+    characters.add(
+      CharacterFactory.createDefaultCharacter(3, 'John Doe3', Country.getRandom(), 25, './character_3.png'),
+    );
     return characters;
   }
 
