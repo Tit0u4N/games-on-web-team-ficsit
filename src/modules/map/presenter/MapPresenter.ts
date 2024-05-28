@@ -1,52 +1,95 @@
-import { IMapModelPresenter, MapModel } from '../model/MapModel.ts';
-import { MapView } from '../view/Babylon/MapView.ts';
-import { Scene, Vector3 } from '@babylonjs/core';
-import { IGraphTiles } from '../model/GraphTilesModel.ts';
-import { importModel } from '../../../core/ModelImporter.ts';
-import { getPosition, getCharacterPositionOnTile, PositionTypes } from '../core/GamePlacer.ts';
-import { ViewInitable } from '../../../core/Interfaces.ts';
-import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
+import { IMapModelPresenter, MapModel } from '@map/model/MapModel.ts';
+import { MapView } from '@map/view/Babylon/MapView.ts';
+import { Scene } from '@babylonjs/core';
+import { IGraphTiles } from '@map/model/GraphTilesModel.ts';
+import { getPosition, getCharacterPositionOnTile, PositionTypes } from '@map/core/GamePlacer.ts';
+import { config, ViewInitable } from '@/core/Interfaces.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 type MapPresenterOptions = {
   size?: number;
   seed?: number | string;
-  defaultCharacterPosition?: { x: number; y: number };
 };
 
 const DEFAULT_OPTIONS: Readonly<MapPresenterOptions> = Object.freeze({
-  size: 100,
+  size: config.map.view.mapPresenter.defaultOptions.size,
   seed: Math.random(),
-  defaultCharacterPosition: { x: 12, y: 25 },
 });
+
 export class MapPresenter implements ViewInitable {
-  private readonly _mapModel: IMapModelPresenter;
-  private _view: MapView;
+  private _mapModel!: IMapModelPresenter;
+  private _view!: MapView;
   private readonly _gameCorePresenter: GameCorePresenter;
 
   private options: MapPresenterOptions;
 
   constructor(gameCorePresenter: GameCorePresenter, options: MapPresenterOptions = {}) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
-    this._mapModel = new MapModel(this.options.size!, this.options.seed);
-    this._view = new MapView(this._mapModel, this);
     this._gameCorePresenter = gameCorePresenter;
   }
+
   unMountView(): void {
     throw new Error('Method not implemented.');
   }
 
   initView(scene: Scene) {
+    // if the size of the map is not the same as teh config, update it
+    if (config.map.view.mapPresenter.defaultOptions.size !== this.options.size)
+      this.options.size = config.map.view.mapPresenter.defaultOptions.size;
+    if (config.map.view.mapPresenter.defaultOptions.seed !== null)
+      this.options.seed = config.map.view.mapPresenter.defaultOptions.seed;
+    this._mapModel = new MapModel(this.options.size!, this.options.seed);
+    console.log('this.options.seed', this.options.seed);
+    this._view = new MapView(this._mapModel, this);
     this._mapModel.init();
     this._view.initView(scene);
-    this.testObjects(scene).then();
-    this._gameCorePresenter.getCharacters().forEach((character) => {
-      this._mapModel
-        .getTile(
-          this.options.defaultCharacterPosition!.x + (character.id === 3 ? 1 : 0),
-          this.options.defaultCharacterPosition!.y,
-        )
-        .addCharacter(character);
-    });
+
+    // Calculate the center of the map
+    const centerX = Math.floor(this._mapModel.tiles[0].length / 2);
+    const centerY = Math.floor(this._mapModel.tiles.length / 3);
+
+    // Initialize the search radius and the current tile
+    let radius = 1;
+    let tile = null;
+
+    // Search for a walkable tile in a circular radius around the center
+    while (radius <= Math.max(centerX, centerY) && !tile) {
+      for (let y = -radius; y <= radius; y++) {
+        for (let x = -radius; x <= radius; x++) {
+          if (x * x + y * y > radius * radius) {
+            continue; // Skip the points outside the circle
+          }
+
+          // Calculate the tile index and check if it's walkable
+          const tileX = centerX + x;
+          const tileY = centerY + y;
+          if (
+            tileX >= 0 &&
+            tileX < this._mapModel.tiles[0].length &&
+            tileY >= 0 &&
+            tileY < this._mapModel.tiles.length &&
+            this._mapModel.getTile(tileX, tileY).isWalkable()
+          ) {
+            tile = this._mapModel.getTile(tileX, tileY);
+            break;
+          }
+        }
+        if (tile) {
+          break; // Stop the search if a walkable tile is found
+        }
+      }
+      radius++; // Increase the search radius
+    }
+
+    // Add the characters to the walkable tile
+    if (tile) {
+      this._gameCorePresenter.getCharacters().forEach((character) => {
+        tile.addCharacter(character);
+      });
+    } else {
+      console.error('No walkable tile found on the map!');
+    }
   }
 
   placeCharacters(initial = false) {
@@ -72,17 +115,6 @@ export class MapPresenter implements ViewInitable {
 
   get gameCorePresenter(): GameCorePresenter {
     return this._gameCorePresenter;
-  }
-
-  private async testObjects(scene: Scene) {
-    const mesh3 = await importModel('trees2.gltf', { scene, multiMaterial: true });
-    mesh3.position = getPosition(this._mapModel.getTile(12, 24), PositionTypes.DECORATION).add(new Vector3(0, -0.3, 0));
-    mesh3.scaling = new Vector3(1.2, 1.2, 1.2);
-    mesh3.rotation = new Vector3(0, 0, 0);
-    const mesh2 = await importModel('trees.gltf', { scene, multiMaterial: true });
-    mesh2.position = getPosition(this._mapModel.getTile(12, 25), PositionTypes.BUILDING);
-    mesh2.scaling = new Vector3(0.7, 0.7, 0.7);
-    mesh2.rotation = new Vector3(0, Math.PI / 4, 0);
   }
 
   public addDeplacementTiles() {
@@ -122,8 +154,8 @@ export class MapPresenter implements ViewInitable {
       if (!tileModel.isWalkable()) return;
       const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
       if (distance > selectedCharacter.attributes.movement) return;
+      GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.DEPLACEMENT);
       selectedCharacter.tile?.removeCharacter(selectedCharacter);
-      console.log(distance);
       selectedCharacter.removeMovementPoints(distance);
       tileModel.addCharacter(selectedCharacter);
 

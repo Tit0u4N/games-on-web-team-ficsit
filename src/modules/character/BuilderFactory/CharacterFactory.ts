@@ -1,10 +1,10 @@
 // CharacterFactory.ts
-import { Attributes } from '../model/Attributes';
-import { Character } from '../model/Character';
-import { Statistics } from '../model/Statistics';
+import { Attributes } from '@character/model/Attributes';
+import { Character } from '@character/model/Character';
+import { Statistics } from '@character/model/Statistics';
 import { CharacterBuilder } from './CharacterBuilder';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
-import { Country } from '../../../core/Country.tsx';
+import { Country } from '@core/Country.tsx';
 
 export class CharacterFactory {
   public static count = 20;
@@ -15,11 +15,13 @@ export class CharacterFactory {
     nationality: Country,
     age: number,
     image: string,
+    modelName?: string,
+    modelPath?: string,
   ): Character {
     const defaultStatistics = new Statistics(Statistics.initRandomStats(60, 7));
     const defaultAttributes = new Attributes(5, 0, false);
 
-    return new CharacterBuilder(id, name, nationality, age, image, true)
+    return new CharacterBuilder(id, name, nationality, age, image, true, modelName, modelPath)
       .setStatistics(defaultStatistics)
       .setAttributes(defaultAttributes)
       .build();

@@ -1,17 +1,18 @@
-import { GameCoreModel } from '../model/GameCoreModel.ts';
-import { BabylonMainView } from '../view/Babylon/BabylonMainView.ts';
+import { GameCoreModel } from '@gamecore/model/GameCoreModel.ts';
+import { BabylonMainView } from '@gamecore/view/Babylon/BabylonMainView.ts';
 import { ApplicationStatus } from './ApplicationStatus.ts';
-import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { CharacterPresenter } from '../../character/presenter/CharacterPresenter.ts';
-import { InventoryPresenter } from '../../inventory/presenter/InventoryPresenter.ts';
-import { EventPresenter } from '../../event/presenter/EventPresenter.ts';
-import { Inventory } from '../../inventory/model/Inventory.ts';
-import { EventModel } from '../../event/model/EventModel.ts';
-import { Character } from '../../character/model/Character.ts';
-import { BuildingPresenter } from '../../building/presenter/BuildingPresenter.ts';
-import { MapLimits } from '../../map/view/Babylon/MapView.ts';
-import { Season } from '../../../core/singleton/Season.ts';
-import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { CharacterPresenter } from '@character/presenter/CharacterPresenter.ts';
+import { InventoryPresenter } from '@inventory/presenter/InventoryPresenter.ts';
+import { EventPresenter } from '@event/presenter/EventPresenter.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { EventModel } from '@event/model/EventModel.ts';
+import { Character } from '@character/model/Character.ts';
+import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
+import { MapLimits } from '@map/view/Babylon/MapView.ts';
+import { Season } from '@core/singleton/Season.ts';
+import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
+import { AtmosphereType, AudioPresenter, MusicType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -22,26 +23,31 @@ export class GameCorePresenter {
   private _mapPresenter: MapPresenter;
   private inventoryList: Inventory[] = [];
   private events: EventModel[] = [];
-  private readonly _characterPresenter: CharacterPresenter;
+  private _characterPresenter!: CharacterPresenter;
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
+  private _setIsLoading!: (isLoading: boolean) => void;
+  public static readonly AUDIO_PRESENTER: AudioPresenter = new AudioPresenter();
 
   constructor() {
     this.gameModel = new GameCoreModel();
     this.status = ApplicationStatus.MENU;
     this._babylonView = new BabylonMainView(this);
-    this._mapPresenter = new MapPresenter(this, { size: 60, seed: 'TEST_SEED' });
+    this._mapPresenter = new MapPresenter(this);
     this.initializeTestData();
-    this._characterPresenter = new CharacterPresenter(this);
     this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
-    const inventoryPresenter = new InventoryPresenter();
-    const characterArray = Array.from(this._characterPresenter.characters);
-    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
+    setTimeout(() => {
+      if (this.status === ApplicationStatus.MENU) GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+    }, 1000);
   }
 
   /* Application management*/
 
   public getStatus() {
     return this.status;
+  }
+
+  public setStatus(status: ApplicationStatus) {
+    this.status = status;
   }
 
   /* Events management */
@@ -66,18 +72,25 @@ export class GameCorePresenter {
   /**
    * Start a new game
    */
-  startGame() {
+  startGame(characters: Set<Character>) {
+    this._characterPresenter = new CharacterPresenter(this, characters);
+    const inventoryPresenter = new InventoryPresenter();
+    const characterArray = Array.from(this._characterPresenter.characters);
+    this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
     this.gameModel.createNewGame();
     this.status = ApplicationStatus.GAME;
     this.notifyViewChange();
+    GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
+    GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
-      this._mapPresenter.initView(this._babylonView.scene);
+      await this._mapPresenter.initView(this._babylonView.scene);
       await this._characterPresenter.initView(this._babylonView.scene);
       this._mapPresenter.placeCharacters(true);
       this._buildingPresenter = new BuildingPresenter(this, this._mapPresenter, this._tournamentManagerPresenter);
       this._buildingPresenter.initView(this._babylonView.scene);
+      this._setIsLoading(false);
       this.notifyViewChange();
       this._buildingPresenter.updateArenasTournament();
     }, 1000);
@@ -140,6 +153,10 @@ export class GameCorePresenter {
 
   public getMapLimits(): MapLimits {
     return this._mapPresenter.view.getLimitXYZ();
+  }
+
+  set setIsLoading(value: (isLoading: boolean) => void) {
+    this._setIsLoading = value;
   }
 
   checkCharacterInBuilding(character: Character) {

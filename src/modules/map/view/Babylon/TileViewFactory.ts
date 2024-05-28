@@ -1,8 +1,9 @@
-import { TypesTile } from '../../model/TileModel.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
 import { TileView } from './TileView.ts';
 import { MapView } from './MapView.ts';
 import { Color3, Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
-import { config } from '../../../../core/Interfaces.ts';
+import { config } from '@/core/Interfaces.ts';
+import { GameOptions } from '@/core/GameOptions.ts';
 
 export type BaseTile = {
   type: TypesTile;
@@ -49,6 +50,7 @@ export class TileViewFactory {
 
     mesh.isVisible = false; // The base mesh should not be visible
     this.parentMesh.addChild(mesh);
+    mesh.receiveShadows = GameOptions.instance.shadows;
 
     const color = this.getColor(type);
     const material = new StandardMaterial('material_tile_ ' + type, this.scene);
@@ -57,6 +59,7 @@ export class TileViewFactory {
       material.alpha = config.map.view.tileViewFactory.createBaseTile.alphaTypeTileAccessible;
     }
     mesh.material = material;
+    mesh.receiveShadows = true;
 
     return {
       type: type,

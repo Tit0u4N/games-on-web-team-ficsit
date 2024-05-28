@@ -31,3 +31,9 @@ header {
     width: 100%;
   }
 }
+
+// Babylon Inspector
+#scene-explorer-host,
+#inspector-host {
+  z-index: 100000;
+}

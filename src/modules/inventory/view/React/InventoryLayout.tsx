@@ -10,11 +10,11 @@ import {
   TableRow,
 } from '@nextui-org/react';
 import React from 'react';
-import { InventoryCase } from '../../../../component/InventoryCase.tsx';
+import { InventoryCase } from '@/component/InventoryCase.tsx';
 import { Inventory } from '../../model/Inventory.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { config } from '@core/Interfaces.ts';
 import { EquippedObjectSlot } from '../../model/EquippedObjects.ts';
-import { GameCorePresenter } from '../../../gamecore/presenter/GameCorePresenter.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 type InventoryLayoutProps = {
   inventory: Inventory;
@@ -80,7 +80,7 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
       <Divider />
       <div className="w-full h-[300px] justify-center">
         <div className="grid grid-cols-5 gap-1 p-[10px]">
-          {Array.from({ length: config.character.inventory.maxItems }, (_, index) => (
+          {Array.from({ length: config.character.model.inventory.maxItems }, (_, index) => (
             <InventoryCase key={index} position={index} inventory={inventory} onChange={() => setUpdate(!update)} />
           ))}
         </div>

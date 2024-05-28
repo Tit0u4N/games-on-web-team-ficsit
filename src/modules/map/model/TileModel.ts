@@ -1,8 +1,8 @@
 import { BiomeAbstractModel, TypesBiome } from './biome/BiomeAbstractModel.ts';
 import { GraphTilesModel, TileKey } from './GraphTilesModel.ts';
 import { SubBiomeModel } from './biome/SubBiomeModel.ts';
-import { Character } from '../../character/model/Character.ts';
-import { config } from '../../../core/Interfaces.ts';
+import { Character } from '@character/model/Character.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export interface ITile {
   getID(): TileKey;
