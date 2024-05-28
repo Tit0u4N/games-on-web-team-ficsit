@@ -3,27 +3,30 @@ import { Attributes } from './Attributes';
 import { Inventory } from '@inventory/model/Inventory.ts';
 import { ITile } from '@map/model/TileModel.ts';
 import { Season } from '@core/singleton/Season.ts';
+import { Country } from '../../../core/Country.tsx';
 
 export class Character {
   private _id: number;
   private _name: string;
-  private _nationality: string;
+  private _nationality: Country;
   private _age: number;
   private _image: string;
   private _statistics: Statistics;
   private _inventory: Inventory;
   private _attributes: Attributes;
   private _currentTile: ITile | undefined;
+  private readonly _isPlayer: boolean = false;
   private _modelName: string | undefined;
   private _modelPath: string | undefined;
 
   public constructor(
     id: number,
     name: string,
-    nationality: string,
+    nationality: Country,
     age: number,
     attributes: Attributes,
     image: string,
+    isPlayer: boolean = false,
     modelName?: string,
     modelPath?: string,
   ) {
@@ -37,6 +40,7 @@ export class Character {
     this._image = image;
     this._modelName = modelName;
     this._modelPath = modelPath;
+    this._isPlayer = isPlayer;
   }
 
   get id(): number {
@@ -55,11 +59,11 @@ export class Character {
     this._name = value;
   }
 
-  get nationality(): string {
+  get nationality(): Country {
     return this._nationality;
   }
 
-  set nationality(value: string) {
+  set nationality(value: Country) {
     this._nationality = value;
   }
 
@@ -109,6 +113,10 @@ export class Character {
 
   set tile(value: ITile | undefined) {
     this._currentTile = value;
+  }
+
+  get isPlayer(): boolean {
+    return this._isPlayer;
   }
 
   get modelName(): string | undefined {

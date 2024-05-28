@@ -1,6 +1,6 @@
 [
   {"id":7,"name":"Ski Poles","sport":"SKI","image":"ski_poles.png","slot":"chest","statsIncrease":[{"sport":"SKIING","bonus":4}]},
-  {"id":20,"name":"Skis","sport":"SKI","image":"ski.png","slot":"feet","statsIncrease":[{"sport":"SKIING","bonus":4}],"conditions":[{"type":"terrain","terrain":"Snow","season":"Winter","statsIncrease":[{"sport":"SKIING","bonus":2}]}]},
+  {"id":20,"name":"Skis","sport":"SKI","image":"ski.png","slot":"feet","statsIncrease":[{"sport":"SKIING","bonus":3}]},
   {"id":21,"name":"Ski helmet","sport":"SKI","image":"ski_helmet.png","slot":"head","statsIncrease":[{"sport":"SKIING","bonus":3}]},
   {"id":22,"name":"Ski Jacket","sport":"SKI","image":"ski_jacket.png","slot":"chest","statsIncrease":[{"sport":"SKIING","bonus":3}]},
   {"id":23,"name":"Ski Pants","sport":"SKI","image":"ski_pants.png","slot":"legs","statsIncrease":[{"sport":"SKIING","bonus":3}]},
