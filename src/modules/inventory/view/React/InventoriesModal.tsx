@@ -44,9 +44,6 @@ const InventoriesModal: React.FC<InventoryModalProps> = ({
               <Button color="danger" variant="light" onPress={handleClose}>
                 Close
               </Button>
-              <Button color="primary" onPress={handleClose}>
-                Action
-              </Button>
             </ModalFooter>
           </>
         )}
