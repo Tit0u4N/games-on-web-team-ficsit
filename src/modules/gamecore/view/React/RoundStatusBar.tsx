@@ -47,10 +47,10 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
       <NavbarContent>
         <NavbarItem>
           <Button
-            color={isModalOpen(ModalType.EVENTS) ? 'primary' : undefined}
-            className={isModalOpen(ModalType.EVENTS) ? 'text-white' : ''}
-            onClick={() => toggleModal(ModalType.EVENTS, !isModalOpen(ModalType.EVENTS))}>
-            Events
+            color={isModalOpen(ModalType.RULES) ? 'primary' : undefined}
+            className={isModalOpen(ModalType.RULES) ? 'text-white' : ''}
+            onClick={() => toggleModal(ModalType.RULES, !isModalOpen(ModalType.RULES))}>
+            Rules
           </Button>
         </NavbarItem>
         <NavbarItem>

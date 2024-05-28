@@ -214,7 +214,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab
               key={`RandomCharacter`}
-              title={`Random Character`}
+              title={`Random Athletes`}
               aria-label={`Menu Configuration Random Character`}
               className={'h-[50px]'}>
               <Card className={cardSize}>
@@ -223,7 +223,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                     color="primary"
                     className={'w-[350px] h-[75px] text-white text-3xl z-10'}
                     onClick={generateRandomCharacters}>
-                    Random Characters
+                    Random Athletes
                   </Button>
                 </CardBody>
               </Card>
@@ -231,7 +231,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
             {characters.map((character, index) => (
               <Tab
                 key={`Character${index + 1}`}
-                title={`Character ${index + 1}`}
+                title={`Athlete ${index + 1}`}
                 aria-label={`Menu Configuration Character${index + 1}`}
                 className={'h-[50px] '}>
                 <Card className={cardSize}>
