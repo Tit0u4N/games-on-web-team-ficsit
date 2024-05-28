@@ -35,6 +35,10 @@ export class Statistics extends Map<Sport, number> {
     return XpManager.getInstance().getLevelFromXp(super.get(sport) || 0);
   }
 
+  public getXp(sport: Sport): number {
+    return super.get(sport) || 0;
+  }
+
   set(sport: Sport, value: number): this {
     if (value < 0) {
       value = 0;
@@ -45,16 +49,19 @@ export class Statistics extends Map<Sport, number> {
   }
 
   public getPercentage(sport: Sport): { percentageFilled: number; xpNextLevel: number } {
-    const xp = XpManager.getInstance().getXpFromLevel(this.get(sport));
+    const xp = this.getXp(sport);
     return XpManager.getInstance().getCurrentLevel(xp);
+  }
+
+  public addStatXp(statistics: Statistics): void {
+    for (const [sport, value] of this) {
+      this.set(sport, value + statistics.getXp(sport));
+    }
   }
 
   public addStat(statistics: Statistics): void {
     for (const [sport, value] of this) {
-      this.set(
-        sport,
-        XpManager.getInstance().getXpFromLevel(XpManager.getInstance().getLevelFromXp(value) + statistics.get(sport)),
-      );
+      this.set(sport, XpManager.getInstance().addLevelToXp(value, statistics.get(sport)));
     }
   }
 
