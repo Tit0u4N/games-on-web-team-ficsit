@@ -231,7 +231,6 @@ export class TournamentModel {
     this.getCurrentPool()!.forEach((value) => {
       this._finalRankings.push(value);
     });
-    console.log(this._currentRound);
     for (let i = this._currentRound - 1; i >= 0; i--) {
       const currentRound = this._rounds.find((round) => round.round == i);
       currentRound!.pools.forEach((pool) => {
@@ -305,7 +304,6 @@ export class TournamentModel {
   private addRewardToCharacter(character: Character, rank: number) {
     const rewards = [];
     let bestReward = null;
-    console.log(rank, this._rewards);
     for (const reward of this._rewards) {
       if (reward.rankToReach <= rank && reward.keepIfBetterReward) rewards.push(reward);
       else if (reward.rankToReach >= rank && bestReward == null) bestReward = reward;
@@ -315,10 +313,7 @@ export class TournamentModel {
     if (bestReward) rewards.push(bestReward);
 
     for (const reward of rewards) {
-      console.log(reward, rank);
       character.inventory.addItem(reward.reward.copy());
-      console.log(reward.reward.copy());
     }
-    console.log(character.inventory);
   }
 }

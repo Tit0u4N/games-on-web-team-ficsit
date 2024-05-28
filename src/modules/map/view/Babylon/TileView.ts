@@ -67,8 +67,6 @@ export class TileView {
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
         tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
-        console.log(tile.mesh.position);
-        console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
       }),
     );
   }
