@@ -185,7 +185,7 @@ export class TrainingCenterModel implements DiceHandler {
         for (const sport of characterEffect.sports) {
           const statistic = new Map<Sport, number>();
           statistic.set(sport, characterEffect.stats);
-          characterEffect.character.statistics.addStat(new Statistics(statistic));
+          characterEffect.character.statistics.addStatXp(new Statistics(statistic));
         }
         this._differentStates.delete(characterEffect.character);
       } else {

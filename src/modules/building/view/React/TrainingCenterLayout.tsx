@@ -144,7 +144,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           <h1 className="text-2xl">Training Center</h1>
         </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%] overflow-y-auto">
-          <div className={'flex flex-col w-[45%] min-w-[500px]'}>
+          <div className={'flex flex-col w-[37%] min-w-[500px]'}>
             {trainingCenter.sports.length > 0 && (
               <>
                 <div className="my-2">
@@ -175,7 +175,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               />
             ))}
           </div>
-          {getReactElementFromCurrentState(selectedCharacter)}
+          <div className="w-[63%]">{getReactElementFromCurrentState(selectedCharacter)}</div>
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
