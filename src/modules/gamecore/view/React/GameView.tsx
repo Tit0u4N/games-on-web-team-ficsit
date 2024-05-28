@@ -4,7 +4,7 @@ import { BabylonScene } from '@/component/BabylonScene.tsx';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '@character/view/React/GameCharacterLayout';
 import InventoriesModal from '@inventory/view/React/InventoriesModal.tsx';
-import EventLayout from '@event/view/React/EventLayout.tsx';
+import RulesLayout from '@event/view/React/RulesLayout.tsx';
 import { Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
@@ -16,7 +16,7 @@ interface GameViewProps {
 
 enum ModalType {
   INVENTORY,
-  EVENTS,
+  RULES,
 }
 
 const GameView: React.FC<GameViewProps> = ({ presenter }) => {
@@ -24,12 +24,11 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   const characters = presenter.getCharacters();
   const inventoryList = presenter.getInventoryList();
-  const events = presenter.getEvents();
 
   /* End Test Data */
 
   const [isInventoryOpen, setIsInventoryOpen] = React.useState(false);
-  const [isEventOpen, setIsEventOpen] = React.useState(false);
+  const [isRulesOpen, setIsRulesOpen] = React.useState(false);
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
 
   ModalManager.createInstance(setModalToShow);
@@ -41,10 +40,10 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
     switch (type) {
       case ModalType.INVENTORY:
         setIsInventoryOpen(isOpen);
-        setIsEventOpen(false);
+        setIsRulesOpen(false);
         break;
-      case ModalType.EVENTS:
-        setIsEventOpen(isOpen);
+      case ModalType.RULES:
+        setIsRulesOpen(isOpen);
         setIsInventoryOpen(false);
         break;
     }
@@ -54,8 +53,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
     switch (type) {
       case ModalType.INVENTORY:
         return isInventoryOpen;
-      case ModalType.EVENTS:
-        return isEventOpen;
+      case ModalType.RULES:
+        return isRulesOpen;
     }
   };
 
@@ -109,7 +108,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
           )}
         </div>
         <div>
-          <EventLayout event={events} toggleModal={toggleModal} isModalOpen={isModalOpen} />
+          <RulesLayout toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
         <GameCharacterLayout character={characters} season={presenter.getCurrentSeason()} />
       </div>

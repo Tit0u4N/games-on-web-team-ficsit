@@ -16,7 +16,6 @@ interface Props {
 
 export const MenuView: React.FC<Props> = ({ presenter }) => {
   const cardSize = ' w-[500px] h-[600px] p-2 pb-4';
-
   return (
     <div className={'h-[100vh] w-[100vw] bg-menu bg-cover'}>
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
@@ -24,7 +23,28 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
-                <CardBody>Game</CardBody>
+                <CardBody>
+                  <h2 className={'text-2xl mb-4 text-center'}>
+                    Welcome to the Olympic Odyssey!
+                  </h2>
+                  <p className={'text-center text-gray-500 mb-5'}>
+                    Here you can configure the game settings and start you game with your new athletes.
+                  </p>
+                  <DividerOptions />
+                  <MapSizeOption
+                    title={'Map Size'}
+                    description={'Choose the size of the map'}
+                    option={'mapSize'}
+                    min={20}
+                    max={100}
+                  />
+                  <DividerOptions />
+                  <SeedInputOption
+                    title={'Map Seed'}
+                    description={'Enter a seed value for map generation (optional)'}
+                    option={'mapSeed'}
+                  />
+                </CardBody>
               </Card>
             </Tab>
             <Tab key={'options'} title={'Options'} aria-label={'Menu Options'} className={'h-[50px]'}>
@@ -43,19 +63,6 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <DividerOptions />
                       <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
                       <DividerOptions />
-                      <MapSizeOption
-                        title={'Map Size'}
-                        description={'Choose the size of the map'}
-                        option={'mapSize'}
-                        min={20}
-                        max={100}
-                      />
-                      <DividerOptions />
-                      <SeedInputOption
-                        title={'Map Seed'}
-                        description={'Enter a seed value for map generation (optional)'}
-                        option={'mapSeed'}
-                      />
                     </div>
                   </div>
                   <DividerOptions />
@@ -142,7 +149,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             presenter.setStatus(ApplicationStatus.CONFIGURE_CHARACTERS);
             presenter.notifyViewChange();
           }}>
-          Configure Characters
+          Create Athletes
         </Button>
       </div>
     </div>
