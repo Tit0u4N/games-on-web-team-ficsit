@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './Bracket.scss';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { Bracketv1Candidate, Candidate } from './Bracketv1Candidate.tsx';
-import { Country } from '../../../../../core/Country.tsx';
-import { Character } from '../../../../character/model/Character.ts';
+import { Country } from '@core/Country.tsx';
+import { Character } from '@character/model/Character.ts';
 
 type Props = {
   bracket: BracketObject;

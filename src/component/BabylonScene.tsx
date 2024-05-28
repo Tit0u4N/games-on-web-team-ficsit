@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { BabylonMainView } from '../modules/gamecore/view/Babylon/BabylonMainView.ts';
+import { BabylonMainView } from '@gamecore/view/Babylon/BabylonMainView.ts';
 import { Scene } from '@babylonjs/core';
 
 type Props = {

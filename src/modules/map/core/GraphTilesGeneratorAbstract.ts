@@ -1,5 +1,5 @@
-import { MapModel } from '../model/MapModel.ts';
-import { TileModel } from '../model/TileModel.ts';
+import { MapModel } from '@map/model/MapModel.ts';
+import { TileModel } from '@map/model/TileModel.ts';
 
 export abstract class GraphTilesGeneratorAbstract {
   private _mapModel: MapModel;

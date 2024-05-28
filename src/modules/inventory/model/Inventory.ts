@@ -1,7 +1,7 @@
-import { UsableObject } from '../../object/model/UsableObject.ts';
+import { UsableObject } from '@object/model/UsableObject.ts';
 import { EquippedObjects, EquippedObjectSlot } from './EquippedObjects.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { Character } from '../../character/model/Character.ts';
+import { config } from '@core/Interfaces.ts';
+import { Character } from '@character/model/Character.ts';
 
 export class Inventory {
   private _items: Array<UsableObject | null> = [];
@@ -14,7 +14,7 @@ export class Inventory {
   }
 
   static generateEmptyArray(): Array<null> {
-    return Array.from({ length: config.character.inventory.maxItems }, () => null);
+    return Array.from({ length: config.character.model.inventory.maxItems }, () => null);
   }
 
   public addItem(item: UsableObject | null, position?: number): void {

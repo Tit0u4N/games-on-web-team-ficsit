@@ -1,15 +1,17 @@
-import { ArenaModel } from '../model/ArenaModel.ts';
-import { ArenaView } from '../view/Babylon/ArenaView.ts';
-import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import { ArenaModel } from '@building/model/ArenaModel.ts';
+import { ArenaView } from '@building/view/Babylon/ArenaView.ts';
+import { Reactable, ViewInitable } from '@/core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
-import { ArenaLayout, ArenaLayoutProps } from '../view/React/ArenaLayout.tsx';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
+import { ArenaLayout, ArenaLayoutProps } from '@building/view/React/ArenaLayout.tsx';
+import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import React from 'react';
-import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { TournamentPresenter } from '../../tournament/presenter/TournamentPresenter.ts';
-import { TournamentDifficulty } from '../../tournament/model/TournamentDifficulty.ts';
+import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { TournamentPresenter } from '@tournament/presenter/TournamentPresenter.ts';
+import { TournamentDifficulty } from '@tournament/model/TournamentDifficulty.ts';
 import { BuildingPresenter } from './BuildingPresenter.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class ArenaPresenter implements ViewInitable, Reactable {
   private readonly _arena: ArenaModel;
@@ -51,11 +53,13 @@ export class ArenaPresenter implements ViewInitable, Reactable {
 
   public openModal(): void {
     this._modalIsOpen = true;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().openModal(this);
   }
 
   public closeModal(): void {
     this._modalIsOpen = false;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
   }
 

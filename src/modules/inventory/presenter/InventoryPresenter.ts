@@ -1,6 +1,6 @@
 import { Inventory } from '../model/Inventory';
-import { gameObjects } from '../../object/model/UsableObject';
-import { Character } from '../../character/model/Character.ts';
+import { gameObjects } from '@object/model/UsableObject.ts';
+import { Character } from '@character/model/Character.ts';
 
 export class InventoryPresenter {
   getDefaultInventories(characterList: Character[]): Inventory[] {

@@ -1,8 +1,8 @@
 import { TypesBiome } from './BiomeAbstractModel.ts';
-import { TileModel, TypesTile } from '../TileModel.ts';
-import { MapModel } from '../MapModel.ts';
-import { GraphTilesModelGenerator } from '../utils/GraphTilesModelGenerator.ts';
-import { GraphTilesModel } from '../GraphTilesModel.ts';
+import { TileModel, TypesTile } from '@map/model/TileModel.ts';
+import { MapModel } from '@map/model/MapModel.ts';
+import { GraphTilesModelGenerator } from '@map/model/utils/GraphTilesModelGenerator.ts';
+import { GraphTilesModel } from '@map/model/GraphTilesModel.ts';
 
 /**
  * This class represents a sub-biome of the map.

@@ -1,6 +1,6 @@
 import { ArcRotateCamera, ICameraInput, Matrix, Nullable, Vector3 } from '@babylonjs/core';
-import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
-import { config, debugConfig } from '../../../../core/Interfaces.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { config, debugConfig } from '@/core/Interfaces.ts';
 
 /**
  * This class represents the keyboard input controls for the ArcRotateCamera in the Babylon.js engine.
@@ -390,14 +390,14 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
     this._keys = [];
     this.camera!.setPosition(
       new Vector3(
-        config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.x,
+        config.map.view.mapPresenter.defaultOptions.size * 1.5,
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.y,
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.direction.z,
       ),
     );
     this.camera!.setTarget(
       new Vector3(
-        config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.x,
+        config.map.view.mapPresenter.defaultOptions.size * 1.5,
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.y,
         config.arcRotateCameraKeyboardInputs.resetPositionCamera.target.z,
       ),

@@ -22,5 +22,11 @@
       "resetPositionCamera": false
     }
   },
-  "activateDevCamera": false
+  "activateDevCamera": false,
+  "babylonInspector": {
+    "enabled": false,
+    "options": {
+      "overlay": true
+    }
+  }
 }

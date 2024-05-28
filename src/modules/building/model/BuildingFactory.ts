@@ -1,13 +1,13 @@
-import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { TypesTile } from '../../map/model/TileModel.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
 import { ArenaModel } from './ArenaModel.ts';
 import { TrainingCenterModel } from './TrainingCenterModel.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
-import { getPosition, PositionTypes } from '../../map/core/GamePlacer.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { TournamentManagerPresenter } from '../../tournament/presenter/TournamentManagerPresenter.ts';
+import { config } from '@core/Interfaces.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
 import { BuildingPresenter } from '../presenter/BuildingPresenter.ts';
 
 type BuildingFactoryOptions = {

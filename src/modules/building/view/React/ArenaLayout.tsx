@@ -1,11 +1,11 @@
 import { Button, Divider, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React from 'react';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
-import { TournamentView } from '../../../tournament/view/React/TournamentView.tsx';
-import { TournamentPreView } from '../../../tournament/view/React/TournamentPreView.tsx';
-import { ModalManager } from '../../../../core/singleton/ModalManager.ts';
-import { TournamentBracketView } from '../../../tournament/view/React/TournamentBracketView.tsx';
-import { TournamentEndView } from '../../../tournament/view/React/TournamentEndView.tsx';
+import { TournamentView } from '@tournament/view/React/TournamentView.tsx';
+import { TournamentPreView } from '@tournament/view/React/TournamentPreView.tsx';
+import { ModalManager } from '@core/singleton/ModalManager.ts';
+import { TournamentBracketView } from '@tournament/view/React/TournamentBracketView.tsx';
+import { TournamentEndView } from '@tournament/view/React/TournamentEndView.tsx';
 import CharacterLayout from '../../../character/view/React/CharacterLayout.tsx';
 
 export interface ArenaLayoutProps {

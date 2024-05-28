@@ -1,6 +1,6 @@
-import { Sport } from '../../../core/singleton/Sport.ts';
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
-import { TypesTile } from '../../map/model/TileModel.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
+import { Sport } from '@core/singleton/Sport.ts';
 
 export class ArenaModel {
   private static readonly DEFAULT_ROTATION: number = 5;

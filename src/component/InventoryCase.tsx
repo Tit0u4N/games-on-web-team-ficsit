@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { UsableObjectView } from '../modules/object/view/React/UsableObjectView.tsx';
-import { UsableObject } from '../modules/object/model/UsableObject.ts';
+import { UsableObjectView } from '@object/view/React/UsableObjectView.tsx';
+import { UsableObject } from '@object/model/UsableObject.ts';
 import { DnDItemManager } from '../core/singleton/DndItemManager.ts';
-import { Inventory } from '../modules/inventory/model/Inventory.ts';
-import { EquippedObjectSlot } from '../modules/inventory/model/EquippedObjects.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { EquippedObjectSlot } from '@inventory/model/EquippedObjects.ts';
 
 type InventoryCaseProps = {
   inventory: Inventory;
