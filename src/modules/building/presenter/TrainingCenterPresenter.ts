@@ -1,11 +1,13 @@
-import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import { Reactable, ViewInitable } from '@core/Interfaces.ts';
 import { Scene } from '@babylonjs/core';
 import { TrainingCenterModel } from '../model/TrainingCenterModel.ts';
 import { TrainingCenterView } from '../view/Babylon/TrainingCenterView.ts';
 import React from 'react';
 import { TrainingCenterLayout, TrainingCenterLayoutProps } from '../view/React/TrainingCenterLayout.tsx';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
-import { Character } from '../../character/model/Character.ts';
+import { ModalManager } from '@core/singleton/ModalManager.ts';
+import { Character } from '@character/model/Character.ts';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;
@@ -32,11 +34,13 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
 
   public openModal(): void {
     this._modalIsOpen = true;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().openModal(this);
   }
 
   public closeModal(): void {
     this._modalIsOpen = false;
+    GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
   }
 

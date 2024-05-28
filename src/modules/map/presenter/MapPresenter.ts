@@ -5,6 +5,7 @@ import { IGraphTiles } from '@map/model/GraphTilesModel.ts';
 import { getPosition, getCharacterPositionOnTile, PositionTypes } from '@map/core/GamePlacer.ts';
 import { config, ViewInitable } from '@/core/Interfaces.ts';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
+import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
 
 type MapPresenterOptions = {
   size?: number;
@@ -153,6 +154,7 @@ export class MapPresenter implements ViewInitable {
       if (!tileModel.isWalkable()) return;
       const distance = this._mapModel.displacementGraph.getDistance(characterTile, tileModel);
       if (distance > selectedCharacter.attributes.movement) return;
+      GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.DEPLACEMENT);
       selectedCharacter.tile?.removeCharacter(selectedCharacter);
       selectedCharacter.removeMovementPoints(distance);
       tileModel.addCharacter(selectedCharacter);
