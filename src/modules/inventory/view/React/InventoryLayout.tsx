@@ -1,14 +1,4 @@
-import {
-  Card,
-  Divider,
-  Image,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from '@nextui-org/react';
+import { Card, Divider, Image, Slider } from '@nextui-org/react';
 import React from 'react';
 import { InventoryCase } from '@/component/InventoryCase.tsx';
 import { Inventory } from '../../model/Inventory.ts';
@@ -38,42 +28,46 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
           <Divider orientation={'vertical'} />
 
           <div className="w-[75%] h-full flex rounded-xl bg-case">
-            <Table
-              className="max-h-full"
-              removeWrapper
-              hideHeader
-              classNames={{
-                base: 'max-h-full',
-                table: 'max-h-full',
-                tr: 'h-1/6',
-              }}>
-              <TableHeader>
-                <TableColumn>Icon</TableColumn>
-                <TableColumn>Sport</TableColumn>
-                <TableColumn>Stat</TableColumn>
-                <TableColumn>Bonus</TableColumn>
-              </TableHeader>
-              <TableBody className="max-h-[100%]">
+            <div className="max-h-full w-full">
+              <div className="h-[100%] grid grid-rows-6 my-1 mx-1">
                 {Array.from(inventory.character.statistics.keys()).map((sport, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <Image src={sport.iconPath} className={'max-h-[30px]'} />{' '}
-                    </TableCell>
-                    <TableCell>{sport.name}</TableCell>
-                    <TableCell>{inventory.character.statistics.get(sport)}</TableCell>
-                    <TableCell>
-                      {inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
-                        inventory.character.statistics.get(sport) >
-                      0
-                        ? '+' +
-                          (inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
-                            inventory.character.statistics.get(sport))
-                        : ''}
-                    </TableCell>
-                  </TableRow>
+                  <div key={index} className="h-1/6 max-h-[16.66%]">
+                    <div className="grid grid-cols-5">
+                      <div>
+                        <Image src={sport.iconPath} className={'max-h-[25px]'} />{' '}
+                      </div>
+                      <div className="col-span-2">{sport.name}</div>
+                      <div>{inventory.character.statistics.get(sport)}</div>
+                      <div>
+                        {inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
+                          inventory.character.statistics.get(sport) >
+                        0
+                          ? '+' +
+                            (inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
+                              inventory.character.statistics.get(sport))
+                          : ''}
+                      </div>
+                    </div>
+                    <div>
+                      <Slider
+                        aria-label="Player progress"
+                        color="primary"
+                        hideThumb={true}
+                        size="sm"
+                        value={
+                          inventory.character
+                            .getStatsWithEffect(gameCorePresenter.getCurrentSeason())
+                            .getPercentage(sport).percentageFilled
+                        }
+                        minValue={0}
+                        maxValue={100}
+                        className="max-w-[90%] mx-auto"
+                      />
+                    </div>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

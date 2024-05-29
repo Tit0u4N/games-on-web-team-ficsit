@@ -1,6 +1,7 @@
 import { Inventory } from '../model/Inventory';
-import { gameObjects } from '@object/model/UsableObject.ts';
+import { getRandomUsableObject } from '@object/model/UsableObject.ts';
 import { Character } from '@character/model/Character.ts';
+import { ObjectRarity } from '@object/model/ObjectRarity.ts';
 
 export class InventoryPresenter {
   getDefaultInventories(characterList: Character[]): Inventory[] {
@@ -8,22 +9,10 @@ export class InventoryPresenter {
     const inventory2 = characterList[1].inventory;
     const inventory3 = characterList[2].inventory;
 
-    for (let i = 0; i < 10; i++) {
-      // Add a random UsableObject from the gameObjects array to each inventory
-      const randomIndex = Math.floor(Math.random() * gameObjects.length);
-      const randomUsableObject = gameObjects[randomIndex];
-
-      inventory1.addItem(randomUsableObject);
-
-      if (i % 2 === 0) {
-        inventory1.addItem(randomUsableObject);
-      }
-
-      inventory2.addItem(gameObjects[Math.floor(randomIndex / 2)]);
-
-      if (i % 3 === 0) {
-        inventory3.addItem(randomUsableObject);
-      }
+    for (let i = 0; i < 3; i++) {
+      inventory1.addItem(getRandomUsableObject(ObjectRarity.COMMON));
+      inventory2.addItem(getRandomUsableObject(ObjectRarity.COMMON));
+      inventory3.addItem(getRandomUsableObject(ObjectRarity.COMMON));
     }
 
     return [inventory1, inventory2, inventory3];
