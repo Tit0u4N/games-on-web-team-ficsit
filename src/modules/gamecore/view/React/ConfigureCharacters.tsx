@@ -126,7 +126,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     const currentStat = newCharacters[index].stats[sport];
 
     const newStatValue = currentStat + change;
-    if (newStatValue >= 5 && newStatValue <= 20 && currentPoints - change >= 0) {
+    if (newStatValue >= 5 && newStatValue <= 15 && currentPoints - change >= 0) {
       newCharacters[index].stats[sport] = newStatValue;
       setCharacters(newCharacters);
       setPointsLeft((prev) => {
@@ -164,7 +164,6 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
         for (const sport of sports) {
           stats.set(sport, character.stats[sport.name]);
         }
-        console.log(stats, character.stats);
         characterObj.statistics = Statistics.createFromLevelMap(stats);
         charactersOfSet.add(characterObj);
       });
