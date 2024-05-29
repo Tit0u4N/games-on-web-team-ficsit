@@ -5,7 +5,7 @@ import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import GameCharacterLayout from '@character/view/React/GameCharacterLayout';
 import InventoriesModal from '@inventory/view/React/InventoriesModal.tsx';
 import RulesLayout from '@event/view/React/RulesLayout.tsx';
-import { Reactable } from '@/core/Interfaces.ts';
+import { config, Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
@@ -97,8 +97,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   return (
     <div>
-      {showSpeechBox && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
-      {showSpeechBox &&
+      {showSpeechBox && config.narratorBox.enabled && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
+      {showSpeechBox && config.narratorBox.enabled &&
         <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>} {/* Overlay to block interactions */}
       <div className={'HUD-container'}>
         {!showSpeechBox && (

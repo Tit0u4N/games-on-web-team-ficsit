@@ -455,5 +455,8 @@
       "title": "Additional Notes",
       "content": "Players must balance training, competing in tournaments, and managing equipment to optimize character development. The combination of strategic planning and chance (via d20 rolls) provides a dynamic and engaging gameplay experience."
     }
-  ]
+  ],
+  "narratorBox": {
+    "enabled": true
+  }
 }
