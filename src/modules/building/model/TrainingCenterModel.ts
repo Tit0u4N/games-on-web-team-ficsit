@@ -80,7 +80,6 @@ export class TrainingCenterModel implements DiceHandler {
     const numberOfSportsSelected = Math.floor(Math.random() * Sport.getAll().length) + 1;
     // Get the seasons
     const season = this.mapPresenter.gameCorePresenter.getCurrentSeason();
-    console.log('Season:', season, this.mapPresenter.gameCorePresenter.getCurrentSeason());
     // Select the number of sport randomly and not repeat them
     const sportsBySeason: Sport[] = [];
     sportsBySeason.push(...Sport.getBySeason(season));
@@ -130,7 +129,6 @@ export class TrainingCenterModel implements DiceHandler {
     this._rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
     if (this._rotation < 0) {
-      console.log('Changing sports', this._tileX, this._tileY);
       this._rotation = Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) + TrainingCenterModel.MIN_ROTATION;
       this._sports = this.getSports();
     }

@@ -1,23 +1,25 @@
 import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { TypesTile } from '@map/model/TileModel.ts';
 import { Sport } from '@core/singleton/Sport.ts';
+import { config } from '@core/Interfaces.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
 
 export class ArenaModel {
-  private static readonly DEFAULT_ROTATION: number = 5;
-  private _sportType: Sport[];
-  private _actualSport: Sport;
+  private static readonly MIN_ROTATION: number = config.building.model.arenaModel.minRotation;
+  private static readonly MAX_ROTATION: number = config.building.model.arenaModel.maxRotation;
+  private _sport!: Sport;
   private rotation: number;
   private _position: { x: number; y: number; type: TypesTile };
   private _roundWaiting: number;
   private _name: string;
   private _arenaPresenter!: ArenaPresenter;
+  private mapPresenter: MapPresenter;
 
-  constructor(sportType: Sport[], position: { x: number; y: number; type: TypesTile }, name: string) {
-    this._sportType = sportType;
+  constructor(mapPresenter: MapPresenter, position: { x: number; y: number; type: TypesTile }, name: string) {
+    this.mapPresenter = mapPresenter;
     this._position = position;
     this._roundWaiting = 0;
     this.rotation = 0;
-    this._actualSport = this._sportType[0];
     this._name = name;
   }
 
@@ -25,11 +27,19 @@ export class ArenaModel {
     if (this.rotation > 0) {
       this.rotation--;
     } else {
-      this.rotation = ArenaModel.DEFAULT_ROTATION;
-      const index = this._sportType.indexOf(this._actualSport);
-      this._actualSport = this._sportType[(index + 1) % this._sportType.length];
-      this._arenaPresenter.updateTournament(this._actualSport);
+      console.log('updateSport', this.position.x, this.position.y);
+      this.rotation = Math.floor(Math.random() * (ArenaModel.MAX_ROTATION - ArenaModel.MIN_ROTATION + 1)) + ArenaModel.MIN_ROTATION;
+      this._sport = this.getSport();
+      this._arenaPresenter.updateTournament(this._sport);
     }
+  }
+
+  private getSport(): Sport {
+    const season = this.mapPresenter.gameCorePresenter.getCurrentSeason();
+    const sportsBySeason: Sport[] = [];
+    sportsBySeason.push(...Sport.getBySeason(season));
+    console.log('getSport', sportsBySeason);
+    return sportsBySeason[Math.floor(Math.random() * sportsBySeason.length)];
   }
 
   get position(): { x: number; y: number; type: TypesTile } {

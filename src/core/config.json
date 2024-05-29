@@ -102,6 +102,10 @@
       "trainingCenterModel": {
         "minRotation": 5,
         "maxRotation": 8
+      },
+      "arenaModel": {
+        "minRotation": 5,
+        "maxRotation": 8
       }
     },
     "view": {
