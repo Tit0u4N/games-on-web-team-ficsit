@@ -83,7 +83,8 @@ interface ITrainingCenterUserChoicesConfig {
 }
 
 interface ITrainingCenterModelConfig {
-  defaultRotation: number;
+  minRotation: number;
+  maxRotation: number;
 }
 
 interface IBuildingFactoryConfig {

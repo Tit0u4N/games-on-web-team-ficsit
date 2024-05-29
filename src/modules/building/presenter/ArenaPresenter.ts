@@ -35,8 +35,8 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     this._buildingPresenter = buildingPresenter;
   }
 
-  initView(scene: Scene) {
-    this._arenaView.initView(scene);
+  async initView(scene: Scene) {
+    await this._arenaView.initView(scene);
   }
 
   get arena(): ArenaModel {
