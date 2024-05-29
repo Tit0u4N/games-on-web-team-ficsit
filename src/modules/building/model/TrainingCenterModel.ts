@@ -1,11 +1,11 @@
 import { Scene, Vector3 } from '@babylonjs/core';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { DiceHandler, DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { Character } from '../../character/model/Character.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { Statistics } from '../../character/model/Statistics.ts';
-import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { ITile, TypesTile } from '../../map/model/TileModel.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { DiceHandler, DicePresenter } from '@dice/presenter/DicePresenter.ts';
+import { Character } from '@character/model/Character.ts';
+import { config } from '@core/Interfaces.ts';
+import { Statistics } from '@character/model/Statistics.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { ITile, TypesTile } from '@map/model/TileModel.ts';
 import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoiceCards.tsx';
 import { State, TrainingCenterLayoutState } from '../view/React/TrainingCenterLayout.tsx';
 
@@ -178,14 +178,14 @@ export class TrainingCenterModel implements DiceHandler {
       // remove one round from the character
       characterEffect.rounds--;
       this._differentStates.get(characterEffect.character)!.messageContent =
-        `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} stats.`;
+        `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} xp.`;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
         // for each sport stats add the stats to the character
         for (const sport of characterEffect.sports) {
           const statistic = new Map<Sport, number>();
           statistic.set(sport, characterEffect.stats);
-          characterEffect.character.statistics.addStat(new Statistics(statistic));
+          characterEffect.character.statistics.addStatXp(new Statistics(statistic));
         }
         this._differentStates.delete(characterEffect.character);
       } else {
