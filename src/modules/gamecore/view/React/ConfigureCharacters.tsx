@@ -101,18 +101,19 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   }, [characters, pointsLeft]);
 
   const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
-    // If the field is age and the input is between 10 and 99, update the age
+    const newCharacters = [...characters];
     if (field === 'age') {
-      const age = parseInt(value, 10);
+      const age = parseInt(value as string, 10);
       if (age >= 10 && age <= 99) {
-        const newCharacters = [...characters];
         newCharacters[index] = { ...newCharacters[index], age };
         setCharacters(newCharacters);
         return;
       }
+    } else if (field === 'nationality') {
+      newCharacters[index] = { ...newCharacters[index], nationality: new Country(value as CountryCode) };
+    } else {
+      newCharacters[index] = { ...newCharacters[index], [field]: value };
     }
-    const newCharacters = [...characters];
-    newCharacters[index] = { ...newCharacters[index], [field]: value };
     setCharacters(newCharacters);
   };
 
