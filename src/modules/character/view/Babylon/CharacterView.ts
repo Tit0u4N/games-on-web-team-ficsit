@@ -53,7 +53,7 @@ export class CharacterView implements ViewInitable {
         value: pawn.mesh.position,
       });
       keys.push({
-        frame: distance / 0.1,
+        frame: distance / 0.25,
         value: position,
       });
       animationBox.setKeys(keys);
