@@ -9,6 +9,7 @@ import { Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
+import SpeechBox from '@gamecore/view/React/SpeechBox.tsx';
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -30,10 +31,10 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [isInventoryOpen, setIsInventoryOpen] = React.useState(false);
   const [isRulesOpen, setIsRulesOpen] = React.useState(false);
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [showSpeechBox, setShowSpeechBox] = React.useState(true); // State to manage the visibility of the SpeechBox
 
   ModalManager.createInstance(setModalToShow);
-
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const toggleModal = (type: ModalType, isOpen: boolean) => {
     GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
@@ -82,21 +83,38 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
     if (zoomOutTimeout.current) clearInterval(zoomOutTimeout.current);
   };
 
+  const speechTexts = [
+    'Welcome to the game! Here is a quick summary of the rules.',
+    'Train your characters over 48 turns to compete in the JO.',
+    'Use Training Centers to improve stats and participate in Arenas to compete in tournaments.',
+    'Seasons impact training, tournaments, and equipment effectiveness.',
+    'Make strategic decisions to succeed in the JO. Good luck!',
+  ];
+
+  const handleSpeechComplete = () => {
+    setShowSpeechBox(false);
+  };
+
   return (
     <div>
+      {showSpeechBox && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
+      {showSpeechBox &&
+        <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>} {/* Overlay to block interactions */}
       <div className={'HUD-container'}>
-        <RoundStatusBar
-          nextRound={() => {
-            presenter.nextRound();
-            const result = presenter.buildingPresenter!.isAllCharactersReady();
-            if (!result) {
-              setIsModalVisible(true);
-            }
-          }}
-          round={presenter.getCurrentRound()}
-          toggleModal={toggleModal}
-          isModalOpen={isModalOpen}
-        />
+        {!showSpeechBox && (
+          <RoundStatusBar
+            nextRound={() => {
+              presenter.nextRound();
+              const result = presenter.buildingPresenter!.isAllCharactersReady();
+              if (!result) {
+                setIsModalVisible(true);
+              }
+            }}
+            round={presenter.getCurrentRound()}
+            toggleModal={toggleModal}
+            isModalOpen={isModalOpen}
+          />
+        )}
         <div>
           {isInventoryOpen && (
             <InventoriesModal
