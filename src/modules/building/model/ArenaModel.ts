@@ -27,7 +27,6 @@ export class ArenaModel {
     if (this.rotation > 0) {
       this.rotation--;
     } else {
-      console.log('updateSport', this.position.x, this.position.y);
       this.rotation = Math.floor(Math.random() * (ArenaModel.MAX_ROTATION - ArenaModel.MIN_ROTATION + 1)) + ArenaModel.MIN_ROTATION;
       this._sport = this.getSport();
       this._arenaPresenter.updateTournament(this._sport);
@@ -38,7 +37,6 @@ export class ArenaModel {
     const season = this.mapPresenter.gameCorePresenter.getCurrentSeason();
     const sportsBySeason: Sport[] = [];
     sportsBySeason.push(...Sport.getBySeason(season));
-    console.log('getSport', sportsBySeason);
     return sportsBySeason[Math.floor(Math.random() * sportsBySeason.length)];
   }
 
