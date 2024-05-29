@@ -83,7 +83,13 @@ interface ITrainingCenterUserChoicesConfig {
 }
 
 interface ITrainingCenterModelConfig {
-  defaultRotation: number;
+  minRotation: number;
+  maxRotation: number;
+}
+
+interface IArenaModelConfig {
+  minRotation: number;
+  maxRotation: number;
 }
 
 interface IBuildingFactoryConfig {
@@ -112,6 +118,7 @@ interface IBuildingConfig {
   model: {
     buildingFactory: IBuildingFactoryConfig;
     trainingCenterModel: ITrainingCenterModelConfig;
+    arenaModel: IArenaModelConfig;
   };
   view: {
     trainingCenter: ITrainingCenterViewConfig;

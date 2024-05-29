@@ -6,7 +6,6 @@ import { ArenaPresenter } from '../presenter/ArenaPresenter.ts';
 import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
 import { TrainingCenterPresenter } from '../presenter/TrainingCenterPresenter.ts';
 import { config } from '@core/Interfaces.ts';
-import { Sport } from '@core/singleton/Sport.ts';
 import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
 import { BuildingPresenter } from '../presenter/BuildingPresenter.ts';
 
@@ -33,7 +32,7 @@ export class BuildingFactory {
       spacing: config.building.model.buildingFactory.trainingCenter.spacing,
     },
   };
-  private mapPresenter: MapPresenter;
+  private readonly mapPresenter: MapPresenter;
 
   constructor(mapPresenter: MapPresenter, options?: BuildingFactoryOptions) {
     this.mapPresenter = mapPresenter;
@@ -49,8 +48,6 @@ export class BuildingFactory {
     buildingPresenter: BuildingPresenter,
     tournamentManagerPresenter: TournamentManagerPresenter,
   ): ArenaPresenter[] {
-    const springSports = Sport.getBySeason('SPRING');
-    const summerSports = Sport.getBySeason('SUMMER');
     const arenas: ArenaPresenter[] = [];
     const notConstructible = [TypesTile.MOUNTAIN, TypesTile.DEEP_WATER, TypesTile.WATER, TypesTile.SNOW];
     let index: number = 0;
@@ -65,7 +62,7 @@ export class BuildingFactory {
         const arenaPresenter = new ArenaPresenter(
           buildingPresenter,
           new ArenaModel(
-            Math.random() > 0.5 ? summerSports : springSports,
+            this.mapPresenter,
             { x: x, y: z, type: tempTileModel.type },
             'Arena ' + arenas.length,
           ),
