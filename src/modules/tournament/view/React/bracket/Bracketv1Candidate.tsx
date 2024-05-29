@@ -1,6 +1,6 @@
 import { Avatar, Badge } from '@nextui-org/react';
 import React from 'react';
-import { Country } from '../../../../../core/Country.tsx';
+import { Country } from '@core/Country.tsx';
 
 type Props = {
   candidate: Candidate;

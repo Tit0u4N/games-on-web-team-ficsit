@@ -1,8 +1,8 @@
 import { MapModel } from '../MapModel.ts';
 import { BiomeAbstractModel, TypesBiome } from './BiomeAbstractModel.ts';
 import { SubBiomeModel } from './SubBiomeModel.ts';
-import { CoupleTileIndex, SubBiomeTilesIdentifier } from '../utils/SubBiomeTilesIdentifier.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { CoupleTileIndex, SubBiomeTilesIdentifier } from '@map/model/utils/SubBiomeTilesIdentifier.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export class BiomeMountainModel extends BiomeAbstractModel {
   private subBiomes: SubBiomeModel[] = [];

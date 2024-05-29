@@ -1,17 +1,17 @@
-import { CharacterFactory } from '../BuilderFactory/CharacterFactory';
-import { Character } from '../model/Character';
-import { CharacterView } from '../view/Babylon/CharacterView.ts';
+import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory';
+import { Character } from '@character/model/Character';
+import { CharacterView } from '@character/view/Babylon/CharacterView.ts';
 import { Scene } from '@babylonjs/core';
-import { GameCorePresenter } from '../../gamecore/presenter/GameCorePresenter.ts';
 import { Country } from '../../../core/Country.tsx';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 export class CharacterPresenter {
   private readonly _characters: Set<Character>;
   private readonly _characterView: CharacterView;
   private readonly _gameCorePresenter: GameCorePresenter;
 
-  constructor(gameCorePresenter: GameCorePresenter) {
-    this._characters = CharacterPresenter.getDefaultCharacters();
+  constructor(gameCorePresenter: GameCorePresenter, characters?: Set<Character>) {
+    this._characters = characters || CharacterPresenter.getDefaultCharacters();
     this._characterView = new CharacterView(this);
     this._gameCorePresenter = gameCorePresenter;
   }

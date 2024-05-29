@@ -1,5 +1,5 @@
-import { MapModel } from '../MapModel.ts';
-import { Noise } from '../../core/Noise.ts';
+import { MapModel } from '@map/model/MapModel.ts';
+import { Noise } from '@map/core/Noise.ts';
 import { BiomeAbstractModel, TypesBiome } from './BiomeAbstractModel.ts';
 
 export class BiomePlainModel extends BiomeAbstractModel {

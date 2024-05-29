@@ -1,7 +1,7 @@
-import { CharacterPresenter } from '../../presenter/CharacterPresenter.ts';
+import { CharacterPresenter } from '@character/presenter/CharacterPresenter.ts';
 import { PawnView } from './PawnView.ts';
 import { Animation, Scene, Vector3 } from '@babylonjs/core';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
 
 export class CharacterView implements ViewInitable {
   private readonly characterPresenter: CharacterPresenter;
@@ -20,10 +20,14 @@ export class CharacterView implements ViewInitable {
   async initPawns(scene: Scene): Promise<void> {
     this.scene = scene;
     for (const character of this.characterPresenter.characters) {
-      const pawn = new PawnView(character.id, this.scene, this.getColorById(character.id), this);
-      await pawn.importMesh();
-      this.pawnSet.add(pawn);
-      pawn.addPointerEvent();
+      const pawn = new PawnView(character.id, this.scene, this);
+      if (character.modelName && character.modelPath) {
+        await pawn.importMesh(character.modelName, character.modelPath);
+        // log the mesh
+        console.log('initPawns', pawn.mesh);
+        this.pawnSet.add(pawn);
+        pawn.addPointerEvent();
+      }
     }
   }
 
@@ -34,6 +38,7 @@ export class CharacterView implements ViewInitable {
         pawn.mesh.position = position;
         return;
       }
+      pawn.startAnimations();
       const animationBox = new Animation(
         'deplacementAnimation',
         'position',
@@ -48,7 +53,7 @@ export class CharacterView implements ViewInitable {
         value: pawn.mesh.position,
       });
       keys.push({
-        frame: distance / 1.5,
+        frame: distance / 0.1,
         value: position,
       });
       animationBox.setKeys(keys);
@@ -57,20 +62,8 @@ export class CharacterView implements ViewInitable {
       this.scene?.beginAnimation(pawn.mesh, 0, 100, false, 2, () => {
         mesh.position = position;
         mesh.animations = [];
+        pawn.stopAnimations();
       });
-    }
-  }
-
-  private getColorById(id: number): string {
-    switch (id) {
-      case 1:
-        return '#ff0000';
-      case 2:
-        return '#00ff00';
-      case 3:
-        return '#0000ff';
-      default:
-        return '#1d0038';
     }
   }
 

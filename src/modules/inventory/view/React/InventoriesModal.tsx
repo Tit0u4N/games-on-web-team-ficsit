@@ -1,9 +1,9 @@
 import React from 'react';
-import { Inventory } from '../../model/Inventory.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
 import { InventoryLayout } from './InventoryLayout.tsx';
-import { GameCorePresenter } from '../../../gamecore/presenter/GameCorePresenter.ts';
+import { ModalType } from '@gamecore/view/React/GameView.tsx';
+import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 
 export interface InventoryModalProps {
   inventories: Inventory[];
@@ -43,9 +43,6 @@ const InventoriesModal: React.FC<InventoryModalProps> = ({
             <ModalFooter>
               <Button color="danger" variant="light" onPress={handleClose}>
                 Close
-              </Button>
-              <Button color="primary" onPress={handleClose}>
-                Action
               </Button>
             </ModalFooter>
           </>

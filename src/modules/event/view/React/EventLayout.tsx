@@ -1,7 +1,7 @@
 import React from 'react';
-import { EventModel } from '../../model/EventModel.ts';
+import { EventModel } from '@event/model/EventModel.ts';
 import { Button, Card, CardBody, CardHeader, Divider, Image } from '@nextui-org/react';
-import { ModalType } from '../../../gamecore/view/React/GameView.tsx';
+import { ModalType } from '@gamecore/view/React/GameView.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export interface InventoryLayoutProps {

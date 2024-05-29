@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, Image, CardBody, Divider, Avatar, Badge } from '@nextui-org/react';
-import { Character } from '../../model/Character';
-import { Season } from '../../../../core/singleton/Season.ts';
+import { Card, Image, CardBody, Divider, Badge, Avatar } from '@nextui-org/react';
+import { Character } from '@character/model/Character';
+import { Season } from '@core/singleton/Season.ts';
 
 interface CharacterLayoutProps {
   character: Character;

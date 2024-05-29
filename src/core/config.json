@@ -62,9 +62,9 @@
         "keysDown": ["s", "ArrowDown"],
         "keysLeft": ["q", "ArrowLeft"],
         "keysRight": ["d", "ArrowRight"],
-        "keysZoomIn": ["+", "a"],
-        "keysZoomOut": ["-", "e"],
-        "resetPosition": ["r", "à"]
+        "keysZoomIn": ["+"],
+        "keysZoomOut": ["-"],
+        "resetPosition": ["r"]
       }
     },
     "config": {
@@ -276,6 +276,28 @@
             "default9": "#F00FF0"
           }
         }
+      },
+      "mapPresenter":  {
+        "defaultOptions": {
+          "size": 60,
+          "seed": null
+        }
+      }
+    }
+  },
+  "modifiableOptions": {
+    "decorations": {
+      "trees": {
+        "low": 0,
+        "medium": 15,
+        "high": 22,
+        "ultra": 30
+      },
+      "rocks": {
+        "low": 0,
+        "medium": 3,
+        "high": 5,
+        "ultra": 7
       }
     }
   },
@@ -346,8 +368,18 @@
     "basePath": ""
   },
   "character": {
-    "inventory": {
-      "maxItems": 20
+    "view": {
+      "babylon": {
+        "pawnView": {
+          "defaultScaling": 2,
+          "selectedScaling": 2.1
+        }
+      }
+    },
+    "model": {
+      "inventory": {
+        "maxItems": 20
+      }
     }
   }
 }

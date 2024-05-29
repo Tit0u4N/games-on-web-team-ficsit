@@ -1,11 +1,12 @@
 import { TileView } from './TileView.ts';
 import { TileViewFactory } from './TileViewFactory.ts';
-import { IMap } from '../../model/MapModel.ts';
+import { IMap } from '@map/model/MapModel.ts';
 import { Mesh, Scene } from '@babylonjs/core';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
-import { MapPresenter } from '../../presenter/MapPresenter.ts';
-import { TypesTile } from '../../model/TileModel.ts';
-import { getPosition, PositionTypes } from '../../core/GamePlacer.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
+import { DecorsSet } from './decor/DecorsSet.ts';
 
 export interface MapLimits {
   left: number;
@@ -42,6 +43,7 @@ export class MapView implements ViewInitable {
     this.tiles = this.mapModelToView(this._mapModel);
     if (this.tiles.length === 0) throw new Error('No tiles found');
     this.tileFactory = new TileViewFactory(this._scene);
+    this.addDecors(scene);
   }
 
   /**
@@ -64,7 +66,6 @@ export class MapView implements ViewInitable {
         tempTiles[x].push(tempTile);
       }
     }
-
     return tempTiles;
   }
 
@@ -123,5 +124,22 @@ export class MapView implements ViewInitable {
       cameraHeight,
       cameraTiltAngle,
     };
+  }
+
+  addDecors(scene: Scene): DecorsSet[] {
+    const tiles = this.tiles.flat();
+
+    const treesDecors = DecorsSet.createTreesSet();
+    const rocksDecors = DecorsSet.createRocksSet();
+
+    tiles.forEach((tile) => {
+      tile.addForest(treesDecors);
+      tile.addRocks(rocksDecors);
+    });
+
+    treesDecors.initView(scene);
+    rocksDecors.initView(scene);
+
+    return [treesDecors];
   }
 }

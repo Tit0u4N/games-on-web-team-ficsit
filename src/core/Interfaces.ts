@@ -1,4 +1,4 @@
-import { Scene } from '@babylonjs/core';
+import { IInspectorOptions, Scene } from '@babylonjs/core';
 import * as configJson from './config.json';
 import * as debugConfigJson from './debugConfig.json';
 
@@ -196,9 +196,17 @@ interface ITileViewFactoryConfig {
   getColor: ITileViewFactoryGetColorConfig;
 }
 
+interface IMapPresenterConfig {
+  defaultOptions: {
+    size: number;
+    seed: string | null;
+  };
+}
+
 interface IMapViewConfig {
   tileView: ITileViewConfig;
   tileViewFactory: ITileViewFactoryConfig;
+  mapPresenter: IMapPresenterConfig;
 }
 
 interface INoiseMapConfig {
@@ -253,6 +261,20 @@ interface IMapConfig {
   view: IMapViewConfig;
 }
 
+type OptionLevel = {
+  low: number;
+  medium: number;
+  high: number;
+  ultra: number;
+};
+
+interface IModifiableOptions {
+  decorations: {
+    trees: OptionLevel;
+    rocks: OptionLevel;
+  };
+}
+
 interface ISportConfig {
   all: { name: string; icon: string; description: string; seasons: string[] }[];
 }
@@ -269,10 +291,26 @@ interface IUsableObjectConfig {
   basePath: string;
 }
 
-interface ICharacterConfig {
+interface ICharacterViewBabylonConfig {
+  pawnView: {
+    defaultScaling: number;
+    selectedScaling: number;
+  };
+}
+
+interface ICharacterViewConfig {
+  babylon: ICharacterViewBabylonConfig;
+}
+
+interface ICharacterModelConfig {
   inventory: {
     maxItems: number;
   };
+}
+
+interface ICharacterConfig {
+  view: ICharacterViewConfig;
+  model: ICharacterModelConfig;
 }
 
 interface IConfig {
@@ -280,6 +318,7 @@ interface IConfig {
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
   building: IBuildingConfig;
   map: IMapConfig;
+  modifiableOptions: IModifiableOptions;
   sports: ISportConfig;
   seasons: ISeasonConfig;
   statistics: IStatisticsConfig;
@@ -320,6 +359,10 @@ interface ILogDebugConfig {
 interface IDebugConfig {
   logs: ILogDebugConfig;
   activateDevCamera: boolean;
+  babylonInspector: {
+    enabled: boolean;
+    options: IInspectorOptions;
+  };
 }
 
 export const debugConfig: IDebugConfig = debugConfigJson;
