@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Card, CardBody, CardHeader, Divider, Kbd } from '@nextui-org/react';
+import React, { useState } from 'react';
+import { Button, Card, CardBody, CardFooter, CardHeader, Divider, Kbd } from '@nextui-org/react';
 import { ModalType } from '@gamecore/view/React/GameView.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { config } from '@core/Interfaces.ts';
@@ -22,7 +22,21 @@ export const RulesLayout: React.FC<InventoryLayoutProps> = ({ toggleModal, isMod
 
   const gameSummaryParagraphs = gameSummary.split('\n');
 
-  return (
+    const [currentPage, setCurrentPage] = useState(0);
+    const rulesPerPage = 1;
+
+    const handleNextPage = () => {
+      setCurrentPage((prevPage) => (prevPage + 1) % Math.ceil(config.rules.length / rulesPerPage));
+    };
+
+    const handlePreviousPage = () => {
+      setCurrentPage((prevPage) => (prevPage - 1 + Math.ceil(config.rules.length / rulesPerPage)) % Math.ceil(config.rules.length / rulesPerPage));
+    };
+
+    const currentRules = config.rules.slice(currentPage * rulesPerPage, (currentPage + 1) * rulesPerPage);
+
+
+    return (
     <AnimatePresence>
       {isModalOpen(ModalType.RULES) && (
         <motion.div
@@ -111,18 +125,30 @@ export const RulesLayout: React.FC<InventoryLayoutProps> = ({ toggleModal, isMod
                 </CardHeader>
                 <Divider />
                 <CardBody>
-                  <p>Pagination controls for the remaining rules will go here.</p>
+                  {currentRules.map((rule, index) => (
+                    <div key={index} className="flex flex-col gap-2 mt-2">
+                      <p className="font-semibold">{rule.title}</p>
+                      <p>{rule.content}</p>
+                    </div>
+                  ))}
                 </CardBody>
                 <Divider />
+                <CardFooter
+                  className={'flex justify-center items-center w-full'}
+                >
+                  <div className="flex justify-between items-center w-full">
+                    <Button disabled={currentPage === 0} onPress={handlePreviousPage}>Previous</Button>
+                    <span>{currentPage + 1} / {Math.ceil(config.rules.length / rulesPerPage)}</span>
+                    <Button disabled={(currentPage + 1) * rulesPerPage >= config.rules.length}
+                            onPress={handleNextPage}>Next</Button>
+                  </div>
+                </CardFooter>
               </Card>
             </div>
           </div>
           <div className={'bottom-0 p-4 flex justify-end'}>
             <Button color="danger" variant="light" onPress={handleClose}>
               Close
-            </Button>
-            <Button color="primary" onPress={handleClose}>
-              Action
             </Button>
           </div>
         </motion.div>
