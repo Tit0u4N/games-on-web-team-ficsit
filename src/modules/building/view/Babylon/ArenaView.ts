@@ -1,10 +1,4 @@
-import {
-  ActionManager,
-  ExecuteCodeAction,
-  Mesh,
-  Scene,
-  Vector3,
-} from '@babylonjs/core';
+import { ActionManager, ExecuteCodeAction, Mesh, Scene, Vector3 } from '@babylonjs/core';
 import { ArenaModel } from '@building/model/ArenaModel.ts';
 import { ViewInitable } from '@core/Interfaces.ts';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';

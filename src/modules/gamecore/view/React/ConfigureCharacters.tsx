@@ -7,6 +7,7 @@ import { Character } from '@character/model/Character.ts';
 import characterLogos from '../../../../../public/images/characters';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
 import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory.ts';
+import { Statistics } from '@character/model/Statistics.ts';
 
 interface ICharacter {
   logo: string;
@@ -24,9 +25,12 @@ interface Props {
 
 const sports = Sport.getAll();
 const FLAGS_PER_PAGE = 15;
+const POINT_STAT = 55;
+const MIN_PAR_STAT = 5;
+const remainingPoints = POINT_STAT - sports.length * MIN_PAR_STAT;
 const initialStats = sports.reduce(
   (acc, sport) => {
-    acc[sport.name] = 0;
+    acc[sport.name] = MIN_PAR_STAT;
     return acc;
   },
   {} as Record<string, number>,
@@ -70,7 +74,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
-  const [pointsLeft, setPointsLeft] = useState<number[]>([20, 20, 20]);
+  const [pointsLeft, setPointsLeft] = useState<number[]>([remainingPoints, remainingPoints, remainingPoints]);
 
   const totalFlags = Object.values(CountryCode).length;
   const totalPages = Math.ceil(totalFlags / FLAGS_PER_PAGE);
@@ -123,7 +127,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     const currentStat = newCharacters[index].stats[sport];
 
     const newStatValue = currentStat + change;
-    if (newStatValue >= 0 && newStatValue <= 20 && currentPoints - change >= 0) {
+    if (newStatValue >= 5 && newStatValue <= 15 && currentPoints - change >= 0) {
       newCharacters[index].stats[sport] = newStatValue;
       setCharacters(newCharacters);
       setPointsLeft((prev) => {
@@ -148,17 +152,21 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       const charactersOfSet = new Set<Character>();
 
       characters.forEach((character, index) => {
-        charactersOfSet.add(
-          CharacterFactory.createDefaultCharacter(
-            index + 1,
-            character.name,
-            character.nationality,
-            character.age,
-            character.logo,
-            character.modelName,
-            character.modelPath,
-          ),
+        const characterObj = CharacterFactory.createDefaultCharacter(
+          index + 1,
+          character.name,
+          character.nationality,
+          character.age,
+          character.logo,
+          character.modelName,
+          character.modelPath,
         );
+        const stats = new Map<Sport, number>();
+        for (const sport of sports) {
+          stats.set(sport, character.stats[sport.name]);
+        }
+        characterObj.statistics = Statistics.createFromLevelMap(stats);
+        charactersOfSet.add(characterObj);
       });
 
       presenter.startGame(charactersOfSet);
@@ -171,17 +179,23 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     const models = ['Animated Woman.glb', 'Hoodie Character.glb', 'Suit.glb'];
     const randomCharacters = Array.from({ length: 3 }, (_) => {
       const randomStats: Record<string, number> = {};
-      let remainingPoints = 20;
+      let remainingPoints = 25;
+      for (const sport of sports) {
+        randomStats[sport.name] = 5;
+      }
 
       // Shuffle sports array to distribute points more evenly
       const shuffledSports = sports.sort(() => Math.random() - 0.5);
-
-      shuffledSports.forEach((sport) => {
-        const maxPoints = Math.min(remainingPoints, 20);
-        const randomPoints = Math.floor(Math.random() * (maxPoints + 1));
-        randomStats[sport.name] = randomPoints;
+      let i = 0;
+      while (remainingPoints > 0) {
+        const sport = shuffledSports[i];
+        let randomPoints = Math.floor(Math.random() * 10);
+        if (randomPoints > remainingPoints) randomPoints = remainingPoints;
+        randomStats[sport.name] += randomPoints;
         remainingPoints -= randomPoints;
-      });
+        i++;
+        if (i === sports.length) i = 0;
+      }
 
       setPointsLeft([0, 0, 0]);
 

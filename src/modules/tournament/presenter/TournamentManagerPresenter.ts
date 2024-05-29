@@ -40,7 +40,7 @@ export class TournamentManagerPresenter {
         minStats = 6;
         break;
       case TournamentDifficulty.INTERNATIONAL:
-        totalStats = 80;
+        totalStats = 85;
         minStats = 8;
         break;
     }

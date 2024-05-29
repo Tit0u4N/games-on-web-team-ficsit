@@ -5,6 +5,8 @@ import { RewardModel } from './RewardModel.ts';
 import { Sport } from '../../../core/singleton/Sport.ts';
 import { Season } from '../../../core/singleton/Season.ts';
 import { ModalManager } from '../../../core/singleton/ModalManager.ts';
+import { XpManager } from '../../../core/singleton/XpManager.ts';
+import { Statistics } from '../../character/model/Statistics.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
@@ -320,5 +322,9 @@ export class TournamentModel {
       console.log(reward.reward.copy());
     }
     console.log(character.inventory);
+    const xpGained = new Map<Sport, number>();
+    const maxRank = 8 + 4 * (this.numberRound - 1);
+    xpGained.set(this.sport, XpManager.getInstance().gainXp((maxRank - rank / maxRank) * 2));
+    character.statistics.addStatXp(new Statistics(xpGained));
   }
 }
