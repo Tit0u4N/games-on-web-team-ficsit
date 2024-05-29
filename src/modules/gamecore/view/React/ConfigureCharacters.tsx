@@ -75,6 +75,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
   const [pointsLeft, setPointsLeft] = useState<number[]>([remainingPoints, remainingPoints, remainingPoints]);
+  const [isRandomGenerated, setIsRandomGenerated] = useState<boolean>(false);
 
   const totalFlags = Object.values(CountryCode).length;
   const totalPages = Math.ceil(totalFlags / FLAGS_PER_PAGE);
@@ -218,6 +219,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     });
 
     setCharacters(randomCharacters);
+    setIsRandomGenerated(true);
   };
 
   const cardSize = 'w-[500px] h-[600px] p-2 pb-4';
@@ -240,6 +242,11 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                     onClick={generateRandomCharacters}>
                     Random Athletes
                   </Button>
+                  {isRandomGenerated && (
+                    <div className={'mt-4'}>
+                      <p>Random Athletes Generated!</p>
+                    </div>
+                  )}
                 </CardBody>
               </Card>
             </Tab>
