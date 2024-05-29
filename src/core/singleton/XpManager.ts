@@ -21,13 +21,15 @@ export class XpManager {
 
   public getLevelFromXp(xp: number): number {
     let level = 0;
-    while (this._levelList[level].xp <= xp) {
+    while (level < this._levelList.length - 1 && this._levelList[level].xp <= xp) {
       level++;
     }
+    if (this._levelList[level].xp <= xp) return level;
     return level - 1;
   }
 
   public getXpFromLevel(level: number): number {
+    level = Math.min(level, 20);
     return this._levelList[level].xp;
   }
 
@@ -39,11 +41,8 @@ export class XpManager {
   }
 
   public getCurrentLevel(xp: number): { percentageFilled: number; xpNextLevel: number } {
-    let level = 0;
-    while (this._levelList[level].xp <= xp) {
-      level++;
-    }
-    level--;
+    const level = this.getLevelFromXp(xp);
+    if (level === 20) return { percentageFilled: 100, xpNextLevel: 0 };
     const xpCurrentLevel = this._levelList[level].xp;
     const xpNextLevel = this._levelList[level + 1].xp;
     const percentageFilled = ((xp - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100;
@@ -55,6 +54,7 @@ export class XpManager {
   }
 
   public addLevelToXp(xp: number, level: number) {
+    level = Math.min(level, 20);
     const levelFromXp = this.getLevelFromXp(xp);
     const remainingXp = xp - this.getXpFromLevel(levelFromXp);
     return this.getXpFromLevel(levelFromXp + level) + remainingXp;
