@@ -83,7 +83,13 @@ export class DnDItemManager {
       endDragItemInventory.removeItem(endDragItem);
       this.startDragInventory.addItem(this.draggedItem);
       endDragItemHandler(this.draggedItem);
-    } else if (this.startDragSlot && !endDragItem && endDragPosition && !endDragSlot) {
+    } else if (
+      this.startDragSlot &&
+      !endDragItem &&
+      endDragPosition !== null &&
+      endDragPosition !== undefined &&
+      !endDragSlot
+    ) {
       this.startDragInventory.unEquipItem(this.startDragSlot);
       this.startDragItemHandler(null);
 

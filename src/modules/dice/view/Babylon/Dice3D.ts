@@ -11,8 +11,8 @@ import {
   Vector3,
   Vector4,
 } from '@babylonjs/core';
-import { DicePresenter } from '../../presenter/DicePresenter.ts';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
+import { DicePresenter } from '@dice/presenter/DicePresenter.ts';
+import { ViewInitable } from '@/core/Interfaces.ts';
 
 export class Dice3D implements ViewInitable {
   private readonly scene: Scene;

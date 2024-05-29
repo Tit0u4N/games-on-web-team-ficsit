@@ -10,6 +10,9 @@ export default {
         primary: '#4fce3f',
         case: '#f4f4f4',
       },
+      backgroundImage: {
+        menu: "url('/img/bg_menu.png')",
+      },
     },
   },
   safelist: [

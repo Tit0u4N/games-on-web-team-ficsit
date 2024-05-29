@@ -1,7 +1,7 @@
-import { TileView } from '../view/Babylon/TileView.ts';
+import { TileView } from '@map/view/Babylon/TileView.ts';
 import { Vector3 } from '@babylonjs/core';
-import { TypesTile } from '../model/TileModel.ts';
-import { TileViewFactory } from '../view/Babylon/TileViewFactory.ts';
+import { TypesTile } from '@map/model/TileModel.ts';
+import { TileViewFactory } from '@map/view/Babylon/TileViewFactory.ts';
 
 export enum PositionTypes {
   CHARACTER,

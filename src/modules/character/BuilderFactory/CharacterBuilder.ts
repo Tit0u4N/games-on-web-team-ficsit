@@ -1,8 +1,8 @@
 // CharacterBuilder.ts
-import { Attributes } from '../model/Attributes';
-import { Character } from '../model/Character';
-import { Statistics } from '../model/Statistics';
-import { Country } from '../../../core/Country.tsx';
+import { Attributes } from '@character/model/Attributes';
+import { Character } from '@character/model/Character';
+import { Statistics } from '@character/model/Statistics';
+import { Country } from '@core/Country.tsx';
 
 export class CharacterBuilder {
   private readonly _id: number;
@@ -13,8 +13,19 @@ export class CharacterBuilder {
   private readonly _isPlayer: boolean = false;
   private _statistics: Statistics;
   private _attributes: Attributes;
+  private readonly _modelName?: string;
+  private readonly _modelPath?: string;
 
-  constructor(id: number, name: string, nationality: Country, age: number, image: string, isPlayer: boolean = false) {
+  constructor(
+    id: number,
+    name: string,
+    nationality: Country,
+    age: number,
+    image: string,
+    isPlayer: boolean = false,
+    modelName?: string,
+    modelPath?: string,
+  ) {
     this._id = id;
     this._name = name;
     this._nationality = nationality;
@@ -23,6 +34,8 @@ export class CharacterBuilder {
     this._isPlayer = isPlayer;
     this._statistics = new Statistics();
     this._attributes = new Attributes(0, 0, false); // Default attributes, you can change it as needed
+    this._modelName = modelName;
+    this._modelPath = modelPath;
   }
 
   public setStatistics(statistics: Statistics): this {
@@ -45,6 +58,10 @@ export class CharacterBuilder {
       this._image,
       this._isPlayer,
     );
+    if (this._modelName !== undefined && this._modelPath !== undefined) {
+      character.modelName = this._modelName;
+      character.modelPath = this._modelPath;
+    }
     if (this._statistics !== null) {
       character.statistics = this._statistics;
     }

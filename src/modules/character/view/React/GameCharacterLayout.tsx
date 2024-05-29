@@ -1,7 +1,7 @@
 import React from 'react';
 import CharacterLayout from './CharacterLayout';
-import { Character } from '../../model/Character';
-import { Season } from '../../../../core/singleton/Season.ts';
+import { Character } from '@character/model/Character';
+import { Season } from '@core/singleton/Season.ts';
 
 interface GameCharacterLayoutProps {
   character: Set<Character>;

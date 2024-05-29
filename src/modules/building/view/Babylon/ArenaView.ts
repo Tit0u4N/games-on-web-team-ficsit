@@ -1,17 +1,9 @@
-import {
-  ActionManager,
-  Color4,
-  ExecuteCodeAction,
-  Mesh,
-  MeshBuilder,
-  Scene,
-  StandardMaterial,
-  Vector3,
-} from '@babylonjs/core';
-import { ArenaModel } from '../../model/ArenaModel.ts';
-import { ViewInitable } from '../../../../core/Interfaces.ts';
+import { ActionManager, ExecuteCodeAction, Mesh, Scene, Vector3 } from '@babylonjs/core';
+import { ArenaModel } from '@building/model/ArenaModel.ts';
+import { ViewInitable } from '@core/Interfaces.ts';
 import { ArenaPresenter } from '../../presenter/ArenaPresenter.ts';
-import { getPosition, PositionTypes } from '../../../map/core/GamePlacer.ts';
+import { getPosition, PositionTypes } from '@map/core/GamePlacer.ts';
+import { importModel } from '@core/ModelImporter.ts';
 
 export class ArenaView implements ViewInitable {
   private arenaModel: ArenaModel;
@@ -19,6 +11,7 @@ export class ArenaView implements ViewInitable {
   private _mesh!: Mesh;
   private arenaPresenter: ArenaPresenter;
   private position: Vector3;
+  private static readonly SCALE = 0.5;
 
   constructor(arenaPresenter: ArenaPresenter) {
     this.arenaPresenter = arenaPresenter;
@@ -26,33 +19,20 @@ export class ArenaView implements ViewInitable {
     this.position = getPosition(this.arenaModel.position, PositionTypes.BUILDING);
   }
 
-  initView(scene: Scene) {
+  async initView(scene: Scene) {
     this.scene = scene;
-    this.createMesh(this.position);
+    await this.createMesh(this.position);
     this.addActionManager();
   }
 
   // Create a cube above the tile
-  public createMesh(vector: Vector3): void {
-    // add red color
-    const cube = MeshBuilder.CreateBox(
-      'cube_tile',
-      {
-        size: 1,
-        faceColors: [
-          new Color4(1, 0, 0, 1),
-          new Color4(1, 0, 0, 1),
-          new Color4(1, 0, 0, 1),
-          new Color4(1, 0, 0, 1),
-          new Color4(1, 0, 0, 1),
-          new Color4(1, 0, 0, 1),
-        ],
-      },
-      this.scene,
-    );
-    cube.position = vector.add(new Vector3(0, 0, 0));
-    cube.material = new StandardMaterial('material_cube', this.scene);
-    this._mesh = cube;
+  public async createMesh(vector: Vector3) {
+    const importedModel = await importModel('arena.glb', { scene: this.scene, path: 'arena/', multiMaterial: true });
+    const mesh = importedModel.mesh;
+    if (!mesh) throw new Error('Mesh not found');
+    mesh.scaling = new Vector3(ArenaView.SCALE, ArenaView.SCALE, ArenaView.SCALE);
+    mesh.position = vector.add(new Vector3(0, 0.1, 0));
+    this._mesh = mesh;
   }
 
   private addActionManager(): void {

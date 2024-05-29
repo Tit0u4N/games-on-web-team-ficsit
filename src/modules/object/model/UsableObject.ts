@@ -1,11 +1,11 @@
-import { Statistics } from '../../character/model/Statistics.ts';
-import { Character } from '../../character/model/Character.ts';
-import { Season } from '../../../core/singleton/Season.ts';
+import { Statistics } from '@character/model/Statistics.ts';
+import { Character } from '@character/model/Character.ts';
+import { Season } from '@core/singleton/Season.ts';
 import gameObjectsData from './gameObjects.json';
 import gearsCombinaisons from './completeGearKeys.json';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { EquippedObjectSlot } from '../../inventory/model/EquippedObjects.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { config } from '@core/Interfaces.ts';
+import { EquippedObjectSlot } from '@inventory/model/EquippedObjects.ts';
 import { ObjectRarity } from './ObjectRarity.ts';
 import { XpManager } from '../../../core/singleton/XpManager.ts';
 
@@ -75,8 +75,7 @@ export class UsableObject {
   private getCompleteGearBonus(character: Character, gears: IGears[]): Statistics | null {
     for (const gear of gears) {
       if (gear.allEquipments.every((id) => character.inventory.equippedItemsIds.includes(id))) {
-        const bonus = Statistics.createFromJsObject(gear.statsIncrease);
-        return bonus;
+        return Statistics.createFromJsObject(gear.statsIncrease);
       }
     }
     return null;

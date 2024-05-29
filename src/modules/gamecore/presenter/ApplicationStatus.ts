@@ -1,4 +1,5 @@
 export enum ApplicationStatus {
   MENU = 0,
-  GAME = 1,
+  CONFIGURE_CHARACTERS = 1,
+  GAME = 2,
 }

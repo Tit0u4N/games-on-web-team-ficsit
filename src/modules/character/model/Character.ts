@@ -1,8 +1,8 @@
 import { Statistics } from './Statistics';
 import { Attributes } from './Attributes';
-import { Inventory } from '../../inventory/model/Inventory.ts';
-import { ITile } from '../../map/model/TileModel.ts';
-import { Season } from '../../../core/singleton/Season.ts';
+import { Inventory } from '@inventory/model/Inventory.ts';
+import { ITile } from '@map/model/TileModel.ts';
+import { Season } from '@core/singleton/Season.ts';
 import { Country } from '../../../core/Country.tsx';
 
 export class Character {
@@ -16,6 +16,8 @@ export class Character {
   private _attributes: Attributes;
   private _currentTile: ITile | undefined;
   private readonly _isPlayer: boolean = false;
+  private _modelName: string | undefined;
+  private _modelPath: string | undefined;
 
   public constructor(
     id: number,
@@ -25,6 +27,8 @@ export class Character {
     attributes: Attributes,
     image: string,
     isPlayer: boolean = false,
+    modelName?: string,
+    modelPath?: string,
   ) {
     this._id = id;
     this._name = name;
@@ -34,6 +38,8 @@ export class Character {
     this._statistics = new Statistics();
     this._attributes = attributes;
     this._image = image;
+    this._modelName = modelName;
+    this._modelPath = modelPath;
     this._isPlayer = isPlayer;
   }
 
@@ -111,6 +117,22 @@ export class Character {
 
   get isPlayer(): boolean {
     return this._isPlayer;
+  }
+
+  get modelName(): string | undefined {
+    return this._modelName;
+  }
+
+  set modelName(value: string | undefined) {
+    this._modelName = value;
+  }
+
+  get modelPath(): string | undefined {
+    return this._modelPath;
+  }
+
+  set modelPath(value: string | undefined) {
+    this._modelPath = value;
   }
 
   public removeMovementPoints(value: number): void {

@@ -1,10 +1,10 @@
-import { DiceModel } from '../model/DiceModel.ts';
-import { Dice3D } from '../view/Babylon/Dice3D.ts';
+import { DiceModel } from '@dice/model/DiceModel.ts';
+import { Dice3D } from '@dice/view/Babylon/Dice3D.ts';
 import { Scene } from '@babylonjs/core';
-import { DiceComponent, DiceComponentProps } from '../view/React/DiceComponent.tsx';
-import { Reactable, ViewInitable } from '../../../core/Interfaces.ts';
+import { DiceComponent, DiceComponentProps } from '@dice/view/React/DiceComponent.tsx';
+import { Reactable, ViewInitable } from '@/core/Interfaces.ts';
 import React from 'react';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
+import { ModalManager } from '@/core/singleton/ModalManager.ts';
 
 export interface DiceHandler {
   handleRollDice(diceValue: number): void;

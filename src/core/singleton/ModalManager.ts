@@ -1,4 +1,4 @@
-import { Reactable } from '../Interfaces.ts';
+import { Reactable } from '@core/Interfaces.ts';
 import React from 'react';
 
 export class ModalManager {

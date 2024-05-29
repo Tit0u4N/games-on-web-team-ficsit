@@ -1,6 +1,6 @@
-import { MapModel } from '../MapModel.ts';
-import { TileModel } from '../TileModel.ts';
-import { config } from '../../../../core/Interfaces.ts';
+import { MapModel } from '@map/model/MapModel.ts';
+import { TileModel } from '@map/model/TileModel.ts';
+import { config } from '@/core/Interfaces.ts';
 
 export abstract class BiomeAbstractModel {
   protected tiles: TileModel[] = [];

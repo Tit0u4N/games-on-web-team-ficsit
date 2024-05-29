@@ -1,7 +1,7 @@
 import React from 'react';
 import { UsableObject } from '../../model/UsableObject.ts';
 import { Image, Tooltip } from '@nextui-org/react';
-import { Sport } from '../../../../core/singleton/Sport.ts';
+import { Sport } from '@core/singleton/Sport.ts';
 import { ObjectRarity } from '../../model/ObjectRarity.ts';
 
 interface Props {

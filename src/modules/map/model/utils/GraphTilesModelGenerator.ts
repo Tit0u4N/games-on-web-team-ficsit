@@ -1,7 +1,7 @@
-import { MapModel } from '../MapModel.ts';
-import { TileModel, TypesTile } from '../TileModel.ts';
-import { GraphTilesGeneratorAbstract } from '../../core/GraphTilesGeneratorAbstract.ts';
-import { GraphTilesModel } from '../GraphTilesModel.ts';
+import { MapModel } from '@map/model/MapModel.ts';
+import { TileModel, TypesTile } from '@map/model/TileModel.ts';
+import { GraphTilesGeneratorAbstract } from '@map/core/GraphTilesGeneratorAbstract.ts';
+import { GraphTilesModel } from '@map/model/GraphTilesModel.ts';
 
 export class GraphTilesModelGenerator extends GraphTilesGeneratorAbstract {
   constructor(mapModel: MapModel, tileConditionFunc?: (tile: TileModel) => boolean, segmentTiles?: TileModel[]) {
