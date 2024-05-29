@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button, Card, CardBody, Divider, Tab, Tabs } from '@nextui-org/react';
+import { Button, Card, CardBody, Divider, Switch, Tab, Tabs } from '@nextui-org/react';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { SwitchOption } from '@/component/options/SwitchOption.tsx';
 import { SelectOption } from '@/component/options/SelectOption.tsx';
 import { AvatarCredit } from '@/component/AvatarCredit.tsx';
-import { ControlOption } from '@/component/options/InputOption.tsx';
-import { config } from '@/core/Interfaces.ts';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 import { MapSizeOption } from '@/component/options/MapSizeOption.tsx';
 import { SeedInputOption } from '@/component/options/SeedInputOption.tsx';
+import { ControlOptions } from '@/component/options/ControlOptions.tsx';
+import { config } from '@core/Interfaces.ts';
+import { AudioComponent } from '@/modules/audio/view/React/AudioComponent.tsx';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -16,7 +17,12 @@ interface Props {
 
 export const MenuView: React.FC<Props> = ({ presenter }) => {
   const cardSize = ' w-[500px] h-[600px] p-2 pb-4';
+  const [isNarratorSwitchOn, setIsNarratorSwitchOn] = React.useState(config.narratorBox.enabled);
 
+  const toggleNarratorSwitch = () => {
+    setIsNarratorSwitchOn(!isNarratorSwitchOn);
+    config.narratorBox.enabled = !config.narratorBox.enabled;
+  };
   return (
     <div className={'h-[100vh] w-[100vw] bg-menu bg-cover'}>
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
@@ -24,16 +30,44 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
-                <CardBody>Game</CardBody>
+                <CardBody>
+                  <h2 className={'text-2xl mb-4 text-center'}>
+                    Welcome to the Olympic Odyssey!
+                  </h2>
+                  <p className={'text-center text-gray-500 mb-5'}>
+                    Here you can configure the game settings and start you game with your new athletes.
+                  </p>
+                  <DividerOptions />
+                  <MapSizeOption
+                    title={'Map Size'}
+                    description={'Choose the size of the map'}
+                    option={'mapSize'}
+                    min={20}
+                    max={100}
+                  />
+                  <DividerOptions />
+                  <SeedInputOption
+                    title={'Map Seed'}
+                    description={'Enter a seed value for map generation (optional)'}
+                    option={'mapSeed'}
+                  />
+                  <DividerOptions />
+                  <div className={'w-full flex justify-between aline-center'} onClick={() => toggleNarratorSwitch()}>
+                    <div>
+                      <h3 className={'text-l'}>Narrator Box</h3>
+                      <p className={'m-0 text-sm text-gray-400'}>A Narrator introduce you to the game</p>
+                    </div>
+                    <Switch isSelected={isNarratorSwitchOn} onValueChange={toggleNarratorSwitch} />
+                  </div>
+                </CardBody>
               </Card>
             </Tab>
             <Tab key={'options'} title={'Options'} aria-label={'Menu Options'} className={'h-[50px]'}>
               <Card className={cardSize}>
-                <CardBody className={'flex flex-col'}>
+                <CardBody className={'flex flex-col mb-5'}>
                   <p className={'text-center text-gray-500 py-5'}>
                     These options can only be changed before the start of the game.
                   </p>
-
                   <div className={'w-full'}>
                     <h3 className={'text-xl pb-2'}> Graphics </h3>
                     <div className={'flex flex-col w-full'}>
@@ -42,82 +76,21 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
                       <DividerOptions />
                       <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
-                      <DividerOptions />
-                      <MapSizeOption
-                        title={'Map Size'}
-                        description={'Choose the size of the map'}
-                        option={'mapSize'}
-                        min={20}
-                        max={100}
-                      />
-                      <DividerOptions />
-                      <SeedInputOption
-                        title={'Map Seed'}
-                        description={'Enter a seed value for map generation (optional)'}
-                        option={'mapSeed'}
-                      />
                     </div>
                   </div>
                   <DividerOptions />
+                  <h3 className={'text-xl pb-2'}> Music </h3>
+                  <AudioComponent audioPresenter={GameCorePresenter.AUDIO_PRESENTER} />
+                  <DividerOptions />
                   <div className={'w-full pt-4'}>
                     <h3 className={'text-xl pb-2'}> Controls </h3>
-                    <div className={'flex flex-col w-full pb-2q'}>
-                      {/* Add ControlOption components for each control setting */}
-                      <ControlOption
-                        title={'Move Forward'}
-                        description={'Key to move forward'}
-                        option={'moveForward'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysUp[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Move Backward'}
-                        description={'Key to move backward'}
-                        option={'moveBackward'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysDown[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Move Left'}
-                        description={'Key to move left'}
-                        option={'moveLeft'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysLeft[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Move Right'}
-                        description={'Key to move right'}
-                        option={'moveRight'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysRight[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Zoom In'}
-                        description={'Key to zoom in'}
-                        option={'zoomIn'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomIn[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Zoom Out'}
-                        description={'Key to zoom out'}
-                        option={'zoomOut'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.keysZoomOut[0]}
-                      />
-                      <DividerOptions />
-                      <ControlOption
-                        title={'Reset Camera'}
-                        description={'Key to reset camera'}
-                        option={'resetCamera'}
-                        defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition[0]}
-                      />
-                    </div>
+                    <ControlOptions />
                   </div>
                 </CardBody>
               </Card>
             </Tab>
             <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
-              <Card className={cardSize}>
+            <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit
                     image={'/img/avatar_titou.jpg'}
@@ -142,7 +115,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             presenter.setStatus(ApplicationStatus.CONFIGURE_CHARACTERS);
             presenter.notifyViewChange();
           }}>
-          Configure Characters
+          Create Athletes
         </Button>
       </div>
     </div>
