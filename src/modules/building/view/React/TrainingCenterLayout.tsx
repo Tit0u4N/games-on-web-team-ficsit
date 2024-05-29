@@ -11,11 +11,11 @@ import {
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
-import { Character } from '../../../character/model/Character.ts';
+import { Character } from '@character/model/Character.ts';
 import { ClickableCard } from './trainingCenter/ClickableCard.tsx';
 import { TrainingChoice, TrainingChoiceCards } from './trainingCenter/TrainingChoiceCards.tsx';
-import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
-import { Sport } from '../../../../core/singleton/Sport.ts';
+import { DiceComponent } from '@dice/view/React/DiceComponent.tsx';
+import { Sport } from '@core/singleton/Sport.ts';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -149,7 +149,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               <>
                 <div className="my-2">
                   <p>Sports:</p>
-                  <div>
+                  <div className="grid grid-cols-2">
                     {trainingCenter.sports.map((sport: Sport, index: number) => (
                       <div key={index} className="flex my-1">
                         <Image src={sport.iconPath} width={30} height={30} alt={sport.name} />

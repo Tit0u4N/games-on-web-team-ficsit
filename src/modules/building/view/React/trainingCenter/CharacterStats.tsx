@@ -1,9 +1,9 @@
 import React from 'react';
-import { Character } from '../../../../character/model/Character.ts';
+import { Character } from '@character/model/Character.ts';
 import { Divider, Image, Slider } from '@nextui-org/react';
 import { TrainingChoice } from './TrainingChoiceCards.tsx';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
-import { XpManager } from '../../../../../core/singleton/XpManager.ts';
+import { XpManager } from '@core/singleton/XpManager.ts';
 
 interface CharacterStatsProps {
   character: Character;
@@ -34,7 +34,14 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
           {Array.from(stats.keys()).map((sport) => (
             <div className={'text-sm'} key={sport.name}>
               <div className={'text-sm'} key={sport.name}>
-                {sport.name}: {stats.get(sport)}
+                {sport.name}:
+                {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character ? (
+                  <span className="text-green-500">
+                    {XpManager.getInstance().getLevelFromXp(stats.getXp(sport) + choice.stats)}
+                  </span>
+                ) : (
+                  stats.get(sport)
+                )}
                 {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character && (
                   <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>
                 )}
