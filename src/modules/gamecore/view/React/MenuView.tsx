@@ -93,13 +93,13 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit
-                    image={'/img/avatar_titou.jpg'}
+                    image={'./img/avatar_titou.jpg'}
                     name={'Titouan Lacombe--Fabre'}
                     githubUser={'Tit0u4N'}
                   />
-                  <AvatarCredit image={'/img/avatar_tamas.png'} name={'Tamas Palotas'} githubUser={'Shiyamii'} />
+                  <AvatarCredit image={'./img/avatar_tamas.png'} name={'Tamas Palotas'} githubUser={'Shiyamii'} />
                   <AvatarCredit
-                    image={'/img/avatar_bapt.png'}
+                    image={'./img/avatar_bapt.png'}
                     name={'Baptiste LACROIX'}
                     githubUser={'BaptisteLacroix'}
                   />

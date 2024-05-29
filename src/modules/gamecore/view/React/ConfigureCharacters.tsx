@@ -4,7 +4,6 @@ import { Button, Card, CardBody, Input, Image, Tabs, Tab, Badge } from '@nextui-
 import { Country, CountryCode } from '@core/Country.tsx';
 import { Sport } from '@core/singleton/Sport.ts';
 import { Character } from '@character/model/Character.ts';
-import characterLogos from '../../../../../public/images/characters';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
 import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory.ts';
 import { Statistics } from '@character/model/Statistics.ts';
@@ -37,7 +36,11 @@ const initialStats = sports.reduce(
 );
 const LOGOS_PER_PAGE = 5;
 
-const logos = characterLogos;
+const logos: string[] = []
+
+for (let i = 1; i <= 64; i++) {
+  logos.push("./images/characters/character" + i + ".png");
+}
 
 export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   // clear the localStorage
