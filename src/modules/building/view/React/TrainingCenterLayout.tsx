@@ -11,11 +11,11 @@ import {
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { TrainingCenterModel } from '../../model/TrainingCenterModel.ts';
-import { Character } from '../../../character/model/Character.ts';
+import { Character } from '@character/model/Character.ts';
 import { ClickableCard } from './trainingCenter/ClickableCard.tsx';
 import { TrainingChoice, TrainingChoiceCards } from './trainingCenter/TrainingChoiceCards.tsx';
-import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
-import { Sport } from '../../../../core/singleton/Sport.ts';
+import { DiceComponent } from '@dice/view/React/DiceComponent.tsx';
+import { Sport } from '@core/singleton/Sport.ts';
 
 export interface TrainingCenterLayoutProps {
   trainingCenter: TrainingCenterModel;
@@ -144,12 +144,12 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           <h1 className="text-2xl">Training Center</h1>
         </ModalHeader>
         <ModalBody className="flex flex-row justify-between py-6 h-[85%] overflow-y-auto">
-          <div className={'flex flex-col w-[45%] min-w-[500px]'}>
+          <div className={'flex flex-col w-[37%] min-w-[500px]'}>
             {trainingCenter.sports.length > 0 && (
               <>
                 <div className="my-2">
                   <p>Sports:</p>
-                  <div>
+                  <div className="grid grid-cols-2">
                     {trainingCenter.sports.map((sport: Sport, index: number) => (
                       <div key={index} className="flex my-1">
                         <Image src={sport.iconPath} width={30} height={30} alt={sport.name} />
@@ -175,7 +175,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
               />
             ))}
           </div>
-          {getReactElementFromCurrentState(selectedCharacter)}
+          <div className="w-[63%]">{getReactElementFromCurrentState(selectedCharacter)}</div>
         </ModalBody>
         <ModalFooter>
           <Button color="danger" variant="light" onClick={onClose}>
@@ -188,7 +188,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
                 setShowChoices(false);
                 const rounds = choiceSelected?.rounds;
                 const stats = choiceSelected?.stats;
-                const message = `Your character will be training for ${rounds} rounds and will gain ${stats} stats.`;
+                const message = `Your character will be training for ${rounds} rounds and will gain ${stats} xp.`;
                 setMessageContent(message);
                 setShowMessage(true);
                 trainingCenter.getEffect(selectedCharacter!, choiceSelected!);
