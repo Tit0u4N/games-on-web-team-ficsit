@@ -1,6 +1,6 @@
 import { CharacterPresenter } from '@character/presenter/CharacterPresenter.ts';
 import { PawnView } from './PawnView.ts';
-import { Animation, Scene, Vector3 } from '@babylonjs/core';
+import { Animation, Quaternion, Scene, Vector3 } from '@babylonjs/core';
 import { ViewInitable } from '@/core/Interfaces.ts';
 
 export class CharacterView implements ViewInitable {
@@ -38,6 +38,14 @@ export class CharacterView implements ViewInitable {
         pawn.mesh.position = position;
         return;
       }
+
+      // Calculate the direction vector
+      const direction = position.subtract(pawn.mesh.position);
+      direction.normalize();
+
+      // Apply the rotation quaternion directly to the mesh
+      pawn.mesh.rotationQuaternion = Quaternion.FromLookDirectionRH(direction, Vector3.Up());
+
       pawn.startAnimations();
       const animationBox = new Animation(
         'deplacementAnimation',
