@@ -9,6 +9,7 @@ import { MapSizeOption } from '@/component/options/MapSizeOption.tsx';
 import { SeedInputOption } from '@/component/options/SeedInputOption.tsx';
 import { ControlOptions } from '@/component/options/ControlOptions.tsx';
 import { config } from '@core/Interfaces.ts';
+import { AudioComponent } from '@/modules/audio/view/React/AudioComponent.tsx';
 
 interface Props {
   presenter: GameCorePresenter;
@@ -65,9 +66,8 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
               <Card className={cardSize}>
                 <CardBody className={'flex flex-col mb-5'}>
                   <p className={'text-center text-gray-500 py-5'}>
-                  These options can only be changed before the start of the game.
+                    These options can only be changed before the start of the game.
                   </p>
-
                   <div className={'w-full'}>
                     <h3 className={'text-xl pb-2'}> Graphics </h3>
                     <div className={'flex flex-col w-full'}>
@@ -79,6 +79,9 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                     </div>
                   </div>
                   <DividerOptions />
+                  <h3 className={'text-xl pb-2'}> Music </h3>
+                  <AudioComponent audioPresenter={GameCorePresenter.AUDIO_PRESENTER} />
+                  <DividerOptions />
                   <div className={'w-full pt-4'}>
                     <h3 className={'text-xl pb-2'}> Controls </h3>
                     <ControlOptions />
@@ -87,7 +90,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
               </Card>
             </Tab>
             <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
-              <Card className={cardSize}>
+            <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit
                     image={'/img/avatar_titou.jpg'}

@@ -36,7 +36,10 @@ export class GameCorePresenter {
     this.initializeTestData();
     this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
     setTimeout(() => {
-      if (this.status === ApplicationStatus.MENU) GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+      if (this.status === ApplicationStatus.MENU) {
+        GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+        GameCorePresenter.AUDIO_PRESENTER.music.volume = 0.1;
+      }
     }, 1000);
   }
 
@@ -82,6 +85,7 @@ export class GameCorePresenter {
     this.notifyViewChange();
     GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
     GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
+    GameCorePresenter.AUDIO_PRESENTER.music.volume = 0.35;
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
