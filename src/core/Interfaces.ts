@@ -87,6 +87,11 @@ interface ITrainingCenterModelConfig {
   maxRotation: number;
 }
 
+interface IArenaModelConfig {
+  minRotation: number;
+  maxRotation: number;
+}
+
 interface IBuildingFactoryConfig {
   maxAttempts: number;
   arena: {
@@ -113,6 +118,7 @@ interface IBuildingConfig {
   model: {
     buildingFactory: IBuildingFactoryConfig;
     trainingCenterModel: ITrainingCenterModelConfig;
+    arenaModel: IArenaModelConfig;
   };
   view: {
     trainingCenter: ITrainingCenterViewConfig;
