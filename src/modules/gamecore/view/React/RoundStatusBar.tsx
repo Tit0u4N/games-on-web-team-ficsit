@@ -2,9 +2,9 @@ import { Button, Navbar, NavbarContent, NavbarItem } from '@nextui-org/react';
 import React from 'react';
 import './RoundStatusBar.scss';
 import { ModalType } from './GameView.tsx';
-import { AudioModal } from '../../../audio/view/React/AudioModal.tsx';
 import { GameCorePresenter } from '../../presenter/GameCorePresenter.ts';
 import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
+import { GameSettingsModal } from '@gamecore/view/React/GameSettingsComponent.tsx';
 
 interface RoundStatusBarProps {
   nextRound: () => void;
@@ -40,17 +40,17 @@ function getSeasonList(round: number): number[] {
 }
 
 export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round, toggleModal, isModalOpen }) => {
-  const [isAudioModalOpen, setIsAudioModalOpen] = React.useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
 
   return (
     <Navbar className={'fixed-top navbar'}>
       <NavbarContent>
         <NavbarItem>
           <Button
-            color={isModalOpen(ModalType.EVENTS) ? 'primary' : undefined}
-            className={isModalOpen(ModalType.EVENTS) ? 'text-white' : ''}
-            onClick={() => toggleModal(ModalType.EVENTS, !isModalOpen(ModalType.EVENTS))}>
-            Events
+            color={isModalOpen(ModalType.RULES) ? 'primary' : undefined}
+            className={isModalOpen(ModalType.RULES) ? 'text-white' : ''}
+            onClick={() => toggleModal(ModalType.RULES, !isModalOpen(ModalType.RULES))}>
+            Rules
           </Button>
         </NavbarItem>
         <NavbarItem>
@@ -78,18 +78,19 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
           <Button
             onClick={() => {
               GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
-              setIsAudioModalOpen(true);
+              setIsSettingsOpen(true);
             }}>
             Settings
           </Button>
-          <AudioModal
-            audioPresenter={GameCorePresenter.AUDIO_PRESENTER}
-            isOpen={isAudioModalOpen}
-            onClose={() => {
-              GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
-              setIsAudioModalOpen(false);
-            }}
-          />
+          {isSettingsOpen && (
+            <GameSettingsModal
+              audioPresenter={GameCorePresenter.AUDIO_PRESENTER}
+              onClose={() => {
+                GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
+                setIsSettingsOpen(false);
+              }}
+            />
+          )}
         </NavbarItem>
         <NavbarItem>
           <Button onClick={() => nextRound()}>Next round</Button>

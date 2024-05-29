@@ -83,7 +83,13 @@ interface ITrainingCenterUserChoicesConfig {
 }
 
 interface ITrainingCenterModelConfig {
-  defaultRotation: number;
+  minRotation: number;
+  maxRotation: number;
+}
+
+interface IArenaModelConfig {
+  minRotation: number;
+  maxRotation: number;
 }
 
 interface IBuildingFactoryConfig {
@@ -112,6 +118,7 @@ interface IBuildingConfig {
   model: {
     buildingFactory: IBuildingFactoryConfig;
     trainingCenterModel: ITrainingCenterModelConfig;
+    arenaModel: IArenaModelConfig;
   };
   view: {
     trainingCenter: ITrainingCenterViewConfig;
@@ -313,6 +320,15 @@ interface ICharacterConfig {
   model: ICharacterModelConfig;
 }
 
+interface IRulesConfig {
+  title: string;
+  content: string;
+}
+
+interface INarratorBoxConfig {
+  enabled: boolean;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -324,6 +340,8 @@ interface IConfig {
   statistics: IStatisticsConfig;
   usableObject: IUsableObjectConfig;
   character: ICharacterConfig;
+  rules: IRulesConfig[];
+  narratorBox: INarratorBoxConfig;
 }
 
 export const config: IConfig = configJson;

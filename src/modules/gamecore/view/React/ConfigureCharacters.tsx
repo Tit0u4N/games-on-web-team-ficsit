@@ -75,6 +75,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
   const [pointsLeft, setPointsLeft] = useState<number[]>([remainingPoints, remainingPoints, remainingPoints]);
+  const [isRandomGenerated, setIsRandomGenerated] = useState<boolean>(false);
 
   const totalFlags = Object.values(CountryCode).length;
   const totalPages = Math.ceil(totalFlags / FLAGS_PER_PAGE);
@@ -218,6 +219,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     });
 
     setCharacters(randomCharacters);
+    setIsRandomGenerated(true);
   };
 
   const cardSize = 'w-[500px] h-[600px] p-2 pb-4';
@@ -229,7 +231,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab
               key={`RandomCharacter`}
-              title={`Random Character`}
+              title={`Random Athletes`}
               aria-label={`Menu Configuration Random Character`}
               className={'h-[50px]'}>
               <Card className={cardSize}>
@@ -238,15 +240,20 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                     color="primary"
                     className={'w-[350px] h-[75px] text-white text-3xl z-10'}
                     onClick={generateRandomCharacters}>
-                    Random Characters
+                    Random Athletes
                   </Button>
+                  {isRandomGenerated && (
+                    <div className={'mt-4'}>
+                      <p>Random Athletes Generated!</p>
+                    </div>
+                  )}
                 </CardBody>
               </Card>
             </Tab>
             {characters.map((character, index) => (
               <Tab
                 key={`Character${index + 1}`}
-                title={`Character ${index + 1}`}
+                title={`Athlete ${index + 1}`}
                 aria-label={`Menu Configuration Character${index + 1}`}
                 className={'h-[50px] '}>
                 <Card className={cardSize}>
