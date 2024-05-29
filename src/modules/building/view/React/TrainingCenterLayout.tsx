@@ -188,7 +188,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
                 setShowChoices(false);
                 const rounds = choiceSelected?.rounds;
                 const stats = choiceSelected?.stats;
-                const message = `Your character will be training for ${rounds} rounds and will gain ${stats} stats.`;
+                const message = `Your character will be training for ${rounds} rounds and will gain ${stats} xp.`;
                 setMessageContent(message);
                 setShowMessage(true);
                 trainingCenter.getEffect(selectedCharacter!, choiceSelected!);
