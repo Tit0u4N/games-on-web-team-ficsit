@@ -38,7 +38,6 @@ export class GameCorePresenter {
     setTimeout(() => {
       if (this.status === ApplicationStatus.MENU) {
         GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
-        if (GameCorePresenter.AUDIO_PRESENTER.music !== undefined) GameCorePresenter.AUDIO_PRESENTER.music.volume = 0.1;
       }
     }, 1000);
   }
@@ -85,7 +84,6 @@ export class GameCorePresenter {
     this.notifyViewChange();
     GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
     GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
-    if (GameCorePresenter.AUDIO_PRESENTER.music !== undefined) GameCorePresenter.AUDIO_PRESENTER.music.volume = 0.35;
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
