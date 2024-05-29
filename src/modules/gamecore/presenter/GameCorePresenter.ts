@@ -13,6 +13,7 @@ import { MapLimits } from '@map/view/Babylon/MapView.ts';
 import { Season } from '@core/singleton/Season.ts';
 import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
 import { AtmosphereType, AudioPresenter, MusicType } from '../../audio/presenter/AudioPresenter.ts';
+import { OlympicsPresenter } from '@/modules/olympics/presenter/OlympicsPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -27,6 +28,7 @@ export class GameCorePresenter {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private _setIsLoading!: (isLoading: boolean) => void;
   public static readonly AUDIO_PRESENTER: AudioPresenter = new AudioPresenter();
+  private _olympicsPresenter!: OlympicsPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -78,10 +80,11 @@ export class GameCorePresenter {
     const characterArray = Array.from(this._characterPresenter.characters);
     this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
     this.gameModel.createNewGame();
-    this.status = ApplicationStatus.GAME;
+    this.status = ApplicationStatus.OLYMPICS; //TODO to replace GAME
     this.notifyViewChange();
     GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
     GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
+    return; //TODO to remove
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
@@ -113,7 +116,7 @@ export class GameCorePresenter {
     return this.events;
   }
 
-  public getTournamentManagerPresenter(): TournamentManagerPresenter {
+  get TournamentManagerPresenter(): TournamentManagerPresenter {
     return this._tournamentManagerPresenter;
   }
 
@@ -174,6 +177,11 @@ export class GameCorePresenter {
 
   get buildingPresenter(): BuildingPresenter {
     return this._buildingPresenter;
+  }
+
+  get olympicsPresenter(): OlympicsPresenter {
+    if (!this._olympicsPresenter) this._olympicsPresenter = new OlympicsPresenter(this);
+    return this._olympicsPresenter;
   }
 
   public getCurrentSeason(): Season {

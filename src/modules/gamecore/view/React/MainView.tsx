@@ -5,6 +5,7 @@ import { GameView } from './GameView.tsx';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 import { LoadingScreen } from '@/component/LoadingScreen.tsx';
 import { ConfigureCharacters } from '@gamecore/view/React/ConfigureCharacters.tsx';
+import { OlympicsView } from '@gamecore/view/React/OlympicsView.tsx';
 
 interface MainComponentProps {
   gameCorePresenter: GameCorePresenter;
@@ -60,11 +61,13 @@ export class MainComponent extends React.Component<MainComponentProps> {
           <MenuView presenter={this.props.gameCorePresenter} />
         ) : currentStatus === ApplicationStatus.CONFIGURE_CHARACTERS ? (
           <ConfigureCharacters presenter={this.props.gameCorePresenter} />
-        ) : (
+        ) : currentStatus === ApplicationStatus.GAME ? (
           <>
             <LoadingScreen isLoading={this.getIsLoading()} />
             <GameView presenter={this.props.gameCorePresenter} />
           </>
+        ) : (
+          <OlympicsView presenter={this.props.gameCorePresenter} />
         )}
       </>
     );
