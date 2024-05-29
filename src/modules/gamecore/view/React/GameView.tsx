@@ -32,7 +32,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [isRulesOpen, setIsRulesOpen] = React.useState(false);
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [showSpeechBox, setShowSpeechBox] = React.useState(true); // State to manage the visibility of the SpeechBox
+  const [showSpeechBox, setShowSpeechBox] = React.useState(config.narratorBox.enabled);
 
   ModalManager.createInstance(setModalToShow);
 
@@ -97,8 +97,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   return (
     <div>
-      {showSpeechBox && config.narratorBox.enabled && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
-      {showSpeechBox && config.narratorBox.enabled &&
+      {showSpeechBox && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
+      {showSpeechBox &&
         <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>} {/* Overlay to block interactions */}
       <div className={'HUD-container'}>
         {!showSpeechBox && (

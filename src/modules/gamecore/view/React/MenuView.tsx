@@ -7,7 +7,7 @@ import { AvatarCredit } from '@/component/AvatarCredit.tsx';
 import { ApplicationStatus } from '@gamecore/presenter/ApplicationStatus.ts';
 import { MapSizeOption } from '@/component/options/MapSizeOption.tsx';
 import { SeedInputOption } from '@/component/options/SeedInputOption.tsx';
-import { ControlOptions } from '@gamecore/view/React/ControlOptions.tsx';
+import { ControlOptions } from '@/component/options/ControlOptions.tsx';
 import { config } from '@core/Interfaces.ts';
 
 interface Props {
