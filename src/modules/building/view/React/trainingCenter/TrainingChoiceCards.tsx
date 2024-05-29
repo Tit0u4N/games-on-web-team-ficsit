@@ -1,9 +1,9 @@
 import React from 'react';
-import { Character } from '../../../../character/model/Character.ts';
-import { config } from '../../../../../core/Interfaces.ts';
+import { Character } from '@character/model/Character.ts';
+import { config } from '@core/Interfaces.ts';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 import { TrainingChoiceCard } from './TrainingChoiceCard.tsx';
-import { XpManager } from '../../../../../core/singleton/XpManager.ts';
+import { XpManager } from '@core/singleton/XpManager.ts';
 
 export type TrainingChoice = {
   label: string;

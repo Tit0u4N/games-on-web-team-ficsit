@@ -1,12 +1,12 @@
-import { Character } from '../../character/model/Character.ts';
+import { Character } from '@character/model/Character.ts';
 import { TournamentManagerPresenter } from '../presenter/TournamentManagerPresenter.ts';
 import { TournamentDifficulty } from './TournamentDifficulty.ts';
 import { RewardModel } from './RewardModel.ts';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { Season } from '../../../core/singleton/Season.ts';
-import { ModalManager } from '../../../core/singleton/ModalManager.ts';
-import { XpManager } from '../../../core/singleton/XpManager.ts';
-import { Statistics } from '../../character/model/Statistics.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { Season } from '@core/singleton/Season.ts';
+import { ModalManager } from '@core/singleton/ModalManager.ts';
+import { XpManager } from '@core/singleton/XpManager.ts';
+import { Statistics } from '@character/model/Statistics.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
