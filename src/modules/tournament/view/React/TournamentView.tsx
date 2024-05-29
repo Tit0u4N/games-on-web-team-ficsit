@@ -13,10 +13,10 @@ import {
 } from '@nextui-org/react';
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import { NPCList } from './NPCList.tsx';
-import { DiceComponent } from '../../../dice/view/React/DiceComponent.tsx';
+import { DiceComponent } from '@dice/view/React/DiceComponent.tsx';
 import CharacterLayout from '../../../character/view/React/CharacterLayout.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { RandomNumber } from '../../../../component/RandomNumber.tsx';
+import { RandomNumber } from '@/component/RandomNumber.tsx';
 
 interface Props {
   tournament: TournamentPresenter;
