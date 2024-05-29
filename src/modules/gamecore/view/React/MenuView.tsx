@@ -50,6 +50,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                     description={'Enter a seed value for map generation (optional)'}
                     option={'mapSeed'}
                   />
+                  <DividerOptions />
                   <div className={'w-full flex justify-between aline-center'} onClick={() => toggleNarratorSwitch()}>
                     <div>
                       <h3 className={'text-l'}>Narrator Box</h3>
