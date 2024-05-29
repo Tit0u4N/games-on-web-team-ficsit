@@ -100,7 +100,8 @@
         }
       },
       "trainingCenterModel": {
-        "defaultRotation": 8
+        "minRotation": 5,
+        "maxRotation": 8
       }
     },
     "view": {
@@ -313,7 +314,7 @@
         "name": "Athletics",
         "icon": "athletics",
         "description": "Athletics is a collection of sporting events that involve competitive running, jumping, throwing, and walking.",
-        "seasons": ["spring", "summer", "autumn", "winter"]
+        "seasons": ["spring", "summer", "autumn"]
       },
       {
         "name": "Swimming",
