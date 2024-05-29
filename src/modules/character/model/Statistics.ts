@@ -69,7 +69,7 @@ export class Statistics extends Map<Sport, number> {
     return new Statistics(this);
   }
 
-  static initRandomStats(totalStats: number = 60, minStats: number = 5): Map<Sport, number> {
+  static initRandomStats(totalStats: number = 55, minStats: number = 5): Map<Sport, number> {
     const stats = new Map<Sport, number>();
     for (const sport of Sport.getAll()) {
       stats.set(sport, minStats);
@@ -88,6 +88,14 @@ export class Statistics extends Map<Sport, number> {
     for (const [sport, value] of stats) {
       if (value > 20) stats.set(sport, 20);
       stats.set(sport, XpManager.getInstance().getXpFromLevel(stats.get(sport)!));
+    }
+    return stats;
+  }
+
+  public static createFromLevelMap(levelMap: Map<Sport, number>): Statistics {
+    const stats = new Statistics();
+    for (const [sport, level] of levelMap) {
+      stats.set(sport, XpManager.getInstance().getXpFromLevel(level));
     }
     return stats;
   }
