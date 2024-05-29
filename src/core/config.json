@@ -58,13 +58,31 @@
   "arcRotateCameraKeyboardInputs": {
     "controls": {
       "keys": {
-        "keysUp": ["z", "ArrowUp"],
-        "keysDown": ["s", "ArrowDown"],
-        "keysLeft": ["q", "ArrowLeft"],
-        "keysRight": ["d", "ArrowRight"],
-        "keysZoomIn": ["+"],
-        "keysZoomOut": ["-"],
-        "resetPosition": ["r"]
+        "keysUp": [
+          "z",
+          "ArrowUp"
+        ],
+        "keysDown": [
+          "s",
+          "ArrowDown"
+        ],
+        "keysLeft": [
+          "q",
+          "ArrowLeft"
+        ],
+        "keysRight": [
+          "d",
+          "ArrowRight"
+        ],
+        "keysZoomIn": [
+          "+"
+        ],
+        "keysZoomOut": [
+          "-"
+        ],
+        "resetPosition": [
+          "r"
+        ]
       }
     },
     "config": {
@@ -107,8 +125,7 @@
       "trainingCenter": {
         "trainingChoices": {
           "userChoices": {
-            "lowDiceScore":
-            [
+            "lowDiceScore": [
               {
                 "label": "Small improvement, short training (1 stat, 2 rounds)",
                 "stats": 1,
@@ -128,8 +145,7 @@
                 "image": "/vite.svg"
               }
             ],
-            "mediumDiceScore":
-            [
+            "mediumDiceScore": [
               {
                 "label": "Moderate improvement, short training (4 stats, 1 round)",
                 "stats": 4,
@@ -149,8 +165,7 @@
                 "image": "/vite.svg"
               }
             ],
-            "highDiceScore":
-            [
+            "highDiceScore": [
               {
                 "label": "Excellent improvement, short training (7 stats, 1 round)",
                 "stats": 7,
@@ -277,7 +292,7 @@
           }
         }
       },
-      "mapPresenter":  {
+      "mapPresenter": {
         "defaultOptions": {
           "size": 60,
           "seed": null
@@ -307,37 +322,54 @@
         "name": "Skiing",
         "icon": "skiing",
         "description": "Skiing is a means of transport using skis to glide on snow. Variations of purpose include basic transport, a recreational activity, or a competitive winter sport.",
-        "seasons": ["winter"]
+        "seasons": [
+          "winter"
+        ]
       },
       {
         "name": "Athletics",
         "icon": "athletics",
         "description": "Athletics is a collection of sporting events that involve competitive running, jumping, throwing, and walking.",
-        "seasons": ["spring", "summer", "autumn", "winter"]
+        "seasons": [
+          "spring",
+          "summer",
+          "autumn",
+          "winter"
+        ]
       },
       {
         "name": "Swimming",
         "icon": "swimming",
         "description": "Swimming is an individual or team racing sport that requires the use of one's entire body to move through water.",
-        "seasons": ["summer"]
+        "seasons": [
+          "summer"
+        ]
       },
       {
         "name": "Hockey",
         "icon": "hockey",
         "description": "Hockey is a sport in which two teams play against each other by trying to maneuver a ball or a puck into the opponent's goal using a hockey stick.",
-        "seasons": ["winter"]
+        "seasons": [
+          "winter"
+        ]
       },
       {
         "name": "Bobsleigh",
         "icon": "bobsleigh",
         "description": "Bobsleigh is a winter sport in which teams of two or four teammates make timed runs down narrow, twisting, banked, iced tracks in a gravity-powered sled.",
-        "seasons": ["winter"]
+        "seasons": [
+          "winter"
+        ]
       },
       {
         "name": "Kayak",
         "icon": "kayak",
         "description": "Kayaking is the use of a kayak for moving across water. It is distinguished from canoeing by the sitting position of the paddler and the number of blades on the paddle.",
-        "seasons": ["spring", "summer", "autumn"]
+        "seasons": [
+          "spring",
+          "summer",
+          "autumn"
+        ]
       }
     ]
   },
@@ -381,5 +413,47 @@
         "maxItems": 20
       }
     }
-  }
+  },
+  "rules": [
+    {
+      "title": "Overview",
+      "content": "The game operates on a turn-by-turn basis. Players train their characters over four in-game years (48 turns) to compete in the JO (major sports event)."
+    },
+    {
+      "title": "Characters",
+      "content": "Each player controls three characters. Characters possess unique abilities and attributes. Movement across the map consumes Movement Points (MP), which reset at the beginning of each turn."
+    },
+    {
+      "title": "Map and Movement",
+      "content": "The game world features various strategic locations, including Training Centers and Arenas. Each tile on the map requires a specific amount of MP to traverse. MP resets at the start of each turn, enabling new movements."
+    },
+    {
+      "title": "Training Centers",
+      "content": "Training Centers are designated locations for character enhancement. Players can allocate characters to Training Centers for specialized training over multiple turns. Training regimens vary by center and season, providing different statistical boosts."
+    },
+    {
+      "title": "Tournaments and Arenas",
+      "content": "Arenas host tournaments where characters compete against AI-controlled opponents. Tournament outcomes are determined by rolling a twenty-sided die (d20), with each roll influencing the match result. Victorious tournaments award characters equipment items that confer bonuses or penalties to their stats. The effectiveness of equipment varies with the seasons, adding strategic depth."
+    },
+    {
+      "title": "Equipment and Items",
+      "content": "Characters can acquire equipment items by winning tournaments. Combining certain items can yield enhanced bonuses. Equipment bonuses or maluses fluctuate with the seasons, necessitating strategic planning."
+    },
+    {
+      "title": "Turn Structure",
+      "content": "The game spans 48 turns, representing four in-game years. Each turn permits players to: Move characters across the map. Assign characters to Training Centers. Enter tournaments in Arenas. At the start of each turn, characters’ MP resets, allowing for new movements and actions."
+    },
+    {
+      "title": "Seasons and Strategy",
+      "content": "The game is segmented into seasons, each influencing gameplay: Training Centers offer different regimens per season. Tournaments align with the seasonal sports calendar. Equipment items’ effectiveness is season-dependent."
+    },
+    {
+      "title": "Winning the Game",
+      "content": "The game culminates in the JO, where characters compete for ultimate glory. Performance in the JO is influenced by characters' statistics and equipment acquired throughout the game. Strategic decisions made during training, tournaments, and item management throughout the 48 turns will determine the victor."
+    },
+    {
+      "title": "Additional Notes",
+      "content": "Players must balance training, competing in tournaments, and managing equipment to optimize character development. The combination of strategic planning and chance (via d20 rolls) provides a dynamic and engaging gameplay experience."
+    }
+  ]
 }

@@ -313,6 +313,11 @@ interface ICharacterConfig {
   model: ICharacterModelConfig;
 }
 
+interface IRulesConfig {
+  title: string;
+  content: string;
+}
+
 interface IConfig {
   babylonMainView: IBabylonMainViewConfig;
   arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -324,6 +329,7 @@ interface IConfig {
   statistics: IStatisticsConfig;
   usableObject: IUsableObjectConfig;
   character: ICharacterConfig;
+  rules: IRulesConfig[]
 }
 
 export const config: IConfig = configJson;
