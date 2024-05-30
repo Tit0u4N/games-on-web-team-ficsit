@@ -2,10 +2,17 @@ import { Character } from '@character/model/Character.ts';
 import { OlympicsPresenter } from '@/modules/olympics/presenter/OlympicsPresenter.ts';
 import { animals, uniqueNamesGenerator } from 'unique-names-generator';
 
+export enum OlympicsState {
+  STANDINGS,
+  TOURNAMENT,
+  FINISHED,
+}
+
 export class OlympicsModel {
   private readonly _teams: { color: string; candidats: Character[]; name: string; isPlayer: boolean }[];
   private readonly _candidats: { candidat: Character; points: number }[];
   public readonly olympicsPresenter: OlympicsPresenter;
+  private _state: OlympicsState = OlympicsState.STANDINGS;
   private static colorCounter = 0;
   private static colors = [
     '#22c55e',
@@ -147,5 +154,13 @@ export class OlympicsModel {
       }
     }
     return candidats;
+  }
+
+  get state() {
+    return this._state;
+  }
+
+  nextTournament() {
+    this._state = OlympicsState.TOURNAMENT;
   }
 }
