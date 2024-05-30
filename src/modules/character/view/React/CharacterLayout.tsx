@@ -25,8 +25,11 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTourna
           </div>
           <Divider orientation="vertical" />
           <div className="flex flex-col justify-between w-full p-1">
-            <div className="">
-              <h3 className="text-xl">{character.name}</h3>
+            <div className="w-full flex items-center align-center p-2">
+              <h3 className="text-2xl">{character.name}</h3>
+              <div className={"ms-2"}>
+                { character.nationality.getFlag() }
+              </div>
             </div>
             <Divider />
             <div className="grid grid-cols-6 gap-1 ">
