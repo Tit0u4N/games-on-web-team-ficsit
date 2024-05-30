@@ -26,16 +26,20 @@ export const PersonalStanding: FC<PersonalStandingProps> = ({ presenter }) => {
           <TableColumn>Points</TableColumn>
         </TableHeader>
         <TableBody>
-          {presenter.olympicsModel.candidats.map((candidat, index) => (
-            <TableRow key={index}>
-              <TableCell className={candidat.candidat.isPlayer ? 'font-bold' : ''}>{candidat.candidat.name}</TableCell>
-              <TableCell>{candidat.candidat.nationality.getCode()}</TableCell>
-              <TableCell>{candidat.points}</TableCell>
-              <TableCell>
-                <TeamView team={candidat.team} displayType={DisplayTypeEnum.SPAN} />
-              </TableCell>
-            </TableRow>
-          ))}
+          {presenter.olympicsModel.candidats
+            .sort((a, b) => b.points - a.points)
+            .map((candidat, index) => (
+              <TableRow key={index}>
+                <TableCell className={candidat.candidat.isPlayer ? 'font-bold' : ''}>
+                  {candidat.candidat.name}
+                </TableCell>
+                <TableCell>{candidat.candidat.nationality.getCode()}</TableCell>
+                <TableCell>{candidat.points}</TableCell>
+                <TableCell>
+                  <TeamView team={candidat.team} displayType={DisplayTypeEnum.SPAN} />
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </Card>

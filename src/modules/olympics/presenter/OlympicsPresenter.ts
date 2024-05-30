@@ -38,4 +38,23 @@ export class OlympicsPresenter {
   getCurrentTournamentPresenter(): TournamentPresenter {
     return this._tournamentPresenterList[this._tournamentNb];
   }
+
+  getNextTournament() {
+    if (this._tournamentNb < this._tournamentPresenterList.length) {
+      return this._tournamentPresenterList[this._tournamentNb];
+    }
+    return null;
+  }
+
+  isLastTournament() {
+    return this._tournamentNb >= this._tournamentPresenterList.length - 1;
+  }
+
+  incrementTournamentNb() {
+    this._tournamentNb++;
+  }
+
+  getTeamRank() {
+    return this._olympicsModel.getTeamRank();
+  }
 }

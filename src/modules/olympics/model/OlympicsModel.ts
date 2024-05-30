@@ -1,6 +1,7 @@
 import { Character } from '@character/model/Character.ts';
 import { OlympicsPresenter } from '@/modules/olympics/presenter/OlympicsPresenter.ts';
 import { animals, uniqueNamesGenerator } from 'unique-names-generator';
+import { ModalManager } from '@core/singleton/ModalManager.ts';
 
 export enum OlympicsState {
   STANDINGS,
@@ -49,7 +50,7 @@ export class OlympicsModel {
         points: 0,
       });
     }
-    for (let i = this._candidats.length; i < 64; i++) {
+    for (let i = this._candidats.length; i < 16; i++) {
       this._candidats.push({
         candidat: this.createNPCs(),
         points: 0,
@@ -162,5 +163,43 @@ export class OlympicsModel {
 
   nextTournament() {
     this._state = OlympicsState.TOURNAMENT;
+    const candidats: Character[] = [];
+    for (const candidat of this._candidats) {
+      candidats.push(candidat.candidat);
+    }
+    this.olympicsPresenter.getCurrentTournamentPresenter().startTournament(candidats);
+    ModalManager.getInstance().updateCurrentModal();
+  }
+
+  private getPointsFromRank(rank: number) {
+    //20 places in the ranking
+    const points = [20, 16, 14, 12, 10, 8, 6, 5, 4, 3, 2, 1, 0];
+    return points[rank];
+  }
+
+  endTournament() {
+    this._state = OlympicsState.STANDINGS;
+    const finalRanking = this.olympicsPresenter.getCurrentTournamentPresenter().tournamentModel.finalRankings;
+    for (const ranking of finalRanking) {
+      const candidat = ranking.character;
+      this._candidats.find((c) => c.candidat.id === candidat.id)!.points += this.getPointsFromRank(ranking.rank);
+    }
+    this.olympicsPresenter.incrementTournamentNb();
+    if (this.olympicsPresenter.isLastTournament()) {
+      this._state = OlympicsState.FINISHED;
+    }
+    ModalManager.getInstance().updateCurrentModal();
+  }
+
+  getTeamRank() {
+    let rank = 1;
+    const teams = this.teams.sort((a, b) => b.points - a.points);
+    for (let i = 0; i < teams.length; i++) {
+      if (teams[i].isPlayer) {
+        return rank;
+      }
+      rank++;
+    }
+    return rank;
   }
 }

@@ -23,14 +23,13 @@ export const OlympicsView: FC<OlympicsViewProps> = ({ presenter }) => {
       backdrop="transparent"
       isDismissable={false}
       hideCloseButton={true}>
-      <ModalContent className={'flex items-center justify-center'}>
-        <div className={'w-[85%] h-[85%]'}>
-          {presenter.olympicsPresenter.olympicsModel.state == OlympicsState.STANDINGS ? (
-            <StandingView presenter={presenter.olympicsPresenter} />
-          ) : (
-            <OlympicsTournamentView presenter={presenter.olympicsPresenter} />
-          )}
-        </div>
+      <ModalContent>
+        {presenter.olympicsPresenter.olympicsModel.state == OlympicsState.STANDINGS ||
+        presenter.olympicsPresenter.olympicsModel.state == OlympicsState.FINISHED ? (
+          <StandingView presenter={presenter.olympicsPresenter} />
+        ) : (
+          <OlympicsTournamentView presenter={presenter.olympicsPresenter} setHideModal={setHideModal} />
+        )}
       </ModalContent>
     </Modal>
   );

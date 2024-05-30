@@ -33,7 +33,7 @@ export class TournamentFactory {
         else nbRound = 4;
         break;
       case TournamentDifficulty.OLYMPIC:
-        nbRound = 4;
+        nbRound = 2;
         break;
     }
     return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, sport, reward);

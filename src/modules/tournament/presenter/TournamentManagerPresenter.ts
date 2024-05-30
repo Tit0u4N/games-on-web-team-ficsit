@@ -40,7 +40,7 @@ export class TournamentManagerPresenter {
         minStats = 6;
         break;
       case TournamentDifficulty.INTERNATIONAL:
-        totalStats = 85;
+        totalStats = 80;
         minStats = 8;
         break;
     }
@@ -52,7 +52,7 @@ export class TournamentManagerPresenter {
   }
 
   generateNPCsForOlympics(): Character {
-    const totalStats = 100;
+    const totalStats = 95;
     const minStats = 9;
     return this._gameCorePresenter.characterPresenter.generateNPC(totalStats, minStats);
   }
