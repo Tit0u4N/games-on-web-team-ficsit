@@ -16,14 +16,15 @@ export class CharacterBuilder {
   private readonly _modelName?: string;
   private readonly _modelPath?: string;
 
-  constructor(id: number,
-              name: string,
-              nationality: Country,
-              age: number,
-              image: string,
-              isPlayer: boolean = false,
-              modelName?: string,
-              modelPath?: string
+  constructor(
+    id: number,
+    name: string,
+    nationality: Country,
+    age: number,
+    image: string,
+    isPlayer: boolean = false,
+    modelName?: string,
+    modelPath?: string,
   ) {
     this._id = id;
     this._name = name;

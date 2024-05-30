@@ -20,8 +20,8 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
     this._modalIsOpen = false;
   }
 
-  initView(scene: Scene) {
-    this._trainingCenterView.initView(scene);
+  async initView(scene: Scene) {
+    await this._trainingCenterView.initView(scene);
   }
 
   get trainingCenter(): TrainingCenterModel {
