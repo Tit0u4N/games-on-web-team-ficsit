@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody } from '@nextui-org/react';
-import { Character } from '../../../../character/model/Character.ts';
+import { Character } from '@character/model/Character.ts';
 import { CharacterStats } from './CharacterStats.tsx';
 import { TrainingChoice } from './TrainingChoiceCards.tsx';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';

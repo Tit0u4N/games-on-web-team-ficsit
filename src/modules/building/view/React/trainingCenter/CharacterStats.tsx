@@ -22,8 +22,8 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
 
   return (
     <div className={'flex w-full h-full overflow-hidden'}>
-      <div className={'w-1/6 aspect-square'}>
-        {character.image && <Image radius={'lg'} src={character.image} alt={character.name} width={50} height={50} />}
+      <div className={'w-1/6'}>
+        {character.image && <Image className={"size-full"} src={character.image} alt={character.name} />}
       </div>
       <div className={'flex flex-col w-full'}>
         <div className={'h-full flex flex-col items-center'}>
@@ -33,18 +33,20 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
         <div className={'ml-2 grid grid-cols-3 gap-1'}>
           {Array.from(stats.keys()).map((sport) => (
             <div className={'text-sm'} key={sport.name}>
-              <div className={'text-sm'} key={sport.name}>
-                {sport.name}:
+              <div className={'flex gap-1'} key={sport.name}>
+                <Image className={"size-[20px]"} src={sport.iconPath}/>
+                <div className={'text-sm'}> {sport.name} :
                 {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character ? (
                   <span className="text-green-500">
                     {XpManager.getInstance().getLevelFromXp(stats.getXp(sport) + choice.stats)}
                   </span>
                 ) : (
-                  stats.get(sport)
+                  ' ' + stats.get(sport)
                 )}
                 {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character && (
                   <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>
                 )}
+                </div>
               </div>
               <div className="-mt-1.5">
                 <Slider

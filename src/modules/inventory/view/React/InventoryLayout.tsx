@@ -37,15 +37,14 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
                 {Array.from(inventory.character.statistics.keys()).map((sport, index) => (
                   <div key={index} className="h-1/6 max-h-[16.66%]">
                     <div className="grid grid-cols-5">
-                      <div>
-                        <Image src={sport.iconPath} className={'max-h-[25px]'} />{' '}
+                      <div className={"px-2"}>
+                        <Image src={sport.iconPath} className={'max-h-[25px]'} />
                       </div>
                       <div className="col-span-2">{sport.name}</div>
                       <div>{inventory.character.statistics.get(sport)}</div>
-                      <div>
+                      <div className={"text-primary"}>
                         {inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
-                          inventory.character.statistics.get(sport) >
-                        0
+                          inventory.character.statistics.get(sport) > 0
                           ? '+' +
                             (inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
                               inventory.character.statistics.get(sport))
