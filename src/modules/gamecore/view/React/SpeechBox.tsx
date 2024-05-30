@@ -43,7 +43,7 @@ const SpeechBox: React.FC<SpeechBoxProps> = ({speeches, onComplete}) => {
       <div className="flex items-start">
         <div className="w-20 h-20 bg-white rounded-full overflow-hidden mr-4 z-50 top-[-20px] left-[-20px] absolute">
           <img
-            src="/images/narrator/narrator.png" // Replace with your character image URL
+            src="./images/narrator/narrator.png" // Replace with your character image URL
             alt="Character"
             className="w-full h-full object-cover"
           />

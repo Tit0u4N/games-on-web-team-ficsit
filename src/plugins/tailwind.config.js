@@ -12,7 +12,7 @@ export default {
         case: '#f4f4f4',
       },
       backgroundImage: {
-        menu: "url('/img/bg_menu.png')",
+        menu: "url('/images/menu/bg.png')",
       },
     },
   },
