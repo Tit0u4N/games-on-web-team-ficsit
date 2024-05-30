@@ -16,6 +16,10 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
 
   return (
     <Card radius={'lg'} className={'flex flex-col gap-1 w-[380px] p-2'}>
+      <h3 className={"text-xl px-2 py-1"}>
+        {inventory.character.name}'s Inventory
+        <span className={"ms-2"}>{inventory.character.nationality.getFlag()}</span>
+      </h3>
       <div className="w-full h-[300px]">
         <div className="flex justify-between p-[10px] h-full w-full">
           <div className="flex flex-col w-1/5 gap-1">
