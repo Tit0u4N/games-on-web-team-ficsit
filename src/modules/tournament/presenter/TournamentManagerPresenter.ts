@@ -51,14 +51,10 @@ export class TournamentManagerPresenter {
     return presentCharacters;
   }
 
-  generateNPCsForOlympics(numberNPCs: number): Character[] {
+  generateNPCsForOlympics(): Character {
     const totalStats = 100;
     const minStats = 9;
-    const presentCharacters: Character[] = [];
-    for (let i = 0; i < numberNPCs; i++) {
-      presentCharacters.push(this._gameCorePresenter.characterPresenter.generateNPC(totalStats, minStats));
-    }
-    return presentCharacters;
+    return this._gameCorePresenter.characterPresenter.generateNPC(totalStats, minStats);
   }
 
   static generateDifficulty(): TournamentDifficulty {

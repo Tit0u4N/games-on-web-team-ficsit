@@ -1,10 +1,16 @@
 import { Character } from '@character/model/Character.ts';
 
 interface TeamViewProps {
-  team: { color: string; candidats: Character[]; name: string };
+  team: { color: string; candidats?: Character[]; name: string; points?: number; isPlayer: boolean };
+  displayType: DisplayTypeEnum;
 }
 
-export const TeamView: React.FC<TeamViewProps> = ({ team }) => {
+export enum DisplayTypeEnum {
+  SPAN,
+  BOX_TEAM,
+}
+
+export const TeamView: React.FC<TeamViewProps> = ({ team, displayType }) => {
   const colors = [
     { colorHex: '#22c55e', colorBg: 'bg-green-500', colorText: 'text-green-500' },
     { colorHex: '#dc2626', colorBg: 'bg-red-600', colorText: 'text-red-600' },
@@ -31,17 +37,37 @@ export const TeamView: React.FC<TeamViewProps> = ({ team }) => {
     { colorHex: '#6b7280', colorBg: 'bg-gray-500', colorText: 'text-gray-500' },
   ];
 
-  const classes = 'p-2 pb-4 rounded-lg ' + colors.find((value) => value.colorHex == team.color)?.colorBg;
-  return (
-    <div className={'flex flex-col items-center justify-center rounded-lg'}>
-      <div className={classes}>
-        <div>
-          <h2>{team.name}</h2>
-          {team.candidats.map((character, index) => (
-            <div key={index}>{character.name}</div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  const getContent = (displayType: DisplayTypeEnum) => {
+    switch (displayType) {
+      case DisplayTypeEnum.BOX_TEAM:
+        return (
+          <div className={'flex flex-col items-center justify-center rounded-lg'}>
+            <div className={'p-2 pb-4 rounded-lg'}>
+              <div>
+                <h2
+                  className={
+                    (team.isPlayer ? 'font-bold ' : 'font-semibold ') +
+                    colors.find((color) => color.colorHex == team.color)?.colorText
+                  }>
+                  {team.name}
+                </h2>
+                {team.candidats?.map((character, index) => <div key={index}>{character.name}</div>)}
+              </div>
+            </div>
+          </div>
+        );
+      case DisplayTypeEnum.SPAN:
+        return (
+          <span
+            className={
+              (team.isPlayer ? 'font-bold ' : 'font-semibold ') +
+              colors.find((color) => color.colorHex == team.color)?.colorText
+            }>
+            {team.name}
+          </span>
+        );
+    }
+  };
+
+  return getContent(displayType);
 };
