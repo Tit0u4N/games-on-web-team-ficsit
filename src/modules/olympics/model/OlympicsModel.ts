@@ -96,7 +96,7 @@ export class OlympicsModel {
   }
 
   private createNPCs(): Character {
-    return this.olympicsPresenter.gameCorePresenter.TournamentManagerPresenter.generateNPCsForOlympics();
+    return this.olympicsPresenter.gameCorePresenter.tournamentManagerPresenter.generateNPCsForOlympics();
   }
 
   private getNextColor() {

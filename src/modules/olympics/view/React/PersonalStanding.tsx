@@ -11,6 +11,7 @@ export const PersonalStanding: FC<PersonalStandingProps> = ({ presenter }) => {
   return (
     <Card className="p-5 pb-4 flex-wrap gap-2 w-full max-h-[100%] overflow-hidden">
       <Table
+        isStriped
         isHeaderSticky
         aria-label={'Personal standing'}
         className={'overflow-hidden'}

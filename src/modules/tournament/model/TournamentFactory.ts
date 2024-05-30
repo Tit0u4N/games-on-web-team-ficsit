@@ -32,6 +32,9 @@ export class TournamentFactory {
         if (random <= 7) nbRound = 3;
         else nbRound = 4;
         break;
+      case TournamentDifficulty.OLYMPIC:
+        nbRound = 4;
+        break;
     }
     return new TournamentModel(this._tournamentManagerPresenter, tournamentDifficulty, nbRound, sport, reward);
   }
@@ -53,6 +56,8 @@ export class TournamentFactory {
         rewards.push(this.generateReward(4, sport, ObjectRarity.RARE, true));
         rewards.push(this.generateReward(8, sport, ObjectRarity.UNCOMMON));
         rewards.push(this.generateReward(12, sport, ObjectRarity.COMMON));
+        break;
+      case TournamentDifficulty.OLYMPIC:
         break;
     }
     return rewards;

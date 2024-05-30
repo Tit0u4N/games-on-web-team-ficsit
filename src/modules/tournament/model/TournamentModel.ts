@@ -63,7 +63,6 @@ export class TournamentModel {
   }
 
   calculateScore(stat: number, diceRoll: number): number {
-    //TODO: tiredness
     return stat * 2 + diceRoll;
   }
 

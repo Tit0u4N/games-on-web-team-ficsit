@@ -61,13 +61,12 @@ export class MainComponent extends React.Component<MainComponentProps> {
           <MenuView presenter={this.props.gameCorePresenter} />
         ) : currentStatus === ApplicationStatus.CONFIGURE_CHARACTERS ? (
           <ConfigureCharacters presenter={this.props.gameCorePresenter} />
-        ) : currentStatus === ApplicationStatus.GAME ? (
+        ) : (
           <>
             <LoadingScreen isLoading={this.getIsLoading()} />
             <GameView presenter={this.props.gameCorePresenter} />
+            {currentStatus === ApplicationStatus.OLYMPICS && <OlympicsView presenter={this.props.gameCorePresenter} />}
           </>
-        ) : (
-          <OlympicsView presenter={this.props.gameCorePresenter} />
         )}
       </>
     );

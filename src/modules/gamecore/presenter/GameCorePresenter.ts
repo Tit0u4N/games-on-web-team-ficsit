@@ -82,11 +82,10 @@ export class GameCorePresenter {
     const characterArray = Array.from(this._characterPresenter.characters);
     this.inventoryList = inventoryPresenter.getDefaultInventories(characterArray);
     this.gameModel.createNewGame();
-    this.status = ApplicationStatus.OLYMPICS; //TODO to replace GAME
+    this.status = ApplicationStatus.GAME;
     this.notifyViewChange();
     GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.MAIN);
     GameCorePresenter.AUDIO_PRESENTER.playAtmosphere(AtmosphereType.MAIN);
-    return; //TODO to remove
 
     // Wait for the scene to be ready because react load in async
     setTimeout(async () => {
@@ -118,7 +117,7 @@ export class GameCorePresenter {
     return this.events;
   }
 
-  get TournamentManagerPresenter(): TournamentManagerPresenter {
+  get tournamentManagerPresenter(): TournamentManagerPresenter {
     return this._tournamentManagerPresenter;
   }
 
@@ -132,6 +131,12 @@ export class GameCorePresenter {
     }
     this._buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
+
+    if (this.gameModel.getRound() === 48) {
+      //Ends of the game
+      this._olympicsPresenter = new OlympicsPresenter(this);
+      this.status = ApplicationStatus.OLYMPICS;
+    }
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
@@ -182,7 +187,6 @@ export class GameCorePresenter {
   }
 
   get olympicsPresenter(): OlympicsPresenter {
-    if (!this._olympicsPresenter) this._olympicsPresenter = new OlympicsPresenter(this);
     return this._olympicsPresenter;
   }
 
