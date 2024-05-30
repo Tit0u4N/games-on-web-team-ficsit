@@ -83,7 +83,6 @@ export class PawnView {
     const pawn = this;
     this._mesh.actionManager!.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
-        console.log('click');
         if (!pawn.mesh) return;
         if (!pawn.isSelected) {
           pawn.mesh.scaling = new Vector3(

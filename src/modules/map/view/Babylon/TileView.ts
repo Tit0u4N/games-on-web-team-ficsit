@@ -47,13 +47,19 @@ export class TileView {
     mesh.position = getPosition({ x, y, type: baseTile.type }, PositionTypes.TILE);
 
     // Add physics to the mesh
-    if (baseTile.type !== TypesTile.ACCESSIBLE)
-      new PhysicsAggregate(
-        mesh,
-        PhysicsShapeType.BOX,
-        { mass: config.map.view.tileView.createHexagonMesh.mass },
-        this.scene,
-      );
+    if (baseTile.type !== TypesTile.ACCESSIBLE) {
+      try {
+        new PhysicsAggregate(
+            mesh,
+            PhysicsShapeType.BOX,
+            { mass: config.map.view.tileView.createHexagonMesh.mass },
+            this.scene,
+        );
+      } catch (e) {
+        alert('Error : sometime web assembly is not loaded, please reload the page.');
+      }
+    }
+
 
     return mesh;
   }
@@ -67,8 +73,6 @@ export class TileView {
     this._mesh.actionManager.registerAction(
       new ExecuteCodeAction(ActionManager.OnPickTrigger, function () {
         tile.mapView.mapPresenter.moveCharacterToTile(tile.x, tile.y);
-        console.log(tile.mesh.position);
-        console.log(tile.x + '_' + tile.y, tile.mapView.mapModel.getTile(tile.x, tile.y).subBiome?.id, tile.type);
       }),
     );
   }

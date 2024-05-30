@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         primary: '#4fce3f',
+        "primary-bg" : 'rgba(56,248,28,0.25)',
         case: '#f4f4f4',
       },
       backgroundImage: {
