@@ -38,6 +38,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: true # (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+          lfs: true # Fetches LFS data
 
       - name: Install Node.js and npm
         uses: actions/setup-node@v4
