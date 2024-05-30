@@ -26,6 +26,8 @@ export class DicePresenter implements Reactable, ViewInitable {
 
   private _handleDiceValue!: (value: number) => void;
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-expect-error
   private state: 'idle' | 'rolling' | 'rolled' = 'idle';
 
   constructor(scene: Scene, diceHandler: DiceHandler) {
