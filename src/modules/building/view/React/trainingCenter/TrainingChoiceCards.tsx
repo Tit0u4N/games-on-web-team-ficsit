@@ -1,8 +1,9 @@
 import React from 'react';
-import { Character } from '../../../../character/model/Character.ts';
-import { config } from '../../../../../core/Interfaces.ts';
+import { Character } from '@character/model/Character.ts';
+import { config } from '@core/Interfaces.ts';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 import { TrainingChoiceCard } from './TrainingChoiceCard.tsx';
+import { XpManager } from '@core/singleton/XpManager.ts';
 
 export type TrainingChoice = {
   label: string;
@@ -47,7 +48,7 @@ export const TrainingChoiceCards: React.FC<Props> = ({
     // Map over the choices from the config, and add the injuredRisk
     return choices.map((choice: any) => ({
       label: choice.label,
-      stats: choice.stats,
+      stats: XpManager.getInstance().gainXp(choice.stats),
       rounds: choice.rounds,
       image: choice.image,
       injuredRisk: calculateInjuryRisk(diceResult, choice.rounds),

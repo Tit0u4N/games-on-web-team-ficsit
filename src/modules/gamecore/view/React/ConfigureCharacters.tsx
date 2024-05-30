@@ -7,6 +7,7 @@ import { Character } from '@character/model/Character.ts';
 import characterLogos from '../../../../../public/images/characters';
 import { names, uniqueNamesGenerator } from 'unique-names-generator';
 import { CharacterFactory } from '@character/BuilderFactory/CharacterFactory.ts';
+import { Statistics } from '@character/model/Statistics.ts';
 
 interface ICharacter {
   logo: string;
@@ -24,9 +25,12 @@ interface Props {
 
 const sports = Sport.getAll();
 const FLAGS_PER_PAGE = 15;
+const POINT_STAT = 55;
+const MIN_PAR_STAT = 5;
+const remainingPoints = POINT_STAT - sports.length * MIN_PAR_STAT;
 const initialStats = sports.reduce(
   (acc, sport) => {
-    acc[sport.name] = 0;
+    acc[sport.name] = MIN_PAR_STAT;
     return acc;
   },
   {} as Record<string, number>,
@@ -70,7 +74,8 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   ]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentLogoPage, setCurrentLogoPage] = useState<number>(0);
-  const [pointsLeft, setPointsLeft] = useState<number[]>([20, 20, 20]);
+  const [pointsLeft, setPointsLeft] = useState<number[]>([remainingPoints, remainingPoints, remainingPoints]);
+  const [isRandomGenerated, setIsRandomGenerated] = useState<boolean>(false);
 
   const totalFlags = Object.values(CountryCode).length;
   const totalPages = Math.ceil(totalFlags / FLAGS_PER_PAGE);
@@ -101,18 +106,19 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
   }, [characters, pointsLeft]);
 
   const handleInputChange = (index: number, field: keyof ICharacter, value: string | CountryCode) => {
-    // If the field is age and the input is between 10 and 99, update the age
+    const newCharacters = [...characters];
     if (field === 'age') {
-      const age = parseInt(value, 10);
+      const age = parseInt(value as string, 10);
       if (age >= 10 && age <= 99) {
-        const newCharacters = [...characters];
         newCharacters[index] = { ...newCharacters[index], age };
         setCharacters(newCharacters);
         return;
       }
+    } else if (field === 'nationality') {
+      newCharacters[index] = { ...newCharacters[index], nationality: new Country(value as CountryCode) };
+    } else {
+      newCharacters[index] = { ...newCharacters[index], [field]: value };
     }
-    const newCharacters = [...characters];
-    newCharacters[index] = { ...newCharacters[index], [field]: value };
     setCharacters(newCharacters);
   };
 
@@ -122,7 +128,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     const currentStat = newCharacters[index].stats[sport];
 
     const newStatValue = currentStat + change;
-    if (newStatValue >= 0 && newStatValue <= 20 && currentPoints - change >= 0) {
+    if (newStatValue >= 5 && newStatValue <= 15 && currentPoints - change >= 0) {
       newCharacters[index].stats[sport] = newStatValue;
       setCharacters(newCharacters);
       setPointsLeft((prev) => {
@@ -147,17 +153,21 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
       const charactersOfSet = new Set<Character>();
 
       characters.forEach((character, index) => {
-        charactersOfSet.add(
-          CharacterFactory.createDefaultCharacter(
-            index + 1,
-            character.name,
-            character.nationality,
-            character.age,
-            character.logo,
-            character.modelName,
-            character.modelPath,
-          ),
+        const characterObj = CharacterFactory.createDefaultCharacter(
+          index + 1,
+          character.name,
+          character.nationality,
+          character.age,
+          character.logo,
+          character.modelName,
+          character.modelPath,
         );
+        const stats = new Map<Sport, number>();
+        for (const sport of sports) {
+          stats.set(sport, character.stats[sport.name]);
+        }
+        characterObj.statistics = Statistics.createFromLevelMap(stats);
+        charactersOfSet.add(characterObj);
       });
 
       presenter.startGame(charactersOfSet);
@@ -170,17 +180,23 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     const models = ['Animated Woman.glb', 'Hoodie Character.glb', 'Suit.glb'];
     const randomCharacters = Array.from({ length: 3 }, (_) => {
       const randomStats: Record<string, number> = {};
-      let remainingPoints = 20;
+      let remainingPoints = 25;
+      for (const sport of sports) {
+        randomStats[sport.name] = 5;
+      }
 
       // Shuffle sports array to distribute points more evenly
       const shuffledSports = sports.sort(() => Math.random() - 0.5);
-
-      shuffledSports.forEach((sport) => {
-        const maxPoints = Math.min(remainingPoints, 20);
-        const randomPoints = Math.floor(Math.random() * (maxPoints + 1));
-        randomStats[sport.name] = randomPoints;
+      let i = 0;
+      while (remainingPoints > 0) {
+        const sport = shuffledSports[i];
+        let randomPoints = Math.floor(Math.random() * 10);
+        if (randomPoints > remainingPoints) randomPoints = remainingPoints;
+        randomStats[sport.name] += randomPoints;
         remainingPoints -= randomPoints;
-      });
+        i++;
+        if (i === sports.length) i = 0;
+      }
 
       setPointsLeft([0, 0, 0]);
 
@@ -203,6 +219,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
     });
 
     setCharacters(randomCharacters);
+    setIsRandomGenerated(true);
   };
 
   const cardSize = 'w-[500px] h-[600px] p-2 pb-4';
@@ -214,7 +231,7 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
             <Tab
               key={`RandomCharacter`}
-              title={`Random Character`}
+              title={`Random Athletes`}
               aria-label={`Menu Configuration Random Character`}
               className={'h-[50px]'}>
               <Card className={cardSize}>
@@ -223,15 +240,20 @@ export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {
                     color="primary"
                     className={'w-[350px] h-[75px] text-white text-3xl z-10'}
                     onClick={generateRandomCharacters}>
-                    Random Characters
+                    Random Athletes
                   </Button>
+                  {isRandomGenerated && (
+                    <div className={'mt-4'}>
+                      <p>Random Athletes Generated!</p>
+                    </div>
+                  )}
                 </CardBody>
               </Card>
             </Tab>
             {characters.map((character, index) => (
               <Tab
                 key={`Character${index + 1}`}
-                title={`Character ${index + 1}`}
+                title={`Athlete ${index + 1}`}
                 aria-label={`Menu Configuration Character${index + 1}`}
                 className={'h-[50px] '}>
                 <Card className={cardSize}>

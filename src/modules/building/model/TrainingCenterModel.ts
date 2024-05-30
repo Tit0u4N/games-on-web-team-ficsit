@@ -1,11 +1,11 @@
 import { Scene, Vector3 } from '@babylonjs/core';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { DiceHandler, DicePresenter } from '../../dice/presenter/DicePresenter.ts';
-import { Character } from '../../character/model/Character.ts';
-import { config } from '../../../core/Interfaces.ts';
-import { Statistics } from '../../character/model/Statistics.ts';
-import { MapPresenter } from '../../map/presenter/MapPresenter.ts';
-import { ITile, TypesTile } from '../../map/model/TileModel.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { DiceHandler, DicePresenter } from '@dice/presenter/DicePresenter.ts';
+import { Character } from '@character/model/Character.ts';
+import { config } from '@core/Interfaces.ts';
+import { Statistics } from '@character/model/Statistics.ts';
+import { MapPresenter } from '@map/presenter/MapPresenter.ts';
+import { ITile } from '@map/model/TileModel.ts';
 import { TrainingChoice } from '../view/React/trainingCenter/TrainingChoiceCards.tsx';
 import { State, TrainingCenterLayoutState } from '../view/React/TrainingCenterLayout.tsx';
 
@@ -18,7 +18,8 @@ interface ICharacterEffect {
 }
 
 export class TrainingCenterModel implements DiceHandler {
-  private static readonly DEFAULT_ROTATION: number = config.building.model.trainingCenterModel.defaultRotation;
+  private static readonly MIN_ROTATION: number = config.building.model.trainingCenterModel.minRotation;
+  private static readonly MAX_ROTATION: number = config.building.model.trainingCenterModel.maxRotation;
   private readonly _tileX: number;
   private readonly _tileY: number;
   private readonly mapPresenter: MapPresenter;
@@ -48,7 +49,7 @@ export class TrainingCenterModel implements DiceHandler {
     this.mapPresenter = mapPresenter;
     this._dicePresenter = new DicePresenter(scene, this);
     this._position = position;
-    this._rotation = TrainingCenterModel.DEFAULT_ROTATION;
+    this._rotation = Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) + TrainingCenterModel.MIN_ROTATION;
     this._name = name;
     this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
   }
@@ -78,87 +79,16 @@ export class TrainingCenterModel implements DiceHandler {
     // Get a random number between 1 and the number of sports
     const numberOfSportsSelected = Math.floor(Math.random() * Sport.getAll().length) + 1;
     // Get the seasons
-    const seasons = this.getSeasonByPosition();
+    const season = this.mapPresenter.gameCorePresenter.getCurrentSeason();
     // Select the number of sport randomly and not repeat them
     const sportsBySeason: Sport[] = [];
-    seasons.forEach((season) => {
-      sportsBySeason.push(...Sport.getBySeason(season));
-    });
+    sportsBySeason.push(...Sport.getBySeason(season));
     const sports: Sport[] = [];
     for (let i = 0; i < numberOfSportsSelected; i++) {
       const randomSport = sportsBySeason[Math.floor(Math.random() * sportsBySeason.length)];
       if (!sports.includes(randomSport)) sports.push(randomSport);
     }
     return sports;
-  }
-
-  /**
-   * Determines the season based on the tile type and its neighboring tiles.
-   *
-   * @returns {string[]} An array of seasons representing the current season at the tile's position.
-   *
-   * This function works by assigning weights to different tile types and calculating the total weight of neighboring tiles.
-   * Based on the total weight, it determines the season. The weights are assigned as follows:
-   *
-   * - TypesTile.SNOW: 2
-   * - TypesTile.MOUNTAIN: 2
-   * - TypesTile.FOREST: 1
-   * - TypesTile.GRASS: 0
-   * - TypesTile.SAND: -1
-   * - TypesTile.WATER: -2
-   * - TypesTile.DEEP_WATER: -2
-   * - TypesTile.HILL_GRASS: 1
-   * - TypesTile.HILL_FOREST: 1
-   * - TypesTile.HILL_SAND: 0
-   *
-   * The total weight is then used to determine the season:
-   *
-   * - totalWeight <= -3: Summer
-   * - totalWeight >= 3: Winter
-   * - -3 < totalWeight < -1: Autumn
-   * - 1 < totalWeight < 3: Spring
-   * - Otherwise: A mix of Spring and Autumn or a transitional period
-   */
-  private getSeasonByPosition(): string[] {
-    if (!this._tile) {
-      this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY);
-    }
-    const neighbors = this.mapPresenter.getDisplacementGraph().getAdjacentTiles(this._tile!);
-
-    type TileWeights = {
-      [key in TypesTile]?: number;
-    };
-
-    // Assign weights to different tile types
-    const weights: TileWeights = {
-      [TypesTile.SNOW]: 2,
-      [TypesTile.MOUNTAIN]: 2,
-      [TypesTile.FOREST]: 1,
-      [TypesTile.GRASS]: 0,
-      [TypesTile.SAND]: -1,
-      [TypesTile.WATER]: -2,
-      [TypesTile.DEEP_WATER]: -2,
-      [TypesTile.HILL_GRASS]: 1,
-      [TypesTile.HILL_FOREST]: 1,
-      [TypesTile.HILL_SAND]: 0,
-    };
-
-    // Calculate the total weight of neighboring tiles
-    const totalWeight = neighbors.reduce((sum, neighbor) => sum + (weights[neighbor.type] || 0), 0);
-
-    // Determine the season based on the total weight
-    if (totalWeight <= -3) {
-      return ['SUMMER'];
-    } else if (totalWeight >= 3) {
-      return ['WINTER'];
-    } else if (totalWeight > -3 && totalWeight < -1) {
-      return ['AUTUMN'];
-    } else if (totalWeight > 1 && totalWeight < 3) {
-      return ['SPRING'];
-    } else {
-      // If the total weight is close to 0, the season could be a mix of Spring and Autumn or a transitional period
-      return ['SPRING', 'AUTUMN'];
-    }
   }
 
   /**
@@ -178,14 +108,14 @@ export class TrainingCenterModel implements DiceHandler {
       // remove one round from the character
       characterEffect.rounds--;
       this._differentStates.get(characterEffect.character)!.messageContent =
-        `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} stats.`;
+        `Your character will be training for ${characterEffect.rounds} rounds and will gain ${characterEffect.stats} xp.`;
       // if the character has no more rounds
       if (characterEffect.rounds === 0) {
         // for each sport stats add the stats to the character
         for (const sport of characterEffect.sports) {
           const statistic = new Map<Sport, number>();
           statistic.set(sport, characterEffect.stats);
-          characterEffect.character.statistics.addStat(new Statistics(statistic));
+          characterEffect.character.statistics.addStatXp(new Statistics(statistic));
         }
         this._differentStates.delete(characterEffect.character);
       } else {
@@ -199,7 +129,7 @@ export class TrainingCenterModel implements DiceHandler {
     this._rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
     if (this._rotation < 0) {
-      this._rotation = TrainingCenterModel.DEFAULT_ROTATION;
+      this._rotation = Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) + TrainingCenterModel.MIN_ROTATION;
       this._sports = this.getSports();
     }
   }

@@ -26,7 +26,7 @@ export const ClickableCard: React.FC<ClickableCardProps> = ({
 
   return (
     <Card key={character.id} radius={'lg'} className={cardClassName}>
-      <CardBody>
+      <CardBody className="p-1.5">
         <div onClick={onSelect} className="w-full h-full">
           <CharacterStats
             character={character}
