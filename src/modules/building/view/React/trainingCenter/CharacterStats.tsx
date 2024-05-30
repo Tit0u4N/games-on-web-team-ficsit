@@ -4,6 +4,7 @@ import { Divider, Image, Slider } from '@nextui-org/react';
 import { TrainingChoice } from './TrainingChoiceCards.tsx';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 import { XpManager } from '@core/singleton/XpManager.ts';
+import {Sport} from "@core/singleton/Sport.ts";
 
 interface CharacterStatsProps {
   character: Character;
@@ -20,6 +21,25 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
 }) => {
   const stats = character.statistics;
 
+  let receiveBuff = false;
+
+  Array.from(stats.keys()).forEach((sport) => {
+    if (trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character) {
+      receiveBuff = true;
+    }
+  })
+  const renderBuff = (sport : Sport) => {
+    if (trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character) {
+      return <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>
+    }
+  }
+
+  const getSpliter = () => {
+    if (receiveBuff) {
+      return <br/>
+    }
+  }
+
   return (
     <div className={'flex w-full h-full overflow-hidden'}>
       <div className={'w-1/6'}>
@@ -35,7 +55,7 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
             <div className={'text-sm'} key={sport.name}>
               <div className={'flex gap-1'} key={sport.name}>
                 <Image className={"size-[20px]"} src={sport.iconPath}/>
-                <div className={'text-sm'}> {sport.name} :
+                <div className={'text-sm'}> {sport.name} : {getSpliter()}
                 {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character ? (
                   <span className="text-green-500">
                     {XpManager.getInstance().getLevelFromXp(stats.getXp(sport) + choice.stats)}
@@ -43,9 +63,9 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
                 ) : (
                   ' ' + stats.get(sport)
                 )}
-                {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character && (
-                  <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>
-                )}
+                {
+                 renderBuff(sport)
+                }
                 </div>
               </div>
               <div className="-mt-1.5">
