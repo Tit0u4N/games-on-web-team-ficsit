@@ -7,11 +7,15 @@ interface CharacterLayoutProps {
   character: Character;
   season: Season;
   isInTournament?: boolean;
+  isSelect?: boolean;
 }
 
-const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTournament, season }) => {
+const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTournament, season, isSelect = false }) => {
+
+  const borderColor = isSelect ? ' outline outline-offset-2 outline-4 outline-primary' : '';
+
   return (
-    <Card className={isInTournament ? 'w-[100%]' : 'w-[28%]' + ' h-[150px]'}>
+    <Card className={isInTournament ? 'w-[100%]' : 'w-[28%]' + ' h-[150px]  ' + borderColor}>
       <CardBody>
         <div className="flex size-full">
           <div className="relative mr-4 flex-shrink-0 mt-auto mb-auto p-1">

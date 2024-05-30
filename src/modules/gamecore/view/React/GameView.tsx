@@ -23,7 +23,6 @@ enum ModalType {
 const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   /* Test Data */
 
-  const characters = presenter.getCharacters();
   const inventoryList = presenter.getInventoryList();
 
   /* End Test Data */
@@ -128,7 +127,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         <div>
           <RulesLayout toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
-        <GameCharacterLayout character={characters} season={presenter.getCurrentSeason()} />
+        <GameCharacterLayout characterPresenter={presenter.getCharacterPresenter()} season={presenter.getCurrentSeason()} />
       </div>
       <div
         onClick={handleResetCamera}
