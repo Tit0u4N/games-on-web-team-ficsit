@@ -97,8 +97,8 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   return (
     <div>
       {showSpeechBox && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
-      {showSpeechBox &&
-        <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>} {/* Overlay to block interactions */}
+      {showSpeechBox && <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>}{' '}
+      {/* Overlay to block interactions */}
       <div className={'HUD-container'}>
         {!showSpeechBox && (
           <RoundStatusBar
@@ -127,7 +127,10 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         <div>
           <RulesLayout toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
-        <GameCharacterLayout characterPresenter={presenter.getCharacterPresenter()} season={presenter.getCurrentSeason()} />
+        <GameCharacterLayout
+          characterPresenter={presenter.getCharacterPresenter()}
+          season={presenter.getCurrentSeason()}
+        />
       </div>
       <div
         onClick={handleResetCamera}

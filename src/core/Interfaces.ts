@@ -340,7 +340,7 @@ interface IConfig {
   statistics: IStatisticsConfig;
   usableObject: IUsableObjectConfig;
   character: ICharacterConfig;
-  rules: IRulesConfig[]
+  rules: IRulesConfig[];
   narratorBox: INarratorBoxConfig;
 }
 

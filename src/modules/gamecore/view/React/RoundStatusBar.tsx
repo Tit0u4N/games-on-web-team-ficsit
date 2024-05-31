@@ -79,8 +79,7 @@ export const RoundStatusBar: React.FC<RoundStatusBarProps> = ({ nextRound, round
             onClick={() => {
               GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
               setIsSettingsOpen(true);
-            }}
-          >
+            }}>
             Settings
           </Button>
           {isSettingsOpen && (

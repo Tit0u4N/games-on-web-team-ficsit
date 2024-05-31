@@ -2,5 +2,5 @@ export enum TournamentDifficulty {
   REGIONAL = 'REGIONAL',
   NATIONAL = 'NATIONAL',
   INTERNATIONAL = 'INTERNATIONAL',
-  //OLYMPIC = 'OLYMPIC',
+  OLYMPIC = 'OLYMPIC',
 }

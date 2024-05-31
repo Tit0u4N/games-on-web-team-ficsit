@@ -16,9 +16,9 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
 
   return (
     <Card radius={'lg'} className={'flex flex-col gap-1 w-[380px] p-2'}>
-      <h3 className={"text-xl px-2 py-1 flex items-center"}>
+      <h3 className={'text-xl px-2 py-1 flex items-center'}>
         {inventory.character.name}'s Inventory
-        <span className={"ms-2"}>{inventory.character.nationality.getFlag()}</span>
+        <span className={'ms-2'}>{inventory.character.nationality.getFlag()}</span>
       </h3>
       <div className="w-full h-[300px]">
         <div className="flex justify-between p-[10px] h-full w-full">
@@ -37,14 +37,15 @@ export const InventoryLayout: React.FC<InventoryLayoutProps> = ({ inventory, gam
                 {Array.from(inventory.character.statistics.keys()).map((sport, index) => (
                   <div key={index} className="h-1/6 max-h-[16.66%]">
                     <div className="grid grid-cols-5">
-                      <div className={"px-2"}>
+                      <div className={'px-2'}>
                         <Image src={sport.iconPath} className={'max-h-[25px]'} />
                       </div>
                       <div className="col-span-2">{sport.name}</div>
                       <div>{inventory.character.statistics.get(sport)}</div>
-                      <div className={"text-primary"}>
+                      <div className={'text-primary'}>
                         {inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
-                          inventory.character.statistics.get(sport) > 0
+                          inventory.character.statistics.get(sport) >
+                        0
                           ? '+' +
                             (inventory.character.getStatsWithEffect(gameCorePresenter.getCurrentSeason()).get(sport) -
                               inventory.character.statistics.get(sport))

@@ -16,7 +16,7 @@ export const TournamentEndView: React.FC<Props> = ({ tournament }) => {
   };
 
   return (
-    <ModalBody className={'max-h-[90%]'}>
+    <ModalBody className={'max-h-[80%]'}>
       <div className={'gap-3 h-full m-1 max-h-[100%] relative p-5 overflow-y-scroll'}>
         <Table
           removeWrapper
