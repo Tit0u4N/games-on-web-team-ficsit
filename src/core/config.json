@@ -405,11 +405,11 @@
   "rules": [
     {
       "title": "Overview",
-      "content": "The game operates on a turn-by-turn basis. Players train their characters over four in-game years (48 turns) to compete in the Olympic Games (major sports event)."
+      "content": "The game operates on a turn-by-turn basis. You train your athletes over four in-game years (48 turns) to compete in the Olympic Games (major sports event)."
     },
     {
       "title": "Characters",
-      "content": "Each player controls three characters. Characters possess unique abilities and attributes. Movement across the map consumes Movement Points (MP), which reset at the beginning of each turn."
+      "content": "You controls three athletes. Athletes possess unique abilities and attributes. Movement across the map consumes Movement Points (MP), which reset at the beginning of each turn."
     },
     {
       "title": "Map and Movement",
@@ -417,19 +417,19 @@
     },
     {
       "title": "Training Centers",
-      "content": "Training Centers are designated locations for character enhancement. Players can allocate characters to Training Centers for specialized training over multiple turns. Training regimens vary by center and season, providing different statistical boosts."
+      "content": "Training Centers are designated locations for athletes enhancement. You can allocate athletes to Training Centers for specialized training over multiple turns. Training regimens vary by center and season, providing different statistical boosts."
     },
     {
       "title": "Tournaments and Arenas",
-      "content": "Arenas host tournaments where characters compete against AI-controlled opponents. Tournament outcomes are determined by rolling a twenty-sided die (d20), with each roll influencing the match result. Victorious tournaments award characters equipment items that confer bonuses or penalties to their stats. The effectiveness of equipment varies with the seasons, adding strategic depth."
+      "content": "Arenas host tournaments where athletes compete against AI-controlled opponents. Tournament outcomes are determined by rolling a twenty-sided die (d20), with each roll influencing the match result. Victorious tournaments award athletes equipment items that confer bonuses or penalties to their stats. The effectiveness of equipment varies with the seasons, adding strategic depth."
     },
     {
       "title": "Equipment and Items",
-      "content": "Characters can acquire equipment items by winning tournaments. Combining certain items can yield enhanced bonuses. Equipment bonuses or maluses fluctuate with the seasons, necessitating strategic planning."
+      "content": "Athletes can acquire equipment items by winning tournaments. Combining certain items can yield enhanced bonuses. Equipment bonuses or maluses fluctuate with the seasons, necessitating strategic planning."
     },
     {
       "title": "Turn Structure",
-      "content": "The game spans 48 turns, representing four in-game years. Each turn permits players to: Move characters across the map. Assign characters to Training Centers. Enter tournaments in Arenas. At the start of each turn, characters’ MP resets, allowing for new movements and actions."
+      "content": "The game spans 48 turns, representing four in-game years. Each turn permits you to: Move athletes across the map. Assign athletes to Training Centers. Enter tournaments in Arenas. At the start of each turn, characters’ MP resets, allowing for new movements and actions."
     },
     {
       "title": "Seasons and Strategy",
@@ -437,20 +437,21 @@
     },
     {
       "title": "Winning the Game",
-      "content": "The game culminates in the Olympic Games, where characters compete for ultimate glory. Performance in the Olympic Games is influenced by characters' statistics and equipment acquired throughout the game. Strategic decisions made during training, tournaments, and item management throughout the 48 turns will determine the victor."
+      "content": "The game culminates in the Olympic Games, where athletes compete for ultimate glory. Performance in the Olympic Games is influenced by athletes' statistics and equipment acquired throughout the game. Strategic decisions made during training, tournaments, and item management throughout the 48 turns will determine the victor."
     },
     {
       "title": "Additional Notes",
-      "content": "Players must balance training, competing in tournaments, and managing equipment to optimize character development. The combination of strategic planning and chance (via d20 rolls) provides a dynamic and engaging gameplay experience."
+      "content": "You must balance training, competing in tournaments, and managing equipment to optimize athletes development. The combination of strategic planning and chance (via d20 rolls) provides a dynamic and engaging gameplay experience."
     }
   ],
   "narratorBox": {
     "speed": 30,
     "enabled": true,
     "speechText": [
-      "Welcome to the game! Here is a quick summary of the rules.",
-      "Train your characters over 48 turns to compete in the Olympic Games.",
-      "Use Training Centers to improve stats and participate in Arenas to compete in tournaments.",
+      "Welcome to the Olympic Odyssey ! Here is a quick summary of the rules.",
+      "Prepare your characters over 48 turns to compete in the Olympic Games.",
+      "Use Training Centers to improve stats.",
+      "Participate in Arenas to compete in tournaments and win equipment items.",
       "Seasons impact training, tournaments, and equipment effectiveness.",
       "Make strategic decisions to succeed in the Olympic Games. Good luck!"
     ],
@@ -468,9 +469,10 @@
     "view": {
       "rulesLayout": {
         "gameSummary": [
-          "Train characters over 48 turns (4 years) to compete in the Olympic Games. You control three characters with unique abilities. Movement across the map uses Movement Points (MP), which reset each turn.",
-          "Use Training Centers to improve stats and participate in Arenas to compete in tournaments, decided by rolling a twenty-sided die (d20). Winning grants equipment items that affect stats and vary by season. Combine items for greater bonuses.",
-          "Each turn, move characters, train, or enter tournaments. Seasons impact training, tournaments, and equipment effectiveness. Strategic decisions throughout the game are crucial for success in the Olympic Games."
+          "Train Athletes over 48 turns (4 years) to compete in the Olympic Games. You control three athletes with unique skill levels. Movement across the map uses Movement Points (MP), which reset each turn.",
+          "Use Training Centers to improve stats and participate in Arenas to compete in tournaments and win equipment items, decided by rolling a twenty-sided die (d20). Winning grants equipment items that affect stats and vary by season. Combine items for greater bonuses.",
+          "Each turn, move athletes, train, or enter tournaments. Seasons impact training, tournaments, and equipment effectiveness. Strategic decisions throughout the game are crucial for success in the Olympic Games.",
+          "The final turn (48) is the Olympic Games, where athletes compete in various sports to earn points. The team with the most points at the end of the games wins the Olympic Games."
         ]
       }
     }
