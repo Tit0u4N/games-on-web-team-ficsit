@@ -9,7 +9,9 @@ import { config, Reactable } from '@/core/Interfaces.ts';
 import { ModalManager } from '@/core/singleton/ModalManager.ts';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { EffectType } from '../../../audio/presenter/AudioPresenter.ts';
-import SpeechBox from '@gamecore/view/React/SpeechBox.tsx';
+import SpeechBox from '@gamecore/view/React/narrator/SpeechBox.tsx';
+import {IntroductionSpeech} from "@gamecore/view/React/narrator/IntroductionSpeech.tsx";
+import TutorialSpeech from "@gamecore/view/React/narrator/TutorialControlsSpeech.tsx";
 
 interface GameViewProps {
   presenter: GameCorePresenter;
@@ -32,6 +34,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [showSpeechBox, setShowSpeechBox] = React.useState(config.narratorBox.enabled);
+  const [showTutorialSpeech, setShowTutorialSpeech] = React.useState(false);
 
   ModalManager.createInstance(setModalToShow);
 
@@ -92,15 +95,31 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
 
   const handleSpeechComplete = () => {
     setShowSpeechBox(false);
+    setShowTutorialSpeech(true);
+  };
+
+  const handleTutorialComplete = () => {
+    setShowTutorialSpeech(false);
   };
 
   return (
     <div>
-      {showSpeechBox && <SpeechBox speeches={speechTexts} onComplete={handleSpeechComplete} />}
-      {showSpeechBox && <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>}{' '}
+      {showSpeechBox && (
+          <SpeechBox>
+            <IntroductionSpeech speeches={speechTexts} onComplete={handleSpeechComplete} />
+          </SpeechBox>
+      )}
+      {showTutorialSpeech && (
+          <SpeechBox>
+            <TutorialSpeech onComplete={handleTutorialComplete} tutorialControlsSpeech={config.narratorBox.tutorialControlsSpeech} keys={config.arcRotateCameraKeyboardInputs.controls.keys} />
+          </SpeechBox>
+      )}
+      {(showSpeechBox || showTutorialSpeech) && (
+          <div className="fixed inset-0 bg-gray-800 opacity-50 z-40"></div>
+      )}
       {/* Overlay to block interactions */}
       <div className={'HUD-container'}>
-        {!showSpeechBox && (
+        {!showSpeechBox && !showTutorialSpeech && (
           <RoundStatusBar
             nextRound={() => {
               presenter.nextRound();

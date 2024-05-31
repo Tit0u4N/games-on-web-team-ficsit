@@ -445,6 +445,15 @@
     }
   ],
   "narratorBox": {
-    "enabled": true
+    "enabled": true,
+    "tutorialControlsSpeech": [
+      "To move forward, press ",
+      "To move backward, press ",
+      "To rotate left, press ",
+      "To rotate right, press ",
+      "To zoom in, press ",
+      "To zoom out, press ",
+      "To reset position, press "
+    ]
   }
 }

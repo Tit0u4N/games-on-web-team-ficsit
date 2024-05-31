@@ -15,7 +15,7 @@ export interface Reactable {
   };
 }
 
-interface IArcRotateCameraKeyboardInputsKeysConfig {
+export interface IArcRotateCameraKeyboardInputsKeysConfig {
   keysUp: string[];
   keysDown: string[];
   keysLeft: string[];
@@ -327,6 +327,7 @@ interface IRulesConfig {
 
 interface INarratorBoxConfig {
   enabled: boolean;
+  tutorialControlsSpeech: string[];
 }
 
 interface IConfig {
