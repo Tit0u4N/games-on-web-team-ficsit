@@ -342,6 +342,30 @@ interface IEventConfig {
     }
 }
 
+interface IGameCoreMenuViewConfig {
+    welcomeMessage: string;
+    welcomeDescriptionMessage: string;
+    narratorMessage: string;
+    narratorDescriptionMessage: string;
+    optionMessage: string;
+    graphicMessageOption: string;
+    musicMessageOption: string;
+    controlsMessageOption: string;
+    tabGameTitle: string;
+    tabOptionTitle: string;
+    tabCreditTitle: string;
+}
+
+interface IGameConfigViewConfig {
+    react: {
+        menuView: IGameCoreMenuViewConfig;
+    }
+}
+
+interface IGameCoreConfig {
+    view: IGameConfigViewConfig;
+}
+
 interface IConfig {
     babylonMainView: IBabylonMainViewConfig;
     arcRotateCameraKeyboardInputs: IArcRotateCameraKeyboardInputsConfig;
@@ -356,6 +380,7 @@ interface IConfig {
     rules: IRulesConfig[];
     narratorBox: INarratorBoxConfig;
     event: IEventConfig;
+    gamecore: IGameCoreConfig;
 }
 
 export const config: IConfig = configJson;
