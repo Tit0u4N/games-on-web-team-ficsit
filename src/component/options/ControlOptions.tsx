@@ -55,8 +55,8 @@ export const ControlOptions = () => {
         defaultValue={config.arcRotateCameraKeyboardInputs.controls.keys.resetPosition[0]}
       />
     </div>
-  )
-}
+  );
+};
 
 const DividerOptions = () => {
   return <Divider className={'my-2'}></Divider>;

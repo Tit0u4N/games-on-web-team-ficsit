@@ -84,7 +84,7 @@ export class CharacterPresenter {
     });
   }
 
-  set reactSelectedCharacterHandler(value: (id: (number | undefined)) => void) {
+  set reactSelectedCharacterHandler(value: (id: number | undefined) => void) {
     this._reactSelectedCharacterHandler = value;
   }
 }

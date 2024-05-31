@@ -63,7 +63,6 @@ export class TournamentModel {
   }
 
   calculateScore(stat: number, diceRoll: number): number {
-    //TODO: tiredness
     return stat * 2 + diceRoll;
   }
 
@@ -318,8 +317,8 @@ export class TournamentModel {
       character.inventory.addItem(reward.reward.copy());
     }
     const xpGained = new Map<Sport, number>();
-    const maxRank = 8 + 4 * (this.numberRound - 1);
-    xpGained.set(this.sport, XpManager.getInstance().gainXp((maxRank - rank / maxRank) * 2));
+    const maxRank = 8 + 4 * (this.numberRound - 1) + 1;
+    xpGained.set(this.sport, XpManager.getInstance().gainXp(((maxRank - rank) / maxRank) * 2));
     character.statistics.addStatXp(new Statistics(xpGained));
   }
 }

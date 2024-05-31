@@ -4,7 +4,7 @@ import { Divider, Image, Slider } from '@nextui-org/react';
 import { TrainingChoice } from './TrainingChoiceCards.tsx';
 import { TrainingCenterModel } from '../../../model/TrainingCenterModel.ts';
 import { XpManager } from '@core/singleton/XpManager.ts';
-import {Sport} from "@core/singleton/Sport.ts";
+import { Sport } from '@core/singleton/Sport.ts';
 
 interface CharacterStatsProps {
   character: Character;
@@ -27,23 +27,23 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
     if (trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character) {
       receiveBuff = true;
     }
-  })
-  const renderBuff = (sport : Sport) => {
+  });
+  const renderBuff = (sport: Sport) => {
     if (trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character) {
-      return <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>
+      return <span className="text-green-500">{' + ' + choice.stats + 'xp'}</span>;
     }
-  }
+  };
 
   const getSpliter = () => {
     if (receiveBuff) {
-      return <br/>
+      return <br />;
     }
-  }
+  };
 
   return (
     <div className={'flex w-full h-full overflow-hidden'}>
       <div className={'w-1/6'}>
-        {character.image && <Image className={"size-full"} src={character.image} alt={character.name} />}
+        {character.image && <Image className={'size-full'} src={character.image} alt={character.name} />}
       </div>
       <div className={'flex flex-col w-full'}>
         <div className={'h-full flex flex-col items-center'}>
@@ -54,18 +54,18 @@ export const CharacterStats: React.FC<CharacterStatsProps> = ({
           {Array.from(stats.keys()).map((sport) => (
             <div className={'text-sm'} key={sport.name}>
               <div className={'flex gap-1'} key={sport.name}>
-                <Image className={"size-[20px]"} src={sport.iconPath}/>
-                <div className={'text-sm'}> {sport.name} : {getSpliter()}
-                {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character ? (
-                  <span className="text-green-500">
-                    {XpManager.getInstance().getLevelFromXp(stats.getXp(sport) + choice.stats)}
-                  </span>
-                ) : (
-                  ' ' + stats.get(sport)
-                )}
-                {
-                 renderBuff(sport)
-                }
+                <Image className={'size-[20px]'} src={sport.iconPath} />
+                <div className={'text-sm'}>
+                  {' '}
+                  {sport.name} : {getSpliter()}
+                  {trainingCenter?.sports.includes(sport) && choice !== null && selectedCharacter === character ? (
+                    <span className="text-green-500">
+                      {XpManager.getInstance().getLevelFromXp(stats.getXp(sport) + choice.stats)}
+                    </span>
+                  ) : (
+                    ' ' + stats.get(sport)
+                  )}
+                  {renderBuff(sport)}
                 </div>
               </div>
               <div className="-mt-1.5">

@@ -31,9 +31,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
             <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
                 <CardBody>
-                  <h2 className={'text-2xl mb-4 text-center'}>
-                    Welcome to the Olympic Odyssey!
-                  </h2>
+                  <h2 className={'text-2xl mb-4 text-center'}>Welcome to the Olympic Odyssey!</h2>
                   <p className={'text-center text-gray-500 mb-5'}>
                     Here you can configure the game settings and start you game with your new athletes.
                   </p>
@@ -90,14 +88,18 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
               </Card>
             </Tab>
             <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
-            <Card className={cardSize}>
+              <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit
                     image={'./images/menu/avatar_titou.jpg'}
                     name={'Titouan Lacombe--Fabre'}
                     githubUser={'Tit0u4N'}
                   />
-                  <AvatarCredit image={'./images/menu//avatar_tamas.png'} name={'Tamas Palotas'} githubUser={'Shiyamii'} />
+                  <AvatarCredit
+                    image={'./images/menu//avatar_tamas.png'}
+                    name={'Tamas Palotas'}
+                    githubUser={'Shiyamii'}
+                  />
                   <AvatarCredit
                     image={'./images/menu/avatar_bapt.png'}
                     name={'Baptiste LACROIX'}

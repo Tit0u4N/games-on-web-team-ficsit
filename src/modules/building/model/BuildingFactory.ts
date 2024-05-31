@@ -61,11 +61,7 @@ export class BuildingFactory {
       if (tempTileModel && !notConstructible.includes(tempTileModel.type)) {
         const arenaPresenter = new ArenaPresenter(
           buildingPresenter,
-          new ArenaModel(
-            this.mapPresenter,
-            { x: x, y: z, type: tempTileModel.type },
-            'Arena ' + arenas.length,
-          ),
+          new ArenaModel(this.mapPresenter, { x: x, y: z, type: tempTileModel.type }, 'Arena ' + arenas.length),
           tournamentManagerPresenter,
         );
         arenaPresenter.arena.arenaPresenter = arenaPresenter;
