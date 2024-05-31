@@ -31,14 +31,20 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTourna
             <div className="w-full flex items-center align-center p-2">
               <h3 className="text-2xl">{character.name}</h3>
               <div className={'ms-2'}>{character.nationality.getFlag()}</div>
+              <div className="ml-auto flex items-center">
+                <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+                  <span className="text-lg font-semibold">{character.attributes.movement}</span>
+                </div>
+                <span className="ml-2 text-sm">MP</span>
+              </div>
             </div>
-            <Divider />
+            <Divider/>
             <div className="grid grid-cols-6 gap-1 ">
               {Array.from(character.getStatsWithEffect(season).keys()).map((item, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <Badge
-                    content={character.getStatsWithEffect(season).get(item)}
-                    placement="bottom-right"
+                  <div key={index} className="flex flex-col items-center">
+                    <Badge
+                        content={character.getStatsWithEffect(season).get(item)}
+                        placement="bottom-right"
                     variant="shadow"
                     color="primary"
                     shape="circle">
