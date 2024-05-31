@@ -327,6 +327,17 @@ interface IRulesConfig {
 
 interface INarratorBoxConfig {
   enabled: boolean;
+  speechText: string[]
+}
+
+interface IEventRulesLayoutConfig {
+  gameSummary: string[];
+}
+
+interface IEventConfig {
+  view: {
+    rulesLayout: IEventRulesLayoutConfig;
+  }
 }
 
 interface IConfig {
@@ -342,6 +353,7 @@ interface IConfig {
   character: ICharacterConfig;
   rules: IRulesConfig[];
   narratorBox: INarratorBoxConfig;
+  event: IEventConfig;
 }
 
 export const config: IConfig = configJson;

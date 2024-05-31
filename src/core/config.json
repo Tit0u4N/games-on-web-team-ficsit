@@ -327,37 +327,37 @@
         "name": "Skiing",
         "icon": "skiing",
         "description": "Skiing is a means of transport using skis to glide on snow. Variations of purpose include basic transport, a recreational activity, or a competitive winter sport.",
-        "seasons": ["winter"]
+        "seasons": ["winter", "autumn"]
       },
       {
         "name": "Athletics",
         "icon": "athletics",
         "description": "Athletics is a collection of sporting events that involve competitive running, jumping, throwing, and walking.",
-        "seasons": ["spring", "summer", "autumn"]
+        "seasons": ["spring", "summer"]
       },
       {
         "name": "Swimming",
         "icon": "swimming",
         "description": "Swimming is an individual or team racing sport that requires the use of one's entire body to move through water.",
-        "seasons": ["summer"]
+        "seasons": ["summer", "spring"]
       },
       {
         "name": "Hockey",
         "icon": "hockey",
         "description": "Hockey is a sport in which two teams play against each other by trying to maneuver a ball or a puck into the opponent's goal using a hockey stick.",
-        "seasons": ["winter"]
+        "seasons": ["winter", "autumn"]
       },
       {
         "name": "Bobsleigh",
         "icon": "bobsleigh",
         "description": "Bobsleigh is a winter sport in which teams of two or four teammates make timed runs down narrow, twisting, banked, iced tracks in a gravity-powered sled.",
-        "seasons": ["winter"]
+        "seasons": ["winter", "autumn"]
       },
       {
         "name": "Kayak",
         "icon": "kayak",
         "description": "Kayaking is the use of a kayak for moving across water. It is distinguished from canoeing by the sitting position of the paddler and the number of blades on the paddle.",
-        "seasons": ["spring", "summer", "autumn"]
+        "seasons": ["spring", "summer"]
       }
     ]
   },
@@ -445,6 +445,43 @@
     }
   ],
   "narratorBox": {
-    "enabled": true
+    "enabled": true,
+    "speechText": [
+      "Welcome to the game! Here is a quick summary of the rules.",
+      "Train your characters over 48 turns to compete in the JO.",
+      "Use Training Centers to improve stats and participate in Arenas to compete in tournaments.",
+      "Seasons impact training, tournaments, and equipment effectiveness.",
+      "Make strategic decisions to succeed in the JO. Good luck!"
+    ]
+  },
+  "event": {
+    "view": {
+      "rulesLayout": {
+        "gameSummary": [
+          "Train characters over 48 turns (4 years) to compete in the JO. You control three characters with unique abilities. Movement across the map uses Movement Points (MP), which reset each turn.",
+          "Use Training Centers to improve stats and participate in Arenas to compete in tournaments, decided by rolling a twenty-sided die (d20). Winning grants equipment items that affect stats and vary by season. Combine items for greater bonuses.",
+          "Each turn, move characters, train, or enter tournaments. Seasons impact training, tournaments, and equipment effectiveness. Strategic decisions throughout the game are crucial for success in the JO."
+        ]
+      }
+    }
+  },
+  "gamecore": {
+    "view": {
+      "react": {
+        "menuView": {
+          "welcomeMessage": "Welcome to the Olympic Odyssey!",
+          "welcomeDescriptionMessage": "Here you can configure the game settings and start you game with your new athletes.",
+          "narratorMessage": "Narrator Box",
+          "narratorDescriptionMessage": "A Narrator introduce you to the game",
+          "optionMessage": "These options can only be changed before the start of the game.",
+          "graphicMessageOption": "Graphics",
+          "musicMessageOption": "Music",
+          "controlsMessageOption": "Controls",
+          "tabGameTitle": "Game",
+          "tabOptionTitle": "Options",
+          "tabCreditTitle": "Credit"
+        }
+      }
+    }
   }
 }

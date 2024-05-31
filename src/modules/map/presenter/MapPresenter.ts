@@ -61,7 +61,9 @@ export class MapPresenter implements ViewInitable {
             continue; // Skip the points outside the circle
           }
 
-          // Calculate the tile index and check if it's walkable
+          // Calculate the tile inyran run
+          //
+          // dex and check if it's walkable
           const tileX = centerX + x;
           const tileY = centerY + y;
           if (
