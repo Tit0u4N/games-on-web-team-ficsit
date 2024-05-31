@@ -135,6 +135,8 @@ export class GameCorePresenter {
     if (!result) {
       return;
     }
+    this._mapPresenter.unselectCharacter();
+    this._mapPresenter.updateSelectedCharacter();
     this._buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
 
