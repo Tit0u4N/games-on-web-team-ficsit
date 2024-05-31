@@ -36,7 +36,7 @@ const GameView: React.FC<GameViewProps> = ({presenter}) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const [showSpeechBox, setShowSpeechBox] = React.useState(config.narratorBox.enabled);
     const [showTutorialSpeech, setShowTutorialSpeech] = React.useState(false);
-    const [removebackdrop, setRemoveBackdrop] = React.useState(false);
+    const [removebackdrop, setRemoveBackdrop] = React.useState(!config.narratorBox.enabled);
 
     ModalManager.createInstance(setModalToShow);
 
