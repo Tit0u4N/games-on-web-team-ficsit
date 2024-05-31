@@ -13,6 +13,7 @@ import { MapLimits } from '@map/view/Babylon/MapView.ts';
 import { Season } from '@core/singleton/Season.ts';
 import { TournamentManagerPresenter } from '@tournament/presenter/TournamentManagerPresenter.ts';
 import { AtmosphereType, AudioPresenter, MusicType } from '../../audio/presenter/AudioPresenter.ts';
+import { OlympicsPresenter } from '@/modules/olympics/presenter/OlympicsPresenter.ts';
 
 export class GameCorePresenter {
   private gameModel: GameCoreModel;
@@ -27,6 +28,7 @@ export class GameCorePresenter {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
   private _setIsLoading!: (isLoading: boolean) => void;
   public static readonly AUDIO_PRESENTER: AudioPresenter = new AudioPresenter();
+  private _olympicsPresenter!: OlympicsPresenter;
 
   constructor() {
     this.gameModel = new GameCoreModel();
@@ -119,7 +121,7 @@ export class GameCorePresenter {
     return this.events;
   }
 
-  public getTournamentManagerPresenter(): TournamentManagerPresenter {
+  get tournamentManagerPresenter(): TournamentManagerPresenter {
     return this._tournamentManagerPresenter;
   }
 
@@ -133,6 +135,12 @@ export class GameCorePresenter {
     }
     this._buildingPresenter.updateArenasTournament();
     this.gameModel.playRound();
+
+    if (this.gameModel.getRound() === 48) {
+      //Ends of the game
+      this._olympicsPresenter = new OlympicsPresenter(this);
+      this.status = ApplicationStatus.OLYMPICS;
+    }
 
     this.notifyViewChange();
     this._characterPresenter.resetMovements();
@@ -180,6 +188,10 @@ export class GameCorePresenter {
 
   get buildingPresenter(): BuildingPresenter {
     return this._buildingPresenter;
+  }
+
+  get olympicsPresenter(): OlympicsPresenter {
+    return this._olympicsPresenter;
   }
 
   public getCurrentSeason(): Season {

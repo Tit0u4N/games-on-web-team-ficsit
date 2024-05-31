@@ -49,7 +49,9 @@ export class TrainingCenterModel implements DiceHandler {
     this.mapPresenter = mapPresenter;
     this._dicePresenter = new DicePresenter(scene, this);
     this._position = position;
-    this._rotation = Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) + TrainingCenterModel.MIN_ROTATION;
+    this._rotation =
+      Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) +
+      TrainingCenterModel.MIN_ROTATION;
     this._name = name;
     this._tile = this.mapPresenter.getDisplacementGraph().getTile(this._tileX, this._tileY)!;
   }
@@ -129,7 +131,9 @@ export class TrainingCenterModel implements DiceHandler {
     this._rotation--;
     // if the rotation value is less than 0, reset it to the default rotation value and change the sports
     if (this._rotation < 0) {
-      this._rotation = Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) + TrainingCenterModel.MIN_ROTATION;
+      this._rotation =
+        Math.floor(Math.random() * (TrainingCenterModel.MAX_ROTATION - TrainingCenterModel.MIN_ROTATION + 1)) +
+        TrainingCenterModel.MIN_ROTATION;
       this._sports = this.getSports();
     }
   }
