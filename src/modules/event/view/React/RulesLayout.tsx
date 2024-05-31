@@ -14,13 +14,7 @@ export const RulesLayout: React.FC<InventoryLayoutProps> = ({ toggleModal, isMod
     toggleModal(ModalType.RULES, !isModalOpen(ModalType.RULES));
   };
 
-  const gameSummary = `
-  Train characters over 48 turns (4 years) to compete in the Olympic Games. You control three characters with unique abilities. Movement across the map uses Movement Points (MP), which reset each turn.    
-  Use Training Centers to improve stats and participate in Arenas to compete in tournaments, decided by rolling a twenty-sided die (d20). Winning grants equipment items that affect stats and vary by season. Combine items for greater bonuses.
-  Each turn, move characters, train, or enter tournaments. Seasons impact training, tournaments, and equipment effectiveness. Strategic decisions throughout the game are crucial for success in the Olympic Games.
-  `;
-
-  const gameSummaryParagraphs = gameSummary.split('\n');
+  const gameSummaryParagraphs = config.event.view.rulesLayout.gameSummary;
 
   const [currentPage, setCurrentPage] = useState(0);
   const rulesPerPage = 1;

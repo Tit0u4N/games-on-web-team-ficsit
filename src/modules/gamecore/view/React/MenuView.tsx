@@ -28,12 +28,12 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
         <div className={'mt-[-50px] h-[640px] font-semibold'}>
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
-            <Tab key={'game'} title={'Game'} aria-label={'Menu Game'} className={'h-[50px] '}>
+            <Tab key={'game'} title={config.gamecore.view.react.menuView.tabGameTitle} aria-label={'Menu Game'} className={'h-[50px] '}>
               <Card className={cardSize}>
                 <CardBody>
-                  <h2 className={'text-2xl mb-4 text-center'}>Welcome to the Olympic Odyssey!</h2>
+                  <h2 className={'text-2xl mb-4 text-center'}>{config.gamecore.view.react.menuView.welcomeMessage}</h2>
                   <p className={'text-center text-gray-500 mb-5'}>
-                    Here you can configure the game settings and start you game with your new athletes.
+                    {config.gamecore.view.react.menuView.welcomeDescriptionMessage}
                   </p>
                   <DividerOptions />
                   <MapSizeOption
@@ -52,22 +52,22 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                   <DividerOptions />
                   <div className={'w-full flex justify-between aline-center'} onClick={() => toggleNarratorSwitch()}>
                     <div>
-                      <h3 className={'text-l'}>Narrator Box</h3>
-                      <p className={'m-0 text-sm text-gray-400'}>A Narrator introduce you to the game</p>
+                      <h3 className={'text-l'}>{config.gamecore.view.react.menuView.narratorMessage}</h3>
+                      <p className={'m-0 text-sm text-gray-400'}>{config.gamecore.view.react.menuView.narratorDescriptionMessage}</p>
                     </div>
                     <Switch isSelected={isNarratorSwitchOn} onValueChange={toggleNarratorSwitch} />
                   </div>
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key={'options'} title={'Options'} aria-label={'Menu Options'} className={'h-[50px]'}>
+            <Tab key={'options'} title={config.gamecore.view.react.menuView.tabOptionTitle} aria-label={'Menu Options'} className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className={'flex flex-col mb-5'}>
                   <p className={'text-center text-gray-500 py-5'}>
-                    These options can only be changed before the start of the game.
+                    {config.gamecore.view.react.menuView.optionMessage}
                   </p>
                   <div className={'w-full'}>
-                    <h3 className={'text-xl pb-2'}> Graphics </h3>
+                    <h3 className={'text-xl pb-2'}> {config.gamecore.view.react.menuView.graphicMessageOption} </h3>
                     <div className={'flex flex-col w-full'}>
                       <SwitchOption title={'Shadows'} description={'Active shadows'} option={'shadows'} />
                       <DividerOptions />
@@ -77,17 +77,17 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                     </div>
                   </div>
                   <DividerOptions />
-                  <h3 className={'text-xl pb-2'}> Music </h3>
+                  <h3 className={'text-xl pb-2'}> {config.gamecore.view.react.menuView.musicMessageOption} </h3>
                   <AudioComponent audioPresenter={GameCorePresenter.AUDIO_PRESENTER} />
                   <DividerOptions />
                   <div className={'w-full pt-4'}>
-                    <h3 className={'text-xl pb-2'}> Controls </h3>
+                    <h3 className={'text-xl pb-2'}> {config.gamecore.view.react.menuView.controlsMessageOption} </h3>
                     <ControlOptions />
                   </div>
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key={'credit'} title={'Credit'} aria-label={'Menu Credit'} className={'h-[50px]'}>
+            <Tab key={'credit'} title={config.gamecore.view.react.menuView.tabCreditTitle} aria-label={'Menu Credit'} className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit

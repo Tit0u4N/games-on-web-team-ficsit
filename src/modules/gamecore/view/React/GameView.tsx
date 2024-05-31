@@ -87,13 +87,7 @@ const GameView: React.FC<GameViewProps> = ({presenter}) => {
         if (zoomOutTimeout.current) clearInterval(zoomOutTimeout.current);
     };
 
-    const speechTexts = [
-        'Welcome to the game! Here is a quick summary of the rules.',
-        'Train your characters over 48 turns to compete in the Olympic Games.',
-        'Use Training Centers to improve stats and participate in Arenas to compete in tournaments.',
-        'Seasons impact training, tournaments, and equipment effectiveness.',
-        'Make strategic decisions to succeed in the Olympic Games. Good luck!',
-    ];
+  const speechTexts = config.narratorBox.speechText;
 
     const handleSpeechComplete = () => {
         setShowSpeechBox(false);
