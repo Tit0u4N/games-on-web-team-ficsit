@@ -89,12 +89,16 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
                           setHideModal(false);
                           setTimeout(() => {
                             if (model.isAllRolled()) showResults();
+                            tournament.dicePresenter.unMountView();
                           }, 500);
                         }, 2000);
                       }}
                       onRoll2DEnd={() => {
                         setDiceRoll(character.character.id);
-                        if (model.isAllRolled()) showResults();
+                        if (model.isAllRolled()) {
+                          showResults();
+                        }
+                        tournament.dicePresenter.unMountView();
                       }}
                       isDisabled={model.isUserRolledDice(character.character.id)}
                     />
@@ -108,22 +112,22 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
           <NPCList npcs={npcs} isRolled={model.isRolled} />
           <div className={'flex h-full gap-4'}>
             <div className={'w-2/3'}>
-              <Table hideHeader aria-label="Example static collection table">
+              <Table isStriped removeWrapper aria-label="Score table">
                 <TableHeader>
-                  <TableColumn>RANK</TableColumn>
-                  <TableColumn>NAME</TableColumn>
-                  <TableColumn>ROLL</TableColumn>
-                  <TableColumn>SCORE</TableColumn>
+                  <TableColumn className={'text-[15px]'}>Rank</TableColumn>
+                  <TableColumn className={'text-[15px]'}>Name</TableColumn>
+                  <TableColumn className={'text-[15px]'}>Roll</TableColumn>
+                  <TableColumn className={'text-[15px]'}>Final Score</TableColumn>
                 </TableHeader>
                 <TableBody>
                   {list.map((character, index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} className={character.character.isPlayer ? ' bg-primary-bg' : ''}>
                       <TableCell>{showRank ? (character.rank == -1 ? '?' : character.rank + 1) : '?'}</TableCell>
                       <TableCell>{character.character.name}</TableCell>
                       <TableCell>
                         {showRollResult ? (character.diceRoll == -1 ? '?' : character.diceRoll) : ''}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align={'center'}>
                         {showResult ? (
                           <RandomNumber
                             finalValue={model.calculateScore(

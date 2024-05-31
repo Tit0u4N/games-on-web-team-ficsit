@@ -109,6 +109,10 @@ export class GameCorePresenter {
     return this._characterPresenter.characters;
   }
 
+  public getCharacterPresenter(): CharacterPresenter {
+    return this._characterPresenter;
+  }
+
   public getInventoryList(): Inventory[] {
     return this.inventoryList;
   }

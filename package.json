@@ -29,7 +29,6 @@
     "react-dom": "^18.2.0",
     "ts-node": "^10.9.2",
     "tumult": "^3.0.14",
-    "unique-names-generator": "^4.7.1",
     "vite-plugin-wasm": "^3.3.0"
   },
   "devDependencies": {

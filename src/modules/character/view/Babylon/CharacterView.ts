@@ -24,7 +24,6 @@ export class CharacterView implements ViewInitable {
       if (character.modelName && character.modelPath) {
         await pawn.importMesh(character.modelName, character.modelPath);
         // log the mesh
-        console.log('initPawns', pawn.mesh);
         this.pawnSet.add(pawn);
         pawn.addPointerEvent();
       }
