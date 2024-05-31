@@ -1,25 +1,34 @@
-import { AudioPresenter, EffectType } from '../../presenter/AudioPresenter.ts';
-import { FC } from 'react';
+import {AudioPresenter, EffectType} from '../../presenter/AudioPresenter.ts';
+import {FC, useEffect} from 'react';
 
 export type MusicViewProps = {
-  audioPresenter: AudioPresenter;
+    audioPresenter: AudioPresenter;
 };
 
-export const MusicView: FC<MusicViewProps> = ({ audioPresenter }) => {
-  const musicPlayer = audioPresenter.music;
-  const atmospherePlayer = audioPresenter.atmosphere;
-  const effectPlayers = audioPresenter.effects;
+export const MusicView: FC<MusicViewProps> = ({audioPresenter}) => {
+    const musicPlayer = audioPresenter.music;
+    const atmospherePlayer = audioPresenter.atmosphere;
+    const effectPlayers = audioPresenter.effects;
 
-  // add event listeners to window
-  window.addEventListener('click', () => {
-    audioPresenter.playEffect(EffectType.CLICK);
-  });
+    // add event listeners to window
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            audioPresenter.playEffect(EffectType.CLICK);
+        };
 
-  return (
-    <div className={'hidden'}>
-      {musicPlayer.id}
-      {atmospherePlayer.id}
-      {effectPlayers.map((value) => value.id)}
-    </div>
-  );
+        window.addEventListener('click', handleClick);
+
+        // Cleanup function to remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('click', handleClick);
+        };
+    }, [audioPresenter]);
+
+    return (
+        <div className={'hidden'}>
+            {musicPlayer.id}
+            {atmospherePlayer.id}
+            {effectPlayers.map((value) => value.id)}
+        </div>
+    );
 };
