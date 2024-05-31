@@ -95,7 +95,11 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                     name={'Titouan Lacombe--Fabre'}
                     githubUser={'Tit0u4N'}
                   />
-                  <AvatarCredit image={'./images/menu//avatar_tamas.png'} name={'Tamas Palotas'} githubUser={'Shiyamii'} />
+                  <AvatarCredit
+                    image={'./images/menu//avatar_tamas.png'}
+                    name={'Tamas Palotas'}
+                    githubUser={'Shiyamii'}
+                  />
                   <AvatarCredit
                     image={'./images/menu/avatar_bapt.png'}
                     name={'Baptiste LACROIX'}

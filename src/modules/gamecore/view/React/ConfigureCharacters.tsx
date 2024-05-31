@@ -36,9 +36,9 @@ const initialStats = sports.reduce(
 );
 const LOGOS_PER_PAGE = 5;
 
-const logos : string[] = []
+const logos: string[] = [];
 for (let i = 1; i <= 64; i++) {
-    logos.push('./images/characters/character' + i + '.png');
+  logos.push('./images/characters/character' + i + '.png');
 }
 
 export const ConfigureCharacters: React.FC<Props> = ({ presenter }) => {

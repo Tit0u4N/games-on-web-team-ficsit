@@ -33,7 +33,7 @@ export class CharacterFactory {
     const name = uniqueNamesGenerator({ dictionaries: [names] });
     const nationality = Country.getRandom();
     const age = Math.floor(Math.random() * 21) + 16; // Between 16 and 36
-    const image = "/images/characters/character" + ((Math.random() * 60) + 1).toFixed(0) + ".png";
+    const image = './images/characters/character' + (Math.random() * 60 + 1).toFixed(0) + '.png';
     const defaultStatistics = new Statistics(Statistics.initRandomStats(totalStats, minStats));
     const defaultAttributes = new Attributes(0, 0, false);
     return new CharacterBuilder(id, name, nationality, age, image)

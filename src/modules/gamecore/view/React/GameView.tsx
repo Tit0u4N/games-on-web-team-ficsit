@@ -127,7 +127,10 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
         <div>
           <RulesLayout toggleModal={toggleModal} isModalOpen={isModalOpen} />
         </div>
-        <GameCharacterLayout characterPresenter={presenter.getCharacterPresenter()} season={presenter.getCurrentSeason()} />
+        <GameCharacterLayout
+          characterPresenter={presenter.getCharacterPresenter()}
+          season={presenter.getCurrentSeason()}
+        />
       </div>
       <div
         onClick={handleResetCamera}

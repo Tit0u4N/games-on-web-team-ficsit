@@ -50,16 +50,15 @@ export class TileView {
     if (baseTile.type !== TypesTile.ACCESSIBLE) {
       try {
         new PhysicsAggregate(
-            mesh,
-            PhysicsShapeType.BOX,
-            { mass: config.map.view.tileView.createHexagonMesh.mass },
-            this.scene,
+          mesh,
+          PhysicsShapeType.BOX,
+          { mass: config.map.view.tileView.createHexagonMesh.mass },
+          this.scene,
         );
       } catch (e) {
         alert('Error : sometime web assembly is not loaded, please reload the page.');
       }
     }
-
 
     return mesh;
   }
