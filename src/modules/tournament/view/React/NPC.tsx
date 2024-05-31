@@ -1,8 +1,8 @@
 import React from 'react';
 import { Avatar, Badge, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
-import { simulateRoll } from '../../../dice/view/React/DiceComponent.tsx';
-import { Character } from '../../../character/model/Character.ts';
-import { Sport } from '../../../../core/singleton/Sport.ts';
+import { simulateRoll } from '@dice/view/React/DiceComponent.tsx';
+import { Character } from '@character/model/Character.ts';
+import { Sport } from '@core/singleton/Sport.ts';
 
 type NPCProps = {
   npc: { rank: number; character: Character; diceRoll: number };

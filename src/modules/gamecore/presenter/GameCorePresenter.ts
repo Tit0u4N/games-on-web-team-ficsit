@@ -36,7 +36,9 @@ export class GameCorePresenter {
     this.initializeTestData();
     this._tournamentManagerPresenter = new TournamentManagerPresenter(this);
     setTimeout(() => {
-      if (this.status === ApplicationStatus.MENU) GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+      if (this.status === ApplicationStatus.MENU) {
+        GameCorePresenter.AUDIO_PRESENTER.playMusic(MusicType.OPENING);
+      }
     }, 1000);
   }
 
@@ -103,6 +105,10 @@ export class GameCorePresenter {
 
   public getCharacters(): Set<Character> {
     return this._characterPresenter.characters;
+  }
+
+  public getCharacterPresenter(): CharacterPresenter {
+    return this._characterPresenter;
   }
 
   public getInventoryList(): Inventory[] {

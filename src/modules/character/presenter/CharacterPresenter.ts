@@ -10,6 +10,8 @@ export class CharacterPresenter {
   private readonly _characterView: CharacterView;
   private readonly _gameCorePresenter: GameCorePresenter;
 
+  private _reactSelectedCharacterHandler!: (id: number | undefined) => void;
+
   constructor(gameCorePresenter: GameCorePresenter, characters?: Set<Character>) {
     this._characters = characters || CharacterPresenter.getDefaultCharacters();
     this._characterView = new CharacterView(this);
@@ -58,12 +60,18 @@ export class CharacterPresenter {
 
   updateSelectedCharacter() {
     this._gameCorePresenter.mapPresenter.updateSelectedCharacter();
+    if (this._reactSelectedCharacterHandler) {
+      this._reactSelectedCharacterHandler(this._characterView.getSelectedCharacter()?.id || undefined);
+    }
   }
 
   unselectCharacter() {
     const selectedCharacter = this._characterView.getSelectedCharacter();
     if (selectedCharacter) selectedCharacter.isSelected = false;
     this._characterView.unscaleCharacters();
+    if (this._reactSelectedCharacterHandler) {
+      this._reactSelectedCharacterHandler(undefined);
+    }
   }
 
   getCharacterView(id: number) {
@@ -74,5 +82,9 @@ export class CharacterPresenter {
     this._characters.forEach((character) => {
       character.resetMovementPoints();
     });
+  }
+
+  set reactSelectedCharacterHandler(value: (id: (number | undefined)) => void) {
+    this._reactSelectedCharacterHandler = value;
   }
 }
