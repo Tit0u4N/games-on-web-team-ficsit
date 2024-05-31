@@ -2,7 +2,7 @@ export class GameModel {
   private round: number;
 
   constructor() {
-    this.round = 0;
+    this.round = 47;
   }
 
   public playRound() {

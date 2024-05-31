@@ -23,7 +23,6 @@ export class OlympicsPresenter {
         this._gameCorePresenter.tournamentManagerPresenter.createTournament(TournamentDifficulty.OLYMPIC, sport),
       );
     }
-    console.log('TournamentPresenterList', tournamentPresenterList);
     return tournamentPresenterList;
   }
 
@@ -47,7 +46,7 @@ export class OlympicsPresenter {
   }
 
   isLastTournament() {
-    return this._tournamentNb >= this._tournamentPresenterList.length - 1;
+    return this._tournamentNb >= this._tournamentPresenterList.length;
   }
 
   incrementTournamentNb() {
