@@ -22,7 +22,7 @@ const SpeechBox: React.FC<SpeechBoxProps> = ({ speeches, onComplete }) => {
         } else {
           index++;
         }
-      }, 40);
+      }, 30);
 
       return () => clearInterval(interval);
     } else {
