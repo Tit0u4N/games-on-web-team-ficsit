@@ -445,6 +445,7 @@
     }
   ],
   "narratorBox": {
+    "speed": 30,
     "enabled": true,
     "tutorialControlsSpeech": [
       "To move forward, press ",

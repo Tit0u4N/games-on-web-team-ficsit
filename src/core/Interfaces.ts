@@ -326,6 +326,7 @@ interface IRulesConfig {
 }
 
 interface INarratorBoxConfig {
+  speed: number;
   enabled: boolean;
   tutorialControlsSpeech: string[];
 }

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {IArcRotateCameraKeyboardInputsKeysConfig} from "@core/Interfaces.ts";
+import {config, IArcRotateCameraKeyboardInputsKeysConfig} from "@core/Interfaces.ts";
 import {Kbd} from "@nextui-org/react";
 
 interface TutorialSpeechProps {
@@ -61,7 +61,7 @@ const TutorialSpeech: React.FC<TutorialSpeechProps> = ({onComplete, tutorialCont
                 } else {
                     index++;
                 }
-            }, 10);
+            }, config.narratorBox.speed);
 
             return () => clearInterval(interval);
         }

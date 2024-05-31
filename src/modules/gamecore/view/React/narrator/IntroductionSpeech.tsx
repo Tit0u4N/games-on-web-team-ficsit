@@ -1,5 +1,6 @@
 import {Button} from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
+import {config} from "@core/Interfaces.ts";
 
 interface IntroductionSpeechProps {
     speeches: string[];
@@ -22,7 +23,7 @@ export const IntroductionSpeech: React.FC<IntroductionSpeechProps> = ({speeches,
                 } else {
                     index++;
                 }
-            }, 10);
+            }, config.narratorBox.speed);
 
             return () => clearInterval(interval);
         } else {
