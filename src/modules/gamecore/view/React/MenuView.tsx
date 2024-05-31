@@ -28,7 +28,11 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
       <div className={'size-full backdrop-blur flex flex-col items-center justify-center'}>
         <div className={'mt-[-50px] h-[640px] font-semibold'}>
           <Tabs size={'lg'} fullWidth={true} aria-label={'Menu'}>
-            <Tab key={'game'} title={config.gamecore.view.react.menuView.tabGameTitle} aria-label={'Menu Game'} className={'h-[50px] '}>
+            <Tab
+              key={'game'}
+              title={config.gamecore.view.react.menuView.tabGameTitle}
+              aria-label={'Menu Game'}
+              className={'h-[50px] '}>
               <Card className={cardSize}>
                 <CardBody>
                   <h2 className={'text-2xl mb-4 text-center'}>{config.gamecore.view.react.menuView.welcomeMessage}</h2>
@@ -53,14 +57,20 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                   <div className={'w-full flex justify-between aline-center'} onClick={() => toggleNarratorSwitch()}>
                     <div>
                       <h3 className={'text-l'}>{config.gamecore.view.react.menuView.narratorMessage}</h3>
-                      <p className={'m-0 text-sm text-gray-400'}>{config.gamecore.view.react.menuView.narratorDescriptionMessage}</p>
+                      <p className={'m-0 text-sm text-gray-400'}>
+                        {config.gamecore.view.react.menuView.narratorDescriptionMessage}
+                      </p>
                     </div>
                     <Switch isSelected={isNarratorSwitchOn} onValueChange={toggleNarratorSwitch} />
                   </div>
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key={'options'} title={config.gamecore.view.react.menuView.tabOptionTitle} aria-label={'Menu Options'} className={'h-[50px]'}>
+            <Tab
+              key={'options'}
+              title={config.gamecore.view.react.menuView.tabOptionTitle}
+              aria-label={'Menu Options'}
+              className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className={'flex flex-col mb-5'}>
                   <p className={'text-center text-gray-500 py-5'}>
@@ -87,7 +97,11 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                 </CardBody>
               </Card>
             </Tab>
-            <Tab key={'credit'} title={config.gamecore.view.react.menuView.tabCreditTitle} aria-label={'Menu Credit'} className={'h-[50px]'}>
+            <Tab
+              key={'credit'}
+              title={config.gamecore.view.react.menuView.tabCreditTitle}
+              aria-label={'Menu Credit'}
+              className={'h-[50px]'}>
               <Card className={cardSize}>
                 <CardBody className="flex flex-col gap-8">
                   <AvatarCredit

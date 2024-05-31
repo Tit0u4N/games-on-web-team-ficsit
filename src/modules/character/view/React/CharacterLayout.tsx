@@ -38,13 +38,13 @@ const CharacterLayout: React.FC<CharacterLayoutProps> = ({ character, isInTourna
                 <span className="ml-2 text-sm">MP</span>
               </div>
             </div>
-            <Divider/>
+            <Divider />
             <div className="grid grid-cols-6 gap-1 ">
               {Array.from(character.getStatsWithEffect(season).keys()).map((item, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <Badge
-                        content={character.getStatsWithEffect(season).get(item)}
-                        placement="bottom-right"
+                <div key={index} className="flex flex-col items-center">
+                  <Badge
+                    content={character.getStatsWithEffect(season).get(item)}
+                    placement="bottom-right"
                     variant="shadow"
                     color="primary"
                     shape="circle">
