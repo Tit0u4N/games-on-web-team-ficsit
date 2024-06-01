@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { Button } from '@nextui-org/react';
+import React, { useEffect, useState } from 'react';
+import { config } from '@core/Interfaces.ts';
 
 interface SimpleMessageSpeechBoxProps {
   message: string;
@@ -7,16 +8,23 @@ interface SimpleMessageSpeechBoxProps {
 }
 
 const SimpleMessageSpeechBox: React.FC<SimpleMessageSpeechBoxProps> = ({ message, onComplete }) => {
+  const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    const delay = setTimeout(() => {
-      setIsComplete(true);
-      onComplete();
-    }, 2500); // Adjust the delay duration as needed
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText(message.substring(0, index));
+      if (index >= message.length) {
+        clearInterval(interval);
+        setIsComplete(true);
+      } else {
+        index++;
+      }
+    }, config.narratorBox.speed); // Adjust the speed from config as needed
 
-    return () => clearTimeout(delay);
-  }, [onComplete]);
+    return () => clearInterval(interval);
+  }, [message]);
 
   const handleClick = () => {
     if (isComplete) {
@@ -25,16 +33,16 @@ const SimpleMessageSpeechBox: React.FC<SimpleMessageSpeechBoxProps> = ({ message
   };
 
   return (
-    <div className="bg-white rounded-lg flex-1 py-2">
-      <p className={'ml-6 px-6'}>{message}</p>
-      {isComplete && (
-        <div className={'w-full flex justify-end'}>
-          <Button className="mt-4" onClick={handleClick}>
-            Proceed
-          </Button>
-        </div>
-      )}
-    </div>
+      <div className="bg-white rounded-lg flex-1 py-2">
+        <p className={'ml-6 px-6'}>{displayedText}</p>
+        {isComplete && (
+            <div className={'w-full flex justify-end'}>
+              <Button className="mt-4" onClick={handleClick}>
+                Proceed
+              </Button>
+            </div>
+        )}
+      </div>
   );
 };
 
