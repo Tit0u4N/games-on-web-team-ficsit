@@ -134,7 +134,6 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           />
         );
       case State.MESSAGE:
-        console.log('state', state);
         if (diceResult == null) {
           handleChoiceConfirm(state, character);
         }

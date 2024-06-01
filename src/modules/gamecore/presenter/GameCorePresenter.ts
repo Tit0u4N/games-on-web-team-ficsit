@@ -151,6 +151,11 @@ export class GameCorePresenter {
     this._buildingPresenter.trainingCenters.forEach((trainingCenter) => {
       trainingCenter.trainingCenter.nextRound();
     });
+
+    // for each player check if they are in a building
+    this._characterPresenter.characters.forEach((character) => {
+      this.checkCharacterInBuilding(character);
+    });
   }
 
   getCurrentRound() {
