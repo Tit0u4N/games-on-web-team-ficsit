@@ -330,6 +330,11 @@ interface INarratorBoxConfig {
   enabled: boolean;
   speechText: string[];
   tutorialControlsSpeech: string[];
+  highlightTutorialSpeech: {
+    message: string;
+    targetSelector: string;
+    autoClick: boolean;
+  }[];
 }
 
 interface IEventRulesLayoutConfig {

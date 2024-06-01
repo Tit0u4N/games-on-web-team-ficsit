@@ -6,7 +6,7 @@ interface SpeechBoxProps {
 
 const SpeechBox: React.FC<SpeechBoxProps> = ({ children }) => {
   return (
-    <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-lg z-50">
+    <div className="fixed bottom-40 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-lg z-50">
       <div className="flex items-start">
         <div className="w-20 h-20 bg-white rounded-full overflow-hidden mr-4 z-50 top-[-20px] left-[-20px] absolute">
           <img
