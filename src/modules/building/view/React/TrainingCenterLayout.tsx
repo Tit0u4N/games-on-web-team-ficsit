@@ -84,6 +84,17 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
     trainingCenter.updateState(selectedCharacter!, newState);
   };
 
+  const handleChoiceConfirm = (
+    state: TrainingCenterLayoutState,
+    character: Character,
+  ) => {
+    setDiceResult(state.diceResult!);
+    setSelectedCharacter(character);
+    setShowChoices(false);
+    setShowMessage(true);
+    setShowConfirm(false);
+  };
+
   const handleDice3DEnd = () => {
     trainingCenter.dicePresenter.unMountView();
     setHideModal(false);
@@ -123,7 +134,10 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({ trai
           />
         );
       case State.MESSAGE:
-        if (diceResult == null) handleTrainingChoiceCards(state, character, state.choiceSelected!);
+        console.log('state', state);
+        if (diceResult == null) {
+          handleChoiceConfirm(state, character);
+        }
         return (
           <Card className="w-full m-auto text-center p-10">
             <ModalHeader className="flex flex-col gap-1">Currently in training</ModalHeader>
