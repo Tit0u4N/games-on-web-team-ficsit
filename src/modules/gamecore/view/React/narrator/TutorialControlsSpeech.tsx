@@ -70,37 +70,37 @@ const TutorialSpeech: React.FC<TutorialSpeechProps> = ({ onComplete, tutorialCon
   const handleKeyDown = (event: KeyboardEvent) => {
     switch (currentMessageIndex) {
       case 0: // Move forward
-        if (event.key === keys.keysUp[0]) {
+        if (event.key.toLowerCase() === keys.keysUp[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 1: // Move backward
-        if (event.key === keys.keysDown[0]) {
+        if (event.key.toLowerCase() === keys.keysDown[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 2: // Rotate left
-        if (event.key === keys.keysLeft[0]) {
+        if (event.key.toLowerCase() === keys.keysLeft[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 3: // Rotate right
-        if (event.key === keys.keysRight[0]) {
+        if (event.key.toLowerCase() === keys.keysRight[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 4: // Zoom in
-        if (event.key === keys.keysZoomIn[0]) {
+        if (event.key.toLowerCase() === keys.keysZoomIn[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 5: // Zoom out
-        if (event.key === keys.keysZoomOut[0]) {
+        if (event.key.toLowerCase() === keys.keysZoomOut[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
       case 6: // Reset position
-        if (event.key === keys.resetPosition[0]) {
+        if (event.key.toLowerCase() === keys.resetPosition[0].toLowerCase()) {
           proceedToNextMessage();
         }
         break;
@@ -108,6 +108,7 @@ const TutorialSpeech: React.FC<TutorialSpeechProps> = ({ onComplete, tutorialCon
         break;
     }
   };
+
 
   const handleWheel = (event: WheelEvent) => {
     if (event.deltaY < 0) {

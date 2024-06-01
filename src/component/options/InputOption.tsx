@@ -41,7 +41,7 @@ export const ControlOption: React.FC<ControlProps> = ({ title, description, opti
     if (inputValue.length <= 1) {
       setValue(inputValue);
       if (inputValue.length == 1) {
-        control[0] = inputValue;
+        control[0] = inputValue.toLowerCase();
       }
     }
   };
