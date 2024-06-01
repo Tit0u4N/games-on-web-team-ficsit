@@ -52,7 +52,7 @@ export class TournamentManagerPresenter {
   }
 
   generateNPCsForOlympics(): Character {
-    const totalStats = 95;
+    const totalStats = 85;
     const minStats = 9;
     return this._gameCorePresenter.characterPresenter.generateNPC(totalStats, minStats);
   }
