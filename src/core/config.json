@@ -521,6 +521,14 @@
       {
         "message": "Here you can see the statistics of your athletes for each sports",
         "targetSelector": "#statisticsPoints"
+      },
+      {
+        "message": "Click on your athletes on the map to select them",
+        "targetSelector": "#Undefinied"
+      },
+      {
+        "message": "Each movement cost movement points. At the end of each turn the movement points are reset",
+        "targetSelector": "#Undefinied"
       }
     ],
     "trainingCenterHighlightTutorialSpeech": [

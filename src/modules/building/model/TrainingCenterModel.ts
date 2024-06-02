@@ -146,7 +146,6 @@ export class TrainingCenterModel implements DiceHandler {
    * @param userChoice
    *
    * This function performs the following actions:
-   * // TODO
    */
   public getEffect(character: Character, userChoice: TrainingChoice): void {
     const rounds = userChoice.rounds;

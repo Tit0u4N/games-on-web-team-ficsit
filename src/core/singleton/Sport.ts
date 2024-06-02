@@ -33,7 +33,6 @@ export class Sport {
   }
 
   static getRandoms(nbSports: number): Sport[] {
-    //todo need to be tested
     if (nbSports >= Sport.getAll().length) return Sport.getAll();
     const sports = [...Sport.getAll()];
     const result: Sport[] = [];

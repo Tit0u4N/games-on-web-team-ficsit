@@ -161,7 +161,6 @@ export class TournamentModel {
     const rankingOfThePool: { rank: number; character: Character }[] = [];
     for (let j = 0; j < pool!.length; j++) {
       const character = pool![j].character;
-      //TODO: tiredness
       const ranking = this.calculateScore(
         character.getStatsWithEffect(this._season).get(this._sport),
         Math.floor(Math.random() * 20) + 1,
@@ -220,7 +219,6 @@ export class TournamentModel {
         this._currentPool = 0;
       } else {
         this.endTournament();
-        //TODO: add reward + tiredness
       }
     }
     ModalManager.getInstance().updateCurrentModal();
@@ -271,7 +269,6 @@ export class TournamentModel {
     const rankingOfThePool: { rank: number; character: Character }[] = [];
     for (let j = 0; j < currentPoolRolls!.length; j++) {
       const character = currentPoolRolls![j].character;
-      //TODO: tiredness
       const ranking = this.calculateScore(
         character.getStatsWithEffect(this._season).get(this._sport),
         currentPoolRolls![j].diceRoll,
@@ -326,7 +323,7 @@ export class TournamentModel {
   getEquipmentWin(number: number): UsableObject | undefined {
     const reward = this._rewards.find((value) => {
       return number <= value.rankToReach && number >= value.minRankToReach;
-    }); //FIXME: multiple rewards
+    });
     if (reward) return reward.reward;
   }
 }
