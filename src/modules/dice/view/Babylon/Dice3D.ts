@@ -92,7 +92,7 @@ export class Dice3D implements ViewInitable {
   }
 
   unMountView() {
-    this.mesh.dispose();
+    if (this.mesh) this.mesh.dispose();
   }
 
   getDiceValue() {

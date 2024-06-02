@@ -99,6 +99,10 @@ export class GameCorePresenter {
       this._setIsLoading(false);
       this.notifyViewChange();
       this._buildingPresenter.updateArenasTournament();
+      // for each player check if they are in a building
+      this._characterPresenter.characters.forEach((character) => {
+        this.checkCharacterInBuilding(character);
+      });
     }, 1000);
   }
 

@@ -7,6 +7,7 @@ import { Season } from '@core/singleton/Season.ts';
 import { ModalManager } from '@core/singleton/ModalManager.ts';
 import { XpManager } from '@core/singleton/XpManager.ts';
 import { Statistics } from '@character/model/Statistics.ts';
+import { UsableObject } from '@object/model/UsableObject.ts';
 
 export class TournamentModel {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
@@ -320,5 +321,12 @@ export class TournamentModel {
     const maxRank = 8 + 4 * (this.numberRound - 1) + 1;
     xpGained.set(this.sport, XpManager.getInstance().gainXp(((maxRank - rank) / maxRank) * 2));
     character.statistics.addStatXp(new Statistics(xpGained));
+  }
+
+  getEquipmentWin(number: number): UsableObject | undefined {
+    const reward = this._rewards.find((value) => {
+      return number <= value.rankToReach && number >= value.minRankToReach;
+    }); //FIXME: multiple rewards
+    if (reward) return reward.reward;
   }
 }

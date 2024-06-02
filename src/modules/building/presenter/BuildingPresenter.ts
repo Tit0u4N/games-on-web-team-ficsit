@@ -83,7 +83,6 @@ export class BuildingPresenter implements ViewInitable {
   }
 
   set hasTrainingCenterShownNarratorBox(value: boolean) {
-    console.log('BuildingPresenter: hasTrainingCenterShownNarratorBox', value);
     this._hasTrainingCenterShownNarratorBox = value;
   }
 

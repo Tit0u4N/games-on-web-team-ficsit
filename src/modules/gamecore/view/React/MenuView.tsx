@@ -83,7 +83,7 @@ export const MenuView: React.FC<Props> = ({ presenter }) => {
                       <DividerOptions />
                       <SelectOption title={'Trees'} description={'Number of trees'} option={'trees'} />
                       <DividerOptions />
-                      <SelectOption title={'Rocks'} description={'Number of rocks'} option={'trees'} />
+                      <SelectOption title={'Rocks'} description={'Number of rocks'} option={'rocks'} />
                     </div>
                   </div>
                   <DividerOptions />

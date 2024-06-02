@@ -647,7 +647,7 @@
           "targetSelector": "#Undefined"
       },
       {
-        "message": "You can see your opponents and their roll",
+        "message": "You can see your opponents and their roll. By clinking on them, you can see their stats",
         "targetSelector": "#OpponentsRoll"
       },
       {

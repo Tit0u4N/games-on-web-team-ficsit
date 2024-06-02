@@ -45,7 +45,6 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
     this._modalIsOpen = false;
     GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
-    console.log('TrainingCenterPresenter: closeModal');
     this._buildingPresenter.hasTrainingCenterShownNarratorBox = true;
   }
 
