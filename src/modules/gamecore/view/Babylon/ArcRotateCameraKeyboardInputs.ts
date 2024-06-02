@@ -135,9 +135,9 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
           this._keysZoomOut,
         );
       const speed = 2 * this.camera!._computeLocalCameraSpeed();
-      let transformMatrix = Matrix.Zero();
-      let localDirection = Vector3.Zero();
-      let transformedDirection = Vector3.Zero();
+      const transformMatrix = Matrix.Zero();
+      const localDirection = Vector3.Zero();
+      const transformedDirection = Vector3.Zero();
 
       const keys = [
         ...this._keysUp,
