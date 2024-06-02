@@ -641,7 +641,40 @@
         "targetSelector": "#NextRoundButton"
       }
     ],
-    "arenaViewHighlightTutorialSpeech": []
+    "arenaTournamentViewHighlightTutorialSpeech": [
+      {
+          "message": "Here is the view of a round, here you are going to compete",
+          "targetSelector": "#Undefined"
+      },
+      {
+        "message": "You can see your opponents and their roll",
+        "targetSelector": "#OpponentsRoll"
+      },
+      {
+        "message": "You can see your athletes and their stats",
+        "targetSelector": "#PlayerAthletes"
+      },
+      {
+        "message": "Make a roll to compete. You can choose between the 3D dice or the 2D dice",
+        "targetSelector": "#PlayerAthleteDetails"
+      },
+      {
+        "message": "This the table that shows the result of the round",
+        "targetSelector": "#AllParticipantsTable"
+      },
+      {
+        "message": "This is the roll of the participants",
+        "targetSelector": "#RollColumn"
+      },
+      {
+        "message": "This is the score of the participants. It's calculated with the stats of the athletes, the equipments and the roll",
+        "targetSelector": "#ScoreColumn"
+      },
+      {
+        "message": "This is the rank of the participants. It will be displayed when the score is calculated",
+        "targetSelector": "#RankColumn"
+      }
+    ]
   },
   "event": {
     "view": {

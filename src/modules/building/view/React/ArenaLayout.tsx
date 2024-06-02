@@ -69,7 +69,7 @@ export const ArenaLayout: React.FC<ArenaLayoutProps> = ({ arena, isOpen, onClose
           />
         );
       case 'inPool':
-        return <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} />;
+        return <TournamentView tournament={arena.tournamentPresenter} setHideModal={setHideModal} isOpen={isOpen} />;
       case 'finished':
         return <TournamentEndView tournament={arena.tournamentPresenter} />;
     }

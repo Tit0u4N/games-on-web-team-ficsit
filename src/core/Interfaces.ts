@@ -348,6 +348,10 @@ interface INarratorBoxConfig {
     message: string;
     targetSelector: string;
   }[];
+  arenaTournamentViewHighlightTutorialSpeech: {
+    message: string;
+    targetSelector: string;
+  }[];
 }
 
 interface IEventRulesLayoutConfig {

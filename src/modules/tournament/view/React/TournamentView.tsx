@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -17,13 +17,16 @@ import { DiceComponent } from '@dice/view/React/DiceComponent.tsx';
 import CharacterLayout from '../../../character/view/React/CharacterLayout.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { RandomNumber } from '@/component/RandomNumber.tsx';
+import { config } from '@core/Interfaces.ts';
+import HighlightTutorialSpeech from '@gamecore/view/React/narrator/HighlightTutorialSpeech.tsx';
 
 interface Props {
   tournament: TournamentPresenter;
   setHideModal: (hide: boolean) => void;
+  isOpen?: boolean;
 }
 
-export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) => {
+export const TournamentView: React.FC<Props> = ({ tournament, setHideModal, isOpen }) => {
   const model = tournament.tournamentModel;
   const playerCharacters = Array.from(tournament.tournamentManagerPresenter.gameCorePresenter.getCharacters());
   const npcs = model.currentPoolRolls.filter((character) => !playerCharacters.includes(character.character));
@@ -60,12 +63,33 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
   setTimeout(() => {
     setShowRollResult(true);
   }, 4000);
+
+  const [isNarrationVisible, setIsNarrationVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isOpen && !tournament.tournamentManagerPresenter.hasTournamentShownNarratorBox && config.narratorBox.enabled) {
+      setIsNarrationVisible(true);
+    }
+  }, [isOpen]);
+
   return (
     <>
+      {isOpen !== undefined &&
+        config.narratorBox.arenaTournamentViewHighlightTutorialSpeech.length > 0 &&
+        isNarrationVisible && (
+          <HighlightTutorialSpeech
+            className="fixed z-50 top-[0px] left-[0px]"
+            steps={config.narratorBox.arenaTournamentViewHighlightTutorialSpeech}
+            onComplete={() => {
+              setIsNarrationVisible(false);
+              tournament.tournamentManagerPresenter.hasTournamentShownNarratorBox = true;
+            }}
+          />
+        )}
       <ModalBody className={'flex-row'}>
-        <div className={'w-1/3 flex flex-col gap-1'}>
+        <div className={'w-1/3 flex flex-col gap-1'} id={'PlayerAthletes'}>
           {presentPlayerCharacters.map((character, index) => (
-            <Card key={index} className="w-full max-h-[400px] h-fit">
+            <Card key={index} className="w-full max-h-[400px] h-fit" id={index === 0 ? 'PlayerAthleteDetails' : ''}>
               <CharacterLayout
                 character={character.character}
                 isInTournament={true}
@@ -111,13 +135,19 @@ export const TournamentView: React.FC<Props> = ({ tournament, setHideModal }) =>
         <div className={'w-2/3 flex flex-col gap-4'}>
           <NPCList npcs={npcs} isRolled={model.isRolled} />
           <div className={'flex h-full gap-4'}>
-            <div className={'w-2/3'}>
+            <div className={'w-2/3'} id={'AllParticipantsTable'}>
               <Table isStriped removeWrapper aria-label="Score table">
                 <TableHeader>
-                  <TableColumn className={'text-[15px]'}>Rank</TableColumn>
+                  <TableColumn className={'text-[15px]'} id={'RankColumn'}>
+                    Rank
+                  </TableColumn>
                   <TableColumn className={'text-[15px]'}>Name</TableColumn>
-                  <TableColumn className={'text-[15px]'}>Roll</TableColumn>
-                  <TableColumn className={'text-[15px]'}>Final Score</TableColumn>
+                  <TableColumn className={'text-[15px]'} id={'RollColumn'}>
+                    Roll
+                  </TableColumn>
+                  <TableColumn className={'text-[15px]'} id={'ScoreColumn'}>
+                    Final Score
+                  </TableColumn>
                 </TableHeader>
                 <TableBody>
                   {list.map((character, index) => (
