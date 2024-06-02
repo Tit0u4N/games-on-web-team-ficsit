@@ -8,7 +8,7 @@ import { ModalManager } from '@core/singleton/ModalManager.ts';
 import { Character } from '@character/model/Character.ts';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
-import {BuildingPresenter} from "@building/presenter/BuildingPresenter.ts";
+import { BuildingPresenter } from '@building/presenter/BuildingPresenter.ts';
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;

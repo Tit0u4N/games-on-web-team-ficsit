@@ -1,15 +1,18 @@
 import { TournamentPresenter } from '../../presenter/TournamentPresenter.ts';
 import { BracketObject, Bracketv1 } from './bracket/Bracketv1.tsx';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Divider, ModalBody } from '@nextui-org/react';
 import InventoriesModal from '../../../inventory/view/React/InventoriesModal.tsx';
+import { config } from '@core/Interfaces.ts';
+import HighlightTutorialSpeech from '@gamecore/view/React/narrator/HighlightTutorialSpeech.tsx';
 
 interface Props {
   tournament: TournamentPresenter;
   onStatusChange: () => void;
+  isOpen?: boolean;
 }
 
-export const TournamentBracketView: React.FC<Props> = ({ tournament, onStatusChange }) => {
+export const TournamentBracketView: React.FC<Props> = ({ tournament, onStatusChange, isOpen }) => {
   const bracketObjects = BracketObject.buildFromRoundList(tournament.tournamentModel.rounds);
   const [isNextRoundDisabled, setIsNextRoundDisabled] = React.useState<boolean>(false);
   const nextRound = () => {
@@ -45,8 +48,28 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament, onStatusCha
     return inventoryOpen;
   };
 
+  const [isNarrationVisible, setIsNarrationVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isOpen && !tournament.tournamentManagerPresenter.hasBracketShownNarratorBox && config.narratorBox.enabled) {
+      setIsNarrationVisible(true);
+    }
+  }, [isOpen]);
+
   return (
     <>
+      {isOpen !== undefined &&
+        config.narratorBox.arenaBracketHighlightTutorialSpeech.length > 0 &&
+        isNarrationVisible && (
+          <HighlightTutorialSpeech
+            className="fixed z-50 top-[0px] left-[0px]"
+            steps={config.narratorBox.arenaBracketHighlightTutorialSpeech}
+            onComplete={() => {
+              setIsNarrationVisible(false);
+              tournament.tournamentManagerPresenter.hasBracketShownNarratorBox = true;
+            }}
+          />
+        )}
       <InventoriesModal
         inventories={gameCorePresenter.getInventoryList()}
         toggleModal={toggleModal}
@@ -59,12 +82,17 @@ export const TournamentBracketView: React.FC<Props> = ({ tournament, onStatusCha
           <Divider orientation={'vertical'} />
           <div className={'flex-col flex gap-2 p-4 mr-4 h-full justify-center'}>
             <Button
+              id={'InventoryButton'}
               onPress={() => {
                 setInventoryOpen(true);
               }}>
               Inventory
             </Button>
-            <Button onPress={() => nextRound()} isDisabled={isNextRoundDisabled} className="my-3">
+            <Button
+              onPress={() => nextRound()}
+              isDisabled={isNextRoundDisabled}
+              className="my-3"
+              id={'NextRoundButton'}>
               Next round
             </Button>
             {!tournament.tournamentModel.isUserCharacterStillInTournament() && (

@@ -580,7 +580,68 @@
           }
         ]
       }
-    ]
+    ],
+    "arenaPreviewHighlightTutorialSpeech": [
+      {
+        "message": "Here it is the arena, where you can compete in tournaments",
+        "targetSelector": "#Undefined"
+      },
+      {
+        "message": "Here is the difficulty of the tournament, it can be Regional, National or International",
+        "targetSelector": "#TournamentDifficulty"
+      },
+      {
+        "message": "It influences the reward you can win and the strength of the opponents",
+        "targetSelector": "#TournamentDifficulty"
+      },
+      {
+        "message": "You can also see the number of bracket",
+        "targetSelector": "#BracketNumberTournamentPreview"
+      },
+      {
+        "message": "You can see the sport of the tournament",
+        "targetSelector": "#SportTournament"
+      },
+      {
+        "message": "The reward of the tournament and the required rank to win it are displayed here",
+        "targetSelector": "#AllReward"
+      },
+      {
+        "message": "For example: you need to reach the first rank to win this reward",
+        "targetSelector": "#FirstReward"
+      },
+      {
+        "message": "All your athletes that will participate are displayed here",
+        "targetSelector": "#AllAthletes"
+      },
+      {
+        "message": "Press the button to start the tournament",
+        "targetSelector": "#StartButtonTournament"
+      }
+    ],
+    "arenaBracketHighlightTutorialSpeech": [
+      {
+        "message": "Here is the view of the brackets, you can see the different brackets and follow the progression of the tournament",
+        "targetSelector": "#Undefined"
+      },
+      {
+        "message": "By clicking on a bracket, you can open it",
+        "targetSelector": "#FirstBracket"
+      },
+      {
+        "message": "You can check the participants and after each round their rank",
+        "targetSelector": "#FirstBracket"
+      },
+      {
+        "message": "You can open the inventory and adjust the equipment of your athletes",
+        "targetSelector": "#InventoryButton"
+      },
+      {
+        "message": "With this button, you can go play the next round",
+        "targetSelector": "#NextRoundButton"
+      }
+    ],
+    "arenaViewHighlightTutorialSpeech": []
   },
   "event": {
     "view": {

@@ -33,16 +33,16 @@ const SimpleMessageSpeechBox: React.FC<SimpleMessageSpeechBoxProps> = ({ message
   };
 
   return (
-      <div className="bg-white rounded-lg flex-1 py-2">
-        <p className={'ml-6 px-6'}>{displayedText}</p>
-        {isComplete && (
-            <div className={'w-full flex justify-end'}>
-              <Button className="mt-4" onClick={handleClick}>
-                Proceed
-              </Button>
-            </div>
-        )}
-      </div>
+    <div className="bg-white rounded-lg flex-1 py-2">
+      <p className={'ml-6 px-6'}>{displayedText}</p>
+      {isComplete && (
+        <div className={'w-full flex justify-end'}>
+          <Button className="mt-4" onClick={handleClick}>
+            Proceed
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
 

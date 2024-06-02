@@ -48,7 +48,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = ({
   });
 
   return (
-    <div className="w-full" id={"LaunchDiceTraining"}>
+    <div className="w-full" id={'LaunchDiceTraining'}>
       <div className={className}>
         <Checkbox
           className={'block'}
