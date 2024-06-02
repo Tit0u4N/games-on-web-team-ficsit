@@ -82,7 +82,7 @@ const HighlightTutorialSpeech: React.FC<HighlightTutorialSpeechProps> = ({
         </div>
       </SpeechBox>
       <div
-        className="absolute bg-transparent rounded-lg border-5 border-red-500 z-[49] animate-pulse"
+        className={"absolute bg-transparent rounded-lg border-5 border-red-500 z-[49] animate-pulse" + (targetWidth === 0 && targetHeight === 0 ? ' hidden' : '')}
         style={{
           top: targetTop - modalTopOffset,
           left: targetLeft - modalLeftOffset,

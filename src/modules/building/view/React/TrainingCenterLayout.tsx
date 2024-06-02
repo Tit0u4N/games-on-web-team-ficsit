@@ -41,6 +41,8 @@ export interface TrainingCenterLayoutState {
   messageContent: string;
 }
 
+const LOCAL_STORAGE_KEY = 'activeNarrationStep';
+
 export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
   trainingCenterPresenter,
   trainingCenter,
@@ -56,28 +58,48 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [, setMessageContent] = useState<string>('');
-  const [activeNarrationStep, setActiveNarrationStep] = useState<number>(0);
+  const [activeNarrationStep, setActiveNarrationStep] = useState<number>(() => {
+    return parseInt(localStorage.getItem(LOCAL_STORAGE_KEY) || '0', 10);
+  });
   const [isNarrationVisible, setIsNarrationVisible] = useState<boolean>(false);
 
+  const updateNarrationStep = () => {
+    if (selectedCharacter == null || !config.narratorBox.enabled) return null;
+    if (activeNarrationStep >= config.narratorBox.trainingCenterHighlightTutorialSpeech.length) return null;
+    if (!trainingCenterPresenter.buildingPresenter.hasTrainingCenterShownNarratorBox && !isOpen) return null;
+    const state = trainingCenter.getState(selectedCharacter);
+    switch (state?.state) {
+        case State.ROLL_DICE:
+            if (activeNarrationStep !== 0) return null;
+            setActiveNarrationStep(1);
+            setIsNarrationVisible(true)
+            break;
+        case State.CARDS_CHOICE:
+          if (activeNarrationStep !== 1) return null;
+          setActiveNarrationStep(2);
+          setIsNarrationVisible(true)
+          break;
+        case State.MESSAGE:
+          if (activeNarrationStep !== 2) return null;
+          setActiveNarrationStep(3);
+          setIsNarrationVisible(true)
+          break;
+        default:
+            return null;
+    }
+  }
+
   useEffect(() => {
-    if (
-      isOpen &&
-      !trainingCenterPresenter.buildingPresenter.hasTrainingCenterShownNarratorBox &&
-      config.narratorBox.enabled
-    ) {
-      setActiveNarrationStep(0);
+    if (!config.narratorBox.enabled) return;
+    if (activeNarrationStep === 0 && !trainingCenterPresenter.buildingPresenter.hasTrainingCenterShownNarratorBox && isOpen) {
+      setActiveNarrationStep(activeNarrationStep);
       setIsNarrationVisible(true);
     }
   }, [isOpen]);
 
   useEffect(() => {
     // Check if narration step is completed and advance to the next step
-    if (
-      activeNarrationStep >= config.narratorBox.trainingCenterHighlightTutorialSpeech.length ||
-      !config.narratorBox.enabled ||
-      trainingCenterPresenter.buildingPresenter.hasTrainingCenterShownNarratorBox
-    )
-      return;
+    if (activeNarrationStep >= config.narratorBox.trainingCenterHighlightTutorialSpeech.length || !config.narratorBox.enabled) return;
     const handleNextStep = () => {
       if (selectedCharacter !== null && diceResult == null && activeNarrationStep === 0) {
         setActiveNarrationStep(activeNarrationStep + 1);
@@ -92,6 +114,10 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
     };
     handleNextStep();
   }, [selectedCharacter, diceResult, showChoices, choiceSelected, showMessage, activeNarrationStep]);
+
+  useEffect(() => {
+    updateNarrationStep();
+  }, [selectedCharacter, diceResult, showChoices, choiceSelected, showMessage]);
 
   const handleCharacterSelect = (character: Character) => {
     setDiceResult(null);
@@ -201,6 +227,10 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
           <HighlightTutorialSpeech
             steps={config.narratorBox.trainingCenterHighlightTutorialSpeech[activeNarrationStep].step}
             onComplete={() => {
+              if (activeNarrationStep === config.narratorBox.trainingCenterHighlightTutorialSpeech.length - 1) {
+                setActiveNarrationStep(0);
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+              }
               setIsNarrationVisible(false);
             }}
           />
@@ -210,6 +240,7 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
         isOpen={isOpen && !hideModal}
         onClose={() => {
           if (isNarrationVisible) return;
+          localStorage.setItem(LOCAL_STORAGE_KEY, (activeNarrationStep).toString());
           onClose();
         }}
         className="h-[80%] w-[80%] max-w-full">
@@ -254,7 +285,11 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
             <div className="w-[63%]">{getReactElementFromCurrentState(selectedCharacter)}</div>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" variant="light" onClick={onClose}>
+            <Button color="danger" variant="light" onClick={()=> {
+              if (isNarrationVisible) return;
+              localStorage.setItem(LOCAL_STORAGE_KEY, (activeNarrationStep).toString());
+              onClose()
+            }}>
               Close
             </Button>
             {showConfirm && (
