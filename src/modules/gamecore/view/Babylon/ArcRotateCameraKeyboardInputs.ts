@@ -44,7 +44,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       element!.tabIndex = 1;
       this._onKeyDown = function (evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
-          const key = evt.key.toLowerCase();
+          const key = evt.key.length === 1 ? evt.key.toLowerCase() : evt.key;
           const index = _this._keys.indexOf(key);
           if (index === -1) {
             _this._keys.push(key);
@@ -56,7 +56,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
       };
       this._onKeyUp = function (evt) {
         if (ArcRotateCameraKeyboardInputs.isCameraMoveKey(_this, evt)) {
-          const key = evt.key.toLowerCase();
+          const key = evt.key.length === 1 ? evt.key.toLowerCase() : evt.key;
           const index = _this._keys.indexOf(key);
           if (index >= 0) {
             _this._keys.splice(index, 1);
@@ -107,7 +107,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
    * @returns A boolean indicating whether the pressed key is a camera movement key.
    */
   static isCameraMoveKey(_this: ArcRotateCameraKeyboardInputs, evt: KeyboardEvent) {
-    const key = evt.key.toLowerCase();
+    const key = evt.key.length === 1 ? evt.key.toLowerCase() : evt.key;
     return (
       _this._keysUp.indexOf(key) !== -1 ||
       _this._keysDown.indexOf(key) !== -1 ||
@@ -163,7 +163,7 @@ export class ArcRotateCameraKeyboardInputs implements ICameraInput<ArcRotateCame
    * @param speed - The camera's movement speed.
    */
   private checkKeyInput(keyCode: string, localDirection: Vector3, speed: number) {
-    keyCode = keyCode.toLowerCase();
+    keyCode = keyCode.length === 1 ? keyCode.toLowerCase() : keyCode;
     if (this._keysLeft.indexOf(keyCode) !== -1) {
       if (debugConfig.logs.arcRotateCameraKeyboardInputs.checkKeyInputs)
         console.log('_keysLeft', keyCode, this.camera!.target, this.camera!.position);

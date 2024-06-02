@@ -15,22 +15,28 @@ export const TournamentPreView: React.FC<Props> = ({ tournament }) => {
   };
   return (
     <div className={'m-4 h-100 border-2 p-4 rounded-lg'}>
-      <p>
-        Difficulty: <span className="font-semibold">{tournament.tournamentModel.difficulty}</span>
-      </p>
-      <p>Number of bracket: {tournament.tournamentModel.numberRound}</p>
-      <p>Sport:</p>
-      <div className="flex gap-1 my-2">
-        <Image src={tournament.tournamentModel.sport.iconPath} height={40} width={40} />
-        <p>{tournament.tournamentModel.sport.name}</p>
-      </div>
+      <span id={'TournamentDifficulty'}>
+        <p>
+          Difficulty: <span className="font-semibold">{tournament.tournamentModel.difficulty}</span>
+        </p>
+      </span>
+      <span id={'BracketNumberTournamentPreview'}>
+        <p>Number of bracket: {tournament.tournamentModel.numberRound}</p>
+      </span>
+      <span id={'SportTournament'}>
+        <p>Sport:</p>
+        <div className="flex gap-1 my-2">
+          <Image src={tournament.tournamentModel.sport.iconPath} height={40} width={40} />
+          <p>{tournament.tournamentModel.sport.name}</p>
+        </div>
+      </span>
       <Divider className="my-4" />
       <p>Rewards:</p>
-      <div className="flex gap-1 h-1/4 max-h-[200px] justify-center">
+      <div className="flex gap-1 max-h-fit h-fit justify-center" id={'AllReward'}>
         {tournament.tournamentModel.reward
           .sort((a, b) => a.rankToReach - b.rankToReach)
           .map((reward, index) => (
-            <div className="w-1/6 h-full" key={index}>
+            <div className="w-1/6 h-fit" key={index} id={index === 0 ? 'FirstReward' : ''}>
               <p>
                 {unlockConditionText(reward, index !== 0 ? tournament.tournamentModel.reward[index - 1] : undefined)}
               </p>

@@ -120,7 +120,7 @@ export class TrainingCenterModel implements DiceHandler {
           characterEffect.character.statistics.addStatXp(new Statistics(statistic));
         }
         this._differentStates.delete(characterEffect.character);
-        this.removeCharacter(characterEffect.character)
+        this.removeCharacter(characterEffect.character);
       } else {
         characterEffect.character.attributes.movement = 0;
         characterEffect.character.attributes.injured = characterEffect.injured;
@@ -146,7 +146,6 @@ export class TrainingCenterModel implements DiceHandler {
    * @param userChoice
    *
    * This function performs the following actions:
-   * // TODO
    */
   public getEffect(character: Character, userChoice: TrainingChoice): void {
     const rounds = userChoice.rounds;

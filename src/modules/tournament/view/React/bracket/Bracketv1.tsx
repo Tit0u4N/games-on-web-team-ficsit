@@ -2,30 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Bracket.scss';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { Bracketv1Candidate, Candidate } from './Bracketv1Candidate.tsx';
-import { Country } from '@core/Country.tsx';
 import { Character } from '@character/model/Character.ts';
 
 type Props = {
   bracket: BracketObject;
   isChildren?: boolean;
-};
-
-const randomCandidates = () => {
-  const candidates: Array<{ rank: number; character: Candidate }> = [];
-  for (let i = 0; i < 8; i++) {
-    candidates.push({
-      rank: -1,
-      character: {
-        name: 'Candidate_ ' + i,
-        nationality: Country.getRandom(),
-        image: 'https://i.pravatar.cc/150?img=' + i,
-        score: Math.floor(Math.random() * 100),
-        id: i,
-      },
-    });
-  }
-
-  return candidates;
 };
 
 export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
@@ -63,12 +44,13 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
             className={
               'h-[60px] w-[150px] flex justify-center items-center rounded-xl border border-default cursor-pointer hover:bg-gray-100 ' +
               classNameContainer
-            }>
+            }
+            id={bracket.isFirst ? 'FirstBracket' : ''}>
             <p>{bracket.name}</p>
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <div className={'flex flex-wrap gap-3 w-[380px] p-2'}>
+          <div className={'flex flex-wrap gap-3 w-[380px] p-2'} id={bracket.isFirst ? 'BracketParticipants' : ''}>
             {candidates
               .sort(
                 (a, b) =>
@@ -76,7 +58,10 @@ export const Bracketv1: React.FC<Props> = ({ bracket, isChildren = false }) => {
                   (!isLoading ? (b.rank === -1 ? 1000 : b.rank) : b.character.id),
               )
               .map((candidate, index) => (
-                <div className={'flex gap-2 items-center'} key={index}>
+                <div
+                  className={'flex gap-2 items-center'}
+                  key={index}
+                  id={bracket.isFirst && index === 0 ? 'BracketParticipant' : ''}>
                   <h3>{isLoading ? 0 : candidate.rank + 1}.</h3>
                   <Bracketv1Candidate key={index} candidate={candidate.character} />
                 </div>
@@ -130,6 +115,8 @@ export class BracketObject {
   private _parent?: BracketObject | null;
   private _children1?: BracketObject;
   private _children2?: BracketObject;
+  public readonly isFirst: boolean;
+  private static isFirstCreated: boolean = false;
 
   constructor(
     roundNumber: number,
@@ -144,18 +131,10 @@ export class BracketObject {
     this.children1 = children1;
     this.children2 = children2;
     this.updateName();
-  }
-
-  static testBracket(): BracketObject {
-    const child = new BracketObject(3, 0, randomCandidates());
-    const child2 = new BracketObject(3, 1, randomCandidates());
-    const parent1 = new BracketObject(2, 0, randomCandidates(), child, child2);
-    const parent2_1 = new BracketObject(1, 0, randomCandidates(), child, child2);
-    const parent2_2 = new BracketObject(1, 1, randomCandidates(), child, child2);
-    const parent1_1 = new BracketObject(1, 0, randomCandidates(), parent1, parent2_1);
-    const parent1_2 = new BracketObject(1, 1, randomCandidates(), parent1, parent2_2);
-
-    return new BracketObject(0, 0, randomCandidates(), parent1_1, parent1_2);
+    if (!BracketObject.isFirstCreated) {
+      this.isFirst = true;
+      BracketObject.isFirstCreated = true;
+    } else this.isFirst = false;
   }
 
   static buildFromRoundList(
@@ -164,6 +143,7 @@ export class BracketObject {
     let bracketList: BracketObject[] = [];
     let currentRoundCounter = 0;
     let currentRound = rounds.find((round) => round.round === currentRoundCounter);
+    BracketObject.isFirstCreated = false;
     while (currentRound!.pools.length > 1) {
       if (bracketList.length === 0) {
         for (let i = 0; i < currentRound!.pools.length; i++) {

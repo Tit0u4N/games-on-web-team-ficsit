@@ -8,6 +8,8 @@ import { Sport } from '../../../core/singleton/Sport.ts';
 export class TournamentManagerPresenter {
   private readonly _gameCorePresenter: GameCorePresenter;
   private readonly _tournamentFactory: TournamentFactory;
+  private _hasBracketShownNarratorBox: boolean = false;
+  private _hasTournamentShownNarratorBox: boolean = false;
 
   constructor(gameCorePresenter: GameCorePresenter) {
     this._gameCorePresenter = gameCorePresenter;
@@ -69,5 +71,21 @@ export class TournamentManagerPresenter {
       // 1/8 chance
       return TournamentDifficulty.INTERNATIONAL;
     } //
+  }
+
+  get hasBracketShownNarratorBox(): boolean {
+    return this._hasBracketShownNarratorBox;
+  }
+
+  set hasBracketShownNarratorBox(value: boolean) {
+    this._hasBracketShownNarratorBox = value;
+  }
+
+  get hasTournamentShownNarratorBox(): boolean {
+    return this._hasTournamentShownNarratorBox;
+  }
+
+  set hasTournamentShownNarratorBox(value: boolean) {
+    this._hasTournamentShownNarratorBox = value;
   }
 }

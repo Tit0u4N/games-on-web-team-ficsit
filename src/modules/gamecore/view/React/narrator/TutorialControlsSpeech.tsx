@@ -109,7 +109,6 @@ const TutorialSpeech: React.FC<TutorialSpeechProps> = ({ onComplete, tutorialCon
     }
   };
 
-
   const handleWheel = (event: WheelEvent) => {
     if (event.deltaY < 0) {
       // Wheel up

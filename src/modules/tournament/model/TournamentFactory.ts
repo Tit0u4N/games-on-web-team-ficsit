@@ -2,9 +2,9 @@ import { TournamentModel } from './TournamentModel.ts';
 import { TournamentDifficulty } from './TournamentDifficulty.ts';
 import { TournamentManagerPresenter } from '../presenter/TournamentManagerPresenter.ts';
 import { RewardModel } from './RewardModel.ts';
-import { Sport } from '../../../core/singleton/Sport.ts';
-import { ObjectRarity } from '../../object/model/ObjectRarity.ts';
-import { getRandomUsableObject } from '../../object/model/UsableObject.ts';
+import { Sport } from '@core/singleton/Sport.ts';
+import { ObjectRarity } from '@object/model/ObjectRarity.ts';
+import { getRandomUsableObject } from '@object/model/UsableObject.ts';
 
 export class TournamentFactory {
   private readonly _tournamentManagerPresenter: TournamentManagerPresenter;
@@ -43,19 +43,19 @@ export class TournamentFactory {
     const rewards: RewardModel[] = [];
     switch (tournamentDifficulty) {
       case TournamentDifficulty.REGIONAL:
-        rewards.push(this.generateReward(1, sport, ObjectRarity.UNCOMMON));
-        rewards.push(this.generateReward(4, sport, ObjectRarity.COMMON));
+        rewards.push(this.generateReward(1, 1, sport, ObjectRarity.UNCOMMON));
+        rewards.push(this.generateReward(2, 4, sport, ObjectRarity.COMMON));
         break;
       case TournamentDifficulty.NATIONAL:
-        rewards.push(this.generateReward(1, sport, ObjectRarity.RARE));
-        rewards.push(this.generateReward(4, sport, ObjectRarity.UNCOMMON));
-        rewards.push(this.generateReward(8, sport, ObjectRarity.COMMON));
+        rewards.push(this.generateReward(1, 1, sport, ObjectRarity.RARE));
+        rewards.push(this.generateReward(2, 4, sport, ObjectRarity.UNCOMMON));
+        rewards.push(this.generateReward(5, 8, sport, ObjectRarity.COMMON));
         break;
       case TournamentDifficulty.INTERNATIONAL:
-        rewards.push(this.generateReward(1, sport, ObjectRarity.RARE));
-        rewards.push(this.generateReward(4, sport, ObjectRarity.RARE, true));
-        rewards.push(this.generateReward(8, sport, ObjectRarity.UNCOMMON));
-        rewards.push(this.generateReward(12, sport, ObjectRarity.COMMON));
+        rewards.push(this.generateReward(1, 1, sport, ObjectRarity.RARE));
+        rewards.push(this.generateReward(1, 4, sport, ObjectRarity.RARE, true));
+        rewards.push(this.generateReward(5, 8, sport, ObjectRarity.UNCOMMON));
+        rewards.push(this.generateReward(9, 12, sport, ObjectRarity.COMMON));
         break;
       case TournamentDifficulty.OLYMPIC:
         break;
@@ -64,11 +64,12 @@ export class TournamentFactory {
   }
 
   generateReward(
+    minRankToReach: number,
     rankToReach: number,
     sport: Sport,
     rarity: ObjectRarity,
     keepIfBetterReward: boolean = false,
   ): RewardModel {
-    return new RewardModel(getRandomUsableObject(rarity, sport), rankToReach, keepIfBetterReward);
+    return new RewardModel(getRandomUsableObject(rarity, sport), minRankToReach, rankToReach, keepIfBetterReward);
   }
 }

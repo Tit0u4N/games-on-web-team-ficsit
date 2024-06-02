@@ -1,4 +1,4 @@
-import { Reactable } from '../../../core/Interfaces.ts';
+import { Reactable } from '@core/Interfaces.ts';
 import React from 'react';
 import { MusicView, MusicViewProps } from '../view/React/MusicView.tsx';
 
@@ -73,7 +73,7 @@ export class AudioPresenter implements Reactable {
   private getAtmospherePath(atmosphereType: AtmosphereType) {
     switch (atmosphereType) {
       case AtmosphereType.MAIN:
-        return './sounds/atmosphere/nature.wav'; //TODO: change to correct path
+        return './sounds/atmosphere/nature.wav';
     }
   }
 
