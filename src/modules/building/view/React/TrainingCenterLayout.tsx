@@ -228,8 +228,9 @@ export const TrainingCenterLayout: React.FC<TrainingCenterLayoutProps> = ({
             steps={config.narratorBox.trainingCenterHighlightTutorialSpeech[activeNarrationStep].step}
             onComplete={() => {
               if (activeNarrationStep === config.narratorBox.trainingCenterHighlightTutorialSpeech.length - 1) {
-                setActiveNarrationStep(0);
-                localStorage.removeItem(LOCAL_STORAGE_KEY);
+                setActiveNarrationStep(-1);
+                // set local storage to -1 to prevent the tutorial from showing again
+                localStorage.setItem(LOCAL_STORAGE_KEY, '-1');
               }
               setIsNarrationVisible(false);
             }}
