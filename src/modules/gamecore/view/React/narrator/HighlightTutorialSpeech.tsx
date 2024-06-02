@@ -1,7 +1,7 @@
 import { Button } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
-import { config } from '@core/Interfaces.ts';
 import SpeechBox from "@gamecore/view/React/narrator/SpeechBox.tsx";
+import {config} from "@core/Interfaces.ts";
 
 interface HighlightTutorialStep {
     message: string;
@@ -11,9 +11,10 @@ interface HighlightTutorialStep {
 interface HighlightTutorialSpeechProps {
     steps: HighlightTutorialStep[];
     onComplete: () => void;
+    modalOffset?: { top: number; left: number }; // New prop for modal offset
 }
 
-const HighlightTutorialSpeech: React.FC<HighlightTutorialSpeechProps> = ({ steps, onComplete }) => {
+const HighlightTutorialSpeech: React.FC<HighlightTutorialSpeechProps> = ({ steps, onComplete, modalOffset }) => {
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
     const [isComplete, setIsComplete] = useState(false);
@@ -51,6 +52,15 @@ const HighlightTutorialSpeech: React.FC<HighlightTutorialSpeechProps> = ({ steps
     const targetElement = document.querySelector(targetSelector);
     const targetRect = targetElement?.getBoundingClientRect();
 
+    // Calculate offsets based on the presence of modalOffset prop
+    const modalTopOffset = modalOffset ? modalOffset.top : 0;
+    const modalLeftOffset = modalOffset ? modalOffset.left : 0;
+
+    const targetTop = targetRect ? targetRect.top : 0;
+    const targetLeft = targetRect ? targetRect.left : 0;
+    const targetWidth = targetRect ? targetRect.width : 0;
+    const targetHeight = targetRect ? targetRect.height : 0;
+
     return (
         <div className="">
             <SpeechBox>
@@ -66,12 +76,12 @@ const HighlightTutorialSpeech: React.FC<HighlightTutorialSpeechProps> = ({ steps
                 </div>
             </SpeechBox>
             <div
-                className="absolute bg-transparent rounded-lg border-5 border-red-500 z-50 animate-pulse"
+                className="absolute bg-transparent rounded-lg border-5 border-red-500 z-[49] animate-pulse"
                 style={{
-                    top: targetRect?.top,
-                    left: targetRect?.left,
-                    width: targetRect?.width,
-                    height: targetRect?.height,
+                    top: targetTop - modalTopOffset,
+                    left: targetLeft - modalLeftOffset,
+                    width: targetWidth,
+                    height: targetHeight,
                 }}
             />
         </div>

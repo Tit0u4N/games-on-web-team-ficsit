@@ -500,33 +500,85 @@
       },
       {
         "message": "Here you can go to the next turn.",
-        "targetSelector": "#nextTurnButton",
-        "autoClick": false
+        "targetSelector": "#nextTurnButton"
       },
       {
         "message": "Here you can reset the position of your camera",
-        "targetSelector": "#resetPositionCameraButton",
-        "autoClick": false
+        "targetSelector": "#resetPositionCameraButton"
       },
       {
         "message": "Here you can zoom in",
-        "targetSelector": "#zoomInCameraButton",
-        "autoClick": false
+        "targetSelector": "#zoomInCameraButton"
       },
       {
         "message": "Here you can zoom out",
-        "targetSelector": "#zoomOutCameraButton",
-        "autoClick": false
+        "targetSelector": "#zoomOutCameraButton"
       },
       {
         "message": "Here you can see the remaining movement points of your athletes",
-        "targetSelector": "#movementPoints",
-        "autoClick": false
+        "targetSelector": "#movementPoints"
       },
       {
         "message": "Here you can see the statistics of your athletes for each sports",
-        "targetSelector": "#statisticsPoints",
-        "autoClick": false
+        "targetSelector": "#statisticsPoints"
+      }
+    ],
+    "trainingCenterHighlightTutorialSpeech": [
+      {
+        "step": [
+          {
+            "message": "Here it is the training center, where you can train your athletes",
+            "targetSelector": "#Undefined"
+          },
+          {
+            "message": "You can see the different sports you can train",
+            "targetSelector": "#SportTraining"
+          },
+          {
+            "message": "You can also see the number of turn there is left for the training before changing the sports",
+            "targetSelector": "#RoundTrainingBeforeChange"
+          },
+          {
+            "message": "All your athletes are displayed here",
+            "targetSelector": "#AllAthletes"
+          },
+          {
+            "message": "Select an athlete to train",
+            "targetSelector": "#AthleteToTrain"
+          }
+        ]
+      },
+      {
+        "step": [
+          {
+            "message": "Now you can launch the dice to train your athlete",
+            "targetSelector": "#LaunchDiceTraining"
+          }
+        ]
+      },
+      {
+        "step": [
+          {
+            "message": "When the dice as been launched, you can see 3 cards with different training stats",
+            "targetSelector": "#TrainingCardsChoices"
+          },
+          {
+            "message": "Choose the training you want to do, be aware that the training will take a certain number of turn",
+            "targetSelector": "#TrainingChoices"
+          },
+          {
+            "message": "When you have chosen the training, you can confirm your choice",
+            "targetSelector": "#ConfirmTraining"
+          }
+        ]
+      },
+      {
+        "step": [
+          {
+            "message": "Now your athlete is training, you can see the number of turn left before the end of the training",
+            "targetSelector": "#RoundTrainingLeft"
+          }
+        ]
       }
     ]
   },
