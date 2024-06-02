@@ -61,6 +61,7 @@ export class ArenaPresenter implements ViewInitable, Reactable {
     this._modalIsOpen = false;
     GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
+    this._buildingPresenter.hasArenaShownNarratorBox = true;
   }
 
   getReactView(): { type: React.ElementType; props: ArenaLayoutProps } {

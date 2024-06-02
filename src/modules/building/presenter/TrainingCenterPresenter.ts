@@ -8,13 +8,16 @@ import { ModalManager } from '@core/singleton/ModalManager.ts';
 import { Character } from '@character/model/Character.ts';
 import { GameCorePresenter } from '@gamecore/presenter/GameCorePresenter.ts';
 import { EffectType } from '../../audio/presenter/AudioPresenter.ts';
+import {BuildingPresenter} from "@building/presenter/BuildingPresenter.ts";
 
 export class TrainingCenterPresenter implements ViewInitable, Reactable {
   private readonly _trainingCenter: TrainingCenterModel;
-  private _trainingCenterView: TrainingCenterView;
+  private readonly _trainingCenterView: TrainingCenterView;
   private _modalIsOpen: boolean;
+  private _buildingPresenter: BuildingPresenter;
 
-  constructor(trainingCenterModel: TrainingCenterModel) {
+  constructor(trainingCenterModel: TrainingCenterModel, buildingPresenter: BuildingPresenter) {
+    this._buildingPresenter = buildingPresenter;
     this._trainingCenter = trainingCenterModel;
     this._trainingCenterView = new TrainingCenterView(this);
     this._modalIsOpen = false;
@@ -42,12 +45,15 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
     this._modalIsOpen = false;
     GameCorePresenter.AUDIO_PRESENTER.playEffect(EffectType.OPEN);
     ModalManager.getInstance().closeModal();
+    console.log('TrainingCenterPresenter: closeModal');
+    this._buildingPresenter.hasTrainingCenterShownNarratorBox = true;
   }
 
   getReactView(): { type: React.ElementType; props: TrainingCenterLayoutProps } {
     return {
       type: TrainingCenterLayout,
       props: {
+        trainingCenterPresenter: this,
         trainingCenter: this._trainingCenter,
         isOpen: this._modalIsOpen,
         onClose: () => this.closeModal(),
@@ -71,5 +77,9 @@ export class TrainingCenterPresenter implements ViewInitable, Reactable {
 
   onCharacterExit(character: Character) {
     this.trainingCenter.removeCharacter(character);
+  }
+
+  get buildingPresenter(): BuildingPresenter {
+    return this._buildingPresenter;
   }
 }
