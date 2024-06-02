@@ -463,7 +463,7 @@
     }
   ],
   "narratorBox": {
-    "speed": 30,
+    "speed": 0,
     "enabled": true,
     "speechText": [
       "Welcome to the Olympic Odyssey ! Here is a quick summary of the rules.",

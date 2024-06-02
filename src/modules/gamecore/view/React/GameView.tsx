@@ -45,7 +45,7 @@ const GameView: React.FC<GameViewProps> = ({ presenter }) => {
   const [modalToShow, setModalToShow] = React.useState<Reactable | null>(null);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [activeTutorialStep, setActiveTutorialStep] = React.useState<TutorialStep>(
-    config.narratorBox.enabled ? TutorialStep.INTRODUCTION : TutorialStep.DISABLED,
+    config.narratorBox.enabled ? TutorialStep.END : TutorialStep.DISABLED,
   );
 
   ModalManager.createInstance(setModalToShow);
