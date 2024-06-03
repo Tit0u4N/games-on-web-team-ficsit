@@ -10,6 +10,7 @@ and [Baldur's Gate III](https://store.steampowered.com/app/1086940/Baldurs_Gate_
 > **Note:**
 > If you prefer to read this document in French, please scroll down to the [French Version 🇫🇷](#olympic-odyssey-).
 
+- [Game Link](https://tit0u4n.github.io/games-on-web-team-ficsit/)
 - [Repository Github](https://github.com/Tit0u4N/games-on-web-team-ficsit)
 - [Video Presentation](https://youtu.be/Ws0oB_I-Yis)
 - [Team Members](#team-members)
@@ -236,6 +237,7 @@ Bienvenue, nous sommes ravis de développer un jeu innovant qui combine des él�
 Inspiré par le jeu [For the King](https://store.steampowered.com/app/527230/For_The_King/)
 et [Baldur's Gate III](https://store.steampowered.com/app/1086940/Baldurs_Gate_3/) pour le gameplay.
 
+- [Lien du Jeu](https://tit0u4n.github.io/games-on-web-team-ficsit/)
 - [Repository Github](https://github.com/Tit0u4N/games-on-web-team-ficsit)
 - [Présentation Vidéo](https://youtu.be/Ws0oB_I-Yis)
 - [Membres de l'équipe](#membres-de-léquipe)
