@@ -1,4 +1,4 @@
-# Olympic Odyssey
+# Olympic Odyssey (🥉3rd rank🥉)
 
 ## Overview
 
@@ -228,7 +228,7 @@ To get started with contributing to this project, please follow these steps:
 4. Develop your feature and commit your changes.
 5. Push your branch and open a pull request for review.
 
-# Olympic Odyssey 🇫🇷
+# Olympic Odyssey 🇫🇷 (🥉3ème place🥉)
 
 ## Aperçu
 
